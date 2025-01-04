@@ -26,3 +26,8 @@ dist-ssr
 eslint.config.js
 *.md
 README.md
+package-lock.json
+index.html
+README.md
+*.md
+vite.config.js
