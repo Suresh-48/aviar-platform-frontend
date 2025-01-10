@@ -1,0 +1,203 @@
+.landing-page-content-main {
+
+    @media only screen and (min-width: 320px) and (max-width: 1357px) {
+        /* margin-top:10cm; */
+        width: fit-content;
+      }
+    }
+    .login-arrow-div {
+        display: flex;
+        align-items: center;
+        position: relative;
+        left: 30%;
+        @media (max-width: 800px) {
+          left: 20%;
+        }
+        @media (max-width: 550px) {
+          left: 10%;
+        }
+        @media (max-width: 400px) {
+          left: -4px;
+        }
+      }
+    .login-pTag {
+        font-weight: 500;
+        font-size: 30px;
+        color: #1c1364;
+        /* margin-right:10cm; */
+        margin-right:3cm;
+      }
+      .login-arrow-div:hover {
+        cursor: pointer;
+        
+      }
+      .login-arrow {
+        width: 40px;
+      
+      }
+      .content-link {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-left: 3cm;
+      }
+      /* .login-icon {
+        transform: rotateZ(180deg);
+      } */
+    .content-link {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-left: 3cm;
+      }
+      .links {
+        font-family: Roboto-Regular;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 32px;
+        color: #1b1363;
+    
+      }
+      .links:hover {
+        cursor: pointer;
+      }
+    .Img-shape{
+        position: relative;  
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        position: relative;
+    }
+    .aviarlogoImg{
+        width:30%;
+    }
+    .curveImg{
+        margin:space-between ;
+        width:100%;
+    }
+    .studentsImg{
+        width: 100%;   
+        height:15cm;
+    }
+    .card-main{
+        display: flex;
+        justify-content: space-between;
+    }
+    .card-align {
+        width: 500px;
+        height: 40vh;
+        border-radius: 10px;
+        margin-left:100px;
+        opacity: 0.8;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: relative;
+        top: -640px;
+      }
+      .card-header-pTag {
+        font-family: Roboto-Bold;
+        font-size: 30px;
+        font-weight: 800;
+        color: black;
+        padding: 20px 20px 0px 20px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+      }
+      .card-header {
+        border-bottom: 0px;
+        background: none;
+        color: black;
+      }
+      .card-body-pTag {
+        font-family: inherit;
+        font-style: normal;
+        font-weight: inherit;
+        font-size: 20px;
+        text-align: justify;
+        padding: 0px 20px 20px 20px;
+        margin-bottom: 0px;
+        color: black;
+      }
+      .extra-content-div {
+        margin-top: 300px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        /* bottom: 20px; */
+        top:-100px;
+      }
+      .extra-content {
+        width: 50px;
+        height: 50px;
+        margin: auto;
+        /* display: flex; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        top:-100px;
+       
+      }
+      .extra-content-list {
+        display: flex;
+        align-items: center;
+        top:-30px;
+      }
+    
+    
+      .back-image-main {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 400px;
+        
+      }
+      .back-image-align {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        position: relative;
+        top: -70px;
+      }
+      .back-image-center-main {
+      
+        top: -500px;
+        position: relative;
+        right: 40px;
+        width: 450px;
+        /* margin: auto; */
+        margin-left: 1350px;
+        @media only screen and (min-width: 320px) and (max-width: 1024px) {
+          width: 350px; 
+        }
+      }
+      .back-image{
+        top: -750px;
+        position: relative;
+        /* right: 20px; */
+        left: 20px;
+        width: 450px;
+        /* margin-left:; */
+        margin-right:2cm;
+        @media only screen and (min-width: 320px) and (max-width: 1024px) {
+          width: 350px; 
+        }
+    
+      }
+      .back-image-one {
+        display: flex;
+        width: 100%;
+        position: relative;
+        height: 100%;
+      }
+      /* .back-image-pTag1 {
+        text-align: left;
+        font-family: Roboto-BoldCondensed;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 40px;
+        color: white;
+        display: flex;
+        width: 100%;
+        position: relative;
+        justify-content: center;
+        right: 180px;
+      }
+     
