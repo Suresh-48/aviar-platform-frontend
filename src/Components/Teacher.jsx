@@ -2,7 +2,11 @@ import React from 'react'
 
 const Teacher = () => {
   return (
-    <div>Teacher</div>
+    <div>Teacher 
+      StudentDashboard
+      kkmmlhjm
+    </div>
+    
   )
 }
 
