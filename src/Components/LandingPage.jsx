@@ -18,7 +18,7 @@ const LandingPage = () => {
         </div>
         <div className="Content-link ">
           <p
-            className="links mx-4"
+            className="links mx-4 ...."
             onClick={() => history.push("/course/search")}
           >
             Courses
