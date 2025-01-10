@@ -12,8 +12,6 @@ import Layer2 from "./LandingPageImg/Layer2.png";
 import "./CSS/LandingPage.css";
 const LandingPage = () => {
   return (
-  
-
         <div className="LandingPage-container">
       <div className="aviarlogo-div-one">
         <div className="text-center">
@@ -48,6 +46,7 @@ const LandingPage = () => {
         <div className="loginArrow ">
           <img src={loginArrow} alt="" className="LoginArrowImg " />
           <p className="login-pTag mb-0 mx-5">Login</p>
+
         
         </div>
       </div>
@@ -56,11 +55,11 @@ const LandingPage = () => {
         <div></div>
       </div>
 
-      <div>
-        <div></div>
-      </div>
-    </div>
-  );
-};
+
+   </div>   
+  )
+}
+
+
 export default LandingPage;
 
