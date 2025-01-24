@@ -1,7 +1,11 @@
 import React from 'react'
 
-export const StudentDashboard = () => {
+const StudentDashboard = () => {
   return (
-    <div>StudentDashboard</div>
+    <div>
+      hi
+    </div>
   )
 }
+
+export default StudentDashboard

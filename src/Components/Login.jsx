@@ -5,7 +5,7 @@ import { Formik, ErrorMessage,Field, } from "formik";
 import * as Yup from "yup";
 import './CSS/Login.css';
 import curveImg from "./Images/curveImg.png";
-import aviarlogo from "./Images/aviarlogo.png";
+import aviar from "./Images/aviar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -46,7 +46,7 @@ import { Navigate, useNavigate } from "react-router-dom";
        
         <div className="text-center">
           
-                   <img src={aviarlogo} alt=" "  /> 
+                   <img src={aviar} alt=" "  /> 
                    </div>
                    <div className="Content-link">
                    
