@@ -10,7 +10,6 @@ import aviar from "../../Images/aviar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
-  faBookOpen,
   faCircleChevronLeft,
   faPowerOff,
   faIdCard,
@@ -31,11 +30,12 @@ import {
   faPersonCircleCheck,
   faBookOpen,
   faBookReader,
-  
+  faMoneyCheckDollar,
   faPersonChalkboard,
   faPenToSquare,
   faAddressCard,
   faPeopleLine,
+  faClipboard,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Roles
@@ -46,7 +46,7 @@ import { ROLES_PARENT, ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../C
 import Avatar from "react-avatar";
 import { toast } from "react-toastify";
 
-const Adminsidebar = ({ onClick, open, sidebar }) => {
+const Teachersidebar = ({ onClick, open, sidebar }) => {
   const [role, setrole] = useState("");
   const sidebarValue = sidebar;
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
@@ -197,22 +197,20 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                       <div className="menu-list  ">
                         {/* <NavLink to="/dashboard" activeClassName="main-nav-active-style"> */}
                           <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon me-3" title="Dashboard" size="1x" />
-                          
                           Dashboard
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
                         {/* <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faBookOpen} title="Course Category" size="1x" className="menu-icon me-3" />
-                          Course Category
-                        
+                          <FontAwesomeIcon icon={faIdCard} title="My Profile" size="1x" className="menu-icon me-3" />
+                          My Profile
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faBookOpenReader} title="Course Search" size="1x" className="menu-icon me-3" />
-                          Course Search
                         
+                        {/* <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style"> */}
+                          <FontAwesomeIcon icon={faClipboard} title="My Profile" size="1x" className="menu-icon me-3" />
+                          Scheduled List
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
@@ -227,15 +225,21 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink exact to="/course/search" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faBook} title="Students" className="menu-icon me-3" size="1x" />
-                          Students
+                        {/* <NavLink exact to="/test/link" activeClassName="main-nav-active-style"> */}
+                          <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon me-3" />
+                          Quiz
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink exact to="/favourite/course" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faPersonChalkboard} title="Teachers" className="menu-icon me-3" size="1x" />
-                          Teachers
+                        {/* <NavLink exact to="/test/link" activeClassName="main-nav-active-style"> */}
+                          <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon me-3" />
+                          Homework
+                        {/* </NavLink> */}
+                      </div>
+                      <div className="menu-list">
+                        {/* <NavLink exact to="/course/search" activeClassName="main-nav-active-style"> */}
+                          <FontAwesomeIcon icon={faUserPlus} title="Teacher availability" className="menu-icon me-3" size="1x" />
+                          Teacher Availability
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
@@ -250,10 +254,14 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink exact to="/test/link" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faMoneyCheckDollar} title="Students payment" className="menu-icon me-3" />
-                       
-                          Students payment
+                        {/* <NavLink exact to="/forum/details" activeClassName="main-nav-active-style"> */}
+                          <FontAwesomeIcon
+                            icon={faMoneyCheckDollar}
+                            title="Completed Course"
+                            className="menu-icon me-3"
+                            size="1x"
+                          />
+                          Payments
                         {/* </NavLink> */}
                       </div>
                     
@@ -282,4 +290,4 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
   )
 };
 
-export default Adminsidebar;
+export default Teachersidebar;
