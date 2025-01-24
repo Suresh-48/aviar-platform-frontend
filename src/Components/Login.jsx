@@ -166,11 +166,11 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
                 </a>
             
               </div>
-              <hr className="or-divider my-5" />
-                      <div className=" text-center">
-                        <text className="login-button">
+              <hr className="or-divider my-5 "  />
+                      <div className="d-flex flex-direction-row text-center">
+                        <text className="login-button ">
                           Don't have an account?
-                          <a  className="login-button sign-up-button ms-2">
+                          <a  className="login-button sign-up-button ms-1">
                             Sign Up
                           </a>
                         </text>
@@ -182,7 +182,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
  
     </Container>
        )}
-       {/* </Col> */}
+      
   </Formik>
   </div>
   )
