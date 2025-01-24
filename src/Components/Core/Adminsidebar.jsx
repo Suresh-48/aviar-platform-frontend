@@ -234,8 +234,8 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                       </div>
                       <div className="menu-list">
                         {/* <NavLink exact to="/favourite/course" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faStar} title="Favourite Course" className="menu-icon me-3" size="1x" />
-                          Favourite Courses
+                          <FontAwesomeIcon icon={faTeacher} title="Favourite Course" className="menu-icon me-3" size="1x" />
+                          Teachers
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
