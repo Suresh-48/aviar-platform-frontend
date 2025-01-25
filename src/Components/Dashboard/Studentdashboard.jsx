@@ -175,7 +175,7 @@ function StudentDashboard() {
           <div>
           <Row>
             <Col>
-<Card className="col-5  texte-center  bg-light rounded shadow" style={{padding:"1cm",boxShadow: "10px"}}>
+<Card className="col-5  texte-center  bg-light rounded shadow" style={{padding:"1cm",marginLeft:"5cm"}}>
 
     Active Enroll courses
     <b/>
@@ -184,10 +184,10 @@ function StudentDashboard() {
 </Card>
 </Col>
 <Col >
-<Card className="col-6  p-5 bg-light rounded shadow" style={{padding:"1cm", boxShadow: "10px"}}>
+<Card className="col-5   bg-light rounded shadow mr-4" style={{padding:"1cm",marginRight:"5cm", }}>
 
     Completed courses
-    <p className="text-center">0</p>
+    <p className="text-center text-primary"> 0 </p>
     </Card>
 </Col>
 </Row>
@@ -195,7 +195,7 @@ function StudentDashboard() {
           <div className="mt-3">
             <div className="d-flex justify-content-between">
               <div className="ms-1 mt-2">
-                <h4>Upcoming Schedule</h4>
+                <h4 className="pt-5">Upcoming Schedule</h4>
               </div>
               <div>
                 <Button
@@ -207,6 +207,7 @@ function StudentDashboard() {
                 </Button>
               </div>
             </div>
+            <br/>
             <Row className="mt-0" style={{ minHeight: "227px" }}>
               <Table striped bordered hover className="student-table" responsive>
                 <thead>
