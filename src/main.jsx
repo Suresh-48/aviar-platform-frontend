@@ -9,7 +9,7 @@ import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Studentsidebar
+    <LandingPage
   />
   </StrictMode>,
 )

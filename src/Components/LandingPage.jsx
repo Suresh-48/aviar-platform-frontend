@@ -207,7 +207,7 @@ function LandingPage(props) {
           </Card>
 
         </div>
-
+        
         <div className="one-line-comment">
           <div>
             <div className=" d-flex">
@@ -231,6 +231,7 @@ function LandingPage(props) {
             <p className="extra-content-pTag-two">We value quality over quantity</p>
           </p>
         </div>
+      
         <div className="extra-content-list">
           <img src={layer3} alt="" className="extra-content" />
           <p className="extra-content-pTag-one ">
@@ -259,11 +260,38 @@ function LandingPage(props) {
           <div className="slider-main">
           
               <h3 className="slider-category ">Categories</h3>
-              <Button className="btn-color Aviar-save-btn " style={{marginLeft:"1100px",width:"7%",height:"1cm"}} onClick={() => history.push("/login")}>
+              <Carousel>
+              <Carousel.Item>
+              
+            
+           <div>
+          <img src={emptyGallery} alt="first slide" 
+          style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
+          />
+          </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div>
+            <img src={emptyGallery} alt=" second slide" 
+          style={{width:"16%",  display: "flex",alignContent:"center" ,  margin:"auto"}}
+          />
+          </div>
+        </Carousel.Item>  
+        <Carousel.Item>
+              
+            
+              <div>
+             <img src={emptyGallery} alt="first slide" 
+             style={{width:"16%",  display: "flex", margin:"auto"}}
+             />
+             </div>
+             </Carousel.Item><Button className="btn-color Aviar-save-btn " 
+              // style={{marginLeft:"1100px",width:"7%",height:"1cm"}}
+               onClick={() => history.push("/login")}>
                 View All
               </Button>
-              <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}>
-                  <img src={emptyGallery} alt="" style={{width:"16%",  display: "flex", margin:"auto"}}/>
+              {/* <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}> */}
+
                        
                        </Carousel>
             </div>
@@ -283,8 +311,8 @@ function LandingPage(props) {
         // className="upcomings-div-main"
         >
           <div 
-          className="upcoming-main"
-          >
+          className="upcoming-main">
+          
           
               <h3 
               className="slider-category-upcoming"
