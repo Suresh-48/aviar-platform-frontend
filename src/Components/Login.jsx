@@ -3,12 +3,20 @@ import { Col, Container, Row, Form, InputGroup,Card,Button} from "react-bootstra
 import { Formik, ErrorMessage,Field, } from "formik";
 // import {  Link } from "react-router-dom";
 import * as Yup from "yup";
+<<<<<<< HEAD
 import './CSS/Login.css';
 import curveImg from "./Images/curveImg.png";
 import aviar from "./Images/aviar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from "react-router-dom";
+=======
+import './css/Login.css';
+import curveImg from "./curveImg.png";
+import aviarImag from "./aviarImg.png.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+>>>>>>> feature/login-page-UI
 
  const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -33,6 +41,7 @@ import { Navigate, useNavigate } from "react-router-dom";
           .min(8, "Password Required Minimum 8 Characters")
           .required("Password Is Required"),
       });
+<<<<<<< HEAD
        const navigate =  useNavigate();
       const onSubmit = (values) => {
         console.log("From data".values);
@@ -40,13 +49,23 @@ import { Navigate, useNavigate } from "react-router-dom";
       };
       
       
+=======
+      
+      const onSubmit = (values) => {
+        console.log("From data".values);
+      };
+>>>>>>> feature/login-page-UI
   return (
     <div className="Login-container">
        <div className="Aviarlogo">
        
         <div className="text-center">
           
+<<<<<<< HEAD
                    <img src={aviar} alt=" "  /> 
+=======
+                   <img src={aviarImag} alt=" "  /> 
+>>>>>>> feature/login-page-UI
                    </div>
                    <div className="Content-link">
                    
@@ -82,7 +101,11 @@ import { Navigate, useNavigate } from "react-router-dom";
     <Container>
           <Card
             className="p-5 bg-light rounded shadow col-5  mx-auto mt-5 mb-5 "
+<<<<<<< HEAD
             
+=======
+            style={{}}
+>>>>>>> feature/login-page-UI
           >
     <Form onSubmit={handleSubmit}>
         {/* <Field
@@ -156,19 +179,34 @@ import { Navigate, useNavigate } from "react-router-dom";
 
  
      <br />         
+<<<<<<< HEAD
      <Button  type="submit"  className="btn btn-primary p-1 col-12" variant="container" style={{}} >            
+=======
+     <Button  type="submit"  className="btn btn-primary p-1 col-12" variant="container" style={{}} >
+    
+    
+                
+>>>>>>> feature/login-page-UI
            login </Button>
            
               <br />
               <br />
+<<<<<<< HEAD
               <div className="float-end text-primary">
+=======
+              <div className="  float-end text-primary">
+>>>>>>> feature/login-page-UI
               <a  className="login-button sign-up-button ms-2">
                  Forget password ?
                 </a>
             
               </div>
+<<<<<<< HEAD
               <hr className="or-divider my-4"/>
 
+=======
+              <hr className="or-divider my-5 "  />
+>>>>>>> feature/login-page-UI
                       <div className="d-flex flex-direction-row text-center">
                         <text className="login-button ">
                           Don't have an account?
@@ -189,6 +227,7 @@ import { Navigate, useNavigate } from "react-router-dom";
   </div>
   )
 }
+<<<<<<< HEAD
 export default Login;
 
 
@@ -215,3 +254,6 @@ export default Login;
 
 
 
+=======
+export default Login;
+>>>>>>> feature/login-page-UI
