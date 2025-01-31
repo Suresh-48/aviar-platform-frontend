@@ -7,9 +7,10 @@ import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
 import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import Studentsidebar from './Components/Core/Studentsidebar.jsx'
+import Index from './Components/Courselist/Index.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <LandingPage
+    <Index.jsx
   />
   </StrictMode>,
 )
