@@ -762,7 +762,7 @@ const CourseList = (props) => {
                                         className="collapse-show-text-width"
                                       >
                                         <div className="collapse-style">
-                                          <Link
+                                          {/* <Link
                                             to={{
                                               pathname: `/course/detail/${course?.aliasName}`,
                                               state: { courseId: course?.id },
@@ -774,11 +774,11 @@ const CourseList = (props) => {
                                                 course?.id
                                               )
                                             }
-                                          >
+                                          > */}
                                             View
-                                          </Link>
+                                          {/* </Link> */}
                                           <hr />
-                                          <Link
+                                          {/* <Link
                                             to={{
                                               pathname: `/course/edit/${course?.id}`,
                                               state: {
@@ -787,9 +787,9 @@ const CourseList = (props) => {
                                               },
                                             }}
                                             className="navigate-edit-text-link"
-                                          >
+                                          > */}
                                             Edit
-                                          </Link>
+                                          {/* </Link> */}
                                           <hr />
                                           <Link
                                             to="#"
@@ -820,12 +820,12 @@ const CourseList = (props) => {
                                     {course?.name}
                                   </Card.Title>
                                   <Card.Text>
-                                    <p
+                                    {/* <p
                                       className="ellipsis-text"
                                       dangerouslySetInnerHTML={convertFromJSONToHTML(
                                         course?.description
                                       )}
-                                    ></p>
+                                    ></p> */}
                                   </Card.Text>
                                 </Card.Body>
                                 {/* {course?.discountAmount ? ( */}
