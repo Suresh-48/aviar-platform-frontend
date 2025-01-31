@@ -7,7 +7,7 @@ import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 
 // Style
-import './css/Dshboard.css';
+import '../Dashboard/css/Dashboard.css';
 
 function DashboardTiles({ label, count, url }) {
   return (

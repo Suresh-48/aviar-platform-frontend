@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Table, Button, Modal, Col } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 // Styles
@@ -13,7 +13,7 @@ import "./css/TeacherDashboard.css";
 
 //icon
 
-import DisplayTeacherApplication from "../TeacherApplication/displayTeacherApplication";
+// import DisplayTeacherApplication from "../TeacherApplication/displayTeacherApplication";
 
 function TeacherDashboard() {
   const [data, setData] = useState([]);
@@ -31,83 +31,83 @@ function TeacherDashboard() {
   const [courseScheduleId, setCourseScheduleId] = useState("");
   const [zoomStartTimeGet, setZoomStartTimeGet] = useState("");
   const [sessionEndModal, setSessionEndModal] = useState(false);
-  const history = useHistory();
+//   const history = useHistory();
 
   function closeShow() {
     setshowAlert(false);
   }
 
-  useEffect(() => {
-    const teacherId = localStorage.getItem("teacherId");
-    Api.get(`api/v1/teacher/${teacherId}`).then((response) => {
-      const teacherStatus = response?.data?.data?.getOne?.status;
-      setStatus(teacherStatus);
-      setisLoading(false);
-    }, []);
+//   useEffect(() => {
+//     const teacherId = localStorage.getItem("teacherId");
+//     Api.get(`api/v1/teacher/${teacherId}`).then((response) => {
+//       const teacherStatus = response?.data?.data?.getOne?.status;
+//       setStatus(teacherStatus);
+//       setisLoading(false);
+//     }, []);
 
-    TeacherUpcomingScheduleData(teacherId);
-    getTeacherCourseCount(teacherId);
-    const currentDate = moment().tz("America/Chicago").format();
-    const date = moment(currentDate).tz("America/Chicago").format("ll");
-    var lessTime = moment(currentDate).tz("America/Chicago").format("HH:mm");
-    setCurrentDate(date);
-    setLessTime(lessTime);
-    setTeacherId(teacherId);
+//     TeacherUpcomingScheduleData(teacherId);
+//     getTeacherCourseCount(teacherId);
+//     const currentDate = moment().tz("America/Chicago").format();
+//     const date = moment(currentDate).tz("America/Chicago").format("ll");
+//     var lessTime = moment(currentDate).tz("America/Chicago").format("HH:mm");
+//     setCurrentDate(date);
+//     setLessTime(lessTime);
+//     setTeacherId(teacherId);
 
-    window.onpopstate = async (event) => {
-      const r = await window.confirm("Are you sure! Do you want logout?");
-      if (r === true) {
-        // Call Back button programmatically as per user confirmation.
-        await history.go(1);
-        await localStorage.clear(history.push("/kharpi"));
-        window.location.reload();
-        return;
-        // Uncomment below line to redirect to the previous page instead.
-        // window.location = document.referrer // Note: IE11 is not supporting this.
-      } else {
-        // Stay on the current page.
-        history.go(1);
-        return;
-      }
-    };
-  }, []);
+//     window.onpopstate = async (event) => {
+//       const r = await window.confirm("Are you sure! Do you want logout?");
+//       if (r === true) {
+//         // Call Back button programmatically as per user confirmation.
+//         await history.go(1);
+//         await localStorage.clear(history.push("/kharpi"));
+//         window.location.reload();
+//         return;
+//         // Uncomment below line to redirect to the previous page instead.
+//         // window.location = document.referrer // Note: IE11 is not supporting this.
+//       } else {
+//         // Stay on the current page.
+//         history.go(1);
+//         return;
+//       }
+//     };
+//   }, []);
 
-  // GetTeacher Upcoming Schedule
-  const TeacherUpcomingScheduleData = () => {
-    const teacherId = localStorage.getItem("teacherId");
-    setTeacherId(teacherId);
-    Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
-      params: {
-        teacherId: teacherId,
-      },
-    }).then((response) => {
-      const dataValues = response?.data?.upcomingList;
-      dataValues.sort(function compare(a, b) {
-        var dateA = new Date(a.lessonDate);
-        var dateB = new Date(b.lessonDate);
-        return dateA - dateB;
-      });
-      setUpcomingData(dataValues);
-      const orginalTime = response.data.upcomingList;
-      orginalTime.forEach(function (list) {
-        const time = moment(list.courseScheduleId.startTime, "LT").subtract(15, "minutes").format("HH:mm");
-        list.courseScheduleId["zoomTime"] = time;
-      });
-      setisLoading(false);
-    });
-  };
+//   // GetTeacher Upcoming Schedule
+//   const TeacherUpcomingScheduleData = () => {
+//     const teacherId = localStorage.getItem("teacherId");
+//     setTeacherId(teacherId);
+//     Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
+//       params: {
+//         teacherId: teacherId,
+//       },
+//     }).then((response) => {
+//       const dataValues = response?.data?.upcomingList;
+//       dataValues.sort(function compare(a, b) {
+//         var dateA = new Date(a.lessonDate);
+//         var dateB = new Date(b.lessonDate);
+//         return dateA - dateB;
+//       });
+//       setUpcomingData(dataValues);
+//       const orginalTime = response.data.upcomingList;
+//       orginalTime.forEach(function (list) {
+//         const time = moment(list.courseScheduleId.startTime, "LT").subtract(15, "minutes").format("HH:mm");
+//         list.courseScheduleId["zoomTime"] = time;
+//       });
+//       setisLoading(false);
+//     });
+//   };
 
-  const getTeacherCourseCount = (teacherId) => {
-    Api.get("/api/v1/dashboard/teacher", {
-      params: {
-        teacherId: teacherId,
-      },
-    }).then((response) => {
-      const teacherCourseData = response?.data?.data;
-      setData(teacherCourseData);
-      setisLoading(false);
-    });
-  };
+//   const getTeacherCourseCount = (teacherId) => {
+//     Api.get("/api/v1/dashboard/teacher", {
+//       params: {
+//         teacherId: teacherId,
+//       },
+//     }).then((response) => {
+//       const teacherCourseData = response?.data?.data;
+//       setData(teacherCourseData);
+//       setisLoading(false);
+//     });
+//   };
   const handleModal = () => {
     setshow(false);
   };
@@ -160,17 +160,13 @@ function TeacherDashboard() {
 
   return (
     <div>
-      {isLoading ? (
-        <Loader />
-      ) : status === "Pending" ? (
-        <DisplayTeacherApplication />
-      ) : (
+    
         <Container>
-          <Row>
+          {/* <Row>
             <DashboardTiles label="Courses" count={data?.totalCourse} url={`/teacher/schedule/${teacherId}`} />
             <DashboardTiles label="Pending Payment" count={0} url="#" />
             <DashboardTiles label="Received Payment" count={0} url="#" />
-          </Row>
+          </Row> */}
           <Row className="mt-5 " style={{ minHeight: "227px" }}>
             <div>
               <h4>Upcoming Schedule </h4>
@@ -354,7 +350,7 @@ function TeacherDashboard() {
             </Modal.Body>
           </Modal>
         </Container>
-      )}
+      
     </div>
   );
 }
