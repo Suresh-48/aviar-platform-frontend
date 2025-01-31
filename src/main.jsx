@@ -1,7 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
+// import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
+import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
+// import DashboardTiles from './Components/core/DashboardTiles.jsx'
+
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
@@ -9,6 +12,6 @@ import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Studentdashboard/>
+    <Admindashboard/>
   </StrictMode>,
 )
