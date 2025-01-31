@@ -19,6 +19,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 // import { Rating } from "@mui/material";
+import user1 from "./Images/user1.png";
 import layer1 from "./Images/Layer1.png";
 import layer2 from "./Images/Layer2.png";
 import layer3 from "./Images/Layer3.png";
@@ -260,6 +261,68 @@ function LandingPage(props) {
           <div className="slider-main">
           
               <h3 className="slider-category ">Categories</h3>
+              <Button className="btn-color1" 
+           
+               onClick={() => history.push("/login")}>
+                View All
+              </Button>
+              <Carousel>
+              <Carousel.Item>
+              
+            
+           <div>
+          <img src={emptyGallery} alt="first slide" 
+          style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
+          />
+          </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div>
+            <img src={emptyGallery} alt=" second slide" 
+          style={{width:"16%",  display: "flex",alignContent:"center" ,  margin:"auto"}}
+          />
+          </div>
+        </Carousel.Item>  
+        <Carousel.Item>
+              
+            
+              <div>
+             <img src={emptyGallery} alt="first slide" className="emptyGallery1"
+         
+             />
+             </div>
+             </Carousel.Item>
+             </Carousel>
+             
+              {/* <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}> */}
+           
+            </div>
+            <br/>
+          
+       
+       
+              
+
+                
+                
+             
+            </div>
+   
+    
+        <div 
+        // className="upcomings-div-main"
+        >
+          <div 
+          className="upcomings">
+          
+          
+              <h3 
+              className="slider-category-upcoming"
+              >Recommended Courses for you</h3>
+              <Button className="btn-course" onClick={() => history.push("/login")}>
+                View All
+              </Button>
+              {/* <br/> */}
               <Carousel>
               <Carousel.Item>
               
@@ -285,46 +348,8 @@ function LandingPage(props) {
              style={{width:"16%",  display: "flex", margin:"auto"}}
              />
              </div>
-             </Carousel.Item><Button className="btn-color Aviar-save-btn " 
-              // style={{marginLeft:"1100px",width:"7%",height:"1cm"}}
-               onClick={() => history.push("/login")}>
-                View All
-              </Button>
-              {/* <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}> */}
-
-                       
-                       </Carousel>
-            </div>
-            <br/>
-          
-       
-       
-              
-
-                
-                
-             
-            </div>
-   
-    
-        <div 
-        // className="upcomings-div-main"
-        >
-          <div 
-          className="upcoming-main">
-          
-          
-              <h3 
-              className="slider-category-upcoming"
-              >Recommended Courses for you</h3>
-              <Button className="btn-course" onClick={() => history.push("/login")}>
-                View All
-              </Button>
-              <br/>
-              <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}>
-                  <img src={emptyGallery} alt="" style={{width:"95%",  display: "flex", margin:"auto"}}/>
-                       
-                       </Carousel>
+             </Carousel.Item>
+             </Carousel>
               {/* <Row>
                 <Col md={6}>
                
@@ -353,6 +378,7 @@ function LandingPage(props) {
             </div>
           </div>
    <br/>
+  
       <div className="back-image-main">
         <img src={backImg4} alt="" className="back-image-one" /> 
         <div className="back-image-center">                                      
@@ -387,7 +413,7 @@ function LandingPage(props) {
                     <img src={Img3} alt="" className="round-img" />
                   </div>
                   <p className=" next-to-image mx-2">
-                    100% <br />
+                    16% <br />
                     Utilization
                   </p>
                 </div>
@@ -404,79 +430,111 @@ function LandingPage(props) {
           </div>
         </div>
         </div>
-      <br/>
+        <br/>
+        <br/>
       <Container className="upcoming-course">
         <div className="upcoming-div-main" >
-        
-          
-              <h3 className="slider-category-upcoming">Upcoming Courses</h3>
+              <h3 className="slider-category-upcoming ">Upcoming Courses</h3>
               <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => history.push("/login")}>
                 View All
               </Button>
               <br/>
               <br/>
-
-
-
-
-
-    {/* <div className="container">
-    <Row>
-    <Col>
-      <button onClick={scrollLeft} className="arrow-button">{"<"}</button>
-      <div className="card-row" ref={cardRowRef}>
-       
-     
-      <Card className="Course-recommended2">
-              
-                </Card>
-                <Card className="Course-recommended3">
-                <img src={courseImg2} alt=""/>
-                   
-                </Card>
-              
-             
-        {cards.map((content, index) => (
-          <Card key={index} content={content} />
-          
-        ))}
-      </div>
-      
-      <button onClick={scrollRight} className="arrow-button float-end">{">"}</button>
-      </Col>
-      </Row>
-      {/* <button onClick={scrollLeft} className="arrow-button">{"<"}</button> */}
-    </div>
-  
-
+              </div>
               <div className="carousel-wrapper">
-              {/* <Card  className="course-img" style={{width:"80%"}}> */}
-                     <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}>
-                  <img src={emptyGallery} alt="" style={{width:"20%",  display: "flex", margin:"auto"}}/>
-                       
+         
+                     <Carousel 
+                      // className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}
+                     >
+                      <Carousel.Item>
+                  <img src={emptyGallery} alt="first slide" style={{width:"20%",  display: "flex", margin:"auto"}}/>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                  <img src={emptyGallery} alt="second slide" style={{width:"20%",  display: "flex", margin:"auto"}}/>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                  <img src={emptyGallery} alt="third slide" style={{width:"20%",  display: "flex", margin:"auto"}}/>
+                  </Carousel.Item>
                        </Carousel>
-                  {/* </Card> */}
+         
   
               </div>
               </Container>
               <div className="profile-div-main">
           <div className="profile-div-sub">
             <p className="slider-trainer-upcoming">Top Trainers</p>
-            <Carousel itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}>
+            <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => history.push("/login")}>
+                View All
+              </Button>
+            <Carousel >
+              <Carousel.Item>
                 {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-                  <div className="inside-carousel-div1">
+                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
+                    <div className="inside-carousel-div2">
+                    
+                      <div className="user-details-div" >
+                        <div className="user1img">
+                         <img src={user1} alt="" 
+                         className="user1img"
+                         />
+                         </div>
+                        <div>
+                          
+                          <hr className="hr-line-user my-2" />
+                          <p className="Aviar-user-profession">Aviar User1</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
                     <div className="inside-carousel-div2">
                     
                       <div className="user-details-div" >
                         <div>
                      
                           <hr className="hr-line-user my-2" />
-                          <p className="Aviar-user-profession">Business Representative</p>
+                          <p className="Aviar-user-profession">Aviar User2</p>
                         </div>
                       </div>
                     </div>
                   </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
+                    <div className="inside-carousel-div2">
+                    
+                      <div className="user-details-div" >
+                        <div>
+                     
+                          <hr className="hr-line-user my-2" />
+                          <p className="Aviar-user-profession">Aviar User3</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
+                    <div className="inside-carousel-div2">
+                    
+                      <div className="user-details-div" >
+                        <div>
+                     
+                          <hr className="hr-line-user my-2" />
+                          <p className="Aviar-user-profession"> Aviar User4</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </Carousel.Item>
+                  
                   </Carousel>
+                  
             <div className="carousel-wrapper">
 
             </div>
@@ -514,7 +572,7 @@ function LandingPage(props) {
           <Row>
             <Col className=" mb-3">
               <div>
-                <img src={aviar} width="100" height="30" className="d-inline-block align-top mt-3" alt="logo" />
+                <img src={aviar} width="16" height="30" className="d-inline-block align-top mt-3" alt="logo" />
               </div>
               <div
                 className="d-flex flex-direction-row mt-2"

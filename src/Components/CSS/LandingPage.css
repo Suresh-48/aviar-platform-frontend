@@ -200,7 +200,7 @@
   font-size: 30px;
   font-weight: 700;
 }
-.user-count {
+.count {
   display: flex;
   align-items: center;
   font-weight: bold;
@@ -1230,7 +1230,7 @@ $cardText: #111; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 10px;}
 /* }
 .card-price { */
   /* color: $cardText;
@@ -1335,7 +1335,12 @@ $cardText: #111; */
     justify-content: center;
   }
 }
-
+.user1img{
+  height: 100px !important;
+}
+/* .user-details-div{
+  height:"40%"
+} */
 .enroll-text {
   margin-right: 3px;
   font-size: 14px;
