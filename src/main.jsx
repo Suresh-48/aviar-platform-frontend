@@ -9,6 +9,8 @@ import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 import Index from './Components/Courselist/Index.jsx'
 import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
+import Updatestudentdetail from './Components/Editstudentdetail/Updatestudentdetail.jsx'
+import Upcomingschedul from './Components/Studentupcomingschedul/Upcomingschedule.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
 
@@ -17,6 +19,6 @@ import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <TeacherDashboard/>
+    <Upcomingschedul/>
   </StrictMode>,
 )
