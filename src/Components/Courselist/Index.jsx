@@ -47,7 +47,7 @@ const CourseList = () => {
   const [postsPerPage] = useState(9);
   const [isLoading, setIsLoading] = useState(false);
   const [lessonShow, setLessonShow] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
 
   // Dummy data for demonstration
   useEffect(() => {
@@ -227,8 +227,8 @@ const CourseList = () => {
                             <div className="row card-footer-header">
                               <Col xs={12} sm={12} md={5}>
                                 <div className="footer-price-style">
-                                  <p className="discount-amount-text">$ 0</p>
-                                  <p className="actual-amount-text mt-3">$ 0</p>
+                                  <p className="discount-amount-text">₹ 0</p>
+                                  {/* <p className="actual-amount-text mt-3">$ 0</p> */}
                                 </div>
                               </Col>
                             </div>
@@ -332,8 +332,8 @@ const CourseList = () => {
                             <div className="row card-footer-header">
                               <Col xs={12} sm={12} md={5}>
                                 <div className="footer-price-style">
-                                  <p className="discount-amount-text">$ 0</p>
-                                  <p className="actual-amount-text mt-3">$ 0</p>
+                                  <p className="discount-amount-text">₹ 0</p>
+                                  <p className="actual-amount-text mt-3">₹ 0</p>
                                 </div>
                               </Col>
                             </div>
@@ -437,8 +437,8 @@ const CourseList = () => {
                             <div className="row card-footer-header">
                               <Col xs={12} sm={12} md={5}>
                                 <div className="footer-price-style">
-                                  <p className="discount-amount-text">$ 0</p>
-                                  <p className="actual-amount-text mt-3">$ 0</p>
+                                  <p className="discount-amount-text">₹ 0</p>
+                                  <p className="actual-amount-text mt-3">₹ 0</p>
                                 </div>
                               </Col>
                             </div>
