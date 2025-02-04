@@ -13,10 +13,14 @@ import {
 } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { convertToRaw } from "draft-js";
+// import { Editor } from "react-draft-wysiwyg";
+// import { EditorState } from "draft-js";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "react-quill"
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
+// import { convertToRaw } from "draft-js";
+// import Quill from "quill";
 // import { Link, useHistory } from "react-router-dom";
 
 // Api
@@ -36,9 +40,10 @@ import {
 // Component
 import Label from "../../Components/Core/Label";
 import Loader from "../Core/Loader";
+import ReactQuill from "react-quill";
 
 //selector custom style
-// import { customStyles } from "../Core/Selector";
+import { customStyles } from "../Core/Selector";
 // import { useHistory } from "react-router-dom"
 
 const SignInSchema = Yup.object().shape({
@@ -66,7 +71,7 @@ const CoursesCreation = () => {
   const [durationValue, setDurationValue] = useState("");
   const [imageType, setImageType] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [description, setDescription] = useState(EditorState.createEmpty());
+  const [description, setDescription] = useState("");
   // const history = useHistory();
 
   // useEffect(() => {
@@ -285,7 +290,7 @@ const CoursesCreation = () => {
                 courseName: "",
                 description: "",
                 descriptionValue: "",
-                type: { value: "Draft", label: "Draft" },
+                type: { value: "Quill", label: "Quill" },
                 courseImage: "",
                 duration: { value: "1", label: "1 Hour" },
               }}
@@ -362,7 +367,7 @@ const CoursesCreation = () => {
                           <div className="mb-3">
                             <Label notify={true}>Description</Label>
                             <div className="description">
-                              <Editor
+                              <ReactQuill
                                 spellCheck
                                 name="descriptionValue"
                                 editorState={description}
