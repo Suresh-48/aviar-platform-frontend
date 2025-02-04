@@ -1,5 +1,8 @@
 import { forwardRef } from 'react'
-// import AddBox from '@material-ui/icons/AddBox';
+
+import AddBox from '@material-ui/icons/AddBox'
+import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import Check from '@material-ui/icons/Check'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import Clear from '@material-ui/icons/Clear'

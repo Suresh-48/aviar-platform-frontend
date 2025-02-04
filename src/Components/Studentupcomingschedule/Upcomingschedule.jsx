@@ -14,7 +14,7 @@ import { Tab, Tabs } from   "@mui/material";
 
 // Component
 // import Loader from "../core/Loader";
-import { tableIcons } from "../core/Tableicon";
+import { tableIcons } from "../Core/TableIcons";
 import { ROLES_PARENT, ROLES_STUDENT } from "../../constants/roles";
 
 // Api
