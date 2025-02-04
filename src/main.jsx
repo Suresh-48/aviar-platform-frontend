@@ -19,6 +19,6 @@ import Upcomingschedul from './Components/Studentupcomingschedul/Upcomingschedul
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <Upcomingschedul/>
+    <Updatestudentdetail/>
   </StrictMode>,
 )
