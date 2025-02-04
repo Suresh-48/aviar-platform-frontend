@@ -8,6 +8,7 @@ import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
 import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 // import Index from './Components/Courselist/Index.jsx'
+import Index from './Components/CourseCategory/Index.jsx'
 import CoursesCreation from './Components/Course/CourseCreation.jsx'
 import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
@@ -18,6 +19,6 @@ import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <CoursesCreation/>
+    <Index/>
   </StrictMode>,
 )

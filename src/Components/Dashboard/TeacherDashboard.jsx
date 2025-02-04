@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 
 // Styles
-import DashboardTiles from "../../components/core/DashboardTiles";
+import DashboardTiles from "../../components/Core/DashboardTiles";
 // import Api from "../../Api";
 // import Loader from "../../components/core/Loader";
 
