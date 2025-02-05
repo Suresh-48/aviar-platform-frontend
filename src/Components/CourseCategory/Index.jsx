@@ -9,7 +9,8 @@ import { createTheme } from "@mui/material";
 
 // Component
 import Loader from "../core/Loader";
-// import { tableIcons } from "../core/TableIcons";
+import { tableIcons } from "../Core/TableIcons";
+
 // import { useHistory } from "react-router-dom";
 // import { toast } from "react-toastify";
 
@@ -34,12 +35,12 @@ function CourseCategory(props) {
   // const history = useHistory();
 
   // Log out
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear(history.push("/kharpi"));
-      window.location.reload();
-    }, 2000);
-  };
+  // const logout = () => {
+  //   setTimeout(() => {
+  //     localStorage.clear(history.push("/kharpi"));
+  //     window.location.reload();
+  //   }, 2000);
+  // };
 
   // Column Heading
   const columns = [
@@ -62,7 +63,7 @@ function CourseCategory(props) {
   ];
 
   useEffect(() => {
-    courseCategoryData();
+    // courseCategoryData();
   }, []);
 
   // Get Course Category
