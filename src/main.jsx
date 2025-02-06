@@ -8,10 +8,11 @@ import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
 import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 // import Index from './Components/Courselist/Index.jsx'
-import CoursesCreation from './Components/Course/CourseCreation.jsx'
+import CourseCreation from './Components/Course/CourseCreation.jsx'
 import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 import Updatestudentdetail from './Components/Editstudentdetail/Updatestudentdetail.jsx'
-import Upcomingschedule from './Components/Studentupcomingschedule/Upcomingschedule.jsx'
+import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingshedule1.jsx'
+import CourseList from './Components/Courselist/Index.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
 
@@ -20,7 +21,8 @@ import Upcomingschedule from './Components/Studentupcomingschedule/Upcomingsched
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <Upcomingschedule/>
-    {/* <CoursesCreation/> */}
+    {/* <Upcomingschedule/> */}
+    <Upcomingschedule1/>
   </StrictMode>,
 )
+

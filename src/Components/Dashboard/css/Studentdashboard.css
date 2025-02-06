@@ -16,9 +16,11 @@
   .viewHeader {
     text-align: center;
     height: 40px;
+    
   }
   .viewRow {
     text-align: center;
+    
   }
   
   .zoom-view-style {
@@ -53,6 +55,7 @@
   }
   .student-table {
     margin-top: 1%;
+    
     /* // min-height: 250px; */
   }
   .dashboard-button-style{
