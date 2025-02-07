@@ -78,3 +78,7 @@
   padding-top: 20px;
   transition: 0.5s;
 }
+.blue-header {
+  background-color: blue;
+  color: white;
+}

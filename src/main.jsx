@@ -11,7 +11,9 @@ import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 import CourseCreation from './Components/Course/CourseCreation.jsx'
 import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 import Updatestudentdetail from './Components/Editstudentdetail/Updatestudentdetail.jsx'
-import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingshedule1.jsx'
+import Upcomingschedule from './Components/Studentupcomingschedule/Upcomingshedule.jsx'
+import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingschedule1.jsx'
+import Forumdetail from './Components/Forum/Forumdetail.jsx'
 import CourseList from './Components/Courselist/Index.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
@@ -21,8 +23,8 @@ import CourseList from './Components/Courselist/Index.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    {/* <Upcomingschedule/> */}
     <Upcomingschedule1/>
+    {/* <Forumdetail/> */}
   </StrictMode>,
 )
 
