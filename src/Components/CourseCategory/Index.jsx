@@ -3,18 +3,9 @@ import { Container } from "react-bootstrap";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
+import Loader from "../Core/Loader";
+import tableIcons  from "../Core/TableIcons";// Ensure this path is correct
 
-// Api
-// import Api from "../../Api";
-
-// Component
-import Loader from "../core/Loader";
-import { tableIcons } from "../Core/TableIcons";
-
-// import { useHistory } from "react-router-dom";
-// import { toast } from "react-toastify";
-
-// Style
 const tableTheme = createTheme({
   overrides: {
     MuiTableRow: {
@@ -29,20 +20,10 @@ const tableTheme = createTheme({
 });
 
 function CourseCategory(props) {
-  const [isLoading, setisLoading] = useState(true);
-  const [category, setcategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [category, setCategory] = useState([]);
   const userId = localStorage.getItem("userId");
-  // const history = useHistory();
 
-  // Log out
-  // const logout = () => {
-  //   setTimeout(() => {
-  //     localStorage.clear(history.push("/kharpi"));
-  //     window.location.reload();
-  //   }, 2000);
-  // };
-
-  // Column Heading
   const columns = [
     {
       title: "S.No",
@@ -66,28 +47,11 @@ function CourseCategory(props) {
     // courseCategoryData();
   }, []);
 
-  // Get Course Category
-//   const courseCategoryData = () => {
-//     Api.get("api/v1/category/list", { headers: { userId: userId } })
-//       .then((res) => {
-//         const data = res?.data?.data;
-//         setcategory(data);
-//         setisLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
-
   return (
     <div>
-      {/* {isLoading ? ( */}
+      {/* {isLoading ? (
         <Loader />
-      {/* ) : ( */}
+      ) : ( */}
         <Container className="mb-5">
           <div className="py-3">
             <h5>Course Category</h5>
