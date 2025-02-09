@@ -18,7 +18,7 @@ import "../../CSS/AdminStudentsList.css";
 // import Api from "../../Api";
 
 // Loader
-import Loader from "../../Components/Core/Loader";
+// import Loader from "../../Components/Core/Loader";
 // import StudentPublicProfile from "../../StudentPublicProfile";
 import { toast } from "react-toastify";
 
