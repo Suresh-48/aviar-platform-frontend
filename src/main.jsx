@@ -17,6 +17,10 @@ import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingsche
 // import Forumdetail from './Components/Forum/Forumdetail.jsx'
 // import List  from './Components/Favouritecourse/List.jsx'
 // import CourseList from './Components/Courselist/Index.jsx'
+// import Index from './Components/CourseCategory/Index.jsx'
+import CoursesCreation from './Components/Course/CourseCreation.jsx'
+import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
+import Index from './Components/CourseCategory/Index.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
 
@@ -26,6 +30,7 @@ import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingsche
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
     <Upcomingschedule1/>
+    {/* <Index/> */}
   </StrictMode>,
 )
 
