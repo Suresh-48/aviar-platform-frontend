@@ -25,7 +25,7 @@ import { faPen, faEye, faEyeSlash, faCalendarDay } from "@fortawesome/free-solid
 // Component
 // import Label from "../../components/core/Label";
 // import Loader from "../../components/core/Loader";
-import states from "../core/States";
+import states from "../Core/States";
 import profile from "../Images/NoProfile.png";
 // import { customStyles } from "../core/Selector";
 

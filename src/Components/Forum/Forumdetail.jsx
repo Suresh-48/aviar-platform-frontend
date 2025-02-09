@@ -1,6 +1,6 @@
 import { Container, Form, Col, Row, Card } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import Label from "../../components/core/Label";
+import Label from "../Core/Label";
 import Select from "react-select";
 // import { convertFromRaw } from "draft-js";
 import { convertFromRaw } from "react-quill";
@@ -10,7 +10,7 @@ import { convertFromRaw } from "react-quill";
 // import Api from "../../Api";
 import Typography from '@mui/material/Typography';
 import "../../CSS/Forum.css";
-import Loader from "../core/Loader";
+import Loader from "../Core/Loader";
 import { toast } from "react-toastify";
 
 const ForumSelect = ({ history }) => {
