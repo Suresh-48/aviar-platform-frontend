@@ -1,4 +1,3 @@
-
 import react from "react";
 import { Card, Container } from "react-bootstrap";
 import curveImg from "./LandingPageImg/curveImg.png";
@@ -17,10 +16,9 @@ const LandingPage = () => {
         <div className="text-center">
           <img src={aviarlogo} alt="" />
         </div>
-
         <div className="Content-link ">
           <p
-            className="links mx-4"
+            className="links mx-4 ...."
             onClick={() => history.push("/course/search")}
           >
             Courses
@@ -35,7 +33,6 @@ const LandingPage = () => {
             Help
           </p>
         </div>
-
         <div className="curveImg">
           <img src={curveImg} alt="" />
         </div>
@@ -47,13 +44,12 @@ const LandingPage = () => {
           <img src={loginArrow} alt="" className="LoginArrowImg " />
           <p className="login-pTag mb-0 mx-5">Login</p>
 
-        
         </div>
       </div>
-
       <div>
         <div></div>
       </div>
+
 
 
    </div>   
