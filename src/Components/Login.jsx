@@ -3,12 +3,11 @@ import { Col, Container, Row, Form, InputGroup,Card,Button} from "react-bootstra
 import { Formik, ErrorMessage,Field, } from "formik";
 // import {  Link } from "react-router-dom";
 import * as Yup from "yup";
-import './CSS/Login.css';
-import curveImg from "./Images/curveImg.png";
-import aviarlogo from "./Images/aviarlogo.png";
+import './css/Login.css';
+import curveImg from "./curveImg.png";
+import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Navigate, useNavigate } from "react-router-dom";
 
  const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -33,20 +32,17 @@ import { Navigate, useNavigate } from "react-router-dom";
           .min(8, "Password Required Minimum 8 Characters")
           .required("Password Is Required"),
       });
-       const navigate =  useNavigate();
+      
       const onSubmit = (values) => {
         console.log("From data".values);
-        navigate ('/Dashboard');
       };
-      
-      
   return (
     <div className="Login-container">
        <div className="Aviarlogo">
        
         <div className="text-center">
           
-                   <img src={aviarlogo} alt=" "  /> 
+                   <img src={aviarImag} alt=" "  /> 
                    </div>
                    <div className="Content-link">
                    
@@ -82,7 +78,7 @@ import { Navigate, useNavigate } from "react-router-dom";
     <Container>
           <Card
             className="p-5 bg-light rounded shadow col-5  mx-auto mt-5 mb-5 "
-            
+            style={{}}
           >
     <Form onSubmit={handleSubmit}>
         {/* <Field
@@ -156,19 +152,21 @@ import { Navigate, useNavigate } from "react-router-dom";
 
  
      <br />         
-     <Button  type="submit"  className="btn btn-primary p-1 col-12" variant="container" style={{}} >            
+     <Button  type="submit"  className="btn btn-primary p-1 col-12" variant="container" style={{}} >
+    
+    
+                
            login </Button>
            
               <br />
               <br />
-              <div className="float-end text-primary">
+              <div className="  float-end text-primary">
               <a  className="login-button sign-up-button ms-2">
                  Forget password ?
                 </a>
             
               </div>
-              <hr className="or-divider my-4"/>
-
+              <hr className="or-divider my-5 "  />
                       <div className="d-flex flex-direction-row text-center">
                         <text className="login-button ">
                           Don't have an account?
@@ -190,28 +188,3 @@ import { Navigate, useNavigate } from "react-router-dom";
   )
 }
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

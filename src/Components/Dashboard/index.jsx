@@ -1,9 +1,11 @@
-import React,{useState,useEffect} from "react"
+import React, { useState, useEffect } from 'react'
 import { ROLES_ADMIN, ROLES_STUDENT, ROLES_TEACHER } from '../../Constants/Role'
 import AdminDashboard from "./AdminDashboard";
 import StudentDashboard from "./StudentDashboard";
 import TeacherDashboard from "./TeacherDashboard";
+
 const Dashboard = () => {
+
     const[Role,setRole]=useState("")
     const isTeacher = Role === ROLES_TEACHER;
     const isStudent = Role === ROLES_STUDENT;
@@ -21,3 +23,5 @@ const Dashboard = () => {
     );
 }
 export default Dashboard;
+
+
