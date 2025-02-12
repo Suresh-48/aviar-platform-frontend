@@ -192,7 +192,7 @@ function ListOfQuiz() {
               label={
                 <Row>
                   <Col>
-                    <p className="tab-title">Upcoming Schedule</p>
+                    <p className="tab-title">PENDING</p>
                   </Col>
                   <Col className="tab-count-style">
                     <p className="tab-count">{pendingData?.length}</p>
@@ -201,7 +201,7 @@ function ListOfQuiz() {
               }
               value={0}
             />
-            {/* <Tab
+            <Tab
               style={{ width: "34%", marginTop: "15px" }}
               label={
                 <Row>
@@ -214,13 +214,13 @@ function ListOfQuiz() {
                 </Row>
               }
               value={1}
-            /> */}
+            />
             <Tab
               style={{ width: "33%", marginTop: "15px" }}
               label={
                 <Row>
                   <Col>
-                    <p className="tab-title"> Complete Schedule</p>
+                    <p className="tab-title">RESULTS</p>
                   </Col>
                   <Col className="tab-count-style">
                     <p className="tab-count">{previewData?.length}</p>
@@ -234,7 +234,7 @@ function ListOfQuiz() {
           {value === 0 ? (
             <div className="mx-3 mb-3">
               <div>
-                <h5 className="py-3">Upcoming Schedule</h5>
+                <h5 className="py-3">Pending Quiz</h5>
               </div>
               <div className="material-table-responsive">
                 <ThemeProvider theme={tableTheme}>
@@ -305,7 +305,7 @@ function ListOfQuiz() {
               {value === 1 ? (
                 <div className="mx-3 mb-3">
                   <div>
-                    <h5 className=" py-3">Completed Schedule</h5>
+                    <h5 className=" py-3">Completed Quiz</h5>
                   </div>
                   <div className="material-table-responsive">
                     <ThemeProvider theme={tableTheme}>

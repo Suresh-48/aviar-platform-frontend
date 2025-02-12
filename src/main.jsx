@@ -11,7 +11,7 @@ import './index.css'
 // import CourseCreation from './Components/Course/CourseCreation.jsx'
 // import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 // import Updatestudentdetail from './Components/Editstudentdetail/Updatestudentdetail.jsx'
-// import Upcomingschedule from './Components/Studentupcomingschedule/Upcomingshedule.jsx'
+import Upcomingschedule from './Components/Studentupcomingschedule/Upcomingshedule.jsx'
 import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingschedule1.jsx'
 // import Education from './Components/TeacherApplication/Education.jsx'
 // import Forumdetail from './Components/Forum/Forumdetail.jsx'
@@ -21,16 +21,27 @@ import Upcomingschedule1 from './Components/Studentupcomingschedule/Upcomingsche
 import CoursesCreation from './Components/Course/CourseCreation.jsx'
 import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 import Index from './Components/CourseCategory/Index.jsx'
+import Quize from './Components/ListOfQuize/Quize.jsx'
+import  HomeWork  from './Components/Homework/Homework.jsx'
+import Activecourses from './Components/ActiveEnroleCourses/ActiveCourses.jsx'
+import CompleteCourse from './Components/CompleteCourseList/CompleteCourse.jsx'
+import CourseHistory from './Components/CourseHistory/CourseHistory.jsx'
+import Transcript from './Components/Studenttranscript/Transcript.jsx'
+import ApplicationFormConfirmation from './Components/TeacherApplication/Applicationform.jsx'
+import DisplayTeacherApplication from './Components/TeacherApplication/DisplayAplication.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
-
+import OnlineProfileDetails from './Components/TeacherApplication/OnlineProfile.jsx'
+import WizardForm from './Components/TeacherApplication/WizardForm.jsx'
+import TeacherApplicationForAdmin from './Components/TeacherApplicationForAdmin/Index.jsx'
+import TeacherAvailable from './Components/TeacherAvailablity/Index.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <Upcomingschedule1/>
-    {/* <Index/> */}
+    {/* <Upcomingschedule1/> */}
+    <TeacherAvailable/>
   </StrictMode>,
 )
 

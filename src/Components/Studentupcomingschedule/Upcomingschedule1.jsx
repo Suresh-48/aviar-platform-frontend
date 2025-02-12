@@ -2,8 +2,8 @@ import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Modal, Row, Col } from "react-bootstrap";
-import { ThemeProvider } from "@material-ui/styles";
-import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -12,9 +12,8 @@ import { Tab, Tabs } from "@material-ui/core";
 // import { useHistory } from "react-router-dom";
 
 // Component
-import Loader from "../Core/Loader";
-import tableIcons from '../Core/TableIcons';
-
+import Loader from "../core/Loader";
+import  tableIcons  from "../Core/TableIcons";
 // import { ROLES_PARENT, ROLES_STUDENT } from "../../constants/roles";
 
 // Api
@@ -25,9 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
-import "../CSS/Upcomingschedule.css";
-
-
+import '../Dashboard/css/Studentdashboard.css';
 
 const tableTheme = createTheme({
   overrides: {
@@ -55,7 +52,7 @@ function UpcomingSchedule(props) {
   const [value, setValue] = useState(0);
   const [completeData, setcompeleteData] = useState([]);
   // const history = useHistory();
-  // const [studentId, setstudentId] = useState("");
+  const [studentId, setstudentId] = useState("");
   const [parentId, setparentId] = useState("");
   const [studentCourseScheduleId, setStudentCourseScheduleId] = useState("");
   const [sessionEndModal, setSessionEndModal] = useState(false);
@@ -244,8 +241,8 @@ function UpcomingSchedule(props) {
       title: "Schedule Time",
       render: (rowData) => (
         <div>
-          {/* <p>{rowData?.courseScheduleId?.startTime}</p> */}
-          {/* <p>{rowData?.courseScheduleId?.endTime}</p> */}
+          <p>{rowData?.courseScheduleId?.startTime}</p>
+          <p>{rowData?.courseScheduleId?.endTime}</p>
         </div>
       ),
     },
@@ -289,19 +286,19 @@ function UpcomingSchedule(props) {
   // const isParent = role === ROLES_PARENT;
   // const isStudent = role === ROLES_STUDENT;
 
-  useEffect(() => {
-    const role = localStorage.getItem("role");
-    // const isParent = role === ROLES_PARENT;
-    setrole(role);
-    // isParent ? ParentUpcomingScheduleData() : StudentUpcomingScheduleData();
-    // isParent ? ParentCompletelist() : StudentCompletelist();
-    // const currentDate = moment().tz("America/Chicago").format();
-    // const date = moment(currentDate).tz("America/Chicago").format("ll");
-    //var lessTime = moment(currentDate).tz("America/Chicago").format("HH:mm");
-    // const lessTime = moment(currentDate).tz("Asia/Kolkata").format("HH:mm");
-    // setCurrentDate(date);
-    // setLessTime(lessTime);
-  }, []);
+  // useEffect(() => {
+  //   const role = localStorage.getItem("role");
+  //   // const isParent = role === ROLES_PARENT;
+  //   setrole(role);
+  //   // isParent ? ParentUpcomingScheduleData() : StudentUpcomingScheduleData();
+  //   // isParent ? ParentCompletelist() : StudentCompletelist();
+  //   // const currentDate = moment().tz("America/Chicago").format();
+  //   // const date = moment(currentDate).tz("America/Chicago").format("ll");
+  //   //var lessTime = moment(currentDate).tz("America/Chicago").format("HH:mm");
+  //   // const lessTime = moment(currentDate).tz("Asia/Kolkata").format("HH:mm");
+  //   // setCurrentDate(date);
+  //   setLessTime(lessTime);
+  // }, []);
 
   // Get Parent Upcoming Schedule
   // const ParentUpcomingScheduleData = () => {
@@ -348,7 +345,7 @@ function UpcomingSchedule(props) {
   //   });
   // };
 
-  // //get student complete list
+  //get student complete list
   // const StudentCompletelist = () => {
   //   const studentId = localStorage.getItem("studentId");
   //   Api.get("api/v1/upcomingcourse/student/complete/list", {
@@ -366,12 +363,12 @@ function UpcomingSchedule(props) {
   //     setisLoading(false);
   //   }); //logout
   //   // const logout = () => {
-    //   localStorage.clear(history.push("/kharpi"));
-    //   window.location.reload();
-    // };
+  //   //   localStorage.clear(history.push("/kharpi"));
+  //   //   window.location.reload();
+  //   // };
   // };
 
-  //get parent complete list
+  // //get parent complete list
   // const ParentCompletelist = () => {
   //   const parentId = localStorage.getItem("parentId");
   //   Api.get("api/v1/upcomingcourse/parent/complete/list", {
@@ -397,7 +394,7 @@ function UpcomingSchedule(props) {
   // };
 
   // const zoomTiming = (e) => {
-  //   const studentId = localStorage.getItem("studentId");
+  //   // const studentId = localStorage.getItem("studentId");
   //   const newDate = new Date();
   //   const sessionTiming = newDate.toLocaleTimeString();
   //   Api.patch("/api/v1/upcomingcourse/student/zoom/timing", {
@@ -421,7 +418,9 @@ function UpcomingSchedule(props) {
   return (
     <div>
       <Container className="mb-3">
-      
+        {/* {isLoading ? ( */}
+          {/* <Loader /> */}
+        {/* ) : ( */}
           <div>
             <div className="d-flex justify-content-end mt-3">
               <FontAwesomeIcon
@@ -497,8 +496,8 @@ function UpcomingSchedule(props) {
                       }}
                       // columns={isParent ? parentColumns : studentColumns}
                       // actions={
-                      //   // isStudent
-                      //     // ? [
+                      //   isStudent
+                      //     ? [
                       //         (rowData) => ({
                       //           icon: () => (
                       //             <p
@@ -527,7 +526,7 @@ function UpcomingSchedule(props) {
                       //             }
                       //           },
                       //         }),
-                      //       // ]
+                      //       ]
                       //     : null
                       // }
                       localization={{
@@ -613,7 +612,7 @@ function UpcomingSchedule(props) {
                       </Modal.Body>
                     </Modal>
                   </div>
-                {/* // ) : null} */}
+                {/* ) : null} */}
               </div>
             ) : (
               <div>
@@ -623,7 +622,7 @@ function UpcomingSchedule(props) {
                     <MaterialTable
                       icons={tableIcons}
                       data={completeData}
-                      columns={isParent ? completeParentColumns : completeStudentColumns}
+                      // columns={isParent ? completeParentColumns : completeStudentColumns}
                       options={{
                         actionsColumnIndex: -1,
                         addRowPosition: "last",
@@ -646,7 +645,7 @@ function UpcomingSchedule(props) {
               </div>
             )}
           </div>
-        
+        {/* // )} */}
       </Container>
     </div>
   );

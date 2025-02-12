@@ -8,8 +8,8 @@ import { createTheme } from "@mui/material";
 // import Api from "../../Api";
 
 // Component
-import Loader from "../core/Loader";
-import { tableIcons } from "../Core/TableIcons";
+// import Loader from "../core/Loader";
+import  tableIcons  from "../Core/TableIcons";
 
 // import { useHistory } from "react-router-dom";
 // import { toast } from "react-toastify";
@@ -86,7 +86,7 @@ function CourseCategory(props) {
   return (
     <div>
       {/* {isLoading ? ( */}
-        <Loader />
+        {/* <Loader /> */}
       {/* ) : ( */}
         <Container className="mb-5">
           <div className="py-3">
