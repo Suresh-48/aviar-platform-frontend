@@ -32,13 +32,13 @@ import AdminHomework from './Components/AdminQuizandHome/AdminHomeWork.jsx'
 import AdminQuiz from './Components/AdminQuizandHome/AdminQuiz.jsx'
 import AdminEnrollCourseList from './Components/ActiveEnrollCourseList/Index.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
-// import DashboardTiles from './Components/core/DashboardTiles.jsx'
+// import DashboardTiles from './Components/Core/D8ashboardTiles.jsx'
 
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    < LandingPage/>
+    <ChatBotConversation/>
   </StrictMode>,
 )
