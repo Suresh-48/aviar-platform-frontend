@@ -39,6 +39,6 @@ import AdminEnrollCourseList from './Components/ActiveEnrollCourseList/Index.jsx
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <  AdminEnrollCourseList/>
+    < LandingPage/>
   </StrictMode>,
 )
