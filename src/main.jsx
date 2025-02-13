@@ -35,13 +35,17 @@ import OnlineProfileDetails from './Components/TeacherApplication/OnlineProfile.
 import WizardForm from './Components/TeacherApplication/WizardForm.jsx'
 import TeacherApplicationForAdmin from './Components/TeacherApplicationForAdmin/Index.jsx'
 import TeacherAvailable from './Components/TeacherAvailablity/Index.jsx'
+import TeacherCourseList from './Components/TeacherCourseList/Index.jsx'
+import TeacherPayment from './Components/TeacherPayment/TeacherPayment.jsx'
+import TeacherHomeworkReview from './Components/TeacherHomeWorkReview/Index.jsx'
+import TeacherList from './Components/TeacherList/Index.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
     {/* <Upcomingschedule1/> */}
-    <TeacherAvailable/>
+    <TeacherList/>
   </StrictMode>,
 )
 
