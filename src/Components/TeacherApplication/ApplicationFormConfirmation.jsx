@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-// import { FormContext } from "./FormContext";
+import { FormContext } from "./FormContext";
 import { Col, Row } from "react-bootstrap";
 import moment from "moment";
 import "../CSS/TeacherApplicationForm.css";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 
 const ApplicationFormConfirmation = () => {
-//   const [value, setValue] = React.useContext(FormContext);
+  const [value, setValue] = React.useContext(FormContext);
   const { educationData } = value;
   const { experienceData } = value;
   const { profileData } = value;
   return (
     <>
       <div className="form-row">
-        {/* {educationData?.length > 0 ? ( */}
+        {educationData?.length > 0 ? (
           <div>
             {" "}
             {educationData.map((index, i) => (
@@ -106,7 +106,7 @@ const ApplicationFormConfirmation = () => {
               </List>
             ))}
           </div>
-        {/* ) : null} */}
+         ) : null} 
       </div>
       <hr />
       <div className="form-row">

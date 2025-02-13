@@ -32,7 +32,8 @@ export default function  Table() {
         Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
         FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
         LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-        NextPage: forwardRef((props, ref) => { console.log('NextPage:',props);return(
+        NextPage: forwardRef((props, ref) => { console.log('NextPage:',props);
+          return(
           <FontAwesomeIcon {...props} ref={ref} icon={faChevronRight} className="custom-chevron"  style={{ fontSize: "18px !important", color: "#000 !important" }}/>)
      }),
         PreviousPage: forwardRef((props, ref) => {
