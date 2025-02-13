@@ -9,13 +9,18 @@ import {
   Modal,
   Button,
 } from "react-bootstrap";
-import { ThemeProvider } from "@material-ui/styles";
-import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { convertFromRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
+// import { convertFromRaw } from "quill-js";
+// import Quill from "quill-js";
+
+// import { stateToHTML } from "quill-js-export-html";
+import "react-quill"
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 import { Tab, Tabs } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import Switch from "@mui/material/Switch";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
@@ -61,7 +66,7 @@ function TeacherList(props) {
     }, 2000);
   };
 
-  const history = useHistory();
+//   const history = useHistory();
 
   const TeacherPublicActive = (status, teacherId) => {
     Api.patch("api/v1/teacher/update/public", {
@@ -249,21 +254,21 @@ function TeacherList(props) {
     },
   ];
 
-  const getTeacherListData = () => {
-    Api.get("api/v1/teacher", { headers: { userId: userId } })
-      .then((response) => {
-        const data = response.data.data.data;
-        setData(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-      });
-  };
+//   const getTeacherListData = () => {
+//     Api.get("api/v1/teacher", { headers: { userId: userId } })
+//       .then((response) => {
+//         const data = response.data.data.data;
+//         setData(data);
+//         setIsLoading(false);
+//       })
+//       .catch((error) => {
+//         const errorStatus = error?.response?.status;
+//         if (errorStatus === 401) {
+//           logout();
+//           toast.error("Session Timeout");
+//         }
+//       });
+//   };
 
   //get approved teacher list
   const getTeacherApprovedListData = () => {
@@ -275,10 +280,10 @@ function TeacherList(props) {
     });
   };
 
-  useEffect(() => {
-    getTeacherListData();
-    getTeacherApprovedListData();
-  }, []);
+//   useEffect(() => {
+//     getTeacherListData();
+//     getTeacherApprovedListData();
+//   }, []);
 
   //change publish and draft course type
   const changeTeacherType = (status) => {
@@ -338,9 +343,9 @@ function TeacherList(props) {
 
   return (
     <div>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {/* {isLoading ? ( */}
+        {/* <Loader /> */}
+      {/* ) : ( */}
         <Container>
           <Tabs
             value={value}
@@ -686,7 +691,7 @@ function TeacherList(props) {
             </Modal.Body>
           </Modal>
         </Container>
-      )}
+    {/* //   )} */}
     </div>
   );
 }
