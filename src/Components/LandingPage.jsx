@@ -284,11 +284,9 @@ function LandingPage(props) {
           </div>
         </Carousel.Item>  
         <Carousel.Item>
-              
-            
               <div>
              <img src={emptyGallery} alt="first slide" className="emptyGallery1"
-         
+
              />
              </div>
              </Carousel.Item>
@@ -298,24 +296,12 @@ function LandingPage(props) {
            
             </div>
             <br/>
-          
-       
-       
-              
-
-                
-                
-             
             </div>
-   
-    
         <div 
         // className="upcomings-div-main"
         >
           <div 
           className="upcomings">
-          
-          
               <h3 
               className="slider-category-upcoming"
               >Recommended Courses for you</h3>
@@ -324,9 +310,7 @@ function LandingPage(props) {
               </Button>
               {/* <br/> */}
               <Carousel>
-              <Carousel.Item>
-              
-            
+              <Carousel.Item> 
            <div>
           <img src={emptyGallery} alt="first slide" 
           style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
@@ -341,8 +325,6 @@ function LandingPage(props) {
           </div>
         </Carousel.Item>  
         <Carousel.Item>
-              
-            
               <div>
              <img src={emptyGallery} alt="first slide" 
              style={{width:"16%",  display: "flex", margin:"auto"}}
@@ -370,11 +352,6 @@ function LandingPage(props) {
                 </Col>
               </Row>
               */}
-              
-            
-            
-            
-            
             </div>
           </div>
    <br/>

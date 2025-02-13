@@ -2,12 +2,13 @@ import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 // Component
 
+// import tableIcons  from "../Core/TableIcons";
 import tableIcons  from "../Core/TableIcons";
-
 // Use the appropriate props from the imported components
-
-import { ThemeProvider } from "@material-ui/styles";
-import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material";
+// import { ThemeProvider } from "@material-ui/styles";
+// import { createTheme } from "@material-ui/core/styles";
 import { Container, Row, Modal } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
 
