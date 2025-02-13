@@ -39,13 +39,18 @@ import TeacherCourseList from './Components/TeacherCourseList/Index.jsx'
 import TeacherPayment from './Components/TeacherPayment/TeacherPayment.jsx'
 import TeacherHomeworkReview from './Components/TeacherHomeWorkReview/Index.jsx'
 import TeacherList from './Components/TeacherList/Index.jsx'
+// import TeacherPublicProfile from './Components/TeacherPublicProfile/Index.jsx'
+import TeacherPublicProfile from './Components/TeacherPublicProfile/TeacherPublicProfile.jsx'
+import TeacherQuizReview from './Components/TeacherQuizeReview/Index.jsx'
+import TestListTable from './Components/TestListTable/Index.jsx'
+import UpcomingTeacherScheduleList from './Components/UpcomingTeacherScheduleList/Index.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
     {/* <Upcomingschedule1/> */}
-    <TeacherList/>
+    <UpcomingTeacherScheduleList/>
   </StrictMode>,
 )
 
