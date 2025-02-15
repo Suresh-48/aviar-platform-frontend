@@ -556,7 +556,7 @@ function UpcomingTeacherScheduleList(props) {
                   </div>
                 )}
               </div>
-            ) : (
+            
               <div>
                 <div className="py-3">
                   <h5>Teachers Upcoming Lessons</h5>

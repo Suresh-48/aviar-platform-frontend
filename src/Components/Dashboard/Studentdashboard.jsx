@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Table, Button, Modal, Col,Card } from "react-bootstrap";
 import './css/Studentdashboard.css'
+import { useNavigate } from "react-router-dom";
 // import { Link, useHistory } from "react-router-dom";
 // import moment from "moment";
 
@@ -35,7 +36,7 @@ function StudentDashboard() {
   function closeShow() {
     setshowAlert(false);
   }
-
+const navigate=useNavigate
   // Log out
   const logout = () => {
     setTimeout(() => {

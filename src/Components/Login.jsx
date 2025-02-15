@@ -3,8 +3,8 @@ import { Col, Container, Row, Form, InputGroup,Card,Button} from "react-bootstra
 import { Formik, ErrorMessage,Field, } from "formik";
 // import {  Link } from "react-router-dom";
 import * as Yup from "yup";
-import './css/Login.css';
-
+import './CSS/Login.css';
+// import { useNavigate } from "react-router-dom";
 import curveImg from "./curveImg.png";
 import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,9 +33,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
           .min(8, "Password Required Minimum 8 Characters")
           .required("Password Is Required"),
       });
-      
+      // const navigate =useNavigate
       const onSubmit = (values) => {
         console.log("From data".values);
+
       };
   return (
     <div className="Login-container">
