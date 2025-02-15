@@ -95,11 +95,11 @@
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
+    /* display: -webkit-box;
     font-size: $font-size !important;
     line-height: $line-height !important;
     -webkit-line-clamp: $lines-to-show !important;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
   }
   .multiSelectContainer input {
     margin-top: 0px;

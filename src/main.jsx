@@ -33,8 +33,8 @@ import AdminQuiz from './Components/AdminQuizandHome/AdminQuiz.jsx'
 import AdminEnrollCourseList from './Components/ActiveEnrollCourseList/Index.jsx'
 import HeaderNavbar from './Components/Core/HeadNavBar.jsx'
 import { FormContext } from './Components/TeacherApplication/FormContext.jsx'
-
-// import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
+import App from './App.jsx'
+import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/Core/D8ashboardTiles.jsx'
 
 // import Studentsignup from './Components/Studentsignup.jsx'
@@ -42,6 +42,6 @@ import { FormContext } from './Components/TeacherApplication/FormContext.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <ApplicationFormConfirmation/>
+    <App/>
   </StrictMode>,
 )
