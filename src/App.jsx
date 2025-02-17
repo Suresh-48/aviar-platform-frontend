@@ -1,22 +1,18 @@
-import React from 'react'
-// import {BrowserRouter,Routes, Route} from 'react-router-dom'
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css";
-import LandingPage from "./components/LandingPage";
-import { ToastContainer } from "react-toastify";
-
-import Dashboard from "./Components/Dashboard.jsx";
-import AdminLogin from "./Components/AdminLogin.jsx";
-import Login from "./components/Login.jsx";
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Only import once
+import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
+import { ToastContainer } from 'react-toastify';
+import LandingPage from './Components/LandingPage';
+import Dashboard from './Components/Dashboard.jsx';
+import AdminLogin from './Components/AdminLogin.jsx';
+import Login from './Components/Login.jsx';
 
 const App = () => {
   return (
     <div>
-    <ToastContainer
+      <ToastContainer
         autoClose={5000}
         hideProgressBar={true}
         pauseOnHover={false}
@@ -25,15 +21,17 @@ const App = () => {
         closeButton={false}
       />
       <Router>
-              <Switch>
-              <PublicLayout exact name="" path="/aviar" component={LandingPage}/>
-              <PublicLayout exact name="Dashboard" path="/dashboard" component={Dashboard}/> 
-              <PublicLayout exact name="AdminLogin" path="/admin-login" component={AdminLogin}/>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/login" element={<Login />} />
+          {/* Add a default route or redirect if needed */}
+          <Route path="/" element={<Navigate to="/aviar" />} />
+        </Routes>
+      </Router>
+    </div>
+  );
+};
 
-              </Switch>
-              </Router>
-      </div>
-  )
-}
-
-export default App
+export default App;
