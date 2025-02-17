@@ -29,9 +29,8 @@ import {
   faClipboardList,
   faFileCircleCheck,
   faPersonCircleCheck,
-  faBookOpen,
   faBookReader,
-  
+  faMoneyCheckDollar,
   faPersonChalkboard,
   faPenToSquare,
   faAddressCard,

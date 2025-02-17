@@ -300,7 +300,7 @@ const AllCourseList = (props) => {
                 </div>
                 <div>
                   <Button
-                    className="Kharpi-cancel-btn mx-3"
+                    className="aviar-cancel-btn mx-3"
                     variant="light"
                     onClick={() => {
                       setSearchModalOpen(false);
@@ -311,7 +311,7 @@ const AllCourseList = (props) => {
                   </Button>
                   <Button
                     variant="primary"
-                    className="Kharpi-save-btn"
+                    className="aviar-save-btn"
                     onClick={() => {
                       courseFilter();
                       setSearchModalOpen(false);

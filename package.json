@@ -26,6 +26,7 @@
     "@mui/lab": "^6.0.0-beta.26",
     "@mui/material": "^6.4.2",
     "@mui/styles": "^6.4.3",
+    "bootstrap": "^5.3.3",
     "core-js-pure": "^3.40.0",
     "draft-js": "^0.11.7",
     "formik": "^2.4.6",
@@ -37,7 +38,9 @@
     "quill": "^2.0.3",
     "react": "^18.3.1",
     "react-avatar": "^5.0.3",
+    "react-big-calendar": "^1.17.1",
     "react-bootstrap": "^2.10.9",
+    "react-bootstrap-timezone-picker": "^2.0.1",
     "react-countup": "^6.5.3",
     "react-datepicker": "^7.6.0",
     "react-dom": "^18.3.1",
@@ -50,6 +53,7 @@
     "react-toastify": "^11.0.3",
     "reactstrap": "^9.2.3",
     "styled-components": "^6.1.14",
+    "survey-react": "^1.12.23",
     "yup": "^1.6.1"
   },
   "devDependencies": {

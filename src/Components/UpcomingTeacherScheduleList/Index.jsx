@@ -28,7 +28,7 @@ import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 // style
 import "../CSS/UpcomingSchedule.css";
 // import { setDay } from "date-fns";
-import { customStyles } from "../core/Selector";
+import { customStyles } from "../Core/Selector";
 
 function UpcomingTeacherScheduleList(props) {
   const [show, setshow] = useState(false);
