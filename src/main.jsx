@@ -24,6 +24,6 @@ import AdminStudentList from './Components/AdminStudentList/Index.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <AdminStudentList/>
+    <LandingPage/>
   </StrictMode>,
 )
