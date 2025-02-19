@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ROLES_PARENT, ROLES_STUDENT, ROLES_TEACHER } from "../Constants/Role";
 import Admindashboard from "./Dashboard/Admindashboard";
 
-import Studentdashboard from "./Dashboard/Studentdashboard";
-import Teacherdashboard from "./Dashboard/Teacherdashboard";
+import StudentDashboard from "./Dashboard/Studentdashboard";
+import TeacherDashboard from "./Dashboard/Teacherdashboard";
 
 function Dashboard(props) {
   const [role, setRole] = useState("");

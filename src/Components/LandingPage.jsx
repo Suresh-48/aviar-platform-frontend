@@ -551,7 +551,7 @@ function LandingPage(props) {
           <Row>
             <Col className=" mb-3">
               <div>
-                <img src={aviar} width="16" height="30" className="d-inline-block align-top mt-3" alt="logo" />
+                <img src={aviar} width="70" height="30" className="d-inline-block align-top mt-3" alt="logo" />
               </div>
               <div
                 className="d-flex flex-direction-row mt-2"
