@@ -2,12 +2,18 @@ import LandingPage from "./Components/LandingPage.jsx";
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 import Dashboard from "./Components/Dashboard.jsx";
 import AdminLogin from "./Components/AdminLogin.jsx";
-import Login from "./components/Login.jsx";
-
+import Login from "./Components/Login.jsx";
+// import Home from "./Components/Home.jsx";
 
 const routes = [
+  // {
+  //   path: "/",
+  //   exact: true,
+  //   name: "Home",
+  //   component: Home,
+  // },
     {
-      path: "/",
+      path: "/aviar",
       exact: true,
       name: "LandingPage",
       component: LandingPage,

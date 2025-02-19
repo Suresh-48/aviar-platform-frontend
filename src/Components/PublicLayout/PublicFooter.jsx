@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faTwitter, faInstagram, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-free/css/fontawesome.css";
-import aviar from "../../components/Images/aviar.png";
+import aviar from "../Images/aviar.png";
 import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function DefaultFooter(props) {
@@ -102,10 +102,7 @@ export default function DefaultFooter(props) {
                     <a href={`/edit/student/details/${studentId}`} className="footer-font-size">
                       My Account
                     </a>
-                  ) : role === "parent" ? (
-                    <a href="/edit-parent-details" className="footer-font-size">
-                      My Account
-                    </a>
+               
                   ) : role === "teacher" ? (
                     <a href="/teacher/application/details" className="footer-font-size">
                       My Account
@@ -159,7 +156,7 @@ export default function DefaultFooter(props) {
             </div>
             <div className="mt-1">
               <a href="https://www.linkedin.com/company/aviar-technology-services/" className="footer-font-size d-flex flex-direction-row">
-                <FontAwesomeIcon className="me-1 mt-1" icon={faLinkedin} />
+                <FontAwesomeIcon className="me-1 mt-1" icon={faLinkedinIn} />
                 Linkedin
               </a>
             </div>

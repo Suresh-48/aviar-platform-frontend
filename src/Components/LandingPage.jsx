@@ -51,10 +51,11 @@ import courseImg2 from "./Images/courseImg2.png";
 import curveImg from "./Images/curveImg.png";
 import emptyGallery from "./Images/emptyGallery.jpg";
 import loginArrow from "./Images/loginArrow.png";
+import { useNavigate} from "react-router-dom"
 // import { convertFromRaw } from "draft-js";
 // import { stateToHTML } from "draft-js-export-html";
 // import overlayImg from "./Images/overlayImg.png";
-import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelope,
   faLocationDot,
@@ -71,6 +72,7 @@ import {
 // import USA from "../../container/PublicLayout/USA.png";
 
 function LandingPage(props) {
+  const navigate =useNavigate()
   const loginClosed = props?.location?.state?.sideClose;
   const [allCourseList, setAllCourseList] = useState([]);
   const [categoryDetails, setCategoryDetails] = useState([]);
@@ -160,7 +162,7 @@ function LandingPage(props) {
         <div className="aviar-img-div">
           <img src={aviar} alt="" className="aviar-logo" />
           {role === "admin" || role === "teacher" || role === "parent" || role === "student" ? null : (
-            <div className="login-arrow-div" onClick={() => history.push("/login")}>
+            <div className="login-arrow-div" onClick={() =>navigate("/login")}>
               <img src={loginArrow} className="login-arrow" />
               <p className="login-pTag mb-0 mx-1">Login</p>
             </div>
@@ -168,16 +170,16 @@ function LandingPage(props) {
         </div>
         <div className="aviar-img-div-two">
           <div className="content-link">
-            <p className="links mx-4" onClick={() => history.push("/course/search")}>
+            <p className="links mx-4" onClick={() => navigate("/course/search")}>
               Courses
             </p>
-            <p className="links mx-4" onClick={() => history.push("/trainers")}>
+            <p className="links mx-4" onClick={() => navigate("/trainers")}>
               Trainers
             </p>
-            <p className="links mx-4" onClick={() => history.push("/about-us")}>
+            <p className="links mx-4" onClick={() => navigate("/about-us")}>
               About Us
             </p>
-            <p className="links mx-4" onClick={() => history.push("/help")}>
+            <p className="links mx-4" onClick={() => navigate("/help")}>
               Help
             </p>
           </div>
@@ -263,7 +265,7 @@ function LandingPage(props) {
               <h3 className="slider-category ">Categories</h3>
               <Button className="btn-color1" 
            
-               onClick={() => history.push("/login")}>
+               onClick={() => navigate("/login")}>
                 View All
               </Button>
               <Carousel>
@@ -305,7 +307,7 @@ function LandingPage(props) {
               <h3 
               className="slider-category-upcoming"
               >Recommended Courses for you</h3>
-              <Button className="btn-course" onClick={() => history.push("/login")}>
+              <Button className="btn-course" onClick={() => navigate("/login")}>
                 View All
               </Button>
               {/* <br/> */}
@@ -396,7 +398,7 @@ function LandingPage(props) {
                 </div>
               </div>
               <div className="btn-back-image">
-                <Button className="btn-back-image-main Aviar-save-btn" onClick={() => history.push("/teacher/signup")}>
+                <Button className="btn-back-image-main Aviar-save-btn" onClick={() => navigate("/teacher/signup")}>
                   Teacher Signup
                 </Button>
               </div>
@@ -412,7 +414,7 @@ function LandingPage(props) {
       <Container className="upcoming-course">
         <div className="upcoming-div-main" >
               <h3 className="slider-category-upcoming ">Upcoming Courses</h3>
-              <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => history.push("/login")}>
+              <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => navigate("/login")}>
                 View All
               </Button>
               <br/>
@@ -440,7 +442,7 @@ function LandingPage(props) {
               <div className="profile-div-main">
           <div className="profile-div-sub">
             <p className="slider-trainer-upcoming">Top Trainers</p>
-            <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => history.push("/login")}>
+            <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => navigate("/login")}>
                 View All
               </Button>
             <Carousel >

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link,useNavigate} from "react-router-dom";
 // import { useHistory } from "react-router-dom";
 import { Tooltip } from "@mui/material";
 // Styles
@@ -46,6 +46,7 @@ import Avatar from "react-avatar";
 import { toast } from "react-toastify";
 
 const Adminsidebar = ({ onClick, open, sidebar }) => {
+  const navigate=useNavigate();
   const [role, setrole] = useState("");
   const sidebarValue = sidebar;
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
@@ -193,26 +194,26 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                           {/* </Tooltip> */}
                         </div>
                       </div>
-                      <div className="menu-list  ">
-                        {/* <NavLink to="/dashboard" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon me-3" title="Dashboard" size="1x" />
+                      <div className="menu-list">
+                        <NavLink to="/admindashboard" activeClassName="main-nav-active-style">
+                          <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon me-3" title="Dashboard" size="1x"  onClick={()=>navigate('/admindashboard')}/>
                           
                           Dashboard
-                        {/* </NavLink> */}
+                        </NavLink>
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faBookOpen} title="Course Category" size="1x" className="menu-icon me-3" />
+                        <NavLink to= "/coursecategory" activeClassName="main-nav-active-style">
+                          <FontAwesomeIcon icon={faBookOpen} title="Course Category" size="1x" className="menu-icon me-3" onClick={()=>navigate('/coursecategory')} />
                           Course Category
                         
-                        {/* </NavLink> */}
+                        </NavLink>
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style"> */}
+                        <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style">
                           <FontAwesomeIcon icon={faBookOpenReader} title="Course Search" size="1x" className="menu-icon me-3" />
                           Course Search
                         
-                        {/* </NavLink> */}
+                        </NavLink>
                       </div>
                       <div className="menu-list">
                         {/* <NavLink exact to="/upcoming/schedule" activeClassName="main-nav-active-style"> */}

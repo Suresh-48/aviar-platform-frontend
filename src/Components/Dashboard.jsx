@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ROLES_PARENT, ROLES_STUDENT, ROLES_TEACHER } from "../Constants/Role";
-import Admindashboard from "../Admindashboard";
+import Admindashboard from "./Dashboard/Admindashboard";
 
-import StudentDashboard from "../Studentdashboard";
-import TeacherDashboard from "../Teacherdashboard";
+import Studentdashboard from "./Dashboard/Studentdashboard";
+import Teacherdashboard from "./Dashboard/Teacherdashboard";
 
 function Dashboard(props) {
   const [role, setRole] = useState("");
@@ -18,12 +18,12 @@ function Dashboard(props) {
 
   return (
     <>
-      {isParent ? (
-        <StudentDashboard />
+      {isStudent ? (
+        <Studentdashboard />
       ) : isTeacher ? (
-        <TeacherDashboard />
-      ) : (
-        <AdminDashboard />
+        <Teacherdashboard />
+      ) : ( 
+        <Admindashboard />
       )}
     </>
   );
