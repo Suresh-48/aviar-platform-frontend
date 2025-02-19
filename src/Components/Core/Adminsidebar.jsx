@@ -29,7 +29,7 @@ import {
   faClipboardList,
   faFileCircleCheck,
   faPersonCircleCheck,
-  faBookOpen,
+  // faBookOpen,
   faBookReader,
   
   faPersonChalkboard,

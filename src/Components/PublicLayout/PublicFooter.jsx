@@ -5,7 +5,7 @@ import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg
 import "@fortawesome/fontawesome-free/css/fontawesome.css";
 import aviar from "../../components/Images/aviar.png";
 import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
-
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 export default function DefaultFooter(props) {
   const login = props?.sidebar;
   const [token, setToken] = useState();
@@ -159,8 +159,7 @@ export default function DefaultFooter(props) {
             </div>
             <div className="mt-1">
               <a href="https://www.linkedin.com/company/aviar-technology-services/" className="footer-font-size d-flex flex-direction-row">
-                <FontAwesomeIcon className="me-1 mt-1" icon={faLinkedin} />
-                Linkedin
+              <FontAwesomeIcon icon={faLinkedin} />                Linkedin
               </a>
             </div>
           </div>

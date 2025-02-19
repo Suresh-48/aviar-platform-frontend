@@ -1,192 +1,159 @@
-import React, { useState, useEffect } from "react";
-import { Col, Container, Row, Form, InputGroup,Card,Button} from "react-bootstrap";
-import { Formik, ErrorMessage,Field, } from "formik";
-// import {  Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Col, Container, Row, Form, InputGroup, Card, Button, Modal } from "react-bootstrap";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import './CSS/Login.css';
-// import { useNavigate } from "react-router-dom";
 import curveImg from "./curveImg.png";
 import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Link,NavLink } from "react-router-dom";
 
- const Login = () => {
+const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-    const initialValues = {
-        email: "",
-        password: "",
-      };
-      const [passwordShown, setPasswordShown] = useState(false);
-      const [show, setShow] = useState(false);
-      const handleClose = () => setShow(false);
-      const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-      };
-      
-      const validationSchema = Yup.object({
-        email: Yup.string().required("Enter your email"),
-        password: Yup.string()
-        .matches(
-            "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
-            "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
-          )
-          .min(8, "Password Required Minimum 8 Characters")
-          .required("Password Is Required"),
-      });
-      // const navigate =useNavigate
-      const onSubmit = (values) => {
-        console.log("From data".values);
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-      };
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string().required("Enter your email"),
+    password: Yup.string()
+      .matches(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
+        "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
+      )
+      .min(8, "Password Required Minimum 8 Characters")
+      .required("Password Is Required"),
+  });
+
+  const onSubmit = (values) => {
+    console.log("Form data", values);
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const tooglePasswordVisibility = () => {
+    setPasswordShown(!passwordShown);
+  };
+
   return (
     <div className="Login-container">
-       <div className="Aviarlogo">
-       
+      <div className="Aviarlogo">
         <div className="text-center">
-          
-                   <img src={aviarImag} alt=" "  /> 
-                   </div>
-                   <div className="Content-link">
-                   
-                    
-                   <p className="links mx-4" onClick={() => history.push("/course/search")}>
-              Courses 
-            </p>
-            <p className="links mx-4" >
-              Trainers
-            </p>
-            <p className="links mx-4" >
-              About Us
-            </p>
-            <p className="links mx-4" >
-              Help
-            </p>
-            
-                  
-                   </div>
-                   <div className="curveImg">
-           <img src={curveImg} alt=" " /> 
-          </div>
-</div>
+          <img src={aviarImag} alt=" " />
+        </div>
+        <div className="Content-link">
+          <p className="links mx-4" onClick={() => history.push("/course/search")}>
+            Courses
+          </p>
+          <p className="links mx-4">Trainers</p>
+          <p className="links mx-4">About Us</p>
+          <p className="links mx-4">Help</p>
+        </div>
+        <div className="curveImg">
+          <img src={curveImg} alt=" " />
+        </div>
+      </div>
 
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ handleSubmit }) => (
+          <Container>
+            <Card className="p-5 bg-light rounded shadow col-5 mx-auto mt-5 mb-5">
+              <Form onSubmit={handleSubmit}>
+                <h4 className="d-flex justify-content-center mb-2" style={{ fontFamily: "none", fontWeight: "bold" }}>
+                  Login
+                </h4>
+                <div className="pt-3">
+                  <form-control></form-control>
+                </div>
+                <hr className="or-divider my-4" />
 
-    <Formik
-    initialValues={initialValues}
-    validationSchema={validationSchema}
-    onSubmit={onSubmit}
-  >
-       {/* <Col lg={6} md={7} sm={12} className=" p-5 m-auto shadow -sm rounded-lg my-4  teacer-sign-background"> */}
-       {({ handleSubmit }) => (
-    <Container>
-          <Card
-            className="p-5 bg-light rounded shadow col-5  mx-auto mt-5 mb-5 "
-            style={{}}
-          >
-    <Form onSubmit={handleSubmit}>
-        {/* <Field
-        name="google"
-            type="text"
-            className="form-control"
-        /> */}
-        
-            <h4  
-             className="d-flex justify-content-center mb-2"
-         style={{ fontFamily: "none", fontWeight: "bold" }}
-                      >
-                        Login
-                      </h4>
-                      <div className="pt-3">
-                        <form-control>
+                <label> Email </label>
+                <span className="text-danger">*</span>
+                <Field name="email" type="text" placeholder="Email Address" className="form-control" />
+                <ErrorMessage name="email" component="span" className="error text-danger error-message" />
 
-                        </form-control>
-                          
-                    
-                      </div>
-                      <hr className="or-divider my-4" />
+                <br />
+                <label> Password </label>
+                <span className="text-danger">*</span>
+                <InputGroup>
+                  <InputGroup.Text style={{ width: "100%", padding: "1px", background: "white" }}>
+                    <Field
+                      name="password"
+                      type={passwordShown ? "text" : "password"}
+                      placeholder="Enter your password"
+                      className="form-control"
+                      style={{ border: "none", background: "inherit" }}
+                    />
+                    <div>
+                      <FontAwesomeIcon
+                        icon={passwordShown ? faEye : faEyeSlash}
+                        onClick={tooglePasswordVisibility}
+                        size="1x"
+                      />
+                    </div>
+                  </InputGroup.Text>
+                </InputGroup>
+                <ErrorMessage className="text-danger" name="password" component="div" />
 
-            <label> Email </label> 
-            <span className="text-danger">*</span>
+                <br />
+                <Button type="submit" className="btn btn-primary p-1 col-12" variant="container">
+                  Login
+                </Button>
 
-    <Field
-     name="email"
-     type="text"
-     placeholder="Email Address"
-     className="form-control"
-         />
-     <ErrorMessage name="email" component="span" className="error text-danger error-message" />
-      
-          <br/>
-          <label>  password  </label>
-          <span className="text-danger">*</span>
-          <InputGroup>
-                <InputGroup.Text
-                  style={{
-                    width: "100%",
-                    padding: "1px",
-                    background:"white"
-                  }}
-                >
-                  <Field
-                    name="password"
-                    type="text"
-                    placeholder="Enter your password"
-                    className="form-control"
-                    // value={values.password}
-                    // onChange={handleChange}
-                    // onBlur={handleBlur}
+                <br />
+                <br />
+                <div className="float-end text-primary">
+                  <a className="login-button sign-up-button ms-2">Forget password ?</a>
+                </div>
+                <hr className="or-divider my-5" />
+                <div className="d-flex flex-direction-row text-center">
+                  <text className="login-button">
+                    Don't have an account?
+                    <a className="login-button sign-up-button ms-1" onClick={() => setVisible(true)}>
+                      Sign Up
+                    </a>
+                  </text>
+                </div>
+              </Form>
+            </Card>
+          </Container>
+        )}
+      </Formik>
 
-                    style={{ border: "none", background: "inherit" }}
-                  />
-                  <div>
-                  
-                    <FontAwesomeIcon  icon={passwordShown ? faEye : faEyeSlash}/>
-                    {/* onClick={tooglePasswordVisibility} */}
+      {/* Sign Up Modal */}
+      <Modal show={visible} onHide={() => setVisible(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-center">Sign Up</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+       <NavLink exact to="Studentsignup" activeClassName="main-nav-active-style"> 
 
-                  </div>
-                </InputGroup.Text>
-              </InputGroup>
-              
-              <ErrorMessage
-                className="text-danger"
-                name="password"
-                component="div"
-              />
+          {/* <Link to ='Studentsignup'> */}
+       <h4 className="signup" >Signup as Student</h4>
+       {/* </Link> */}
+       </NavLink>
+       
+       <Link to='Teachersignup'>
+       <h4 className="signup">Signup as Teacher</h4>
+       </Link>
+       {/* <Button variant="secondary" onClick={() => setShow(false)}>
+                Cancel
+              </Button> */}
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+};
 
- 
-     <br />         
-     <Button  type="submit"  className="btn btn-primary p-1 col-12" variant="container" style={{}} >
-    
-    
-                
-           login </Button>
-           
-              <br />
-              <br />
-              <div className="  float-end text-primary">
-              <a  className="login-button sign-up-button ms-2">
-                 Forget password ?
-                </a>
-            
-              </div>
-              <hr className="or-divider my-5 "  />
-                      <div className="d-flex flex-direction-row text-center">
-                        <text className="login-button ">
-                          Don't have an account?
-                          <a  className="login-button sign-up-button ms-1">
-                            Sign Up
-                          </a>
-                        </text>
-                      </div>     
-                        
-                        
- </Form>
-          </Card>
- 
-    </Container>
-       )}
-      
-  </Formik>
-  </div>
-  )
-}
 export default Login;

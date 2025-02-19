@@ -29,7 +29,7 @@ import CourseHistory from './Components/CourseHistory/CourseHistory.jsx'
 import Transcript from './Components/Studenttranscript/Transcript.jsx'
 import ApplicationFormConfirmation from './Components/TeacherApplication/Applicationform.jsx'
 import DisplayTeacherApplication from './Components/TeacherApplication/DisplayAplication.jsx'
-// import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
+import Admindashboard from './Components/Dashboard/AdminDashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
 import OnlineProfileDetails from './Components/TeacherApplication/OnlineProfile.jsx'
 import WizardForm from './Components/TeacherApplication/WizardForm.jsx'
@@ -46,14 +46,21 @@ import TestListTable from './Components/TestListTable/Index.jsx'
 import UpcomingTeacherScheduleList from './Components/UpcomingTeacherScheduleList/Index.jsx'
 import Applicationform from './Components/TeacherApplication/Applicationform.jsx'
 import Education from './Components/TeacherApplication/Education.jsx'
+import PublicFooter from'./Components/PublicLayout/PublicFooter.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
+// import Login from './Components/Login/Index.jsx'
 import App from './App.jsx'
+
 import Login from './Components/Login.jsx'
+import AdminDashboard from'./Components/Dashboard/AdminDashboard.jsx'
+// import AllCourseList from './Components/Courselist/AllCourseList.jsx'
+import AllCourseList from './Components/Courselist/AllCourseList.jsx'
+import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-  <Upcomingschedule/>
+  <App/>
   </StrictMode>,
 )
 

@@ -35,3 +35,7 @@
         width:100%;
         top: 200px;
       }
+      .signup{
+        box-shadow: 20px;
+        /* background-color:rgb(222, 225, 235); */
+      }
