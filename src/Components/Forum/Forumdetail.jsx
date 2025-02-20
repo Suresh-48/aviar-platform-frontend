@@ -10,7 +10,7 @@ import { convertFromRaw } from "react-quill";
 // import Api from "../../Api";
 import Typography from '@mui/material/Typography';
 import "../../CSS/Forum.css";
-import Loader from "../Core/Loader";
+// import Loader from "../Core/Loader";
 import { toast } from "react-toastify";
 
 const ForumSelect = ({ history }) => {

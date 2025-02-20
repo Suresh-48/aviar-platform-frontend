@@ -137,7 +137,7 @@ const Login = () => {
           <Modal.Title className="text-center">Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-       <NavLink exact to="Studentsignup" activeClassName="main-nav-active-style"> 
+       <NavLink exact to="/Studentsignup" activeClassName="main-nav-active-style"> 
 
           {/* <Link to ='Studentsignup'> */}
        <h4 className="signup" >Signup as Student</h4>

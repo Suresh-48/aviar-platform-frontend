@@ -7,35 +7,36 @@ import Studentsidebar from './Components/Core/Studentsidebar'
 import Updatestudentdetail from'./Components/Editstudentdetail/Updatestudentdetail'
 import UpcomingSchedule1 from './Components/Studentupcomingschedule/Upcomingschedule1'
 import AllCourseList from './Components/Courselist/AllCourseList'
-import PublicFooter from './Components/PublicLayout/PublicFooter'
-// import Admindashboard from'./Components/Dashboard/AdminDashboard'
-// import Dashboard from './components/Dashboard'
-// import LandingPage from './Components/LandingPage'
-// import Admin from './Components/Admin'
-// import Teacher from './Components/Teacher'
-// import Student from './Components/Student'
-// import StudentDashboard from './Components/Dashboard/Studentdashboard'
-
+// import PublicFooter from './Components/PublicLayout/PublicFooter'
+import List from'./Components/Favouritecourse/List'
+import Quize from'./Components/ListOfQuize/Quize'
+import Homework from'./Components/Homework/Homework'
+import Transcript from'./Components/Studenttranscript/Transcript'
+import ActiveCourses from './Components/ActiveEnroleCourses/ActiveCourses'
+import Forumdetail from'./Components/Forum/Forumdetail'
+import CompleteCourse from './Components/CompleteCourseList/CompleteCourse'
+import CourseHistory from './Components/CourseHistory/CourseHistory'
 const App = () => {
   return (
     <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login />} />
-          <Route path='Studentsignup' element={<Studentsignup />} />
+          <Route path='/Studentsignup' element={<Studentsignup />} />
           <Route path='Teachersignup' element={<Teachersignup />} />
           <Route path='Studentsidebar' element={<Studentsidebar />} />
           <Route path='/Updatestudentdetail' element={<Updatestudentdetail />} />
           <Route path='/Upcomingschedule1' element={<UpcomingSchedule1 />} />
           <Route path='AllCourseList' element={<AllCourseList />} />
-          {/* <Route path='Admindashboard' element={<Admindashboard />} /> */}
-            {/* <Route path='/' element={<LandingPage />} />
-            <Route path='dashBoard' element={<Dashboard />} />
-            <Route path='admin' element={<Admin />} />
-            <Route path='teacher' element={<Teacher />} />
-            <Route path='student' element={<Student />} /> */}
-            
+       <Route path='List' element={<List />} />
+        <Route path='Quize' element={<Quize />} /> 
+        <Route path='Homework' element={<Homework />} /> 
+        <Route path='Transcript ' element={<Transcript />} /> 
+        <Route path='ActiveCourses' element={<ActiveCourses />} /> 
+        <Route path='Forumdetail' element={<Forumdetail />} />
+        <Route path='CompleteCourse' element={<CompleteCourse />} />
+        <Route path='CourseHistory' element={<CourseHistory />} />
         </Routes>
-        <PublicFooter />
+      
     </BrowserRouter>
   
   )

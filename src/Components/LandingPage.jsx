@@ -3,6 +3,7 @@ import studentsImg from "./Images/studentsImg.png";
 import "../CSS/LandingPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import aviar from "./Images/aviar.png";
+import { Link } from "react-router-dom";
 import { Button, Card, Form, InputGroup,Carousel, Container, Row, Col } from "react-bootstrap";
 // import Avatar from "react-avatar";
 import {

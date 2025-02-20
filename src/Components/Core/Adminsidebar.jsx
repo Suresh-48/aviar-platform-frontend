@@ -5,7 +5,7 @@ import { Tooltip } from "@mui/material";
 // Styles
 import "../../CSS/SideBar.css";
 import aviar from "../../Images/aviar.png";
-
+import PublicFooter from "../PublicLayout/PublicFooter";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -39,7 +39,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Roles
-import { ROLES_PARENT, ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
+import { ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
 
 // Api
 // import Api from "../../Api";
@@ -277,7 +277,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
           </div>
         </div>
       </div>
-      
+      <PublicFooter/>
     </div>
   )
 };

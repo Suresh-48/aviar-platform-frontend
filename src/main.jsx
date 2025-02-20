@@ -47,6 +47,7 @@ import UpcomingTeacherScheduleList from './Components/UpcomingTeacherScheduleLis
 import Applicationform from './Components/TeacherApplication/Applicationform.jsx'
 import Education from './Components/TeacherApplication/Education.jsx'
 import PublicFooter from'./Components/PublicLayout/PublicFooter.jsx'
+import LandingPage from'./Components/LandingPage.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
