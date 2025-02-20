@@ -51,7 +51,7 @@ import courseImg2 from "./Images/courseImg2.png";
 import curveImg from "./Images/curveImg.png";
 import emptyGallery from "./Images/emptyGallery.jpg";
 import loginArrow from "./Images/loginArrow.png";
-import { useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 // import { convertFromRaw } from "draft-js";
 // import { stateToHTML } from "draft-js-export-html";
 // import overlayImg from "./Images/overlayImg.png";
@@ -72,7 +72,7 @@ import {
 // import USA from "../../container/PublicLayout/USA.png";
 
 function LandingPage(props) {
-  const navigate =useNavigate()
+  
   const loginClosed = props?.location?.state?.sideClose;
   const [allCourseList, setAllCourseList] = useState([]);
   const [categoryDetails, setCategoryDetails] = useState([]);
@@ -81,7 +81,7 @@ function LandingPage(props) {
   // const cards = Array.from({ length: 20 }, (_, i) => i + 1);
   // const history = useHistory();
 
-  
+  const navigate = useNavigate ()
 
   const ChangeArrow = ({ type, onClick, isEdge }) => (
     <div onClick={onClick} className="arrow-div">
@@ -161,7 +161,7 @@ function LandingPage(props) {
         </div>
         <div className="aviar-img-div">
           <img src={aviar} alt="" className="aviar-logo" />
-          {role === "admin" || role === "teacher" || role === "parent" || role === "student" ? null : (
+          {role === "admin" || role === "teacher" || role === "student" ? null : (
             <div className="login-arrow-div" onClick={() =>navigate("/login")}>
               <img src={loginArrow} className="login-arrow" />
               <p className="login-pTag mb-0 mx-1">Login</p>
