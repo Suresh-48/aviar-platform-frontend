@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 // import Login from './Components/Login.jsx'
 import LandingPage from './Components/LandingPage.jsx'
+import App from './App.jsx'
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
 // import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
@@ -24,7 +25,7 @@ import LandingPage from './Components/LandingPage.jsx'
 // import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-    <LandingPage/>
+    <App/>
   </StrictMode>,
 )
 

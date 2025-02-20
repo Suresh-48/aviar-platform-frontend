@@ -13,7 +13,7 @@ const routes = [
   //   component: Home,
   // },
     {
-      path: "/aviar",
+      path: "/",
       exact: true,
       name: "LandingPage",
       component: LandingPage,
@@ -36,7 +36,15 @@ const routes = [
         name: "AdminLogin",
         component: AdminLogin,
       },
-   
+   {
+    path:"admindashboard",
+    exact:true,
+    name:"Admindashboard",
+    component:Admindashboard,
+   },
+   {
+    path:"/"
+   }
  
 ]
 export default routes;

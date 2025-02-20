@@ -1,4 +1,4 @@
-export const ROLES_PARENT = "parent";
+
 
 export const ROLES_STUDENT = "student";
 

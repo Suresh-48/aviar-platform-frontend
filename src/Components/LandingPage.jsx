@@ -42,7 +42,7 @@ import courseImg2 from "./Images/courseImg2.png";
 // import user1 from "./Images/user1.png";
 // import Img4 from "./Images/Img4.png";
 // import DQ from "./Images/DQ.png";
-// import { useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import ChatBotConversation from "../ChatBotConversation/ChatBotConversation";
 // import Aimg1 from "./Images/Aimg1.png";
 // import Aimg2 from "./Images/Aimg2.png";
@@ -51,11 +51,10 @@ import courseImg2 from "./Images/courseImg2.png";
 import curveImg from "./Images/curveImg.png";
 import emptyGallery from "./Images/emptyGallery.jpg";
 import loginArrow from "./Images/loginArrow.png";
-import { useNavigate } from "react-router-dom"
 // import { convertFromRaw } from "draft-js";
 // import { stateToHTML } from "draft-js-export-html";
 // import overlayImg from "./Images/overlayImg.png";
-import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
+import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelope,
   faLocationDot,
@@ -63,7 +62,6 @@ import {
   faMailReply,
   faPaperPlane,
   faPhone,
- 
   faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
 // import Aviar from "../../components/core/Aviar.png";
@@ -72,17 +70,13 @@ import {
 // import USA from "../../container/PublicLayout/USA.png";
 
 function LandingPage(props) {
-  
+
   const loginClosed = props?.location?.state?.sideClose;
   const [allCourseList, setAllCourseList] = useState([]);
   const [categoryDetails, setCategoryDetails] = useState([]);
   const [teacher, setTeacher] = useState([]);
-
   // const cards = Array.from({ length: 20 }, (_, i) => i + 1);
-  // const history = useHistory();
-
-  const navigate = useNavigate ()
-
+  const navigate = useNavigate();
   const ChangeArrow = ({ type, onClick, isEdge }) => (
     <div onClick={onClick} className="arrow-div">
       {type === consts.PREV ? (
@@ -161,8 +155,8 @@ function LandingPage(props) {
         </div>
         <div className="aviar-img-div">
           <img src={aviar} alt="" className="aviar-logo" />
-          {role === "admin" || role === "teacher" || role === "student" ? null : (
-            <div className="login-arrow-div" onClick={() =>navigate("/login")}>
+          {role === "admin" || role === "teacher" || role === "parent" || role === "student" ? null : (
+            <div className="login-arrow-div" onClick={() => navigate("/login")}>
               <img src={loginArrow} className="login-arrow" />
               <p className="login-pTag mb-0 mx-1">Login</p>
             </div>
@@ -170,16 +164,16 @@ function LandingPage(props) {
         </div>
         <div className="aviar-img-div-two">
           <div className="content-link">
-            <p className="links mx-4" onClick={() => navigate("/course/search")}>
+            <p className="links mx-4" onClick={() => Link("/course/search")}>
               Courses
             </p>
-            <p className="links mx-4" onClick={() => navigate("/trainers")}>
+            <p className="links mx-4" onClick={() => Link("/trainers")}>
               Trainers
             </p>
-            <p className="links mx-4" onClick={() => navigate("/about-us")}>
+            <p className="links mx-4" onClick={() => Link("/about-us")}>
               About Us
             </p>
-            <p className="links mx-4" onClick={() => navigate("/help")}>
+            <p className="links mx-4" onClick={() => Link("/help")}>
               Help
             </p>
           </div>
@@ -265,7 +259,7 @@ function LandingPage(props) {
               <h3 className="slider-category ">Categories</h3>
               <Button className="btn-color1" 
            
-               onClick={() => navigate("/login")}>
+               onClick={() => Link("/login")}>
                 View All
               </Button>
               <Carousel>
@@ -286,9 +280,11 @@ function LandingPage(props) {
           </div>
         </Carousel.Item>  
         <Carousel.Item>
+              
+            
               <div>
              <img src={emptyGallery} alt="first slide" className="emptyGallery1"
-
+         
              />
              </div>
              </Carousel.Item>
@@ -298,21 +294,35 @@ function LandingPage(props) {
            
             </div>
             <br/>
+          
+       
+       
+              
+
+                
+                
+             
             </div>
+   
+    
         <div 
         // className="upcomings-div-main"
         >
           <div 
           className="upcomings">
+          
+          
               <h3 
               className="slider-category-upcoming"
               >Recommended Courses for you</h3>
-              <Button className="btn-course" onClick={() => navigate("/login")}>
+              <Button className="btn-course" onClick={() => Link("/login")}>
                 View All
               </Button>
               {/* <br/> */}
               <Carousel>
-              <Carousel.Item> 
+              <Carousel.Item>
+              
+            
            <div>
           <img src={emptyGallery} alt="first slide" 
           style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
@@ -327,6 +337,8 @@ function LandingPage(props) {
           </div>
         </Carousel.Item>  
         <Carousel.Item>
+              
+            
               <div>
              <img src={emptyGallery} alt="first slide" 
              style={{width:"16%",  display: "flex", margin:"auto"}}
@@ -354,6 +366,11 @@ function LandingPage(props) {
                 </Col>
               </Row>
               */}
+              
+            
+            
+            
+            
             </div>
           </div>
    <br/>
@@ -398,7 +415,7 @@ function LandingPage(props) {
                 </div>
               </div>
               <div className="btn-back-image">
-                <Button className="btn-back-image-main Aviar-save-btn" onClick={() => navigate("/teacher/signup")}>
+                <Button className="btn-back-image-main Aviar-save-btn" onClick={() => Link("/teacher/signup")}>
                   Teacher Signup
                 </Button>
               </div>
@@ -414,7 +431,7 @@ function LandingPage(props) {
       <Container className="upcoming-course">
         <div className="upcoming-div-main" >
               <h3 className="slider-category-upcoming ">Upcoming Courses</h3>
-              <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => navigate("/login")}>
+              <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => Link("/login")}>
                 View All
               </Button>
               <br/>
@@ -442,7 +459,7 @@ function LandingPage(props) {
               <div className="profile-div-main">
           <div className="profile-div-sub">
             <p className="slider-trainer-upcoming">Top Trainers</p>
-            <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => navigate("/login")}>
+            <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => Link("/login")}>
                 View All
               </Button>
             <Carousel >
@@ -505,7 +522,7 @@ function LandingPage(props) {
                         <div>
                      
                           <hr className="hr-line-user my-2" />
-                          {/* <p className="Aviar-user-profession"> Aviar User4</p> */}
+                          <p className="Aviar-user-profession"> Aviar User4</p>
                         </div>
                       </div>
                     </div>
@@ -551,7 +568,7 @@ function LandingPage(props) {
           <Row>
             <Col className=" mb-3">
               <div>
-                <img src={aviar} width="70" height="30" className="d-inline-block align-top mt-3" alt="logo" />
+                <img src={aviar} width="16" height="30" className="d-inline-block align-top mt-3" alt="logo" />
               </div>
               <div
                 className="d-flex flex-direction-row mt-2"
@@ -650,7 +667,7 @@ function LandingPage(props) {
           </Row>
           <hr className="my-2 mb-2" />
           <div className="text-center copy-rights ">
-            &copy; {new Date().getFullYear()}  <br />
+            &copy; {new Date().getFullYear()} Kharphi Team <br />
             Designed by{" "}
             <a
               onClick={() => {

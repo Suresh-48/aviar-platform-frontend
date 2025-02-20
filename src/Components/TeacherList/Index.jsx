@@ -11,13 +11,6 @@ import {
 } from "react-bootstrap";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-<<<<<<< HEAD
-// import { ThemeProvider } from "@material-ui/styles";
-// import { createTheme } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-// import { convertFromRaw } from "draft-js";
-// import { stateToHTML } from "draft-js-export-html";
-=======
 import { Link } from "react-router-dom";
 // import { convertFromRaw } from "quill-js";
 // import Quill from "quill-js";
@@ -26,7 +19,6 @@ import { Link } from "react-router-dom";
 import "react-quill"
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
->>>>>>> feature/login-page-UI
 import { Tab, Tabs } from "@material-ui/core";
 // import { useHistory } from "react-router-dom";
 import Switch from "@mui/material/Switch";
@@ -48,19 +40,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarWeek, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 //css
-<<<<<<< HEAD
-import "../../CSS/TeacherList.css";
-import LabelComponent from "../Core/Label.jsx";
-import { TokenRounded } from "@mui/icons-material";
-import "react-quill"
-import "react-quill/dist/quill.snow.css";
-import "react-quill/dist/quill.bubble.css";
-=======
 import "../CSS/TeacherList.css";
 
 // import LabelComponent from "../core/Label";
 import { TokenRounded } from "@mui/icons-material";
->>>>>>> feature/login-page-UI
 
 function TeacherList(props) {
   const [data, setData] = useState([]);
@@ -85,25 +68,6 @@ function TeacherList(props) {
 
 //   const history = useHistory();
 
-<<<<<<< HEAD
-//   const TeacherPublicActive = (status, teacherId) => {
-//     Api.patch("api/v1/teacher/update/public", {
-//       teacherId: teacherId,
-//       isPublic: status,
-//       userId: userId,
-//     })
-//       .then((res) => {
-//         getTeacherApprovedListData();
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
-=======
   const TeacherPublicActive = (status, teacherId) => {
     Api.patch("api/v1/teacher/update/public", {
       teacherId: teacherId,
@@ -121,7 +85,6 @@ function TeacherList(props) {
         }
       });
   };
->>>>>>> feature/login-page-UI
 
   const handleClose = () => setShow(false);
 
@@ -130,27 +93,6 @@ function TeacherList(props) {
     setTeacherId(values);
   };
 
-<<<<<<< HEAD
-//   const TeacherSessionAmount = () => {
-//     Api.patch("api/v1/teacher/teacher/session/amount", {
-//       teacherId: teacherId,
-//       teacherSessionAmount: payment,
-//       userId: userId,
-//     })
-//       .then((res) => {
-//         setShow(false);
-//         getTeacherApprovedListData();
-//         toast.success("Session Amount Updated");
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
-=======
   const TeacherSessionAmount = () => {
     Api.patch("api/v1/teacher/teacher/session/amount", {
       teacherId: teacherId,
@@ -170,7 +112,6 @@ function TeacherList(props) {
         }
       });
   };
->>>>>>> feature/login-page-UI
 
   const tableTheme = createTheme({
     overrides: {
@@ -330,82 +271,14 @@ function TeacherList(props) {
 //   };
 
   //get approved teacher list
-<<<<<<< HEAD
-//   const getTeacherApprovedListData = () => {
-//     Api.get("api/v1/teacher/list").then((response) => {
-//       const approvedData = response?.data?.teacherList;
-//       setPayment(approvedData[0]?.teacherSessionAmount);
-//       setApprovedData(approvedData);
-//       setIsLoading(false);
-//     });
-//   };
-
-  useEffect(() => {
-    // getTeacherListData();
-    // getTeacherApprovedListData();
-  }, []);
-
-  //change publish and draft course type
-//   const changeTeacherType = (status) => {
-//     Api.post("api/v1/teacher/status/", {
-//       teacherId: colId,
-//       status: status,
-//       userId: userId,
-//     })
-//       .then((response) => {
-//         if (response.status === 201) {
-//           getTeacherListData();
-//           getTeacherApprovedListData();
-//         } else {
-//           toast.error(response.data.message);
-//         }
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-
-//     if (status === "Pending") {
-//       const status = "Review";
-//       Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-//         status: status,
-//         userId: userId,
-//       })
-//         .then((response) => {})
-//         .catch((error) => {
-//           const errorStatus = error?.response?.status;
-//           if (errorStatus === 401) {
-//             logout();
-//             toast.error("Session Timeout");
-//           }
-//         });
-//     } else {
-//       Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-//         status: status,
-//         userId: userId,
-//       })
-//         .then((response) => {})
-//         .catch((error) => {
-//           const errorStatus = error?.response?.status;
-//           if (errorStatus === 401) {
-//             logout();
-//             toast.error("Session Timeout");
-//           }
-//         });
-//     }
-//   };
-=======
-  const getTeacherApprovedListData = () => {
-    Api.get("api/v1/teacher/list").then((response) => {
-      const approvedData = response?.data?.teacherList;
-      setPayment(approvedData[0]?.teacherSessionAmount);
-      setApprovedData(approvedData);
-      setIsLoading(false);
-    });
-  };
+  // const getTeacherApprovedListData = () => {
+  //   Api.get("api/v1/teacher/list").then((response) => {
+  //     const approvedData = response?.data?.teacherList;
+  //     setPayment(approvedData[0]?.teacherSessionAmount);
+  //     setApprovedData(approvedData);
+  //     setIsLoading(false);
+  //   });
+  // };
 
 //   useEffect(() => {
 //     getTeacherListData();
@@ -413,73 +286,66 @@ function TeacherList(props) {
 //   }, []);
 
   //change publish and draft course type
-  const changeTeacherType = (status) => {
-    Api.post("api/v1/teacher/status/", {
-      teacherId: colId,
-      status: status,
-      userId: userId,
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          getTeacherListData();
-          getTeacherApprovedListData();
-        } else {
-          toast.error(response.data.message);
-        }
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-      });
+  // const changeTeacherType = (status) => {
+  //   Api.post("api/v1/teacher/status/", {
+  //     teacherId: colId,
+  //     status: status,
+  //     userId: userId,
+  //   })
+  //     .then((response) => {
+  //       if (response.status === 201) {
+  //         getTeacherListData();
+  //         getTeacherApprovedListData();
+  //       } else {
+  //         toast.error(response.data.message);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       const errorStatus = error?.response?.status;
+  //       if (errorStatus === 401) {
+  //         logout();
+  //         toast.error("Session Timeout");
+  //       }
+  //     });
 
-    if (status === "Pending") {
-      const status = "Review";
-      Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-        status: status,
-        userId: userId,
-      })
-        .then((response) => {})
-        .catch((error) => {
-          const errorStatus = error?.response?.status;
-          if (errorStatus === 401) {
-            logout();
-            toast.error("Session Timeout");
-          }
-        });
-    } else {
-      Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-        status: status,
-        userId: userId,
-      })
-        .then((response) => {})
-        .catch((error) => {
-          const errorStatus = error?.response?.status;
-          if (errorStatus === 401) {
-            logout();
-            toast.error("Session Timeout");
-          }
-        });
-    }
-  };
->>>>>>> feature/login-page-UI
+  //   if (status === "Pending") {
+  //     const status = "Review";
+  //     Api.patch(`api/v1/teacherApplication/status/${colId}`, {
+  //       status: status,
+  //       userId: userId,
+  //     })
+  //       .then((response) => {})
+  //       .catch((error) => {
+  //         const errorStatus = error?.response?.status;
+  //         if (errorStatus === 401) {
+  //           logout();
+  //           toast.error("Session Timeout");
+  //         }
+  //       });
+  //   } else {
+  //     Api.patch(`api/v1/teacherApplication/status/${colId}`, {
+  //       status: status,
+  //       userId: userId,
+  //     })
+  //       .then((response) => {})
+  //       .catch((error) => {
+  //         const errorStatus = error?.response?.status;
+  //         if (errorStatus === 401) {
+  //           logout();
+  //           toast.error("Session Timeout");
+  //         }
+  //       });
+  //   }
+  // };
   const signin = Yup.object().shape({
     pay: Yup.string().required("Payment Is Required"),
   });
 
   return (
     <div>
-<<<<<<< HEAD
-      {/* {isLoading ? (
-        <Loader />
-      ) : ( */}
-=======
       {/* {isLoading ? ( */}
         {/* <Loader /> */}
       {/* ) : ( */}
->>>>>>> feature/login-page-UI
         <Container>
           <Tabs
             value={value}
@@ -825,11 +691,7 @@ function TeacherList(props) {
             </Modal.Body>
           </Modal>
         </Container>
-<<<<<<< HEAD
-      {/* )} */}
-=======
     {/* //   )} */}
->>>>>>> feature/login-page-UI
     </div>
   );
 }

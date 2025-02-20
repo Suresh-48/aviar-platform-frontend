@@ -17,14 +17,14 @@ import {
 import aviar from "../../Images/aviar.png";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Style
 import "../CSS/HeaderNavbar.css";
 
 // Roles
 import {
-  ROLES_PARENT,
+
   ROLES_STUDENT,
   ROLES_ADMIN,
   ROLES_TEACHER,
@@ -50,9 +50,9 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
   const [checkPassword, setCheckPassword] = useState(false);
-//   const history = useHistory();
+  const navigate = useNavigate();
 //   const pathName = history.location.pathname;
-  const isParent = role === ROLES_PARENT;
+ 
   const isStudent = role === ROLES_STUDENT;
   const isAdmin = role === ROLES_ADMIN;
   const isTeacher = role === ROLES_TEACHER;
@@ -138,7 +138,7 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
           {/* ) : null} */}
 
           <NavbarToggler onClick={toggle} />
-          {!isParent && !isStudent && !isTeacher && !isAdmin && (
+          {!isStudent && !isTeacher && !isAdmin && (
             <Collapse
               isOpen={isOpen}
               navbar
@@ -162,7 +162,7 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
               </Nav>
             </Collapse>
           )}
-          {isParent || isStudent || isTeacher ? (
+          {isStudent || isTeacher ? (
             <Collapse
               isOpen={isOpen}
               navbar
@@ -189,37 +189,7 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
                       />
                     )}
                   </DropdownToggle>
-                  <DropdownMenu right className="dropdown-content me-3">
-                    <DropdownItem className="avatar-list">
-                      <Link
-                        to={{
-                          pathname: isParent
-                            ? "/edit-parent-details"
-                            : isStudent
-                            ? `/edit/student/details/${studentId}`
-                            : isTeacher
-                            ? `/teacher/edit/${teacherId}`
-                            : "/admin/details",
-                          userId: userId,
-                        }}
-                        onClick={() => setshow(!show)}
-                        className="navigate-profile-link"
-                      >
-                        Edit Profile
-                      </Link>
-                    </DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem className="avatar-list">
-                      <Link
-                        to="#"
-                        className="navigate-profile-link"
-                        onClick={logout}
-                        style={{ cursor: "pointer", zIndex: 0 }}
-                      >
-                        Logout
-                      </Link>
-                    </DropdownItem>
-                  </DropdownMenu>
+                
                 </UncontrolledDropdown>
               </Nav>
             </Collapse>

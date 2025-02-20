@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@material-ui/core";
 // Styles
 import "../../CSS/SideBar.css";
@@ -59,8 +59,8 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
     const [teacherId, setTeacherId] = useState("");
     const [image, setImage] = useState("");
     const [status, setstatus] = useState("");
-    // const history = useHistory();
-    const pathName = history.location.pathname;
+    const navigate = useNavigate();
+    // const pathName = history.location.pathname;
     const isParent = role === ROLES_PARENT;
     const isStudent = role === ROLES_STUDENT;
     const isAdmin = role === ROLES_ADMIN;

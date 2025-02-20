@@ -156,12 +156,8 @@ export default function DefaultFooter(props) {
             </div>
             <div className="mt-1">
               <a href="https://www.linkedin.com/company/aviar-technology-services/" className="footer-font-size d-flex flex-direction-row">
-<<<<<<< HEAD
                 <FontAwesomeIcon className="me-1 mt-1" icon={faLinkedinIn} />
                 Linkedin
-=======
-              <FontAwesomeIcon icon={faLinkedin} />                Linkedin
->>>>>>> feature/login-page-UI
               </a>
             </div>
           </div>

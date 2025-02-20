@@ -3,20 +3,12 @@ import Multiselect from "multiselect-react-dropdown";
 import { Container, Row, Col, Button, Spinner, FormControl, Form, InputGroup, Modal } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 import { Slider } from "@mui/material";
-<<<<<<< HEAD
-import Label from "../../components/core/Label";
-=======
 import Label from "../../Components/Core/Label";
->>>>>>> feature/login-page-UI
 import "../../css/AllCourseList.css";
 // import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
-<<<<<<< HEAD
-import Loader from "../Core/Loader";
-=======
-import Loader from "../core/Loader";
->>>>>>> feature/login-page-UI
+// import Loader from "../core/Loader";
 // import CourseCard from "../../components/core/CourseCard";
 import { toast } from "react-toastify";
 
@@ -338,8 +330,4 @@ const AllCourseList = (props) => {
   );
 };
 
-<<<<<<< HEAD
 export default AllCourseList;
-=======
-export default AllCourseList;
->>>>>>> feature/login-page-UI
