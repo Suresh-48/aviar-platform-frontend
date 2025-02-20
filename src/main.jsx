@@ -1,7 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-// import LandingPage from './Components/LandingPage.jsx'
+// import Login from './Components/Login.jsx'
+import LandingPage from './Components/LandingPage.jsx'
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
 // import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
@@ -15,36 +16,15 @@ import './index.css'
 // import TableIcons from './Components/Core/TableIcons.jsx'
 // import AllCourseList from './Components/Courselist/AllCourseList.jsx'
 // import AdminStudentList from './Components/AdminStudentList/Index.jsx'
-// import TeacherList from './Components/TeacherList/Index.jsx'
-// import AdminForum from './Components/Forum/AdminForum.jsx'
-// import AdminPaymentList from './Components/AdminPaymentList/Index.jsx'
-// import Teachersidebar from './Components/Core/Teachersidebar.jsx'
-// import Adminsidebar from './Components/Core/Adminsidebar.jsx'
-// import ApplicationFormConfirmation from './Components/TeacherApplication/ApplicationFormConfirmation.jsx'
-// import DefaultFooter from './Container/DefaultLayout/DefaultFooter.jsx'
-// import ChatBotConversation from './Components/ChatBotConversation/ChatBotConversation.jsx'
-// import ChatIndex from './Components/Chat/ChatIndex.jsx'
-// import ChangePassword from './Components/ChangePassword/Index.jsx'
-// import CalenderView from './Components/CalenderView/Index.jsx'
-// import AboutUs from './Components/AboutUs/Index.jsx'
-// import AdminHomework from './Components/AdminQuizandHome/AdminHomeWork.jsx'
-// import AdminQuiz from './Components/AdminQuizandHome/AdminQuiz.jsx'
-// import AdminEnrollCourseList from './Components/ActiveEnrollCourseList/Index.jsx'
-// import HeaderNavbar from './Components/Core/HeadNavBar.jsx'
-// import { FormContext } from './Components/TeacherApplication/FormContext.jsx'
-import App from './App';
-import Admindashboard from './Components/Dashboard/Admindashboard';
-
-
-
-// import DashboardTiles from './Components/Core/D8ashboardTiles.jsx'
+// import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
+// import DashboardTiles from './Components/core/DashboardTiles.jsx'
 
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
-
+// import Login from './Components/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode> 
-  <App/>
+    <LandingPage/>
   </StrictMode>,
 )
 
