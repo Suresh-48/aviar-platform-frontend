@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Table, Button, Modal, Col,Card } from "react-bootstrap";
 import './css/Studentdashboard.css'
+import { useNavigate } from "react-router-dom";
 // import { Link, useHistory } from "react-router-dom";
 // import moment from "moment";
 
@@ -35,7 +36,7 @@ function StudentDashboard() {
   function closeShow() {
     setshowAlert(false);
   }
-
+const navigate=useNavigate
   // Log out
   const logout = () => {
     setTimeout(() => {
@@ -212,12 +213,12 @@ function StudentDashboard() {
               <Table striped bordered hover className="student-table" responsive>
                 <thead>
                   <tr className="viewRow">
-                    <th>S.No</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Course Name</th>
-                    <th>Lesson Name</th>
+                    <th className="blue-header"style={{backgroundColor:"darkBlue",color:"white"}}>S.No</th>
+                    <th className="blue-header"style={{backgroundColor:"darkBlue",color:"white"}}>Date</th>
+                    <th className="blue-header"style={{backgroundColor:"darkBlue",color:"white"}}>Start Time</th>
+                    <th className="blue-header"style={{backgroundColor:"darkBlue",color:"white"}}>End Time</th>
+                    <th className="blue-header"style={{backgroundColor:"darkBlue",color:"white"}}>Course Name</th>
+                    <th> className="blue-header"style={{backgroundColor:"darkBlue",color:"white"}}Lesson Name</th>
                     <th>Duration</th>
                     <th>Actions</th>
                   </tr>

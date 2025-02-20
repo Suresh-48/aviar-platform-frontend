@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Container, Modal, Row, Col, Form } from "react-bootstrap";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
+<<<<<<< HEAD
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 // import { toast } from "react-toastify";
 import moment from "moment";
@@ -17,6 +18,21 @@ import { Tab, Tabs } from   "@mui/material";
 // import Loader from "../core/Loader";
 import tableIcons  from "../Core/TableIcons";
 import { ROLES_TEACHER } from "../../Constants/Role";
+=======
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
+import moment from "moment";
+import Select from "react-select";
+import Avatar from "@material-ui/core/Avatar";
+// import Button from "@restart/ui/esm/Button";
+import { Tab, Tabs } from "@material-ui/core";
+// import { useHistory } from "react-router-dom";
+
+// Component
+import Loader from "../core/Loader";
+import  tableIcons  from "../Core/TableIcons";
+// import { ROLES_TEACHER } from "../../constants/roles";
+>>>>>>> feature/login-page-UI
 
 // Api
 // import Api from "../../Api";
@@ -27,7 +43,11 @@ import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
 import "../CSS/UpcomingSchedule.css";
+<<<<<<< HEAD
 // import { setDay } from "date-fns";
+=======
+import { setDay } from "date-fns";
+>>>>>>> feature/login-page-UI
 import { customStyles } from "../Core/Selector";
 
 function UpcomingTeacherScheduleList(props) {
@@ -155,12 +175,17 @@ function UpcomingTeacherScheduleList(props) {
     setshow(false);
   };
 
+<<<<<<< HEAD
   const isTeacher = role === ROLES_TEACHER;
+=======
+//   const isTeacher = role === ROLES_TEACHER;
+>>>>>>> feature/login-page-UI
 
   function closeShow() {
     setshowAlert(false);
   }
 
+<<<<<<< HEAD
   useEffect(() => {
     // const role = localStorage.getItem("role");
     // setrole(role);
@@ -283,6 +308,130 @@ function UpcomingTeacherScheduleList(props) {
 //       setisLoading(false);
 //     });
 //   };
+=======
+//   useEffect(() => {
+//     const role = localStorage.getItem("role");
+//     setrole(role);
+//     // TeacherUpcomingScheduleData();
+//     // TeacherCompletedScheduleData();
+//     // AdminTeacherUpcomingScheduleData();
+//     const currentDate = moment()
+//       .tz("America/Chicago")
+//       .format();
+//     const date = moment(currentDate)
+//       .tz("America/Chicago")
+//     //   .format("ll");
+//     var lessTime = moment(currentDate)
+//       .tz("America/Chicago")
+//       .format("HH:mm");
+//     setCurrentDate(date);
+//     setLessTime(lessTime);
+//     getApprovedTeacher();
+//   }, []);
+
+  //logout
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
+
+  // Get Teacher Upcoming Schedule
+  const TeacherUpcomingScheduleData = () => {
+    const teacherId = localStorage.getItem("teacherId");
+    setTeacherId(teacherId);
+    Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
+      params: {
+        teacherId: teacherId,
+      },
+    }).then((response) => {
+      const teacherUpcomingData = response?.data?.upcomingList;
+      setTeacherScheduleCalendarData(response?.data?.upcomingCalendarList);
+
+      teacherUpcomingData?.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setTeacherUpcomingData(teacherUpcomingData);
+      const orginalTime = response?.data?.upcomingList;
+      orginalTime.forEach(function(list) {
+        const time = moment(list?.courseScheduleId?.startTime, "LT")
+          .subtract(15, "minutes")
+          .format("HH:mm");
+        list.courseScheduleId["zoomTime"] = time;
+      });
+      setisLoading(false);
+    });
+  };
+
+  // Get Completed Upcoming Schedule
+  const TeacherCompletedScheduleData = () => {
+    const teacherId = localStorage.getItem("teacherId");
+    Api.get("/api/v1/teacherUpcomingSchedule/completed", {
+      params: {
+        teacherId: teacherId,
+      },
+    }).then((response) => {
+      const teacherCompletedData = response?.data?.completedList;
+      teacherCompletedData.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setTeacherCompletedData(teacherCompletedData);
+      const orginalTime = response?.data?.completedList;
+      orginalTime.forEach(function(list) {
+        const time = moment(list?.courseScheduleId?.startTime, "LT")
+          .subtract(15, "minutes")
+          .format("HH:mm");
+        list.courseScheduleId["zoomTime"] = time;
+      });
+      setisLoading(false);
+    });
+  };
+
+  // Change Teacher
+  const submitForm = () => {
+    setisSubmit(false);
+    Api.post("api/v1/teacherUpcomingSchedule/update/teacher", {
+      teacherId: teacherId,
+      teacherScheduleId: modelValue.id,
+    })
+      .then((res) => {
+        setTeacherName("");
+        setshow(false);
+        AdminTeacherUpcomingScheduleData();
+        toast.success("Updated");
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+        }
+      });
+  };
+
+  // Get Teacher Upcoming Schedule for Admin
+  const AdminTeacherUpcomingScheduleData = () => {
+    Api.get("/api/v1/teacherUpcomingSchedule").then((response) => {
+      const dataValues = response.data.upcomingList;
+      setTeacherScheduleCalendar(response.data.upcomingCalendarList);
+      dataValues.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setData(dataValues);
+      setisLoading(false);
+    });
+  };
+>>>>>>> feature/login-page-UI
 
 //   const getApprovedTeacher = () => {
 //     Api.get(`api/v1/teacher/list`).then((res) => {
@@ -291,6 +440,7 @@ function UpcomingTeacherScheduleList(props) {
 //     });
 //   };
 
+<<<<<<< HEAD
 //   const zoomTiming = (e) => {
 //     const teacherId = localStorage.getItem("teacherId");
 //     const newDate = new Date();
@@ -311,6 +461,28 @@ function UpcomingTeacherScheduleList(props) {
 //       setZoomStartTimeGet(ZoomstartTime);
 //     });
 //   };
+=======
+  const zoomTiming = (e) => {
+    const teacherId = localStorage.getItem("teacherId");
+    const newDate = new Date();
+    const sessionTiming = newDate.toLocaleTimeString();
+    const date = newDate.toLocaleDateString();
+
+    Api.patch("/api/v1/teacherUpcomingSchedule/zoom/timing", {
+      teacherUpcomingScheduleId: teacherCourseScheduleId,
+      zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
+      zoomEndTime: e === "close" ? sessionTiming : "",
+      teacherId: teacherId,
+      date: date,
+      courseName: courseScheduleId.courseId.aliasName,
+      lessonName: courseScheduleId.courseLessonId.lessonName,
+      teacherPayableAmount: courseScheduleId.teacherId.teacherSessionAmount,
+    }).then((res) => {
+      const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
+      setZoomStartTimeGet(ZoomstartTime);
+    });
+  };
+>>>>>>> feature/login-page-UI
 
   const tableTheme = createTheme({
     overrides: {
@@ -457,7 +629,11 @@ function UpcomingTeacherScheduleList(props) {
                           <div className="align-items-center zoom-content">
                             <h4 className="mt-2">Are you sure to start the session...!</h4>
                             <div className="d-flex mt-4 ">
+<<<<<<< HEAD
                               <Button
+=======
+                              <button
+>>>>>>> feature/login-page-UI
                                 variant="contained"
                                 className="zoom-start-btn mx-2 filter-btn"
                                 rel="noopener noreferrer"
@@ -470,10 +646,17 @@ function UpcomingTeacherScheduleList(props) {
                                 }}
                               >
                                 YES
+<<<<<<< HEAD
                               </Button>
                               <Button className="zoom-cancel-btn mx-2 Kharpi-cancel-btn" onClick={() => handleModal()}>
                                 NO
                               </Button>
+=======
+                              </button>
+                              <button className="zoom-cancel-btn mx-2 Kharpi-cancel-btn" onClick={() => handleModal()}>
+                                NO
+                              </button>
+>>>>>>> feature/login-page-UI
                             </div>
                           </div>
                         </Modal.Body>
@@ -483,7 +666,11 @@ function UpcomingTeacherScheduleList(props) {
                         <Modal.Body id="contained-modal-title-vcenter" className="zoom-modal-popup pt-0">
                           <div className="align-items-center zoom-content">
                             <h4 className="mt-2">Session has ended...!</h4>
+<<<<<<< HEAD
                             <Button
+=======
+                            <button
+>>>>>>> feature/login-page-UI
                               variant="contained"
                               className="zoom-start-btn mx-2 mt-4 Kharpi-save-btn"
                               onClick={() => {
@@ -492,7 +679,11 @@ function UpcomingTeacherScheduleList(props) {
                               }}
                             >
                               OK
+<<<<<<< HEAD
                             </Button>
+=======
+                            </button>
+>>>>>>> feature/login-page-UI
                           </div>
                         </Modal.Body>
                       </Modal>
@@ -513,9 +704,15 @@ function UpcomingTeacherScheduleList(props) {
                             </div>
                             <Row>
                               <Col>
+<<<<<<< HEAD
                                 <Button className="delete-cancel" onClick={() => closeShow()}>
                                   OK
                                 </Button>
+=======
+                                <button className="delete-cancel" onClick={() => closeShow()}>
+                                  OK
+                                </button>
+>>>>>>> feature/login-page-UI
                               </Col>
                             </Row>
                           </div>
@@ -556,7 +753,11 @@ function UpcomingTeacherScheduleList(props) {
                   </div>
                 )}
               </div>
+<<<<<<< HEAD
             {/* ) : ( */}
+=======
+            
+>>>>>>> feature/login-page-UI
               <div>
                 <div className="py-3">
                   <h5>Teachers Upcoming Lessons</h5>
@@ -625,7 +826,11 @@ function UpcomingTeacherScheduleList(props) {
                                       value: list.id,
                                       label: (
                                         <div>
+<<<<<<< HEAD
                                           {/* {list.imageUrl ? ( */}
+=======
+                                          {list.imageUrl ? (
+>>>>>>> feature/login-page-UI
                                             <div className="d-flex justify-content-start align-items-center">
                                               <Avatar src={list.imageUrl} alr="" round={true} />
                                               <div className="dropdown-names">
@@ -637,7 +842,11 @@ function UpcomingTeacherScheduleList(props) {
                                                   " "}`}
                                               </div>
                                             </div>
+<<<<<<< HEAD
                                           {/* ) : ( */}
+=======
+                                          ) : (
+>>>>>>> feature/login-page-UI
                                             <div className="d-flex justify-content-start align-items-center">
                                               <Avatar round size="38" className="d-flex justify-content-center">
                                                 <p className="dropdown-option mb-0">
@@ -656,7 +865,11 @@ function UpcomingTeacherScheduleList(props) {
                                                   " "}`}
                                               </div>
                                             </div>
+<<<<<<< HEAD
                                           {/* )} */}
+=======
+                                          )}
+>>>>>>> feature/login-page-UI
                                         </div>
                                       ),
                                       name: ` ${list.firstName} ${list.middleName} ${list.lastName}`,
@@ -668,25 +881,43 @@ function UpcomingTeacherScheduleList(props) {
                           </Form>
                         </Row>
                         <div className="button-div">
+<<<<<<< HEAD
                           <Button
+=======
+                          <button
+>>>>>>> feature/login-page-UI
                             className={`${teacherName !== "" && isSubmit ? "submit-button" : "disable-submit-button"}`}
                             variant="contained"
                             disabled={teacherName === ""}
                             onClick={() => submitForm()}
                           >
                             SAVE CHANGES
+<<<<<<< HEAD
                           </Button>
+=======
+                          </button>
+>>>>>>> feature/login-page-UI
                         </div>
                       </div>
                     </div>
                   </Modal.Body>
                 </Modal>
               </div>
+<<<<<<< HEAD
             {/* )} */}
           </div>
         {/* )} */}
+=======
+            {/* // )} */}
+          </div>
+        {/* // )} */}
+>>>>>>> feature/login-page-UI
       </Container>
     </div>
   );
 }
+<<<<<<< HEAD
 export default UpcomingTeacherScheduleList; 
+=======
+export default UpcomingTeacherScheduleList;
+>>>>>>> feature/login-page-UI

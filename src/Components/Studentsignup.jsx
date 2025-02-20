@@ -10,6 +10,8 @@ import {
   FormControl,
   InputGroup,
 } from "react-bootstrap";
+// import{Link} from "react-router-dom"
+import {  useNavigate } from "react-router-dom";
 // import { Button } from 'react-bootstrap';
 
 // import { useHistory } from "react-router-dom";
@@ -41,6 +43,7 @@ import { FaCalendarAlt } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+// import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
@@ -56,7 +59,6 @@ const options = [
   { value: "Male", label: "Male" },
   { value: "Female", label: "Female" },
 ];
-
 const StudentRegistration = (props) => {
   const [parentId, setparentId] = useState(null);
   const [courseId, setcourseId] = useState(
@@ -164,6 +166,8 @@ const StudentRegistration = (props) => {
     toast.error(response);
   };
   const [captcha, setCaptcha] = useState("");
+  const navigate = useNavigate()
+
 
   // Date Format
   // const setDateFormat = (e) => {
@@ -387,6 +391,7 @@ const StudentRegistration = (props) => {
               }}
               validationSchema={loginSchema}
               onSubmit={(values) => submitForm(values)}
+              // onSubmit={onSubmit}
             >
               {(formik) => {
                 const {
@@ -709,20 +714,25 @@ const StudentRegistration = (props) => {
 
                         <div className="d-flex justify-content-center mt-3">
                           <div className="btn-primary">
-                          <Button
+                        
+                          <Button  onClick={()=> navigate('/Studentsidebar')}
+                         
                             className=  {`${
                             
                               !isValid || isSubmit
                                 ? "create-account-disable"
                                 : "create-account-active"
                             }`}
+                            
                             variant="contained"
                             type="submit"
                             color="btn-primary"
                             disabled={!isValid || isSubmit}
-                          >
+                                          >           
                             Sign Up as Student
+                            
                           </Button>
+                          
                           </div>
                         </div>
                       </Row>

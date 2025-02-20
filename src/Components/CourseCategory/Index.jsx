@@ -6,7 +6,21 @@ import { createTheme } from "@mui/material";
 import Loader from "../Core/Loader";
 import tableIcons  from "../Core/TableIcons";// Ensure this path is correct
 
+<<<<<<< HEAD
 import Adminsidebar from '../Core/Adminsidebar';
+=======
+// Api
+// import Api from "../../Api";
+
+// Component
+// import Loader from "../core/Loader";
+import  tableIcons  from "../Core/TableIcons";
+
+// import { useHistory } from "react-router-dom";
+// import { toast } from "react-toastify";
+
+// Style
+>>>>>>> feature/login-page-UI
 const tableTheme = createTheme({
   overrides: {
     MuiTableRow: {
@@ -50,10 +64,16 @@ function CourseCategory(props) {
 
   return (
     <div>
+<<<<<<< HEAD
       {/* {isLoading ? (
         <Loader />
       ) : ( */}
       <CourseCategory/>
+=======
+      {/* {isLoading ? ( */}
+        {/* <Loader /> */}
+      {/* ) : ( */}
+>>>>>>> feature/login-page-UI
         <Container className="mb-5">
           <div className="py-3">
             <h5>Course Category</h5>

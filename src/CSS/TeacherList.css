@@ -29,7 +29,11 @@
     border: unset !important;
     box-shadow: unset !important;
   }
+<<<<<<< HEAD
   /* // Dropdown caret icon hide */
+=======
+  // Dropdown caret icon hide
+>>>>>>> feature/login-page-UI
   .dropdown-toggle::after {
     display: none !important;
   }
@@ -47,18 +51,30 @@
     display: none;
   }
   
+<<<<<<< HEAD
   /* $font-size: 16px;
   $line-height: 1.5; */
+=======
+  $font-size: 16px;
+  $line-height: 1.5;
+>>>>>>> feature/login-page-UI
   
   .teacher-ellipsis-text {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+<<<<<<< HEAD
     /* font-size: $font-size !important;
     line-height: $line-height !important;
     -webkit-line-clamp: 1 !important;
     -webkit-box-orient: vertical; */
+=======
+    font-size: $font-size !important;
+    line-height: $line-height !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical;
+>>>>>>> feature/login-page-UI
   }
   p.tab-paragraph {
     margin-bottom: 0;
@@ -79,11 +95,19 @@
   .row-tab-review {
     width: 50%;
   }
+<<<<<<< HEAD
   /* $font-size: 16px;
   $line-height: 1.5;
   $lines-to-show: 1; */
   
   /* .first-name-last-overflow{
+=======
+  $font-size: 16px;
+  $line-height: 1.5;
+  $lines-to-show: 1;
+  
+  .first-name-last-overflow{
+>>>>>>> feature/login-page-UI
     width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -92,4 +116,8 @@
     -webkit-line-clamp: $lines-to-show  !important;
     -webkit-box-orient: vertical;
     color: #fff;
+<<<<<<< HEAD
   } */
+=======
+  }
+>>>>>>> feature/login-page-UI

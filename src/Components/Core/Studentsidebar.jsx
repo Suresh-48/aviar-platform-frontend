@@ -131,7 +131,7 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
         <div className={`${open ? "sidebar" : "sidebar active"}`}>
           <div className="logo-content">
             <div className="logo px-4 py-2 ">
-              <img src={aviar} alt="Kharphi" width={"80%"} height={"100%"} />
+              <img src={aviar} alt="Aviar" width={"80%"} height={"100%"} />
             </div>
             {/* {open === true ? ( */}
               <FontAwesomeIcon
@@ -201,13 +201,13 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
                         {/* </NavLink> */}
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink to={`/edit/student/details/${studentId}`} activeClassName="main-nav-active-style"> */}
+                        <NavLink to={"/Updatestudentdetail"} activeClassName="main-nav-active-style">
                           <FontAwesomeIcon icon={faIdCard} title="My Profile" size="1x" className="menu-icon me-3" />
                           My Profile
-                        {/* </NavLink> */}
+                        </NavLink>
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink exact to="/upcoming/schedule" activeClassName="main-nav-active-style"> */}
+                        <NavLink exact to="/Upcomingschedule1" activeClassName="main-nav-active-style">
                           <FontAwesomeIcon
                             icon={faCalendarCheck}
                             title="Upcoming Schedule"
@@ -215,13 +215,13 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
                             size="1x"
                           />
                           Upcoming Schedule
-                        {/* </NavLink> */}
+                        </NavLink>
                       </div>
                       <div className="menu-list">
-                        {/* <NavLink exact to="/course/search" activeClassName="main-nav-active-style"> */}
+                        <NavLink exact to="/AllCourseList" activeClassName="main-nav-active-style">
                           <FontAwesomeIcon icon={faBook} title="Courses" className="menu-icon me-3" size="1x" />
                           Courses
-                        {/* </NavLink> */}
+                        </NavLink>
                       </div>
                       <div className="menu-list">
                         {/* <NavLink exact to="/favourite/course" activeClassName="main-nav-active-style"> */}

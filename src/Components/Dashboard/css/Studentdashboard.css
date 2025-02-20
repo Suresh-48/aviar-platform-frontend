@@ -16,9 +16,11 @@
   .viewHeader {
     text-align: center;
     height: 40px;
+    
   }
   .viewRow {
     text-align: center;
+    
   }
   
   .zoom-view-style {
@@ -53,6 +55,7 @@
   }
   .student-table {
     margin-top: 1%;
+    
     /* // min-height: 250px; */
   }
   .dashboard-button-style{
@@ -74,4 +77,8 @@
   background-color:rgb(216, 10, 10);
   padding-top: 20px;
   transition: 0.5s;
+}
+.blue-header {
+  background-color: blue;
+  color: white;
 }

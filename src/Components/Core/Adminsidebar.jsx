@@ -29,6 +29,10 @@ import {
   faClipboardList,
   faFileCircleCheck,
   faPersonCircleCheck,
+<<<<<<< HEAD
+=======
+  // faBookOpen,
+>>>>>>> feature/login-page-UI
   faBookReader,
   faMoneyCheckDollar,
   faPersonChalkboard,

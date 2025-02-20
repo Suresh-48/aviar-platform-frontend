@@ -38,8 +38,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Component
-import Label from "../../Components/Core/Label";
-import Loader from "../Core/Loader";
+import Label from "../Core/Label";
+// import Loader from "../Core/Loader";
 import ReactQuill from "react-quill";
 
 //selector custom style
