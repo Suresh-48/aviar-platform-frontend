@@ -39,7 +39,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Roles
-import { ROLES_PARENT, ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
+import { ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
 
 // Api
 // import Api from "../../Api";
@@ -61,7 +61,7 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
     const [status, setstatus] = useState("");
     const navigate = useNavigate();
     // const pathName = history.location.pathname;
-    const isParent = role === ROLES_PARENT;
+  
     const isStudent = role === ROLES_STUDENT;
     const isAdmin = role === ROLES_ADMIN;
     const isTeacher = role === ROLES_TEACHER;

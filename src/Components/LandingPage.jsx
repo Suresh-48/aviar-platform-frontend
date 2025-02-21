@@ -155,7 +155,7 @@ function LandingPage(props) {
         </div>
         <div className="aviar-img-div">
           <img src={aviar} alt="" className="aviar-logo" />
-          {role === "admin" || role === "teacher" || role === "parent" || role === "student" ? null : (
+          {role === "admin" || role === "teacher" || role === "student" ? null : (
             <div className="login-arrow-div" onClick={() => navigate("/login")}>
               <img src={loginArrow} className="login-arrow" />
               <p className="login-pTag mb-0 mx-1">Login</p>
@@ -332,7 +332,7 @@ function LandingPage(props) {
           <Carousel.Item>
             <div>
             <img src={emptyGallery} alt=" second slide" 
-          style={{width:"16%",  display: "flex",alignContent:"center" ,  margin:"auto"}}
+          style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
           />
           </div>
         </Carousel.Item>  

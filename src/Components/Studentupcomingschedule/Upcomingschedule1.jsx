@@ -12,7 +12,7 @@ import { Tab, Tabs } from "@material-ui/core";
 // import { useHistory } from "react-router-dom";
 
 // Component
-import Loader from "../core/Loader";
+// import Loader from "../core/Loader";
 import  tableIcons  from "../Core/TableIcons";
 // import { ROLES_PARENT, ROLES_STUDENT } from "../../constants/roles";
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { ROLES_ADMIN, ROLES_STUDENT, ROLES_TEACHER } from '../../Constants/Role'
 import AdminDashboard from "./AdminDashboard";
-import StudentDashboard from "./StudentDashboard";
-import TeacherDashboard from "./TeacherDashboard";
+import StudentDashboard from "./Studentdashboard";
+import TeacherDashboard from "./Teacherdashboard";
 
 const Dashboard = () => {
 

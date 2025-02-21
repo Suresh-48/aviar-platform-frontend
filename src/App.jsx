@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Only import once
 import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
@@ -8,7 +8,9 @@ import LandingPage from './Components/LandingPage';
 import Dashboard from './Components/Dashboard.jsx';
 import AdminLogin from './Components/AdminLogin.jsx';
 import Login from './Components/Login.jsx';
-import PublicLayout from './Components/PublicLayout/PublicLayout.jsx'
+import CourseCategory from './Components/CourseCategory/Index.jsx';
+
+// import PublicLayout from './Components/PublicLayout/PublicLayout.jsx'
 
 
 const App = () => {
@@ -22,18 +24,20 @@ const App = () => {
         bodyClassName="toastBody"
         closeButton={false}
       />
-      <Router>
+      <BrowserRouter>
         <Routes>
-          <PublicLayout>
-          <Route path="/" element={<LandingPage />} />
+          {/* <PublicLayout> */}
+          <Route path="/home" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
           {/* Add a default route or redirect if needed */}
           <Route path="/" element={<Navigate to="/aviar" />} />
-          </PublicLayout>
+          <Route path="/admin/coursecategory" element={<CourseCategory/>}/>
+          <Route path=""/>
+          {/* </PublicLayout> */}
         </Routes>
-      </Router>
+      </BrowserRouter>
     </div>
   );
 };
