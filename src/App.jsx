@@ -4,6 +4,7 @@ import Login from './Components/Login'
 import Studentsignup from'./Components/studentsignup'
 import Teachersignup from'./Components/Teachersignup'
 import Studentsidebar from './Components/Core/Studentsidebar'
+import Studentdashboard from './Components/Dashboard/Studentdashboard'
 import Updatestudentdetail from'./Components/Editstudentdetail/Updatestudentdetail'
 import UpcomingSchedule1 from './Components/Studentupcomingschedule/Upcomingschedule1'
 import AllCourseList from './Components/Courselist/AllCourseList'
@@ -24,6 +25,7 @@ const App = () => {
           <Route path='/Studentsignup' element={<Studentsignup />} />
           <Route path='Teachersignup' element={<Teachersignup />} />
           <Route path='Studentsidebar' element={<Studentsidebar />} />
+          <Route path='/studentdashboard' element={<Studentdashboard />} />
           <Route path='/Updatestudentdetail' element={<Updatestudentdetail />} />
           <Route path='/Upcomingschedule1' element={<UpcomingSchedule1 />} />
           <Route path='AllCourseList' element={<AllCourseList />} />
