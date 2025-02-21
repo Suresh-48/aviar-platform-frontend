@@ -16,7 +16,8 @@ import  tableIcons  from "../Core/TableIcons";
 // import Api from "../../Api";
 
 // style
-import "../CSS/UpcomingSchedule.css";
+
+// import "../CSS/Upcomingschedule.css"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons";

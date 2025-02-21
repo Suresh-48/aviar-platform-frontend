@@ -5,7 +5,7 @@ import { Tooltip } from "@mui/material";
 // Styles
 import "../../CSS/SideBar.css";
 import aviar from "../../Images/aviar.png";
-import PublicFooter from "../PublicLayout/PublicFooter";
+
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -40,10 +40,11 @@ import {
 import Avatar from "react-avatar";
 import { toast } from "react-toastify";
 
-const Studentsidebar = ({ onClick, open, sidebar }) => {
-  console.log()
+const Studentsidebar = ({ open, toggleSidebar  }) => {
+
+  
   const [role, setrole] = useState("");
-  const sidebarValue = sidebar;
+  
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
   const [userDetails, setuserDetails] = useState("");
   const [show, setshow] = useState(false);
@@ -56,14 +57,12 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
 
-  useEffect(() => {
-    // getUserDetails();
-  }, [sidebarValue]);
+
 
   return (
     <div>
       <div>
-        <div className={`${open ? "sidebar" : "sidebar active"}`}>
+        <div className={`${open ? "sidebar active" : "sidebar"}`}>
           <div className="logo-content">
             <div className="logo px-4 py-2 ">
               <img src={aviar} alt="Aviar" width={"80%"} height={"100%"} />
@@ -72,9 +71,7 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
             <FontAwesomeIcon
               icon={faBars}
               size="1x"
-              onClick={() => {
-                onClick(!open);
-              }}
+              onClick={toggleSidebar}
               className="menu-button "
             />
           </div>
@@ -304,7 +301,7 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
           </div>
         </div>
       </div>
-      <PublicFooter />
+      
     </div>
   );
 };

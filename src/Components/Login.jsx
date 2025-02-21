@@ -7,12 +7,14 @@ import curveImg from "./curveImg.png";
 import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Link,NavLink } from "react-router-dom";
+import { Link,NavLink, useNavigate  } from "react-router-dom";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [visible, setVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const initialValues = {
     email: "",
@@ -32,6 +34,7 @@ const Login = () => {
 
   const onSubmit = (values) => {
     console.log("Form data", values);
+    navigate("/Studentsidebar");
   };
 
   const togglePasswordVisibility = () => {
