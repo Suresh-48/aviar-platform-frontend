@@ -26,7 +26,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
-// import "../CSS/UpcomingSchedule.css";
+import "../../CSS/UpcomingSchedule.css";
 import { setDay } from "date-fns";
 import { customStyles } from "../Core/Selector";
 

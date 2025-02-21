@@ -68,6 +68,7 @@ const Studentsidebar = ({ open, toggleSidebar  }) => {
               <img src={aviar} alt="Aviar" width={"80%"} height={"100%"} />
             </div>
             {/* {open === true ? ( */}
+            
             <FontAwesomeIcon
               icon={faBars}
               size="1x"
@@ -104,7 +105,7 @@ const Studentsidebar = ({ open, toggleSidebar  }) => {
                   </div>
                 </div>
                 <div className="menu-list  ">
-                  {/* <NavLink to="/dashboard" activeClassName="main-nav-active-style"> */}
+                  <NavLink to="/studentdashboard" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
                     icon={faChalkboardUser}
                     className="menu-icon me-3"
@@ -112,7 +113,7 @@ const Studentsidebar = ({ open, toggleSidebar  }) => {
                     size="1x"
                   />
                   Dashboard
-                  {/* </NavLink> */}
+                  </NavLink>
                 </div>
                 <div className="menu-list">
                   <NavLink
