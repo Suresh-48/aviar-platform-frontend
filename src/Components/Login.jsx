@@ -3,14 +3,11 @@ import { Col, Container, Row, Form, InputGroup, Card, Button, Modal } from "reac
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import './CSS/Login.css';
-import curveImg from "./curveImg.png";
-import aviarImag from "./aviarImg.png.jpg";
-// import { gapi } from "gapi-script";
-// import { GoogleLogin } from "react-google-login";
+// import curveImg from "./curveImg.png";
+// import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link,NavLink, useNavigate  } from "react-router-dom";
-
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -22,7 +19,6 @@ const Login = () => {
     email: "",
     password: "",
   };
-
   const validationSchema = Yup.object({
     email: Yup.string().required("Enter your email"),
     password: Yup.string()
@@ -33,26 +29,22 @@ const Login = () => {
       .min(8, "Password Required Minimum 8 Characters")
       .required("Password Is Required"),
   });
-
   const onSubmit = (values) => {
     console.log("Form data", values);
     navigate("/Studentsidebar");
   };
-
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-
   const tooglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
-
   return (
     <div className="Login-container">
       <div className="Aviarlogo">
-        <div className="text-center">
+        {/* <div className="text-center">
           <img src={aviarImag} alt=" " />
-        </div>
+        </div> */}
         <div className="Content-link">
           <p className="links mx-4" onClick={() => history.push("/course/search")}>
             Courses
@@ -61,11 +53,10 @@ const Login = () => {
           <p className="links mx-4">About Us</p>
           <p className="links mx-4">Help</p>
         </div>
-        <div className="curveImg">
+        {/* <div className="curveImg">
           <img src={curveImg} alt=" " />
-        </div>
+        </div> */}
       </div>
-
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -82,12 +73,10 @@ const Login = () => {
                   <form-control></form-control>
                 </div>
                 <hr className="or-divider my-4" />
-
                 <label> Email </label>
                 <span className="text-danger">*</span>
                 <Field name="email" type="text" placeholder="Email Address" className="form-control" />
                 <ErrorMessage name="email" component="span" className="error text-danger error-message" />
-
                 <br />
                 <label> Password </label>
                 <span className="text-danger">*</span>
@@ -110,12 +99,10 @@ const Login = () => {
                   </InputGroup.Text>
                 </InputGroup>
                 <ErrorMessage className="text-danger" name="password" component="div" />
-
                 <br />
                 <Button type="submit" className="btn btn-primary p-1 col-12" variant="container">
                   Login
                 </Button>
-
                 <br />
                 <br />
                 <div className="float-end text-primary">
@@ -135,7 +122,6 @@ const Login = () => {
           </Container>
         )}
       </Formik>
-
       {/* Sign Up Modal */}
       <Modal show={visible} onHide={() => setVisible(false)}>
         <Modal.Header closeButton>
@@ -148,7 +134,6 @@ const Login = () => {
        <h4 className="signup" >Signup as Student</h4>
        {/* </Link> */}
        </NavLink>
-       
        <Link to='Teachersignup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
@@ -160,5 +145,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;

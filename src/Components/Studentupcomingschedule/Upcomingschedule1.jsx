@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Container, Modal, Row, Col } from "react-bootstrap";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+// import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { Tab, Tabs } from "@material-ui/core";

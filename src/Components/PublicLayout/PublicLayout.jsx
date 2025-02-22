@@ -1,92 +1,46 @@
-import React, { Component, Suspense, useState, useEffect } from "react";
-import {Navigate,BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
-
-// routes config
-import routes from "../../routes";
+import React, { useState, useEffect, useContext } from "react";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+// import { AuthContext } from "./AuthContext"; // Import the AuthContext
 import HeaderNavbar from "../../Components/Core/HeaderNavbar";
-import DashboardSidebar from "../../Components/Core/DashboardSidebar";
+import Adminsidebar from "../Core/Adminsidebar";
+import routes from "../../routes";
 import ChatBotConversation from "../../Components/ChatBotConversation/ChatBotConversation";
-// import { OpenInBrowserOutlined } from "@mui/icons-material";
-import NavbarLoginBefore from "./navbar";
-
-const PublicFooter = React.lazy(() => import("./PublicFooter"));
 
 const PublicLayout = () => {
-  const LandingPage = props?.name;
-  const sideClose = props?.location?.state?.sidebar;
-  const [role, setrole] = useState("");
-  const [open, setopen] = useState(false);
-  const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>;
+  // const { isAuthenticated } = useContext(AuthContext); // Get authentication state
+  const [open, setOpen] = useState(false);
 
-  const value = () => {
-    setopen(!open);
+  const toggleSidebar = () => {
+    setOpen(!open);
   };
-
-  useEffect(() => {
-    let role = localStorage.getItem("role");
-    setrole(role);
-  }, [sideClose]);
-
-  let showNav = "";
 
   return (
     <div className="app">
       <div className="app-body">
-        <div>
-        {/* <NavbarLoginBefore />
-        <HeaderNavbar/>
-         */}
-        </div>
-          {role ? <DashboardSidebar onClick={value} open={open} sidebar={sideClose} /> : null}
-          {role ? <HeaderNavbar sidebar={sideClose} open={open} /> : <NavbarLoginBefore />} 
+        {/* Render HeaderNavbar and Adminsidebar only if authenticated */}
+        {isAuthenticated && <HeaderNavbar toggleSidebar={toggleSidebar} />}
+        {isAuthenticated && <Adminsidebar isOpen={open} />}
 
-          <div className={`${open ? "site-maincontent home-content" : "site-maincontent active home-content"}`}>
-          <div
-            className={`${
-              role
-                ? open
-                  ? "site-maincontent home-content"
-                  : "site-maincontent active home-content"
-                : LandingPage === "LandingPage"
-                ? " home-content-login"
-                : "home-page-landing-navbar"
-            }`}
-          >
-          <div>
-            <Outlet/>
-            </div>
-            <div className="footer-min-height">
-              <BrowserRouter>
-                <Routes>
-                  {routes.map((route, idx) => {
-                    return route.component ? ( 
-                      <Route
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        render={(props) => <route.component {...props} />}
-                      />
-                    ) : (
-                      ""
-                    );
-                  })}
-                </Routes>
-              </BrowserRouter>
-            </div>
-            <div>
-            <ChatBotConversation />
-            {LandingPage === "LandingPage" ? null : (
-              <footer className={`footer footer-content ${showNav}`}>
-                <Suspense fallback={loading()}>
-                  <PublicFooter sidebar={sideClose} />
-                </Suspense>
-              </footer>
-             )} 
-          </div>
+        {/* Main content area */}
+        <div className={`main-content ${isAuthenticated ? "with-sidebar" : ""}`}>
+          <Outlet />
+          <BrowserRouter>
+            <Routes>
+              {routes.map((route, idx) => (
+                <Route
+                  key={idx}
+                  path={route.path}
+                  exact={route.exact}
+                  element={<route.component />}
+                />
+              ))}
+            </Routes>
+          </BrowserRouter>
         </div>
-        </div>
-        </div>
+
+        {/* ChatBotConversation (optional) */}
+        {isAuthenticated && <ChatBotConversation />}
+      </div>
     </div>
   );
 };

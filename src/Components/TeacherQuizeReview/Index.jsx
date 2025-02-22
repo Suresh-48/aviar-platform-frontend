@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 // Component
-import Loader from "../core/Loader";
+// import Loader from "../core/Loader";
 import  tableIcons  from "../Core/TableIcons";
 
 // Api

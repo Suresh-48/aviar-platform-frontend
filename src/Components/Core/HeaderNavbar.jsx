@@ -17,7 +17,7 @@ import {
 import aviar from "../../Images/aviar.png";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 // Style
 import "../CSS/HeaderNavbar.css";
@@ -50,9 +50,9 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
   const [checkPassword, setCheckPassword] = useState(false);
-  const navigate = useNavigate();
+
 //   const pathName = history.location.pathname;
- 
+  //  const navigate = useNavigate();
   const isStudent = role === ROLES_STUDENT;
   const isAdmin = role === ROLES_ADMIN;
   const isTeacher = role === ROLES_TEACHER;
