@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 // import Login from './Components/Login.jsx'
-import LandingPage from './Components/LandingPage.jsx'
-import App from './App.jsx'
+// import LandingPage from './Components/LandingPage.jsx'
+// import App from './App.jsx'
 import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
@@ -13,7 +13,6 @@ import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 
 // import CoursesCreation from './Components/Course/CourseCreation.jsx'
 // import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
-// import CourseCategory from './Components/CourseCategory/Index.jsx'
 // import UpcomingTeacherScheduleList from'./Components/UpcomingTeacherScheduleList/Index.jsx'
 // import TableIcons from './Components/Core/TableIcons.jsx'
 // import AllCourseList from './Components/Courselist/AllCourseList.jsx'
@@ -29,4 +28,3 @@ createRoot(document.getElementById('root')).render(
     <Adminsidebar/>
   </StrictMode>,
 )
-
