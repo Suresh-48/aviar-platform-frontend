@@ -105,7 +105,7 @@ const Studentsidebar = ({ open, toggleSidebar  }) => {
                   </div>
                 </div>
                 <div className="menu-list  ">
-                  <NavLink to="/studentdashboard" activeClassName="main-nav-active-style">
+                  <NavLink to="/student/dashboard" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
                     icon={faChalkboardUser}
                     className="menu-icon me-3"
