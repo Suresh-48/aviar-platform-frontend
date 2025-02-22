@@ -9,14 +9,14 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 // Component
-import Loader from "../core/Loader";
+// import Loader from "../core/Loader";
 import  tableIcons  from "../Core/TableIcons";
 
 // Api
 // import Api from "../../Api";
 
 // style
-import "../CSS/UpcomingSchedule.css";
+import "../../CSS/UpcomingSchedule.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons";

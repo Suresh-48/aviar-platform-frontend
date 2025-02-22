@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import curveImg from "../../Components/Images/curveImg.png";
 import aviar from "../Images/aviar.png";
 import loginArrow from "../../Components/Images/loginArrow.png";
