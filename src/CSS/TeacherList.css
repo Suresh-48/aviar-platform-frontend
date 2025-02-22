@@ -29,7 +29,7 @@
     border: unset !important;
     box-shadow: unset !important;
   }
-  // Dropdown caret icon hide
+  /* // Dropdown caret icon hide */
   .dropdown-toggle::after {
     display: none !important;
   }
@@ -47,18 +47,18 @@
     display: none;
   }
   
-  $font-size: 16px;
-  $line-height: 1.5;
+  /* $font-size: 16px;
+  $line-height: 1.5; */
   
   .teacher-ellipsis-text {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    font-size: $font-size !important;
+    /* font-size: $font-size !important;
     line-height: $line-height !important;
     -webkit-line-clamp: 1 !important;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
   }
   p.tab-paragraph {
     margin-bottom: 0;
@@ -79,17 +79,17 @@
   .row-tab-review {
     width: 50%;
   }
-  $font-size: 16px;
+  /* $font-size: 16px;
   $line-height: 1.5;
-  $lines-to-show: 1;
+  $lines-to-show: 1; */
   
   .first-name-last-overflow{
     width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: $font-size  !important;
+    /* font-size: $font-size  !important;
     line-height: $line-height  !important;
     -webkit-line-clamp: $lines-to-show  !important;
     -webkit-box-orient: vertical;
-    color: #fff;
+    color: #fff; */
   }

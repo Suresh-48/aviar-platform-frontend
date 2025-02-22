@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import './CSS/Login.css';
 import curveImg from "./curveImg.png";
 import aviarImag from "./aviarImg.png.jpg";
+// import { gapi } from "gapi-script";
+// import { GoogleLogin } from "react-google-login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link,NavLink, useNavigate  } from "react-router-dom";

@@ -1,49 +1,92 @@
-import React, { useState, useEffect, Suspense } from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import React, { Component, Suspense, useState, useEffect } from "react";
+import {Navigate,BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+
+// routes config
 import routes from "../../routes";
 import HeaderNavbar from "../../Components/Core/HeaderNavbar";
 import DashboardSidebar from "../../Components/Core/DashboardSidebar";
 import ChatBotConversation from "../../Components/ChatBotConversation/ChatBotConversation";
+// import { OpenInBrowserOutlined } from "@mui/icons-material";
 import NavbarLoginBefore from "./navbar";
 
 const PublicFooter = React.lazy(() => import("./PublicFooter"));
 
-const PublicLayout = (props) => {
-  const LandingPage = props.name;
-  const sideClose = props.location?.state?.sidebar;
-  const [role, setRole] = useState("");
-  const [open, setOpen] = useState(false);
+const PublicLayout = () => {
+  const LandingPage = props?.name;
+  const sideClose = props?.location?.state?.sidebar;
+  const [role, setrole] = useState("");
+  const [open, setopen] = useState(false);
+  const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>;
+
+  const value = () => {
+    setopen(!open);
+  };
 
   useEffect(() => {
-    setRole(localStorage.getItem("role"));
+    let role = localStorage.getItem("role");
+    setrole(role);
   }, [sideClose]);
+
+  let showNav = "";
 
   return (
     <div className="app">
       <div className="app-body">
-        {role ? <DashboardSidebar onClick={() => setOpen(!open)} open={open} sidebar={sideClose} /> : null}
-        {role ? <HeaderNavbar sidebar={sideClose} open={open} /> : <NavbarLoginBefore />}
-
-        <div className={`${open ? "site-maincontent home-content" : "site-maincontent active home-content"}`}>
-          <Outlet />
-          <div className="footer-min-height">
-            <Routes>
-              {routes.map((route, idx) =>
-                route.component ? <Route key={idx} path={route.path} element={<route.component />} /> : null
-              )}
-            </Routes>
-          </div>
-
-          <ChatBotConversation />
-          {LandingPage !== "LandingPage" && (
-            <footer className="footer footer-content">
-              <Suspense fallback={<div className="animated fadeIn pt-1 text-center">Loading...</div>}>
-                <PublicFooter sidebar={sideClose} />
-              </Suspense>
-            </footer>
-          )}
+        <div>
+        {/* <NavbarLoginBefore />
+        <HeaderNavbar/>
+         */}
         </div>
-      </div>
+          {role ? <DashboardSidebar onClick={value} open={open} sidebar={sideClose} /> : null}
+          {role ? <HeaderNavbar sidebar={sideClose} open={open} /> : <NavbarLoginBefore />} 
+
+          <div className={`${open ? "site-maincontent home-content" : "site-maincontent active home-content"}`}>
+          <div
+            className={`${
+              role
+                ? open
+                  ? "site-maincontent home-content"
+                  : "site-maincontent active home-content"
+                : LandingPage === "LandingPage"
+                ? " home-content-login"
+                : "home-page-landing-navbar"
+            }`}
+          >
+          <div>
+            <Outlet/>
+            </div>
+            <div className="footer-min-height">
+              <BrowserRouter>
+                <Routes>
+                  {routes.map((route, idx) => {
+                    return route.component ? ( 
+                      <Route
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        name={route.name}
+                        render={(props) => <route.component {...props} />}
+                      />
+                    ) : (
+                      ""
+                    );
+                  })}
+                </Routes>
+              </BrowserRouter>
+            </div>
+            <div>
+            <ChatBotConversation />
+            {LandingPage === "LandingPage" ? null : (
+              <footer className={`footer footer-content ${showNav}`}>
+                <Suspense fallback={loading()}>
+                  <PublicFooter sidebar={sideClose} />
+                </Suspense>
+              </footer>
+             )} 
+          </div>
+        </div>
+        </div>
+        </div>
     </div>
   );
 };

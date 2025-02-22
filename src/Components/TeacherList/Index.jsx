@@ -271,14 +271,14 @@ function TeacherList(props) {
 //   };
 
   //get approved teacher list
-  const getTeacherApprovedListData = () => {
-    Api.get("api/v1/teacher/list").then((response) => {
-      const approvedData = response?.data?.teacherList;
-      setPayment(approvedData[0]?.teacherSessionAmount);
-      setApprovedData(approvedData);
-      setIsLoading(false);
-    });
-  };
+  // const getTeacherApprovedListData = () => {
+  //   Api.get("api/v1/teacher/list").then((response) => {
+  //     const approvedData = response?.data?.teacherList;
+  //     setPayment(approvedData[0]?.teacherSessionAmount);
+  //     setApprovedData(approvedData);
+  //     setIsLoading(false);
+  //   });
+  // };
 
 //   useEffect(() => {
 //     getTeacherListData();
@@ -286,57 +286,57 @@ function TeacherList(props) {
 //   }, []);
 
   //change publish and draft course type
-  const changeTeacherType = (status) => {
-    Api.post("api/v1/teacher/status/", {
-      teacherId: colId,
-      status: status,
-      userId: userId,
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          getTeacherListData();
-          getTeacherApprovedListData();
-        } else {
-          toast.error(response.data.message);
-        }
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-      });
+  // const changeTeacherType = (status) => {
+  //   Api.post("api/v1/teacher/status/", {
+  //     teacherId: colId,
+  //     status: status,
+  //     userId: userId,
+  //   })
+  //     .then((response) => {
+  //       if (response.status === 201) {
+  //         getTeacherListData();
+  //         getTeacherApprovedListData();
+  //       } else {
+  //         toast.error(response.data.message);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       const errorStatus = error?.response?.status;
+  //       if (errorStatus === 401) {
+  //         logout();
+  //         toast.error("Session Timeout");
+  //       }
+  //     });
 
-    if (status === "Pending") {
-      const status = "Review";
-      Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-        status: status,
-        userId: userId,
-      })
-        .then((response) => {})
-        .catch((error) => {
-          const errorStatus = error?.response?.status;
-          if (errorStatus === 401) {
-            logout();
-            toast.error("Session Timeout");
-          }
-        });
-    } else {
-      Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-        status: status,
-        userId: userId,
-      })
-        .then((response) => {})
-        .catch((error) => {
-          const errorStatus = error?.response?.status;
-          if (errorStatus === 401) {
-            logout();
-            toast.error("Session Timeout");
-          }
-        });
-    }
-  };
+  //   if (status === "Pending") {
+  //     const status = "Review";
+  //     Api.patch(`api/v1/teacherApplication/status/${colId}`, {
+  //       status: status,
+  //       userId: userId,
+  //     })
+  //       .then((response) => {})
+  //       .catch((error) => {
+  //         const errorStatus = error?.response?.status;
+  //         if (errorStatus === 401) {
+  //           logout();
+  //           toast.error("Session Timeout");
+  //         }
+  //       });
+  //   } else {
+  //     Api.patch(`api/v1/teacherApplication/status/${colId}`, {
+  //       status: status,
+  //       userId: userId,
+  //     })
+  //       .then((response) => {})
+  //       .catch((error) => {
+  //         const errorStatus = error?.response?.status;
+  //         if (errorStatus === 401) {
+  //           logout();
+  //           toast.error("Session Timeout");
+  //         }
+  //       });
+  //   }
+  // };
   const signin = Yup.object().shape({
     pay: Yup.string().required("Payment Is Required"),
   });

@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 import { Container, Modal, Row, Col, Form } from "react-bootstrap";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { toast } from "react-toastify";
+// import { CopyToClipboard } from "react-copy-to-clipboard";
+// import { toast } from "react-toastify";
 import moment from "moment";
 import Select from "react-select";
-import Avatar from "@material-ui/core/Avatar";
-// import Button from "@restart/ui/esm/Button";
-import { Tab, Tabs } from "@material-ui/core";
+import Avatar from "@mui/material/Avatar";
+import Button from "react-bootstrap/Button";
+import { Tab, Tabs } from   "@mui/material";
 // import { useHistory } from "react-router-dom";
 
 // Component
-import Loader from "../core/Loader";
-import  tableIcons  from "../Core/TableIcons";
-// import { ROLES_TEACHER } from "../../constants/roles";
+// import Loader from "../core/Loader";
+import tableIcons  from "../Core/TableIcons";
+import { ROLES_TEACHER } from "../../Constants/Role";
 
 // Api
 // import Api from "../../Api";
@@ -26,8 +26,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
-import "../../CSS/UpcomingSchedule.css";
-import { setDay } from "date-fns";
+import "../CSS/UpcomingSchedule.css";
+// import { setDay } from "date-fns";
 import { customStyles } from "../Core/Selector";
 
 function UpcomingTeacherScheduleList(props) {
@@ -155,134 +155,134 @@ function UpcomingTeacherScheduleList(props) {
     setshow(false);
   };
 
-//   const isTeacher = role === ROLES_TEACHER;
+  const isTeacher = role === ROLES_TEACHER;
 
   function closeShow() {
     setshowAlert(false);
   }
 
-//   useEffect(() => {
-//     const role = localStorage.getItem("role");
-//     setrole(role);
-//     // TeacherUpcomingScheduleData();
-//     // TeacherCompletedScheduleData();
-//     // AdminTeacherUpcomingScheduleData();
-//     const currentDate = moment()
-//       .tz("America/Chicago")
-//       .format();
-//     const date = moment(currentDate)
-//       .tz("America/Chicago")
-//     //   .format("ll");
-//     var lessTime = moment(currentDate)
-//       .tz("America/Chicago")
-//       .format("HH:mm");
-//     setCurrentDate(date);
-//     setLessTime(lessTime);
-//     getApprovedTeacher();
-//   }, []);
+  useEffect(() => {
+    // const role = localStorage.getItem("role");
+    // setrole(role);
+    // TeacherUpcomingScheduleData();
+    // TeacherCompletedScheduleData();
+    // AdminTeacherUpcomingScheduleData();
+    // const currentDate = moment()
+    //   .tz("America/Chicago")
+    //   .format();
+    // const date = moment(currentDate)
+    //   .tz("America/Chicago")
+    //   .format("ll");
+    // var lessTime = moment(currentDate)
+    //   .tz("America/Chicago")
+    //   .format("HH:mm");
+    // setCurrentDate(date);
+    // setLessTime(lessTime);
+    // getApprovedTeacher();
+  }, []);
 
   //logout
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear(history.push("/kharpi"));
-      window.location.reload();
-    }, 2000);
-  };
+  // const logout = () => {
+  //   setTimeout(() => {
+  //     localStorage.clear(history.push("/kharpi"));
+  //     window.location.reload();
+  //   }, 2000);
+  // };
 
   // Get Teacher Upcoming Schedule
-  const TeacherUpcomingScheduleData = () => {
-    const teacherId = localStorage.getItem("teacherId");
-    setTeacherId(teacherId);
-    Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
-      params: {
-        teacherId: teacherId,
-      },
-    }).then((response) => {
-      const teacherUpcomingData = response?.data?.upcomingList;
-      setTeacherScheduleCalendarData(response?.data?.upcomingCalendarList);
+//   const TeacherUpcomingScheduleData = () => {
+//     const teacherId = localStorage.getItem("teacherId");
+//     setTeacherId(teacherId);
+//     Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
+//       params: {
+//         teacherId: teacherId,
+//       },
+//     }).then((response) => {
+//       const teacherUpcomingData = response?.data?.upcomingList;
+//       setTeacherScheduleCalendarData(response?.data?.upcomingCalendarList);
 
-      teacherUpcomingData?.sort(function compare(a, b) {
-        var dateA = new Date(a.lessonDate);
-        var dateB = new Date(b.lessonDate);
-        return dateA - dateB;
-      });
-      setTeacherUpcomingData(teacherUpcomingData);
-      const orginalTime = response?.data?.upcomingList;
-      orginalTime.forEach(function(list) {
-        const time = moment(list?.courseScheduleId?.startTime, "LT")
-          .subtract(15, "minutes")
-          .format("HH:mm");
-        list.courseScheduleId["zoomTime"] = time;
-      });
-      setisLoading(false);
-    });
-  };
+//       teacherUpcomingData?.sort(function compare(a, b) {
+//         var dateA = new Date(a.lessonDate);
+//         var dateB = new Date(b.lessonDate);
+//         return dateA - dateB;
+//       });
+//       setTeacherUpcomingData(teacherUpcomingData);
+//       const orginalTime = response?.data?.upcomingList;
+//       orginalTime.forEach(function(list) {
+//         const time = moment(list?.courseScheduleId?.startTime, "LT")
+//           .subtract(15, "minutes")
+//           .format("HH:mm");
+//         list.courseScheduleId["zoomTime"] = time;
+//       });
+//       setisLoading(false);
+//     });
+//   };
 
   // Get Completed Upcoming Schedule
-  const TeacherCompletedScheduleData = () => {
-    const teacherId = localStorage.getItem("teacherId");
-    Api.get("/api/v1/teacherUpcomingSchedule/completed", {
-      params: {
-        teacherId: teacherId,
-      },
-    }).then((response) => {
-      const teacherCompletedData = response?.data?.completedList;
-      teacherCompletedData.sort(function compare(a, b) {
-        var dateA = new Date(a.lessonDate);
-        var dateB = new Date(b.lessonDate);
-        return dateA - dateB;
-      });
-      setTeacherCompletedData(teacherCompletedData);
-      const orginalTime = response?.data?.completedList;
-      orginalTime.forEach(function(list) {
-        const time = moment(list?.courseScheduleId?.startTime, "LT")
-          .subtract(15, "minutes")
-          .format("HH:mm");
-        list.courseScheduleId["zoomTime"] = time;
-      });
-      setisLoading(false);
-    });
-  };
+//   const TeacherCompletedScheduleData = () => {
+//     const teacherId = localStorage.getItem("teacherId");
+//     Api.get("/api/v1/teacherUpcomingSchedule/completed", {
+//       params: {
+//         teacherId: teacherId,
+//       },
+//     }).then((response) => {
+//       const teacherCompletedData = response?.data?.completedList;
+//       teacherCompletedData.sort(function compare(a, b) {
+//         var dateA = new Date(a.lessonDate);
+//         var dateB = new Date(b.lessonDate);
+//         return dateA - dateB;
+//       });
+//       setTeacherCompletedData(teacherCompletedData);
+//       const orginalTime = response?.data?.completedList;
+//       orginalTime.forEach(function(list) {
+//         const time = moment(list?.courseScheduleId?.startTime, "LT")
+//           .subtract(15, "minutes")
+//           .format("HH:mm");
+//         list.courseScheduleId["zoomTime"] = time;
+//       });
+//       setisLoading(false);
+//     });
+//   };
 
   // Change Teacher
-  const submitForm = () => {
-    setisSubmit(false);
-    Api.post("api/v1/teacherUpcomingSchedule/update/teacher", {
-      teacherId: teacherId,
-      teacherScheduleId: modelValue.id,
-    })
-      .then((res) => {
-        setTeacherName("");
-        setshow(false);
-        AdminTeacherUpcomingScheduleData();
-        toast.success("Updated");
-      })
-      .catch((error) => {
-        if (error.response && error.response.status >= 400) {
-          let errorMessage;
-          const errorRequest = error.response.request;
-          if (errorRequest && errorRequest.response) {
-            errorMessage = JSON.parse(errorRequest.response).message;
-          }
-          toast.error(error.response.data.message);
-        }
-      });
-  };
+//   const submitForm = () => {
+//     setisSubmit(false);
+//     Api.post("api/v1/teacherUpcomingSchedule/update/teacher", {
+//       teacherId: teacherId,
+//       teacherScheduleId: modelValue.id,
+//     })
+//       .then((res) => {
+//         setTeacherName("");
+//         setshow(false);
+//         AdminTeacherUpcomingScheduleData();
+//         toast.success("Updated");
+//       })
+//       .catch((error) => {
+//         if (error.response && error.response.status >= 400) {
+//           let errorMessage;
+//           const errorRequest = error.response.request;
+//           if (errorRequest && errorRequest.response) {
+//             errorMessage = JSON.parse(errorRequest.response).message;
+//           }
+//           toast.error(error.response.data.message);
+//         }
+//       });
+//   };
 
   // Get Teacher Upcoming Schedule for Admin
-  const AdminTeacherUpcomingScheduleData = () => {
-    Api.get("/api/v1/teacherUpcomingSchedule").then((response) => {
-      const dataValues = response.data.upcomingList;
-      setTeacherScheduleCalendar(response.data.upcomingCalendarList);
-      dataValues.sort(function compare(a, b) {
-        var dateA = new Date(a.lessonDate);
-        var dateB = new Date(b.lessonDate);
-        return dateA - dateB;
-      });
-      setData(dataValues);
-      setisLoading(false);
-    });
-  };
+//   const AdminTeacherUpcomingScheduleData = () => {
+//     Api.get("/api/v1/teacherUpcomingSchedule").then((response) => {
+//       const dataValues = response.data.upcomingList;
+//       setTeacherScheduleCalendar(response.data.upcomingCalendarList);
+//       dataValues.sort(function compare(a, b) {
+//         var dateA = new Date(a.lessonDate);
+//         var dateB = new Date(b.lessonDate);
+//         return dateA - dateB;
+//       });
+//       setData(dataValues);
+//       setisLoading(false);
+//     });
+//   };
 
 //   const getApprovedTeacher = () => {
 //     Api.get(`api/v1/teacher/list`).then((res) => {
@@ -291,26 +291,26 @@ function UpcomingTeacherScheduleList(props) {
 //     });
 //   };
 
-  const zoomTiming = (e) => {
-    const teacherId = localStorage.getItem("teacherId");
-    const newDate = new Date();
-    const sessionTiming = newDate.toLocaleTimeString();
-    const date = newDate.toLocaleDateString();
+//   const zoomTiming = (e) => {
+//     const teacherId = localStorage.getItem("teacherId");
+//     const newDate = new Date();
+//     const sessionTiming = newDate.toLocaleTimeString();
+//     const date = newDate.toLocaleDateString();
 
-    Api.patch("/api/v1/teacherUpcomingSchedule/zoom/timing", {
-      teacherUpcomingScheduleId: teacherCourseScheduleId,
-      zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
-      zoomEndTime: e === "close" ? sessionTiming : "",
-      teacherId: teacherId,
-      date: date,
-      courseName: courseScheduleId.courseId.aliasName,
-      lessonName: courseScheduleId.courseLessonId.lessonName,
-      teacherPayableAmount: courseScheduleId.teacherId.teacherSessionAmount,
-    }).then((res) => {
-      const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
-      setZoomStartTimeGet(ZoomstartTime);
-    });
-  };
+//     Api.patch("/api/v1/teacherUpcomingSchedule/zoom/timing", {
+//       teacherUpcomingScheduleId: teacherCourseScheduleId,
+//       zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
+//       zoomEndTime: e === "close" ? sessionTiming : "",
+//       teacherId: teacherId,
+//       date: date,
+//       courseName: courseScheduleId.courseId.aliasName,
+//       lessonName: courseScheduleId.courseLessonId.lessonName,
+//       teacherPayableAmount: courseScheduleId.teacherId.teacherSessionAmount,
+//     }).then((res) => {
+//       const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
+//       setZoomStartTimeGet(ZoomstartTime);
+//     });
+//   };
 
   const tableTheme = createTheme({
     overrides: {
@@ -457,7 +457,7 @@ function UpcomingTeacherScheduleList(props) {
                           <div className="align-items-center zoom-content">
                             <h4 className="mt-2">Are you sure to start the session...!</h4>
                             <div className="d-flex mt-4 ">
-                              <button
+                              <Button
                                 variant="contained"
                                 className="zoom-start-btn mx-2 filter-btn"
                                 rel="noopener noreferrer"
@@ -470,10 +470,10 @@ function UpcomingTeacherScheduleList(props) {
                                 }}
                               >
                                 YES
-                              </button>
-                              <button className="zoom-cancel-btn mx-2 Kharpi-cancel-btn" onClick={() => handleModal()}>
+                              </Button>
+                              <Button className="zoom-cancel-btn mx-2 Kharpi-cancel-btn" onClick={() => handleModal()}>
                                 NO
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </Modal.Body>
@@ -483,7 +483,7 @@ function UpcomingTeacherScheduleList(props) {
                         <Modal.Body id="contained-modal-title-vcenter" className="zoom-modal-popup pt-0">
                           <div className="align-items-center zoom-content">
                             <h4 className="mt-2">Session has ended...!</h4>
-                            <button
+                            <Button
                               variant="contained"
                               className="zoom-start-btn mx-2 mt-4 Kharpi-save-btn"
                               onClick={() => {
@@ -492,7 +492,7 @@ function UpcomingTeacherScheduleList(props) {
                               }}
                             >
                               OK
-                            </button>
+                            </Button>
                           </div>
                         </Modal.Body>
                       </Modal>
@@ -513,9 +513,9 @@ function UpcomingTeacherScheduleList(props) {
                             </div>
                             <Row>
                               <Col>
-                                <button className="delete-cancel" onClick={() => closeShow()}>
+                                <Button className="delete-cancel" onClick={() => closeShow()}>
                                   OK
-                                </button>
+                                </Button>
                               </Col>
                             </Row>
                           </div>
@@ -556,7 +556,7 @@ function UpcomingTeacherScheduleList(props) {
                   </div>
                 )}
               </div>
-            
+            {/* ) : ( */}
               <div>
                 <div className="py-3">
                   <h5>Teachers Upcoming Lessons</h5>
@@ -625,7 +625,7 @@ function UpcomingTeacherScheduleList(props) {
                                       value: list.id,
                                       label: (
                                         <div>
-                                          {list.imageUrl ? (
+                                          {/* {list.imageUrl ? ( */}
                                             <div className="d-flex justify-content-start align-items-center">
                                               <Avatar src={list.imageUrl} alr="" round={true} />
                                               <div className="dropdown-names">
@@ -637,7 +637,7 @@ function UpcomingTeacherScheduleList(props) {
                                                   " "}`}
                                               </div>
                                             </div>
-                                          ) : (
+                                          {/* ) : ( */}
                                             <div className="d-flex justify-content-start align-items-center">
                                               <Avatar round size="38" className="d-flex justify-content-center">
                                                 <p className="dropdown-option mb-0">
@@ -656,7 +656,7 @@ function UpcomingTeacherScheduleList(props) {
                                                   " "}`}
                                               </div>
                                             </div>
-                                          )}
+                                          {/* )} */}
                                         </div>
                                       ),
                                       name: ` ${list.firstName} ${list.middleName} ${list.lastName}`,
@@ -668,25 +668,25 @@ function UpcomingTeacherScheduleList(props) {
                           </Form>
                         </Row>
                         <div className="button-div">
-                          <button
+                          <Button
                             className={`${teacherName !== "" && isSubmit ? "submit-button" : "disable-submit-button"}`}
                             variant="contained"
                             disabled={teacherName === ""}
                             onClick={() => submitForm()}
                           >
                             SAVE CHANGES
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
                   </Modal.Body>
                 </Modal>
               </div>
-            {/* // )} */}
+            {/* )} */}
           </div>
-        {/* // )} */}
+        {/* )} */}
       </Container>
     </div>
   );
 }
-export default UpcomingTeacherScheduleList;
+export default UpcomingTeacherScheduleList; 

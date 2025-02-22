@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@material-ui/core";
 
 // Styles
-import "../../css/SideBar.scss";
+import "../../CSS/SideBar.css";
 import aviar from "../Images/aviar.png";
 
 // Icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -62,9 +62,9 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
     const [status, setstatus] = useState("");
     const navigate = useNavigate();
     // const pathName = history.location.pathname;
-    const isParent = role === ROLES_PARENT;
+  
     const isStudent = role === ROLES_STUDENT;
     const isAdmin = role === ROLES_ADMIN;
     const isTeacher = role === ROLES_TEACHER;
 }
-export default DashboardSidebar
+export default DashboardSidebar;

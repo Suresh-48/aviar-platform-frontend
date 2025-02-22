@@ -8,7 +8,7 @@ import "../../css/AllCourseList.css";
 // import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
-import Loader from "../core/Loader";
+// import Loader from "../core/Loader";
 // import CourseCard from "../../components/core/CourseCard";
 import { toast } from "react-toastify";
 
