@@ -2,13 +2,15 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
+// import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
 import { ToastContainer } from 'react-toastify';
 import LandingPage from './Components/LandingPage';
 import Dashboard from './Components/Dashboard.jsx';
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
+import Studentsignup from './Components/studentsignup.jsx'
+import Teachersignup from './Components/Teachersignup.jsx'
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
@@ -37,13 +39,13 @@ import TeacherAvailable from "./Components/TeacherAvailablity/Index.jsx";
 import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
-import HeaderNavbar from "./Components/Core/HeaderNavbar";
+// import HeaderNavbar from "./Components/Core/HeaderNavbar";
 
-import PublicFooter from "./Components/PublicLayout/PublicFooter.jsx";
-import SidebarSetup from './Components/PublicLayout/SidebarSetup.jsx';
+// import PublicFooter from "./Components/PublicLayout/PublicFooter.jsx";
+// import SidebarSetup from './Components/PublicLayout/SidebarSetup.jsx';
 
 const App = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div>
@@ -66,6 +68,8 @@ const App = () => {
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
+          <Route path ="/student/signup" element={<Studentsignup/>} />
+          <Route path ='/teacher/signup' element={<Teachersignup/>} />
           <Route path="/admin/coursecategory" element={<CourseCategory />} />
           <Route path="/admin/coursesearch" element={<AllCourseList />} />
           <Route path="/admin/upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
@@ -74,9 +78,9 @@ const App = () => {
           <Route path="/admin/teacher/list" element={<TeacherList />} />
           <Route path="/admin/forum" element={<AdminForum />} />
           <Route path="/admin/payment/list" element={<AdminPaymentList />} />
-          <Route path="/header" element={<HeaderNavbar/>}/>
+          {/* <Route path="/header" element={<HeaderNavbar/>}/> */}
           {/* student sidebar */}
-          <Route path="/student/dashboard" element={ <Navigate to="/admin/dashboard" /> } />
+          <Route path="/student/dashboard" element={ <StudentDashboard/> } />
           
           {/* element={<StudentDashboard />} /> */}
           <Route path="/student/update/detail" element={<Updatestudentdetail />} />

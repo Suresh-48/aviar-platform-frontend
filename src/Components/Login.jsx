@@ -31,7 +31,7 @@ const Login = () => {
   });
   const onSubmit = (values) => {
     console.log("Form data", values);
-    navigate("/Studentsidebar");
+    navigate("/student/dashboard");
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -128,13 +128,13 @@ const Login = () => {
           <Modal.Title className="text-center">Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-       <NavLink exact to="/Studentsignup" activeClassName="main-nav-active-style"> 
+       <NavLink exact to="/Student/signup" activeClassName="main-nav-active-style"> 
 
           {/* <Link to ='Studentsignup'> */}
        <h4 className="signup" >Signup as Student</h4>
        {/* </Link> */}
        </NavLink>
-       <Link to='Teachersignup'>
+       <Link to='/teacher/signup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
        {/* <Button variant="secondary" onClick={() => setShow(false)}>

@@ -123,7 +123,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
     <div>
          <HeaderNavbar /> 
          {/* <div className="footerDiv"> */}
-      <PublicFooter/>
+    
       {/* </div> */}
       <div>
         <div className={`${open ? "sidebar" : "sidebar active"}`}>
@@ -321,7 +321,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
               </div>
             </div>
             {/* teacher review */}
-            <div div className="nav-list">
+            {/* <div div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
@@ -333,11 +333,11 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                   Teacher Application
                 </NavLink>
               </div>
-            </div>
+            </div> */}
             {/* teacher reject */}
-            <div className="nav-list">
+            {/* <div className="nav-list">
               <div className="menu-list">
-                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
+                <NavLink exact to="/teacher/application/details"activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
                     icon={faPersonCircleCheck}
                     title="Teacher Application"
@@ -347,7 +347,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                   Teacher Application
                 </NavLink>
               </div>
-            </div>
+            </div> */}
             <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">

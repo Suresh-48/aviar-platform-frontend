@@ -163,7 +163,7 @@ const AllCourseList = (props) => {
         </div>
       {/* )} */}
       {/* {isLoading ? ( */}
-        <Loader />
+        {/* <Loader /> */}
    {/* ) : ( */}
         <Container fluid style={{ marginTop: "0%" }}>
           <Row>
