@@ -29,7 +29,7 @@ const Login = () => {
   });
   const onSubmit = (values) => {
     console.log("Form data", values);
-    navigate("/admin/dashboard");
+    navigate("/app/dashboard");
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);

@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React,{useState}from 'react';
+import { BrowserRouter as Router, Routes, Route,Navigate, Outlet } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
@@ -23,6 +23,7 @@ import UpcomingSchedule1 from "./Components/Studentupcomingschedule/Upcomingsche
 import List from "./Components/Favouritecourse/List";
 import Quiz from "./Components/ListOfQuiz/Quiz.jsx";
 import Homework from "./Components/Homework/Homework";
+import PublicLayout from "./Components/PublicLayout/PublicLayout.jsx";
 import Transcript from "./Components/Studenttranscript/Transcript";
 import ActiveCourses from "./Components/ActiveEnroleCourses/ActiveCourses";
 import Forumdetail from "./Components/Forum/Forumdetail";
@@ -38,70 +39,68 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import HeaderNavbar from "./Components/Core/HeaderNavbar";
-
+import TeacherDashboard from './Components/Dashboard/Teacherdashboard.jsx';
 import PublicFooter from "./Components/PublicLayout/PublicFooter.jsx";
 import SidebarSetup from './Components/PublicLayout/SidebarSetup.jsx';
 
 const App = () => {
+  const [open, setOpen] = useState(true);
   return (
     <div>
       <ToastContainer autoClose={5000} hideProgressBar pauseOnHover={false} toastClassName="toastRequestSuccess" bodyClassName="toastBody" closeButton={false} />
-      <BrowserRouter>
-     
-        <Adminsidebar />
-
+      <Router>
         <Routes>
-          
-          
-
           <Route path="/" element={<LandingPage />} />
-
-
-
-          <Route path="/dashboard" element={<Dashboard />} /> 
-          {/* <Route path="/admin/dashboard" element={<SidebarSetup/>} /> */}
-          <Route path="/admin/dashboard" element={<Admindashboard/>} />
-
-          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin/coursecategory" element={<CourseCategory />} />
-          <Route path="/admin/coursesearch" element={<AllCourseList />} />
-          <Route path="/admin/upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
-          <Route path="/admin/students/list" element={<StudentList />} />
-          <Route path="/admin/course/list" element={<CourseList />} />
-          <Route path="/admin/teacher/list" element={<TeacherList />} />
-          <Route path="/admin/forum" element={<AdminForum />} />
-          <Route path="/admin/payment/list" element={<AdminPaymentList />} />
-          <Route path="/header" element={<HeaderNavbar/>}/>
-          {/* student sidebar */}
-          <Route path="/student/dashboard" element={ <Navigate to="/admin/dashboard" /> } />
-          
-          {/* element={<StudentDashboard />} /> */}
-          <Route path="/student/update/detail" element={<Updatestudentdetail />} />
-          <Route path="/student/upcoming/schedule1" element={<UpcomingSchedule1 />} />
-          <Route path="/student/allcourselist" element={<AllCourseList />} />
-          <Route path="/student/list" element={<List />} />
-          <Route path="/student/quiz" element={<Quiz />} />
-          <Route path="/student/homework" element={<Homework />} />
-          <Route path="/student/transcript" element={<Transcript />} />
-          <Route path="/student/activecourses" element={<ActiveCourses />} />
-          <Route path="/student/forum/detail" element={<Forumdetail />} />
-          <Route path="/student/completecourse" element={<CompleteCourse />} />
-          <Route path="/student/course/history" element={<CourseHistory />} />
-          {/* <Route path="./student" */}
-          {/* teacher sidebar */}
-          <Route path="/teacher/courselist" element={<TeacherCourseList />} />
-          <Route path="/teacher/profile" element={<TeacherProfile />} />
-          <Route path="/teacher/upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
-          <Route path="/teacher/quiz/review" element={<TeacherQuizReview />} />
-          <Route path="/teacher/homework/review" element={<TeacherHomeworkReview />} />
-          <Route path="/teacher/available" element={<TeacherAvailable />} />
-          <Route path="/teacher/forum/select" element={<ForumSelect />} />
-          <Route path="/teacher/payment" element={<TeacherPayment />} />
-          <Route path="/teacher/application/details" element={<DisplayTeacherApplication />} />
+            <Route
+          path="/app"
+          element={
+            <PublicLayout open={open} onClick={() => setOpen(!open)}>
+              <Outlet />
+            </PublicLayout>
+          }
+        >     
+           <Route index element={<Navigate to="/student/dashboard"/>} />
+      
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="admin/dashboard" element={<Admindashboard />} />
+            <Route path="admin/login" element={<AdminLogin />} />
+         
+            <Route path="admin/coursecategory" element={<CourseCategory />} />
+            <Route path="admin/coursesearch" element={<AllCourseList />} />
+            <Route path="admin/upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
+            <Route path="admin/students/list" element={<StudentList />} />
+            <Route path="admin/course/list" element={<CourseList />} />
+            <Route path="admin/teacher/list" element={<TeacherList />} />
+            <Route path="admin/forum" element={<AdminForum />} />
+            <Route path="admin/payment/list" element={<AdminPaymentList />} />
+            <Route path="header" element={<HeaderNavbar />} />
+            <Route path="student/dashboard" element={<StudentDashboard />} />
+            <Route path="student/update/detail" element={<Updatestudentdetail />} />
+            <Route path="student/upcoming/schedule1" element={<UpcomingSchedule1 />} />
+            <Route path="student/allcourselist" element={<AllCourseList />} />
+            <Route path="student/list" element={<List />} />
+            <Route path="student/quiz" element={<Quiz />} />
+            <Route path="student/homework" element={<Homework />} />
+            <Route path="student/transcript" element={<Transcript />} />
+            <Route path="student/activecourses" element={<ActiveCourses />} />
+            <Route path="student/forum/detail" element={<Forumdetail />} />
+            <Route path="student/completecourse" element={<CompleteCourse />} />
+            <Route path="student/course/history" element={<CourseHistory />} />
+            <Route path="teacher/dashboard" element={<TeacherDashboard />} />
+            <Route path="teacher/courselist" element={<TeacherCourseList />} />
+            <Route path="teacher/profile" element={<TeacherProfile />} />
+            <Route path="teacher/schedule" element={<UpcomingTeacherScheduleList />} />
+            <Route path="teacher/upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
+            <Route path="teacher/quiz/review" element={<TeacherQuizReview />} />
+            <Route path="teacher/homework/review" element={<TeacherHomeworkReview />} />
+            <Route path="teacher/available" element={<TeacherAvailable />} />
+            <Route path="teacher/forum/select" element={<ForumSelect />} />
+            <Route path="teacher/payment" element={<TeacherPayment />} />
+            <Route path="teacher/application/details" element={<DisplayTeacherApplication />} />
+          </Route>
         </Routes>
-        
-      </BrowserRouter>
+      </Router>
     </div>
   );
 };
