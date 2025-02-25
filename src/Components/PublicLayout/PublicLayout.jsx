@@ -1,13 +1,15 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Adminsidebar from "../Core/Adminsidebar"      // Your existing sidebar component
+import Allsidebar from "../Core/Allsidebar"      // Your existing sidebar component
+
 const PublicLayout = ({ open, onClick }) => {
   console.log("open..",open)
   console.log("onClick...",onclick)
   return (
     <div>
       {/* Fixed Sidebar */}
-      <Adminsidebar  />
+      <Allsidebar  />
+
       {/* Main Content */}
       <div
         style={{

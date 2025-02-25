@@ -15,7 +15,7 @@ import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
 import StudentList from "./Components/AdminStudentList/Index.jsx";
 import CourseList from "./Components/Courselist/Index.jsx";
-import Adminsidebar from './Components/Core/Adminsidebar.jsx';
+import Allsidebar from './Components/Core/Allsidebar.jsx';
 import TeacherList from "./Components/TeacherList/Index.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
@@ -41,7 +41,7 @@ import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAp
 import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
 
 const App = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -60,7 +60,7 @@ const App = () => {
             path="/student"
             element={
               <>
-             
+                {/* <Allsidebar /> */}
                 <PublicLayout open={open} onClick={() => setOpen(!open)}>
                   <Outlet />
                 </PublicLayout>
@@ -87,7 +87,7 @@ const App = () => {
             path="/admin"
             element={
               <>
-             
+                {/* <Allsidebar /> */}
                 <PublicLayout open={open} onClick={() => setOpen(!open)}>
                   <Outlet />
                 </PublicLayout>
@@ -97,7 +97,7 @@ const App = () => {
             <Route index element={<Navigate to="/admin/dashboard" />} />
             <Route path="dashboard" element={<Admindashboard />} />
             <Route path="coursecategory" element={<CourseCategory />} />
-            <Route path="coursesearch" element={<AllCourseList />} />
+            <Route path="course/search" element={<AllCourseList />} />
             <Route path="upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
             <Route path="students/list" element={<StudentList />} />
             <Route path="course/list" element={<CourseList />} />
@@ -111,7 +111,7 @@ const App = () => {
             path="/teacher"
             element={
               <>
-           
+                {/* <Allsidebar /> */}
                 <PublicLayout open={open} onClick={() => setOpen(!open)}>
                   <Outlet />
                 </PublicLayout>

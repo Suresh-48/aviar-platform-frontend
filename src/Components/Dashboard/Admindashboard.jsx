@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import './css/Admindashboard.css';
-import Adminsidebar from '../Core/Adminsidebar';
+// import Adminsidebar from '../Core/Allsidebar';
 const Admindashboard = () => {
   return (
     <div>
