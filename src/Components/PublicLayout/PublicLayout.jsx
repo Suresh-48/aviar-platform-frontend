@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 import Adminsidebar from "../Core/Adminsidebar"      // Your existing sidebar component
 
 const PublicLayout = ({ open, onClick }) => {
+  console.log("open..",open)
+  console.log("onClick...",onclick)
   return (
     <div>
       {/* Fixed Sidebar */}
@@ -16,7 +18,7 @@ const PublicLayout = ({ open, onClick }) => {
           padding: "20px",
         }}
       >
-        <Outlet /> {/* This will render the matched route component */}
+        <Outlet /> 
       </div>
     </div>
   );

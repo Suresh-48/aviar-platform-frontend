@@ -29,7 +29,7 @@ const Login = () => {
   });
   const onSubmit = (values) => {
     console.log("Form data", values);
-    navigate("/app/dashboard");
+    navigate("/student/dashboard");
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
