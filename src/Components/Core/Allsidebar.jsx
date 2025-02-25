@@ -8,7 +8,7 @@ import aviar from "../../Images/aviar.png";
 import PublicFooter from "../PublicLayout/PublicFooter";
 // Icons
 import "../../CSS/Global.css"
-import HeaderNavbar from "../../Components/Core/HeaderNavbar";
+import HeaderNavbar from "./HeaderNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -45,7 +45,8 @@ import { ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role"
 // import Api from "../../Api";
 import Avatar from "react-avatar";
 import { toast } from "react-toastify";
-const Adminsidebar = ({ onClick, open, sidebar }) => {
+const Allsidebar = ({ onClick,sidebar }) => {
+  const[open,setOpen] = useState(true)
   const [role, setrole] = useState("");
   const sidebarValue = sidebar;
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
@@ -121,20 +122,22 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
   //   };
   return (
     <div>
-         <HeaderNavbar /> 
+         {/* <HeaderNavbar />  */}
         
       <div>
-        <div className={`${open ? "sidebar" : "sidebar active"}`}>
+        <div className={`${open ? "sidebar active" : "sidebar"}`}>
           <div className="logo-content">
             <div className="logo px-4 py-2 ">
               {/* <img src={Kharpi} alt="Kharphi" width={"80%"} height={"100%"} /> */}
             </div>
+
+
             {open === true ? (
               <FontAwesomeIcon
                 icon={faBars}
                 size="1x"
                 onClick={() => {
-                  onClick(!open);
+                  setOpen(!open);
                 }}
                 className="menu-button "
               />
@@ -142,7 +145,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
               <FontAwesomeIcon
                 icon={faCircleChevronLeft}
                 onClick={() => {
-                  onClick(!open);
+                  setOpen(!open);
                 }}
                 className="menu-button "
               />
@@ -512,4 +515,4 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
     
   )
 }
-export default Adminsidebar;
+export default Allsidebar;

@@ -4,7 +4,7 @@ import './index.css'
 import Login from './Components/Login.jsx'
 import LandingPage from './Components/LandingPage.jsx'
 import App from './App.jsx'
-import Adminsidebar from './Components/Core/Adminsidebar.jsx';
+// import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
 // import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'

@@ -65,7 +65,7 @@
   }
   
   /* Sidebar.css */
-.sidebar {
+/* .sidebar {
   height: 100%;
   width: 100px;
   position: fixed;
@@ -74,7 +74,7 @@
   background-color:rgb(216, 10, 10);
   padding-top: 20px;
   transition: 0.5s;
-}
+} */
 
 /* .sidebar p {
   color: white;

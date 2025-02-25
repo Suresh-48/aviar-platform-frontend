@@ -127,13 +127,13 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
               className="navbarbrand-alignment"
             //   onClick={() => history.push("/kharpi", { sideClose: "closed" })}
             >
-              <img
+              {/* <img
                 src={aviar}
                 width="100"
                 height="30"
                 className="d-inline-block align-top"
                 alt="logo"
-              />
+              /> */}
             </NavbarBrand>
           {/* ) : null} */}
 

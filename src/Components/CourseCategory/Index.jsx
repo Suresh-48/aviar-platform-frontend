@@ -6,7 +6,7 @@ import { createTheme } from "@mui/material";
 import Loader from "../Core/Loader";
 import tableIcons  from "../Core/TableIcons";// Ensure this path is correct
 
-import Adminsidebar from '../Core/Adminsidebar';
+
 const tableTheme = createTheme({
   overrides: {
     MuiTableRow: {
