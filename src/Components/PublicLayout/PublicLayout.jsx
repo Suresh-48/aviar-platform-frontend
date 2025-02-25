@@ -16,9 +16,13 @@ const PublicLayout = ({ open, onClick }) => {
           padding: "20px",
         }}
       >
-        <Outlet /> {/* This will render the matched route component */}
+        <Outlet /> 
       </div>
     </div>
   );
 };
+
+
 export default PublicLayout;
+
+

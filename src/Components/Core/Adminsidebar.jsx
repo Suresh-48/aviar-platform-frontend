@@ -122,9 +122,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
   return (
     <div>
          <HeaderNavbar /> 
-         {/* <div className="footerDiv"> */}
-    
-      {/* </div> */}
+        
       <div>
         <div className={`${open ? "sidebar" : "sidebar active"}`}>
           <div className="logo-content">
@@ -509,8 +507,9 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
           </div>
         </div>
       </div>
-   
+  
     </div>
+    
   )
 }
 export default Adminsidebar;
