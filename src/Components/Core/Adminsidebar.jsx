@@ -45,7 +45,9 @@ import { ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role"
 // import Api from "../../Api";
 import Avatar from "react-avatar";
 import { toast } from "react-toastify";
-const Adminsidebar = ({ onClick, open, sidebar }) => {
+
+const Adminsidebar = ({ onClick,sidebar }) => {
+  const[open,setOpen]=useState(true)
   const [role, setrole] = useState("");
   const sidebarValue = sidebar;
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
@@ -59,6 +61,8 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
   const [teacherId, setTeacherId] = useState("");
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
+
+  
   //   const history = useHistory();
   //   const pathName = history.location.pathname;
 
@@ -121,8 +125,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
   //   };
   return (
     <div>
-         <HeaderNavbar /> 
-        
+         {/* <HeaderNavbar />  */}
       <div>
         <div className={`${open ? "sidebar" : "sidebar active"}`}>
           <div className="logo-content">
@@ -131,18 +134,18 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
             </div>
             {open === true ? (
               <FontAwesomeIcon
-                icon={faBars}
+                icon={faCircleChevronLeft}
                 size="1x"
                 onClick={() => {
-                  onClick(!open);
+                  setOpen(!open);
                 }}
                 className="menu-button "
               />
             ) : (
               <FontAwesomeIcon
-                icon={faCircleChevronLeft}
+                icon={faBars}
                 onClick={() => {
-                  onClick(!open);
+                  setOpen(!open);
                 }}
                 className="menu-button "
               />
@@ -318,8 +321,8 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                 </NavLink>
               </div>
             </div>
-            {/* teacher review */}
-            {/* <div div className="nav-list">
+            teacher review
+            <div div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
@@ -331,9 +334,9 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                   Teacher Application
                 </NavLink>
               </div>
-            </div> */}
-            {/* teacher reject */}
-            {/* <div className="nav-list">
+            </div>
+            teacher reject
+            <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/application/details"activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
@@ -345,7 +348,7 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                   Teacher Application
                 </NavLink>
               </div>
-            </div> */}
+            </div>
             <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
@@ -377,13 +380,13 @@ const Adminsidebar = ({ onClick, open, sidebar }) => {
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/teacher/review/quiz" activeClassName="main-nav-active-style">
+                <NavLink exact to="teacher/review/quiz" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon" size="1x" />
                   Quiz
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/teacher/review/homework" activeClassName="main-nav-active-style">
+                <NavLink exact to="/homework/review" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
                   Homework
                 </NavLink>

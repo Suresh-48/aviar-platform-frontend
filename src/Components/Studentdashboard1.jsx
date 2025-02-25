@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Table, Button, Modal, Col,Card } from "react-bootstrap";
-import './css/Studentdashboard.css'
+import '../css/Studentdashboard.css'
 import { useNavigate } from "react-router-dom";
 // import { Link, useHistory } from "react-router-dom";
 // import moment from "moment";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 // Api
 // import Api from "../../Api";
 // Styles
-// import "../../css/StudentDashboard.scss";
+import "../css/StudentDashboard.css";
 function StudentDashboard() {
   const [data, setData] = useState([]);
   const [upcomingData, setUpcomingData] = useState([]);

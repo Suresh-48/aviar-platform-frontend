@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 // import Login from './Components/Login.jsx'
 // import LandingPage from './Components/LandingPage.jsx'
+import TeacherQuizReview from './Components/TeacherQuizeReview/Index.jsx'
 import App from './App.jsx'
 // import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'

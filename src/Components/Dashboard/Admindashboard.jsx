@@ -5,7 +5,7 @@ import Adminsidebar from '../Core/Adminsidebar';
 const Admindashboard = () => {
   return (
     <div>
-      <Adminsidebar/>
+      {/* <Adminsidebar/> */}
       <Container>
         <Row className="mb-4">
           <Col md={4}>

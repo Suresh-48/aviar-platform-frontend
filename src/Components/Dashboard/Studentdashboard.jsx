@@ -10,7 +10,7 @@ import Loader from "../core/Loader";
 // import Api from "../../Api";
 
 // Styles
-import "./CSS/Studentdashboard.css";
+// import "./CSS/Studentdashboard.css";
 
 function StudentDashboard() {
   const [data, setData] = useState([]);

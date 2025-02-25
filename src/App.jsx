@@ -33,7 +33,7 @@ import StudentDashboard from './Components/Dashboard/Studentdashboard.jsx';
 import TeacherCourseList from "./Components/TeacherCourseList/Index.jsx";
 import TeacherProfile from "./Components/TeacherProfile/Index.jsx";
 import TeacherQuizReview from "./Components/TeacherQuizeReview/Index.jsx";
-import TeacherHomeworkReview from "./Components/TeacherHomeWorkReview/Index.jsx";
+import TeacherHomeworkReviews from "./Components/TeacherHomeWorkReview/Index.jsx";
 import TeacherAvailable from "./Components/TeacherAvailablity/Index.jsx";
 import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
@@ -60,7 +60,7 @@ const App = () => {
             path="/student"
             element={
               <>
-                <Adminsidebar />
+             
                 <PublicLayout open={open} onClick={() => setOpen(!open)}>
                   <Outlet />
                 </PublicLayout>
@@ -87,7 +87,7 @@ const App = () => {
             path="/admin"
             element={
               <>
-                <Adminsidebar />
+             
                 <PublicLayout open={open} onClick={() => setOpen(!open)}>
                   <Outlet />
                 </PublicLayout>
@@ -111,7 +111,7 @@ const App = () => {
             path="/teacher"
             element={
               <>
-                <Adminsidebar />
+           
                 <PublicLayout open={open} onClick={() => setOpen(!open)}>
                   <Outlet />
                 </PublicLayout>
@@ -123,9 +123,10 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard/>}/>
             <Route path="courselist" element={<TeacherCourseList />} />
             <Route path="profile" element={<TeacherProfile />} />
-            <Route path="upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
-            <Route path="quiz/review" element={<TeacherQuizReview />} />
-            <Route path="homework/review" element={<TeacherHomeworkReview />} />
+            <Route path="/teacher/schedule" element={<UpcomingTeacherScheduleList />} />
+            <Route path="/teacher/upcoming/schedule/list" element={<UpcomingSchedule1 />} />
+            <Route path="/teacher/review/quiz" element={<TeacherQuizReview />} />
+            <Route path="homework/review" element={<TeacherHomeworkReviews />} />
             <Route path="available" element={<TeacherAvailable />} />
             <Route path="forum/select" element={<ForumSelect />} />
             <Route path="payment" element={<TeacherPayment />} />
