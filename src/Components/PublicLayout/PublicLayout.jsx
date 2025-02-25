@@ -3,11 +3,9 @@ import { Outlet } from "react-router-dom";
 import Allsidebar from "../Core/Allsidebar"      // Your existing sidebar component
 
 const PublicLayout = ({ open, onClick }) => {
-  console.log("open..",open)
-  console.log("onClick...",onclick)
+ 
   return (
     <div>
-      {/* Fixed Sidebar */}
       <Allsidebar  />
 
       {/* Main Content */}

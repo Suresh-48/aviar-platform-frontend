@@ -33,16 +33,14 @@ import StudentDashboard from './Components/Dashboard/Studentdashboard.jsx';
 import TeacherCourseList from "./Components/TeacherCourseList/Index.jsx";
 import TeacherProfile from "./Components/TeacherProfile/Index.jsx";
 import TeacherQuizReview from "./Components/TeacherQuizeReview/Index.jsx";
-import TeacherHomeworkReviews from "./Components/TeacherHomeWorkReview/Index.jsx";
+import TeacherHomeworkReview from "./Components/TeacherHomeWorkReview/Index.jsx";
 import TeacherAvailable from "./Components/TeacherAvailablity/Index.jsx";
 import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
-
 const App = () => {
   // const [open, setOpen] = useState(false);
-
   return (
     <div>
       <ToastContainer autoClose={5000} hideProgressBar pauseOnHover={false} toastClassName="toastRequestSuccess" bodyClassName="toastBody" closeButton={false} />
@@ -54,7 +52,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
-
           {/* Protected Routes with Sidebar */}
           <Route
             path="/student"
@@ -81,7 +78,6 @@ const App = () => {
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
           </Route>
-
           {/* Admin Routes */}
           <Route
             path="/admin"
@@ -98,14 +94,13 @@ const App = () => {
             <Route path="dashboard" element={<Admindashboard />} />
             <Route path="coursecategory" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
-            <Route path="upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
+            <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="students/list" element={<StudentList />} />
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
             <Route path="payment/list" element={<AdminPaymentList />} />
           </Route>
-
           {/* Teacher Routes */}
           <Route
             path="/teacher"
@@ -121,15 +116,14 @@ const App = () => {
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
             <Route path="dashboard" element={<Dashboard/>}/>
-            <Route path="courselist" element={<TeacherCourseList />} />
+            <Route path="schedule" element={<TeacherCourseList />} />
             <Route path="profile" element={<TeacherProfile />} />
-            <Route path="/teacher/schedule" element={<UpcomingTeacherScheduleList />} />
-            <Route path="/teacher/upcoming/schedule/list" element={<UpcomingSchedule1 />} />
-            <Route path="/teacher/review/quiz" element={<TeacherQuizReview />} />
-            <Route path="homework/review" element={<TeacherHomeworkReviews />} />
-            <Route path="available" element={<TeacherAvailable />} />
-            <Route path="forum/select" element={<ForumSelect />} />
-            <Route path="payment" element={<TeacherPayment />} />
+            <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+            <Route path="review/quiz" element={<TeacherQuizReview />} />
+            <Route path="review/homework" element={<TeacherHomeworkReview />} />
+            <Route path="not-available/time" element={<TeacherAvailable />} />
+            <Route path="forum/details" element={<ForumSelect />} />
+            <Route path="payments" element={<TeacherPayment />} />
             <Route path="application/details" element={<DisplayTeacherApplication />} />
           </Route>
         </Routes>
@@ -137,5 +131,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

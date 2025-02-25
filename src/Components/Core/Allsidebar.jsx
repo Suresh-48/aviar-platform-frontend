@@ -452,7 +452,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/admin/upcoming/teacher/schedule/list" activeClassName="main-nav-active-style">
+                <NavLink exact to="/admin/upcoming/schedule/list" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faBookBookmark} title="Upcoming Schedules" className="menu-icon" size="1x" />
                   Upcoming Schedule
                 </NavLink>
