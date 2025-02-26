@@ -42,18 +42,19 @@ const Login = () => {
   };
   return (
     <div className="Login-container">
-      <div className="Aviarlogo">
-        <div className="text-center">
-          <img src={aviarImag} alt=" " />
-        </div>
-        <div className="Content-link">
-          <p className="links mx-4" onClick={() => history.push("/course/search")}>
+         <div className="Content-link">
+          <p className="links mx-4" onClick={() => navigate("/course/search")}>
             Courses
           </p>
           <p className="links mx-4">Trainers</p>
           <p className="links mx-4">About Us</p>
           <p className="links mx-4">Help</p>
         </div>
+      <div className="Aviarlogo">
+        <div className="text-center">
+          <img src={aviarImag} alt=" " />
+        </div>
+     
         <div className="curveImg">
           <img src={curveImg} alt=" " />
         </div>
