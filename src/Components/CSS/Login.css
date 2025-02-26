@@ -28,13 +28,13 @@
      .links:hover {
         cursor: pointer;
       }
-      .Content-link{
+      /* .Content-link{
         position: absolute;
         display: flex;
         justify-content: center;
         width:100%;
-        top: 200px;
-      }
+        margin-bottom: 1000px;
+      } */
       .signup{
         box-shadow: 20px;
         /* background-color:rgb(222, 225, 235); */
