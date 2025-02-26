@@ -3,7 +3,7 @@ import {  ROLES_STUDENT, ROLES_TEACHER } from "../Constants/Role";
 import Admindashboard from "./Dashboard/Admindashboard";
 
 import Studentdashboard from "./Dashboard/Studentdashboard";
-import Teacherdashboard from "./Dashboard/Teacherdashboard";
+import Teacherdashboard from "./Dashboard/TeacherDashboard";
 
 function Dashboard(props) {
   const [role, setRole] = useState("");
