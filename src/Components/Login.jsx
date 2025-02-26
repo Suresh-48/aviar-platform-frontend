@@ -3,6 +3,7 @@ import { Col, Container, Row, Form, InputGroup, Card, Button, Modal } from "reac
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import './CSS/Login.css';
+import PublicFooter from "./PublicLayout/PublicFooter";
 import curveImg from "./curveImg.png";
 import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -119,7 +120,11 @@ const Login = () => {
                 </div>
               </Form>
             </Card>
+            <div>
+              <PublicFooter/>
+            </div>
           </Container>
+
         )}
       </Formik>
       {/* Sign Up Modal */}
@@ -137,9 +142,9 @@ const Login = () => {
        <Link to='/teacher/signup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
-       <Button variant="secondary" onClick={() => setShow(false)}> 
+       <Button variant="secondary" onClick={() => setShow(false)}>
                 Cancel
-               </Button> 
+              </Button>
         </Modal.Body>
       </Modal>
     </div>

@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-// import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../css/CourseList.css";
 
 const theme = createTheme({
@@ -47,7 +47,7 @@ const CourseList = () => {
   const [postsPerPage] = useState(9);
   const [isLoading, setIsLoading] = useState(false);
   const [lessonShow, setLessonShow] = useState(false);
-  // const history = useHistory();
+  const navigate = useNavigate();
 
   // Dummy data for demonstration
   useEffect(() => {
@@ -99,7 +99,7 @@ const CourseList = () => {
               <Button
                 // className="create-button-style py-1 Kharpi-save-btn"
                 variant="primary"
-                onClick={() => history.push("/course/add")}
+                onClick={() => navigate("/admin/course/add")}
               >
                 <FontAwesomeIcon icon={faPlus} size="lg" className="mx-1" />{" "}
                 Create Course

@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-import Loader from "../Core/Loader";
+// import Loader from "../Core/Loader";
 import tableIcons  from "../Core/TableIcons";// Ensure this path is correct
 
 

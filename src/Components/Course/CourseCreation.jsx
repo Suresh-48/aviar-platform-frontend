@@ -21,7 +21,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 // import { convertToRaw } from "draft-js";
 // import Quill from "quill";
-// import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 // Api
 // import Api from "../../Api";
@@ -72,7 +72,7 @@ const CoursesCreation = () => {
   const [imageType, setImageType] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState("");
-  // const history = useHistory();
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   getCategory();
