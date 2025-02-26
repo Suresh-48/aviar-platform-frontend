@@ -125,7 +125,7 @@ const App = () => {
             <Route path="profile" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="review/quiz" element={<TeacherQuizReview />} />
-            <Route path="review/homework" element={<TeacherHomeworkReview />} />
+            <Route path="homework/review" element={<TeacherHomeworkReview />} />
             <Route path="not-available/time" element={<TeacherAvailable />} />
             <Route path="forum/details" element={<ForumSelect />} />
             <Route path="payments" element={<TeacherPayment />} />
