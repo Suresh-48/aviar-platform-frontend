@@ -1,0 +1,13 @@
+
+.adminpayment-title{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.chevron-left::before {
+    content: '\2039'; /* Unicode for chevron left */
+  }
+  
+  .chevron-right::before {
+    content: '\203A'; /* Unicode for chevron right */
+  }
