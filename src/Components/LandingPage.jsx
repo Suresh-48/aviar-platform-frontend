@@ -1,10 +1,10 @@
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import studentsImg from "./Images/studentsImg.png";
 import "../CSS/LandingPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import aviar from "./Images/aviar.png";
 
-import { Button, Card, Form, InputGroup,Carousel, Container, Row, Col } from "react-bootstrap";
+import { Button, Card, Form, InputGroup, Carousel, Container, Row, Col } from "react-bootstrap";
 // import Avatar from "react-avatar";
 import {
   faAddressCard,
@@ -14,7 +14,7 @@ import {
   faChevronCircleLeft,
   faChevronCircleRight,
   faLink,
- 
+
   faSearch,
   faThumbsUp,
   faUser,
@@ -177,14 +177,14 @@ function LandingPage(props) {
       </div>
       <div
         className="image-div-one"
-    
-        
+
+
         style={{
-      backgroundImage: `url(${studentsImg})`,
-       backgroundSize: "cover",
-         height: "73vh",
-       }}
-       >
+          backgroundImage: `url(${studentsImg})`,
+          backgroundSize: "cover",
+          height: "73vh",
+        }}
+      >
         <div className="card-main">
           <Card className="card-align mx-5 ">
             <Card.Header className="card-header">
@@ -195,12 +195,12 @@ function LandingPage(props) {
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
                 industry's standard dummy text ever since the 1500s,
               </p>
-     
+
             </Card.Body>
           </Card>
 
         </div>
-        
+
         <div className="one-line-comment">
           <div>
             <div className=" d-flex">
@@ -212,7 +212,7 @@ function LandingPage(props) {
               <p className="one-line-comment-pTag1 mb-0 ">Learning...</p>
             </div>
           </div>
-          
+
         </div>
       </div>
 
@@ -224,7 +224,7 @@ function LandingPage(props) {
             <p className="extra-content-pTag-two">We value quality over quantity</p>
           </p>
         </div>
-      
+
         <div className="extra-content-list">
           <img src={layer3} alt="" className="extra-content" />
           <p className="extra-content-pTag-one ">
@@ -247,102 +247,102 @@ function LandingPage(props) {
           </p>
         </div>
       </div>
-     
-        <div className="slider-main-one">
 
-          <div className="slider-main">
-          
-              <h3 className="slider-category ">Categories</h3>
-              <Button className="btn-color1" 
-           
-               onClick={() => Link("/login")}>
-                View All
-              </Button>
-              <Carousel>
-              <Carousel.Item>
-              
-            
-           <div>
-          <img src={emptyGallery} alt="first slide" 
-          style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
-          />
-          </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div>
-            <img src={emptyGallery} alt=" second slide" 
-          style={{width:"16%",  display: "flex",alignContent:"center" ,  margin:"auto"}}
-          />
-          </div>
-        </Carousel.Item>  
-        <Carousel.Item>
-              
-            
+      <div className="slider-main-one">
+
+        <div className="slider-main">
+
+          <h3 className="slider-category ">Categories</h3>
+          <Button className="btn-color1"
+
+            onClick={() => Link("/login")}>
+            View All
+          </Button>
+          <Carousel>
+            <Carousel.Item>
+
+
               <div>
-             <img src={emptyGallery} alt="first slide" className="emptyGallery1"
-         
-             />
-             </div>
-             </Carousel.Item>
-             </Carousel>
-             
-              {/* <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}> */}
-           
-            </div>
-            <br/>
-          
-       
-       
-              
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div>
+                <img src={emptyGallery} alt=" second slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
 
-                
-                
-             
-            </div>
-   
-    
-        <div 
-        // className="upcomings-div-main"
-        >
-          <div 
+
+              <div>
+                <img src={emptyGallery} alt="first slide" className="emptyGallery1"
+
+                />
+              </div>
+            </Carousel.Item>
+          </Carousel>
+
+          {/* <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}> */}
+
+        </div>
+        <br />
+
+
+
+
+
+
+
+
+      </div>
+
+
+      <div
+      // className="upcomings-div-main"
+      >
+        <div
           className="upcomings">
-          
-          
-              <h3 
-              className="slider-category-upcoming"
-              >Recommended Courses for you</h3>
-              <Button className="btn-course" onClick={() => Link("/login")}>
-                View All
-              </Button>
-              {/* <br/> */}
-              <Carousel>
-              <Carousel.Item>
-              
-            
-           <div>
-          <img src={emptyGallery} alt="first slide" 
-          style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
-          />
-          </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div>
-            <img src={emptyGallery} alt=" second slide" 
-          style={{width:"16%",  display: "flex",alignContent:"center" ,margin:"auto"}}
-          />
-          </div>
-        </Carousel.Item>  
-        <Carousel.Item>
-              
-            
+
+
+          <h3
+            className="slider-category-upcoming"
+          >Recommended Courses for you</h3>
+          <Button className="btn-course" onClick={() => Link("/login")}>
+            View All
+          </Button>
+          {/* <br/> */}
+          <Carousel>
+            <Carousel.Item>
+
+
               <div>
-             <img src={emptyGallery} alt="first slide" 
-             style={{width:"16%",  display: "flex", margin:"auto"}}
-             />
-             </div>
-             </Carousel.Item>
-             </Carousel>
-              {/* <Row>
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div>
+                <img src={emptyGallery} alt=" second slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+
+
+              <div>
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+          </Carousel>
+          {/* <Row>
                 <Col md={6}>
                
               <Card className="Course-recommended1" >
@@ -362,21 +362,21 @@ function LandingPage(props) {
                 </Col>
               </Row>
               */}
-              
-            
-            
-            
-            
-            </div>
-          </div>
-   <br/>
-  
+
+
+
+
+
+        </div>
+      </div>
+      <br />
+
       <div className="back-image-main">
-        <img src={backImg4} alt="" className="back-image-one" /> 
-        <div className="back-image-center">                                      
+        <img src={backImg4} alt="" className="back-image-one" />
+        <div className="back-image-center">
           <div className="back-image-sub-center">
             <div className="back-image-align">
-              <p className="back-image-pTag1" style={{color:"Yellow"}}>Become an Instructor</p>
+              <p className="back-image-pTag1" style={{ color: "Yellow" }}>Become an Instructor</p>
               <p className="back-image-pTag2">
                 Teach what you love. Aviar gives you the tools start
                 <br /> an online course.
@@ -421,150 +421,150 @@ function LandingPage(props) {
             </div>
           </div>
         </div>
-        </div>
-        <br/>
-        <br/>
+      </div>
+      <br />
+      <br />
       <Container className="upcoming-course">
         <div className="upcoming-div-main" >
-              <h3 className="slider-category-upcoming ">Upcoming Courses</h3>
-              <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => Link("/login")}>
-                View All
-              </Button>
-              <br/>
-              <br/>
-              </div>
-              <div className="carousel-wrapper">
-         
-                     <Carousel 
-                      // className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}
-                     >
-                      <Carousel.Item>
-                  <img src={emptyGallery} alt="first slide" style={{width:"20%",  display: "flex", margin:"auto"}}/>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                  <img src={emptyGallery} alt="second slide" style={{width:"20%",  display: "flex", margin:"auto"}}/>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                  <img src={emptyGallery} alt="third slide" style={{width:"20%",  display: "flex", margin:"auto"}}/>
-                  </Carousel.Item>
-                       </Carousel>
-         
-  
-              </div>
-              </Container>
-              <div className="profile-div-main">
-          <div className="profile-div-sub">
-            <p className="slider-trainer-upcoming">Top Trainers</p>
-            <Button className="btn-Upcomingcourse" style={{marginLeft:"90%"}} onClick={() => Link("/login")}>
-                View All
-              </Button>
-            <Carousel >
-              <Carousel.Item>
-                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
-                    <div className="inside-carousel-div2">
-                    
-                      <div className="user-details-div" >
-                        <div className="user1img">
-                         <img src={user1} alt="" 
-                         className="user1img"
-                         />
-                         </div>
-                        <div>
-                          
-                          <hr className="hr-line-user my-2" />
-                          <p className="Aviar-user-profession">Aviar User1</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
-                    <div className="inside-carousel-div2">
-                    
-                      <div className="user-details-div" >
-                        <div>
-                     
-                          <hr className="hr-line-user my-2" />
-                          <p className="Aviar-user-profession">Aviar User2</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
-                    <div className="inside-carousel-div2">
-                    
-                      <div className="user-details-div" >
-                        <div>
-                     
-                          <hr className="hr-line-user my-2" />
-                          <p className="Aviar-user-profession">Aviar User3</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-                  <div className="inside-carousel-div1" style={{margin:"auto"}}>
-                    <div className="inside-carousel-div2">
-                    
-                      <div className="user-details-div" >
-                        <div>
-                     
-                          <hr className="hr-line-user my-2" />
-                          <p className="Aviar-user-profession"> Aviar User4</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </Carousel.Item>
-                  
-                  </Carousel>
-                  
-            <div className="carousel-wrapper">
+          <h3 className="slider-category-upcoming ">Upcoming Courses</h3>
+          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => Link("/login")}>
+            View All
+          </Button>
+          <br />
+          <br />
+        </div>
+        <div className="carousel-wrapper">
 
-            </div>
+          <Carousel
+          // className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}
+          >
+            <Carousel.Item>
+              <img src={emptyGallery} alt="first slide" style={{ width: "20%", display: "flex", margin: "auto" }} />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img src={emptyGallery} alt="second slide" style={{ width: "20%", display: "flex", margin: "auto" }} />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img src={emptyGallery} alt="third slide" style={{ width: "20%", display: "flex", margin: "auto" }} />
+            </Carousel.Item>
+          </Carousel>
+
+
+        </div>
+      </Container>
+      <div className="profile-div-main">
+        <div className="profile-div-sub">
+          <p className="slider-trainer-upcoming">Top Trainers</p>
+          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => Link("/login")}>
+            View All
+          </Button>
+          <Carousel >
+            <Carousel.Item>
+              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
+                <div className="inside-carousel-div2">
+
+                  <div className="user-details-div" >
+                    <div className="user1img">
+                      <img src={user1} alt=""
+                        className="user1img"
+                      />
+                    </div>
+                    <div>
+
+                      <hr className="hr-line-user my-2" />
+                      <p className="Aviar-user-profession">Aviar User1</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
+                <div className="inside-carousel-div2">
+
+                  <div className="user-details-div" >
+                    <div>
+
+                      <hr className="hr-line-user my-2" />
+                      <p className="Aviar-user-profession">Aviar User2</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
+                <div className="inside-carousel-div2">
+
+                  <div className="user-details-div" >
+                    <div>
+
+                      <hr className="hr-line-user my-2" />
+                      <p className="Aviar-user-profession">Aviar User3</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
+              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
+                <div className="inside-carousel-div2">
+
+                  <div className="user-details-div" >
+                    <div>
+
+                      <hr className="hr-line-user my-2" />
+                      <p className="Aviar-user-profession"> Aviar User4</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Carousel.Item>
+
+          </Carousel>
+
+          <div className="carousel-wrapper">
+
           </div>
         </div>
+      </div>
 
- 
-          
-              {/* <Row>
+
+
+      {/* <Row>
                 <Col md={2}> */}
-               <div className="Col-6">
-       
-             
-                {/* </Col> */}
-            
-                <div className="Col-3">
-      
-          
-                {/* <Col md={3}> */}
-                
-                {/* </Col>
+      <div className="Col-6">
+
+
+        {/* </Col> */}
+
+        <div className="Col-3">
+
+
+          {/* <Col md={3}> */}
+
+          {/* </Col>
               </Row> */}
-              </div>
-          
-              
-            </div>
-            {/* <div className="carousel-wrapper">
+        </div>
+
+
+      </div>
+      {/* <div className="carousel-wrapper">
 
             </div> */}
-          
- 
+
+
       {/* <ChatBotConversation /> */}
       <div className="landing-page-footer-background">
         <Container className="p-4">
           <Row>
             <Col className=" mb-3">
               <div>
-                <img src={aviar} width="16" height="30" className="d-inline-block align-top mt-3" alt="logo" />
+                <img src={aviar} width="30%" height="30" className="d-inline-block align-top mt-3" alt="logo" />
               </div>
               <div
                 className="d-flex flex-direction-row mt-2"
@@ -573,20 +573,20 @@ function LandingPage(props) {
                 }}
               >
                 <FontAwesomeIcon icon={faLocationDot} width={"20px"} className="mt-1 me-1 footer-map" color="#3f51b5" />
-            
+
                 <text className="footer-font footer-map">Tiruvannamalai, </text>
                 <text className="footer-font footer-map">Tamilnadu</text>
               </div>
               <div className="d-flex flex-direction-row mt-2">
                 {/* <FontAwesomeIcon icon={faPhone} width={"20px"} className="mt-1 me-1" color="#3f51b5" /> */}
                 <b className="footer-font">
-              
+
                 </b>
               </div>
               <div className="d-flex flex-direction-row mt-2">
                 <FontAwesomeIcon icon={faEnvelope} className="mt-1 me-1" color="#3f51b5" width={"20px"} />{" "}
                 <b className="footer-font">
-                <a href="mailto:aviartechservices.com" className="footer-text-decoderation linkColor">
+                  <a href="mailto:aviartechservices.com" className="footer-text-decoderation linkColor">
                     avairtechservices.com
                   </a>
                 </b>

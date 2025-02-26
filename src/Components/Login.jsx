@@ -3,6 +3,7 @@ import { Col, Container, Row, Form, InputGroup, Card, Button, Modal } from "reac
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import './CSS/Login.css';
+import PublicFooter from "./PublicLayout/PublicFooter";
 import curveImg from "./curveImg.png";
 import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,18 +42,19 @@ const Login = () => {
   };
   return (
     <div className="Login-container">
-      <div className="Aviarlogo">
-        <div className="text-center">
-          <img src={aviarImag} alt=" " />
-        </div>
-        <div className="Content-link">
-          <p className="links mx-4" onClick={() => history.push("/course/search")}>
+         <div className="Content-link">
+          <p className="links mx-4" onClick={() => navigate("/course/search")}>
             Courses
           </p>
           <p className="links mx-4">Trainers</p>
           <p className="links mx-4">About Us</p>
           <p className="links mx-4">Help</p>
         </div>
+      <div className="Aviarlogo">
+        <div className="text-center">
+          <img src={aviarImag} alt=" " />
+        </div>
+     
         <div className="curveImg">
           <img src={curveImg} alt=" " />
         </div>
@@ -119,7 +121,11 @@ const Login = () => {
                 </div>
               </Form>
             </Card>
+            <div>
+              <PublicFooter/>
+            </div>
           </Container>
+
         )}
       </Formik>
       {/* Sign Up Modal */}
@@ -137,9 +143,9 @@ const Login = () => {
        <Link to='/teacher/signup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
-       <Button variant="secondary" onClick={() => setShow(false)}> 
+       <Button variant="secondary" onClick={() => setShow(false)}>
                 Cancel
-               </Button> 
+              </Button>
         </Modal.Body>
       </Modal>
     </div>
