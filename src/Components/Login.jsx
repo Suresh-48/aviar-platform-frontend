@@ -106,7 +106,7 @@ const Login = () => {
                 <br />
                 <br />
                 <div className="float-end text-primary">
-                  <a className="login-button sign-up-button ms-2">Forget password ?</a>
+                  <Link to='/forget/password/'>Forget password ?</Link>
                 </div>
                 <hr className="or-divider my-5" />
                 <div className="d-flex flex-direction-row text-center">

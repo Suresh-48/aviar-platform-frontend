@@ -5,6 +5,8 @@ import './index.css'
 // import LandingPage from './Components/LandingPage.jsx'
 import TeacherQuizReview from './Components/TeacherQuizeReview/Index.jsx'
 import App from './App.jsx'
+import Password from './Components/ResetPassword/Password.jsx'
+import ChangePassword from './Components/SubmitPassword/Index.jsx'
 // import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'

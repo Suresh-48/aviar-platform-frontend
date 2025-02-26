@@ -8,6 +8,8 @@ import Dashboard from './Components/Dashboard.jsx';
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
+import ResetPassword from "./Components/ResetPassword/Password.jsx";
+import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import CourseCategory from './Components/CourseCategory/Index.jsx';
@@ -39,6 +41,7 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
+
 const App = () => {
   // const [open, setOpen] = useState(false);
   return (
@@ -49,7 +52,9 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
+          <Route path='/password/change' element={<SubmitPassword/>}/>
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
           {/* Protected Routes with Sidebar */}
