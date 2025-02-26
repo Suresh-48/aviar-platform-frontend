@@ -78,13 +78,13 @@ const routes = [
     component:CourseCategory,
    },
  {
-  path:"/admin/coursesearch",
+  path:"/admin/course/search",
   exact:true,
   name:"AllCourseList",
   component:AllCourseList,
  },
  {
-  path:"/admin/upcoming/schedule",
+  path:"/admin/upcoming/schedule/list",
   exact:true,
   name:"UpcomingTeacherScheduleList",
   component: UpcomingTeacherScheduleList,

@@ -98,7 +98,7 @@ const App = () => {
             <Route path="dashboard" element={<Admindashboard />} />
             <Route path="coursecategory" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
-            <Route path="upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
+            <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="students/list" element={<StudentList />} />
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
@@ -121,14 +121,14 @@ const App = () => {
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
             <Route path="dashboard" element={<Dashboard/>}/>
-            <Route path="courselist" element={<TeacherCourseList />} />
+            <Route path="schedule" element={<TeacherCourseList />} />
             <Route path="profile" element={<TeacherProfile />} />
-            <Route path="upcoming/schedule" element={<UpcomingTeacherScheduleList />} />
-            <Route path="quiz/review" element={<TeacherQuizReview />} />
-            <Route path="homework/review" element={<TeacherHomeworkReview />} />
-            <Route path="available" element={<TeacherAvailable />} />
-            <Route path="forum/select" element={<ForumSelect />} />
-            <Route path="payment" element={<TeacherPayment />} />
+            <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+            <Route path="review/quiz" element={<TeacherQuizReview />} />
+            <Route path="review/homework" element={<TeacherHomeworkReview />} />
+            <Route path="not-available/time" element={<TeacherAvailable />} />
+            <Route path="forum/details" element={<ForumSelect />} />
+            <Route path="payments" element={<TeacherPayment />} />
             <Route path="application/details" element={<DisplayTeacherApplication />} />
           </Route>
         </Routes>
