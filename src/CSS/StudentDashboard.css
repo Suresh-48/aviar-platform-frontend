@@ -51,18 +51,18 @@
     justify-content: flex-end;
     font-weight: bold;
   }
-  .student-table {
-    margin-top: 1%;
+  /* .student-table {
+    margin-top: 1%; */
     /* // min-height: 250px; */
-  }
-  .dashboard-button-style{
+  /* } */
+  /* .dashboard-button-style{
     width: 24%;
   }
   .roundet-shadow{
     
     position:absolute;
     size-adjust: 10cm;
-  }
+  } */ 
   
   /* Sidebar.css */
 /* .sidebar {
@@ -100,5 +100,5 @@
 
 /* .sidebar ul li a:hover {
   background-color: #575757;
-} */
+}
 

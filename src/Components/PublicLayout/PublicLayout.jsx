@@ -3,8 +3,7 @@ import { Outlet } from "react-router-dom";
 import Allsidebar from "../Core/Allsidebar"      // Your existing sidebar component
 import HeaderNavbar from "../Core/HeaderNavbar";
 const PublicLayout = ({ open, onClick }) => {
-  console.log("open..",open)
-  console.log("onClick...",onclick)
+ 
   return (
     <div>
     <div>

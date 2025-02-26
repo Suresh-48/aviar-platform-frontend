@@ -3,8 +3,9 @@ import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 import Dashboard from "./Components/Dashboard.jsx";
 import AdminLogin from "./Components/AdminLogin.jsx";
 import Login from "./Components/Login.jsx";
+import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import CourseCategory from "./Components/CourseCategory/Index.jsx";
-
+import ResetPassword from "./Components/ResetPassword/Password.jsx";
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
 import StudentList from "./Components/AdminStudentList/Index.jsx";
@@ -33,6 +34,7 @@ import TeacherAvailable from "./Components/TeacherAvailablity/Index.jsx";
 import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
+import { Component } from "react";
 const routes = [
   // {
   //   path: "/",
@@ -51,6 +53,18 @@ const routes = [
         exact: true,
         name: "Login",
         component: Login,
+      },
+      {
+        path:"/forget/password",
+        exact:true,
+        name:"Resetpassword",
+        Component:"Resetpassword",
+      },
+      {
+        path:"/password/change",
+        exact:true,
+        name:"Submitpassword",
+        Component:"Submitpassword",
       },
       {
         path: "/dashboard",

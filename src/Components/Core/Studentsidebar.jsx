@@ -37,17 +37,14 @@ import {
   faPeopleLine,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Roles
-import { ROLES_PARENT, ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
-
-// Api
-// import Api from "../../Api";
 import Avatar from "react-avatar";
 import { toast } from "react-toastify";
 
-const Studentsidebar = ({ onClick, open, sidebar }) => {
+const Studentsidebar = ({ open, toggleSidebar  }) => {
+
+  
   const [role, setrole] = useState("");
-  const sidebarValue = sidebar;
+  
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
   const [userDetails, setuserDetails] = useState("");
   const [show, setshow] = useState(false);
@@ -59,266 +56,255 @@ const Studentsidebar = ({ onClick, open, sidebar }) => {
   const [teacherId, setTeacherId] = useState("");
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
-//   const history = useHistory();
-//   const pathName = history.location.pathname;
-  const isParent = role === ROLES_PARENT;
-  const isStudent = role === ROLES_STUDENT;
-  const isAdmin = role === ROLES_ADMIN;
-  const isTeacher = role === ROLES_TEACHER;
-  // const teacherId = localStorage.getItem("teacherId");
 
-  useEffect(() => {
-    // getUserDetails();
-  }, [sidebarValue]);
 
-//   useEffect(() => {
-//     Api.get(`/api/v1/teacherApplication/${teacherId}`, {
-//       headers: {
-//         userId: userId,
-//       },
-//     }).then((response) => {
-//       const teacherStatus = response?.data?.getTeacherApplication?.status;
-//       setstatus(teacherStatus);
-//     });
-//   }, [isTeacher]);
 
-//   // Log out
-//   const logout = () => {
-//     setshow(!show);
-//     setTimeout(() => {
-//       localStorage.clear(history.push("/kharpi"));
-//       window.location.reload();
-//       getUserDetails();
-//     }, 2000);
-//   };
-
-  //get details
-//   const getUserDetailsz = () => {
-//     let role = localStorage.getItem("role");
-//     let userId = localStorage.getItem("userId");
-//     let studentId = localStorage.getItem("studentId");
-//     let teacherId = localStorage.getItem("teacherId");
-//     setuserId(userId);
-//     setrole(role);
-//     setstudentId(studentId);
-//     setTeacherId(teacherId);
-    // Api.get(`api/v1/user/${userId}`, { headers: { userId: userId } }).then((response) => {
-    //   const userDetails = response.data.data.getOne;
-    //   setuserDetails(userDetails);
-    //   setfirstName(userDetails.firstName);
-    //   setlastName(userDetails.lastName);
-    //   setEmail(userDetails.email);
-    //   const parentId = userDetails.parentId;
-    //   const studentId = userDetails.studentId;
-    //   const teacherId = userDetails.teacherId;
-    //   setCheckPassword(userDetails.password || userDetails.password !== undefined ? true : false);
-
-    //   Api.get(
-    //     `api/v1/${(parentId && studentId) || studentId ? "student" : parentId ? "parent" : "teacher"}/${
-    //       (parentId && studentId) || studentId ? studentId : parentId ? parentId : teacherId
-    //     }`,
-//         { headers: { userId: userId } }
-//       ).then((response) => {
-//         const getImageDetails = response?.data?.data?.getOne?.imageUrl;
-//         setImage(getImageDetails);
-//       });
-//     });
-//   };
-
-  return ( 
+  return (
     <div>
       <div>
-        <div className={`${open ? "sidebar" : "sidebar active"}`}>
+        <div className={`${open ? "sidebar active" : "sidebar"}`}>
           <div className="logo-content">
             <div className="logo px-4 py-2 ">
               <img src={aviar} alt="Aviar" width={"80%"} height={"100%"} />
             </div>
             {/* {open === true ? ( */}
-              <FontAwesomeIcon
-                icon={faBars}
-                size="1x"
-                onClick={() => {
-                  onClick(!open);
-                }}
-                className="menu-button "
-              />
-            {/* ) : ( */}
-              {/* <FontAwesomeIcon
-                icon={faCircleChevronLeft}
-                onClick={() => {
-                  onClick(!open);
-                }}
-                className="menu-button "
-              /> */}
-            {/* )} */}
+            
+            <FontAwesomeIcon
+              icon={faBars}
+              size="1x"
+              onClick={toggleSidebar}
+              className="menu-button "
+            />
           </div>
           <div>
             {/* {isParent === true || isStudent === true ? ( */}
-              <div className="nav-list">
-                {/* {isStudent ? (
+            <div className="nav-list">
+              {/* {isStudent ? (
                   isStudent && checkPassword ? ( */}
-                    <div>
-                      <div className="d-flex flex-direction-row mb-3">
-                        <div className="mx-1">
-                          {/* {image ? (
-                            <img src={image} width="50" height="50" style={{ borderRadius: "50%" }} />
-                          ) : ( */}
-                            {/* <Avatar
-                              name={`${firstName} ${lastName}`}
-                              size="50"
-                              onClick={() => setshow(!show)}
-                              round={true}
-                              color="white"
-                              className="avatar-style"
-                            /> */}
-                          {/* )} */}
-                        </div>
-                        <div className="mt-1 ms-2">
-                          {/* <b className="first-name-last">{firstName + " " + lastName}</b> */}
-                          <br />
-                          {/* <Tooltip className="email-tooltip" title={userDetails.email}> */}
-                            <p
-                              className="first-name-last text-truncate mb-0"
-                              style={{
-                                display: "block",
-                                width: "160px",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            //   title={userDetails.email}
-                            >
-                              {/* {email} */}
-                            </p>
-                          {/* </Tooltip> */}
-                        </div>
-                      </div>
-                      <div className="menu-list  ">
-                        {/* <NavLink to="/dashboard" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon me-3" title="Dashboard" size="1x" />
-                          
-                          Dashboard
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        <NavLink to={"/Updatestudentdetail"} activeClassName="main-nav-active-style">
-                          <FontAwesomeIcon icon={faIdCard} title="My Profile" size="1x" className="menu-icon me-3" />
-                          My Profile
-                        </NavLink>
-                      </div>
-                      <div className="menu-list">
-                        <NavLink exact to="/Upcomingschedule1" activeClassName="main-nav-active-style">
-                          <FontAwesomeIcon
-                            icon={faCalendarCheck}
-                            title="Upcoming Schedule"
-                            className="menu-icon me-3"
-                            size="1x"
-                          />
-                          Upcoming Schedule
-                        </NavLink>
-                      </div>
-                      <div className="menu-list">
-                        <NavLink exact to="/AllCourseList" activeClassName="main-nav-active-style">
-                          <FontAwesomeIcon icon={faBook} title="Courses" className="menu-icon me-3" size="1x" />
-                          Courses
-                        </NavLink>
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/favourite/course" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faStar} title="Favourite Course" className="menu-icon me-3" size="1x" />
-                          Favourite Courses
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/test/link" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon me-3" />
-                          Quiz
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/homework/link" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon
-                            icon={faHouseCircleCheck}
-                            title="Home Work"
-                            className="menu-icon me-3"
-                            size="1x"
-                          />
-                          Home Work
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to={`/student/transcript/${studentId}`} activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon icon={faScroll} title="Transcript" className="menu-icon me-3 me-3" size="1x" />
-                          Transcript
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/active/enroll/course/list" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon
-                            icon={faBookOpenReader}
-                            title="Active Course"
-                            className="menu-icon me-3"
-                            size="1x"
-                          />
-                          Active Course
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/forum/details" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon
-                            icon={faUserGroup}
-                            title="Completed Course"
-                            className="menu-icon me-3"
-                            size="1x"
-                          />
-                          Forum
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/completed/course/list" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon
-                            icon={faClipboardList}
-                            title="Completed Course"
-                            className="menu-icon me-3"
-                            size="1x"
-                          />
-                          Completed Course
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink exact to="/course/history" activeClassName="main-nav-active-style"> */}
-                          <FontAwesomeIcon
-                            icon={faFileCircleCheck}
-                            title="Course History"
-                            className="menu-icon me-3"
-                            size="1x"
-                          />
-                          Course History
-                        {/* </NavLink> */}
-                      </div>
-                      <div className="menu-list">
-                        {/* <NavLink
+              <div>
+                <div className="d-flex flex-direction-row mb-3">
+                  <div className="mx-1"></div>
+                  <div className="mt-1 ms-2">
+                    {/* <b className="first-name-last">{firstName + " " + lastName}</b> */}
+                    <br />
+                    {/* <Tooltip className="email-tooltip" title={userDetails.email}> */}
+                    <p
+                      className="first-name-last text-truncate mb-0"
+                      style={{
+                        display: "block",
+                        width: "160px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                      //   title={userDetails.email}
+                    >
+                      {/* {email} */}
+                    </p>
+                    {/* </Tooltip> */}
+                  </div>
+                </div>
+                <div className="menu-list  ">
+                  <NavLink to="/student/dashboard" activeClassName="main-nav-active-style">
+                  <FontAwesomeIcon
+                    icon={faChalkboardUser}
+                    className="menu-icon me-3"
+                    title="Dashboard"
+                    size="1x"
+                  />
+                  Dashboard
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    to={"/Updatestudentdetail"}
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faIdCard}
+                      title="My Profile"
+                      size="1x"
+                      className="menu-icon me-3"
+                    />
+                    My Profile
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/Upcomingschedule1"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faCalendarCheck}
+                      title="Upcoming Schedule"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Upcoming Schedule
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/AllCourseList"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faBook}
+                      title="Courses"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Courses
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/List"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      title="Favourite Course"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Favourite Courses
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/Quize"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faLightbulb}
+                      title="Quiz"
+                      className="menu-icon me-3"
+                    />
+                    Quiz
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/Homework"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faHouseCircleCheck}
+                      title="Home Work"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Home Work
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/Transcript"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faScroll}
+                      title="Transcript"
+                      className="menu-icon me-3 me-3"
+                      size="1x"
+                    />
+                    Transcript
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/ActiveCourses"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faBookOpenReader}
+                      title="Active Course"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Active Course
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/Forumdetail"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faUserGroup}
+                      title="Completed Course"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Forum
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/CompleteCourse"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faClipboardList}
+                      title="Completed Course"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Completed Course
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  <NavLink
+                    exact
+                    to="/CourseHistory"
+                    activeClassName="main-nav-active-style"
+                  >
+                    <FontAwesomeIcon
+                      icon={faFileCircleCheck}
+                      title="Course History"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Course History
+                  </NavLink>
+                </div>
+                <div className="menu-list">
+                  {/* <NavLink
                           exact
                           to="#"
                           onClick={() => {
                             logout();
                           }}
                         > */}
-                          <FontAwesomeIcon icon={faPowerOff} title="Logout" className="menu-icon me-3" size="1x" />
-                          Logout
-                        {/* </NavLink> */}
-                      </div>
-                      <div>
-                      </div>
-                      </div>
-                    </div>
-                 
+                  <NavLink exact to="/" activeClassName="main-nav-active-style">
+                    <FontAwesomeIcon
+                      icon={faPowerOff}
+                      title="Logout"
+                      className="menu-icon me-3"
+                      size="1x"
+                    />
+                    Logout
+                  </NavLink>
+                </div>
+                <div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
     </div>
-  )
+  );
 };
 
 export default Studentsidebar;

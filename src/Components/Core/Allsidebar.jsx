@@ -60,6 +60,8 @@ const Allsidebar = ({ onClick,sidebar }) => {
   const [teacherId, setTeacherId] = useState("");
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
+
+  
   //   const history = useHistory();
   //   const pathName = history.location.pathname;
 
@@ -134,7 +136,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
 
             {open === true ? (
               <FontAwesomeIcon
-                icon={faBars}
+                icon={faCircleChevronLeft}
                 size="1x"
                 onClick={() => {
                   setOpen(!open);
@@ -143,7 +145,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
               />
             ) : (
               <FontAwesomeIcon
-                icon={faCircleChevronLeft}
+                icon={faBars}
                 onClick={() => {
                   setOpen(!open);
                 }}
@@ -321,7 +323,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </NavLink>
               </div>
             </div>
-            {/* teacher review */}
+            teacher review
             <div div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
@@ -335,10 +337,10 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </NavLink>
               </div>
             </div>
-            {/* teacher reject */}
+            teacher reject
             <div className="nav-list">
               <div className="menu-list">
-                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
+                <NavLink exact to="/teacher/application/details"activeClassName="main-nav-active-style">
                   <FontAwesomeIcon
                     icon={faPersonCircleCheck}
                     title="Teacher Application"
@@ -380,13 +382,13 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/teacher/review/quiz" activeClassName="main-nav-active-style">
+                <NavLink exact to="teacher/review/quiz" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon" size="1x" />
                   Quiz
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/teacher/review/homework" activeClassName="main-nav-active-style">
+                <NavLink exact to="/homework/review" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
                   Homework
                 </NavLink>

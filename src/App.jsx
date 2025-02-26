@@ -8,6 +8,8 @@ import Dashboard from './Components/Dashboard.jsx';
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
+import ResetPassword from "./Components/ResetPassword/Password.jsx";
+import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import CourseCategory from './Components/CourseCategory/Index.jsx';
@@ -42,7 +44,6 @@ import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
 
 const App = () => {
   // const [open, setOpen] = useState(false);
-
   return (
     <div>
       <ToastContainer autoClose={5000} hideProgressBar pauseOnHover={false} toastClassName="toastRequestSuccess" bodyClassName="toastBody" closeButton={false} />
@@ -51,10 +52,11 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
+          <Route path='/password/change' element={<SubmitPassword/>}/>
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
-
           {/* Protected Routes with Sidebar */}
           <Route
             path="/student"
@@ -81,7 +83,6 @@ const App = () => {
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
           </Route>
-
           {/* Admin Routes */}
           <Route
             path="/admin"
@@ -105,7 +106,6 @@ const App = () => {
             <Route path="forum" element={<AdminForum />} />
             <Route path="payment/list" element={<AdminPaymentList />} />
           </Route>
-
           {/* Teacher Routes */}
           <Route
             path="/teacher"
@@ -136,5 +136,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

@@ -3,6 +3,7 @@ import studentsImg from "./Images/studentsImg.png";
 import "../CSS/LandingPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import aviar from "./Images/aviar.png";
+
 import { Button, Card, Form, InputGroup,Carousel, Container, Row, Col } from "react-bootstrap";
 // import Avatar from "react-avatar";
 import {
@@ -43,11 +44,6 @@ import courseImg2 from "./Images/courseImg2.png";
 // import Img4 from "./Images/Img4.png";
 // import DQ from "./Images/DQ.png";
 import { Link, useNavigate } from "react-router-dom";
-// import ChatBotConversation from "../ChatBotConversation/ChatBotConversation";
-// import Aimg1 from "./Images/Aimg1.png";
-// import Aimg2 from "./Images/Aimg2.png";
-// import Aimg3 from "./Images/Aimg3.png";
-// import Aimg4 from "./Images/Aimg4.png";
 import curveImg from "./Images/curveImg.png";
 import emptyGallery from "./Images/emptyGallery.jpg";
 import loginArrow from "./Images/loginArrow.png";

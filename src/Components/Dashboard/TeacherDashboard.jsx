@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Table, Button, Modal, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
-
 // Styles
 // import Api from "../../Api";
 // import Loader from "../../components/core/Loader";
-
 // Styles
 import "./css/TeacherDashboard.css";
-
 //icon
-
 // import DisplayTeacherApplication from "../TeacherApplication/displayTeacherApplication";
-
 function TeacherDashboard() {
   const [data, setData] = useState([]);
   const [upComingData, setUpcomingData] = useState([]);
@@ -31,11 +26,9 @@ function TeacherDashboard() {
   const [zoomStartTimeGet, setZoomStartTimeGet] = useState("");
   const [sessionEndModal, setSessionEndModal] = useState(false);
 //   const history = useHistory();
-
   function closeShow() {
     setshowAlert(false);
   }
-
 //   useEffect(() => {
 //     const teacherId = localStorage.getItem("teacherId");
 //     Api.get(`api/v1/teacher/${teacherId}`).then((response) => {
@@ -43,7 +36,6 @@ function TeacherDashboard() {
 //       setStatus(teacherStatus);
 //       setisLoading(false);
 //     }, []);
-
 //     TeacherUpcomingScheduleData(teacherId);
 //     getTeacherCourseCount(teacherId);
 //     const currentDate = moment().tz("America/Chicago").format();
@@ -52,7 +44,6 @@ function TeacherDashboard() {
 //     setCurrentDate(date);
 //     setLessTime(lessTime);
 //     setTeacherId(teacherId);
-
 //     window.onpopstate = async (event) => {
 //       const r = await window.confirm("Are you sure! Do you want logout?");
 //       if (r === true) {
@@ -70,7 +61,6 @@ function TeacherDashboard() {
 //       }
 //     };
 //   }, []);
-
 //   // GetTeacher Upcoming Schedule
 //   const TeacherUpcomingScheduleData = () => {
 //     const teacherId = localStorage.getItem("teacherId");
@@ -95,7 +85,6 @@ function TeacherDashboard() {
 //       setisLoading(false);
 //     });
 //   };
-
 //   const getTeacherCourseCount = (teacherId) => {
 //     Api.get("/api/v1/dashboard/teacher", {
 //       params: {
@@ -111,14 +100,12 @@ function TeacherDashboard() {
     setshow(false);
   };
   const newDate = new Date();
-
   const zoomTiming = (e) => {
     const teacherId = localStorage.getItem("teacherId");
     const newDate = new Date();
     const sessionTiming = newDate.toLocaleTimeString();
     // const date = newDate.toLocaleDateString();
     const date = newDate.getDate() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getFullYear();
-
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const day = weekday[newDate.getDay()];
     Api.patch("/api/v1/teacherUpcomingSchedule/zoom/timing", {
@@ -135,7 +122,6 @@ function TeacherDashboard() {
       setZoomStartTimeGet(ZoomstartTime);
     });
   };
-
   // Log out
   const logout = () => {
     setTimeout(() => {
@@ -143,7 +129,6 @@ function TeacherDashboard() {
       window.location.reload();
     }, 600000);
   };
-
   const showModal = () => {
     setSessionEndModal(false);
     setTimeout(() => {
@@ -156,10 +141,8 @@ function TeacherDashboard() {
   //     setSessionEndModal(true);
   //   }, 1000);   600000
   // };
-
   return (
     <div>
-    
         <Container>
           {/* <Row>
             <DashboardTiles label="Courses" count={data?.totalCourse} url={`/teacher/schedule/${teacherId}`} />
@@ -242,7 +225,6 @@ function TeacherDashboard() {
               </tbody>
             </Table>
           </Row>
-
           {isTeacher ? (
             <div>
               <Modal show={show} centered backdrop="static">
@@ -275,9 +257,13 @@ function TeacherDashboard() {
               <Modal show={sessionEndModal} centered backdrop="static" className="p-3">
                 <Modal.Header className="border-bottom-0 pb-0" />
 
-                <Modal.Body>
-                  <h4 className="mt-2 text-center">Session has ended...!</h4>
+React
 
+Reply
+
+1:37
+<Modal.Body>
+                  <h4 className="mt-2 text-center">Session has ended...!</h4>
                   <Col className="d-flex justify-content-center mt-4 mb-2">
                     <Button
                       variant="outline-secondary"
@@ -349,9 +335,7 @@ function TeacherDashboard() {
             </Modal.Body>
           </Modal>
         </Container>
-      
     </div>
   );
 }
-
 export default TeacherDashboard;

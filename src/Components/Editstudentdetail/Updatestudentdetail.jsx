@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Container, Row, Col, Form, FormControl, Dropdown, InputGroup } from "react-bootstrap";
+import { Container, Row, Col, Form, FormControl, Dropdown, InputGroup,Button } from "react-bootstrap";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -734,15 +734,15 @@ const EditStudentDetails = (props) => {
                             <div className="row d-flex justify-content-center">
                               <Col xs={12} sm={12} md={12} className="d-flex justify-content-center">
                                 <div className="row">
-                                  <button
+                                  <Button
                                     type="submit"
                                     variant="contained"
                                     className="btn-success btn-submit btn-primary my-2 me-2"
                                     disabled={isSubmit}
                                   >
                                     Update
-                                  </button>
-                                  <button
+                                  </Button>
+                                  <Button
                                     variant="contained"
                                     className="btn-danger btn-cancel my-2"
                                     onClick={() => {
@@ -750,7 +750,7 @@ const EditStudentDetails = (props) => {
                                     }}
                                   >
                                     Cancel
-                                  </button>
+                                  </Button>
                                 </div>
                               </Col>
                             </div>

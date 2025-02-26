@@ -12,7 +12,9 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const [visible, setVisible] = useState(false);
+
   const navigate = useNavigate();
+
   const initialValues = {
     email: "",
     password: "",
@@ -104,7 +106,7 @@ const Login = () => {
                 <br />
                 <br />
                 <div className="float-end text-primary">
-                  <a className="login-button sign-up-button ms-2">Forget password ?</a>
+                  <Link to='/forget/password/'>Forget password ?</Link>
                 </div>
                 <hr className="or-divider my-5" />
                 <div className="d-flex flex-direction-row text-center">
@@ -126,12 +128,13 @@ const Login = () => {
           <Modal.Title className="text-center">Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-       <NavLink exact to="/Studentsignup" activeClassName="main-nav-active-style">
+       <NavLink exact to="/Student/signup" activeClassName="main-nav-active-style"> 
+
           {/* <Link to ='Studentsignup'> */}
        <h4 className="signup" >Signup as Student</h4>
        {/* </Link> */}
        </NavLink>
-       <Link to='Teachersignup'>
+       <Link to='/teacher/signup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
        {/* <Button variant="secondary" onClick={() => setShow(false)}>
