@@ -4,8 +4,8 @@ import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import './CSS/Login.css';
 import PublicFooter from "./PublicLayout/PublicFooter";
-// import curveImg from "./curveImg.png";
-// import aviarImag from "./aviarImg.png.jpg";
+import curveImg from "./curveImg.png";
+import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link,NavLink, useNavigate  } from "react-router-dom";
@@ -43,9 +43,9 @@ const Login = () => {
   return (
     <div className="Login-container">
       <div className="Aviarlogo">
-        {/* <div className="text-center">
+        <div className="text-center">
           <img src={aviarImag} alt=" " />
-        </div> */}
+        </div>
         <div className="Content-link">
           <p className="links mx-4" onClick={() => history.push("/course/search")}>
             Courses
@@ -54,9 +54,9 @@ const Login = () => {
           <p className="links mx-4">About Us</p>
           <p className="links mx-4">Help</p>
         </div>
-        {/* <div className="curveImg">
+        <div className="curveImg">
           <img src={curveImg} alt=" " />
-        </div> */}
+        </div>
       </div>
       <Formik
         initialValues={initialValues}
@@ -142,9 +142,9 @@ const Login = () => {
        <Link to='/teacher/signup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
-       {/* <Button variant="secondary" onClick={() => setShow(false)}>
+       <Button variant="secondary" onClick={() => setShow(false)}>
                 Cancel
-              </Button> */}
+              </Button>
         </Modal.Body>
       </Modal>
     </div>

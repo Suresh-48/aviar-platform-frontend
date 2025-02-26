@@ -8,6 +8,7 @@ import Dashboard from './Components/Dashboard.jsx';
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
+import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 import ResetPassword from "./Components/ResetPassword/Password.jsx";
 import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import Studentsignup from './Components/studentsignup.jsx';
@@ -105,6 +106,7 @@ const App = () => {
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
             <Route path="payment/list" element={<AdminPaymentList />} />
+            <Route path="course/add" element={<CoursesCreation/>}/>
           </Route>
           {/* Teacher Routes */}
           <Route

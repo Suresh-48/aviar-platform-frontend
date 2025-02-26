@@ -12,6 +12,7 @@ import StudentList from "./Components/AdminStudentList/Index.jsx";
 import UpcomingSchedule1 from "./Components/Studentupcomingschedule/Upcomingschedule1.jsx"
 import CourseList from "./Components/Courselist/Index.jsx";
 import TeacherList from "./Components/TeacherList/Index.jsx";
+import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import { components } from "react-select";
@@ -35,6 +36,7 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import { Component } from "react";
+import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 const routes = [
   // {
   //   path: "/",
@@ -132,6 +134,11 @@ const routes = [
   exact:true,
   name:"AdminPaymentList",
   component:AdminPaymentList
+ },
+ {
+  path:"/admin/course/add",
+  exact:true,
+  name:CoursesCreation
  },
 //  student routes
 {
