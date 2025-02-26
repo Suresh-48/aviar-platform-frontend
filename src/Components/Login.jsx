@@ -137,9 +137,9 @@ const Login = () => {
        <Link to='/teacher/signup'>
        <h4 className="signup">Signup as Teacher</h4>
        </Link>
-       {/* <Button variant="secondary" onClick={() => setShow(false)}>
+       <Button variant="secondary" onClick={() => setShow(false)}> 
                 Cancel
-              </Button> */}
+               </Button> 
         </Modal.Body>
       </Modal>
     </div>
