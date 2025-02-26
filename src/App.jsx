@@ -32,6 +32,7 @@ import Forumdetail from "./Components/Forum/Forumdetail";
 import CompleteCourse from "./Components/CompleteCourseList/CompleteCourse";
 import CourseHistory from "./Components/CourseHistory/CourseHistory";
 import StudentDashboard from './Components/Dashboard/Studentdashboard.jsx';
+import TeacherDashboard from "./Components/Dashboard/TeacherDashboard.jsx";
 import TeacherCourseList from "./Components/TeacherCourseList/Index.jsx";
 import TeacherProfile from "./Components/TeacherProfile/Index.jsx";
 import TeacherQuizReview from "./Components/TeacherQuizeReview/Index.jsx";
@@ -41,6 +42,7 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
+
 
 const App = () => {
   // const [open, setOpen] = useState(false);
@@ -120,12 +122,12 @@ const App = () => {
           >
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
-            <Route path="dashboard" element={<Dashboard/>}/>
+            <Route path="dashboard" element={<TeacherDashboard/>}/>
             <Route path="schedule" element={<TeacherCourseList />} />
             <Route path="profile" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
-            <Route path="review/quiz" element={<TeacherQuizReview />} />
-            <Route path="review/homework" element={<TeacherHomeworkReview />} />
+            <Route path="teacher/review/quiz" element={<TeacherQuizReview />} />
+            <Route path="teacher/review/homework" element={<TeacherHomeworkReview />} />
             <Route path="not-available/time" element={<TeacherAvailable />} />
             <Route path="forum/details" element={<ForumSelect />} />
             <Route path="payments" element={<TeacherPayment />} />

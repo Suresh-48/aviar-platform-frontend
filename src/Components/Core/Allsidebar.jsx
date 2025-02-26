@@ -388,7 +388,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/homework/review" activeClassName="main-nav-active-style">
+                <NavLink exact to="teacher/review/homework" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
                   Homework
                 </NavLink>
