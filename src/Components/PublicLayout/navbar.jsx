@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import curveImg from "../../Components/Images/curveImg.png";
 import aviar from "../Images/aviar.png";
 import loginArrow from "../../Components/Images/loginArrow.png";
@@ -25,12 +25,7 @@ const navigate = useNavigate();
         </div>
         <div className="aviar-img-div">
           <img src={aviar} onClick={() => navigate("/aviar")} alt="aviar-logo" className="aviar-logo" />
-          {role === "admin" || role === "teacher" || role === "student" ? null : (
-            <div className="login-arrow-div me-0" onClick={() => navigate("/login")}>
-              <img src={loginArrow} className="login-arrow" />
-              <p className="login-pTag mb-0 mx-1 ">Login</p>
-            </div>
-          )}
+   
         </div>
         <div className="aviar-img-div-two">
           <div className="mt-4 d-md-flex flex-sm-column flex-md-row">

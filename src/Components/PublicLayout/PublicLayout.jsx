@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Allsidebar from "../Core/Allsidebar"      // Your existing sidebar component
 import HeaderNavbar from "../Core/HeaderNavbar";
 import PublicFooter from "../PublicLayout/PublicFooter";
+import ChatBotConversation from "../ChatBotConversation/ChatBotConversation";
 const PublicLayout = ({ open, onClick }) => {
  
   return (
@@ -13,7 +14,7 @@ const PublicLayout = ({ open, onClick }) => {
     <div>
       {/* Fixed Sidebar */}
       <Allsidebar  />
-
+    
       {/* Main Content */}
       <div
         style={{
@@ -24,8 +25,11 @@ const PublicLayout = ({ open, onClick }) => {
         }}
       >
         <Outlet /> 
+      
       </div>
+  
     </div>
+  
     <div style={{
       bottom :"-50px",
       marginLeft: open ? "250px" : "60px",
@@ -33,7 +37,7 @@ const PublicLayout = ({ open, onClick }) => {
       padding: "20px",
     }}>
 
-  
+ 
       <PublicFooter/>
     </div>
     </div>

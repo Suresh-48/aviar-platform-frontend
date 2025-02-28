@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import LandingPage from './Components/LandingPage';
 import Dashboard from './Components/Dashboard.jsx';
+import Help from "./Components/Help/Index.jsx";
+import AboutUs from "./Components/AboutUs/Index.jsx";
+import ChatBotConversation from "./Components/ChatBotConversation/ChatBotConversation.jsx";
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
@@ -43,8 +46,7 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
-
-
+import NavbarLoginBefore from "./Components/PublicLayout/navbar";
 const App = () => {
   // const [open, setOpen] = useState(false);
   return (
@@ -57,6 +59,9 @@ const App = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/about-us" element={<AboutUs/>}/>
+          <Route path="/navbar" element={<NavbarLoginBefore/>}/>
+          <Route path="/help" element={<Help/>}/>
           <Route path='/password/change' element={<SubmitPassword/>}/>
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
@@ -78,6 +83,7 @@ const App = () => {
             <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
             <Route path="allcourselist" element={<AllCourseList />} />
             <Route path="list" element={<List />} />
+         
             <Route path="quiz" element={<Quiz />} />
             <Route path="homework" element={<Homework />} />
             <Route path="transcript" element={<Transcript />} />
