@@ -43,9 +43,13 @@ const Login = () => {
       password: values.password,
 
     }).then((response)=>{
-      console.log("response",response.data);
+      console.log("response",response.data.updateToken.token);
+      console.log("response",response.data.updateToken.role)
       if(response.status === 200){
-        console.log("")
+
+        localStorage.setItem ("token",response.data.updateToken.token);
+        localStorage.setItem("role",response.data.updateToken.role);
+        console.log("response",response.data)
         toast.success(response.data)
         navigate("/student/dashboard");
       }

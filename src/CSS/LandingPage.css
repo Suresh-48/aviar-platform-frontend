@@ -26,7 +26,22 @@
  
   .login-arrow-div {
     cursor: pointer;
+    margin-top: -100px;
   }
+  @media (min-width:325px) and (max-width:426px) {
+    .navbarContentlink p{
+      font-size: 45px;
+    }
+  }
+
+
+  .loginButton1{
+    position: absolute;
+    z-index: 10;
+    margin-top: -170px;
+    margin-left: 85%;
+  }
+  
   .curve-shape-main-image {
     width: 100%;
   }
@@ -35,6 +50,8 @@
   }
   .aviar-img-div {
     position: absolute;
+    margin-top: -300px;
+    z-index: 10;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -1520,3 +1537,8 @@
   .user1img{
     height: 100px;
   }
+  @media (min-width: 2560px) {
+    .curve-shape-main-div-sec {
+      width: 3000px;
+ } 
+}
