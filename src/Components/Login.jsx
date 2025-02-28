@@ -9,6 +9,8 @@ import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link,NavLink, useNavigate  } from "react-router-dom";
+// import { GoogleOAuthProvider } from '@react-oauth/google';
+// import GoogleAccount from './Account/GoogleAccount';
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -40,6 +42,14 @@ const Login = () => {
   const tooglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
+//   const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+//     <React.StrictMode>
+//       <GoogleAccount />
+//     </React.StrictMode>
+//   </GoogleOAuthProvider>
+// );
   return (
     <div className="Login-container">
          <div className="Content-link">
@@ -120,6 +130,8 @@ const Login = () => {
                   </text>
                 </div>
               </Form>
+
+              
             </Card>
             <div>
               <PublicFooter/>

@@ -1,67 +1,4 @@
 
-<<<<<<< HEAD
-.LandingPage-container{
-    @media only screen and (min-width: 320px) and (max-width: 1357px) {
-      /* margin-top:10cm; */
-      width: fit-content;
-    }
-  }
-  .curveImg{
-    display: flex;
-    /* width: 100%; */
-    margin:auto;
-    justify-content: center;
-  }
-  
-  .aviarlogo-div-one{
-    display: flex;
-    justify-content: center;
-  }
-  .Content-link{
-    position: absolute;
-     display: flex;
-    justify-content: center; 
-    /* width: 100%; */
-    top: 200px; 
-  }
-  .links{
-    font-family: Roboto-Regular;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 22px;
-    color: #1b1363;
-  }
-  .text-center{
-    position: absolute;
-    display: flex;
-    /* width: 100%; */
-    margin:auto;
-    justify-content: center;
-  }
-  .LoginArrowImg{
-    /* width:40px; */
-    top:-70px;
-  }
-  .login{
-    /* margin-bottom:30px; */
-    position: relative;
-    
-    /* width:40px; */
-  }
-  .loginArrow{
-   margin-right:150px;
-   /* width:100%; */
-   top:70px;
-   position: relative; 
-  }
-  .login-pTag{
-    font-size: 22px;
-    color: #1b1363;
-    position: relative;
-    top:-40px;
-  }
-
-=======
 .landing-page-content-main {
   @media only screen and (min-width: 320px) and (max-width: 1357px) {
     width: fit-content;
@@ -1578,4 +1515,3 @@ a.instagram {
 .landing-page-footer-background {
   background-color: #88a8e9;
 }
->>>>>>> 71b146ddbce0f8372e4610d64a7d9f7173dbbbc5
