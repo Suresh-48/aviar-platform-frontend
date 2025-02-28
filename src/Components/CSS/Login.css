@@ -28,7 +28,12 @@
      .links:hover {
         cursor: pointer;
       }
-      .Content-link{
+      .landing-page-footer-background{
+        width: 100%;
+
+        
+      }
+      /* .Content-link{
         position: absolute;
         display: flex;
         justify-content: center;
@@ -38,4 +43,4 @@
       .signup{
         box-shadow: 20px;
         /* background-color:rgb(222, 225, 235); */
-      }
+      }b

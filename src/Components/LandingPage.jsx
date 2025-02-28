@@ -160,16 +160,16 @@ function LandingPage(props) {
         </div>
         <div className="aviar-img-div-two">
           <div className="content-link">
-            <p className="links mx-4" onClick={() => Link("/course/search")}>
+            <p className="links mx-4" onClick={() => navigate("/course/search")}>
               Courses
             </p>
-            <p className="links mx-4" onClick={() => Link("/trainers")}>
+            <p className="links mx-4" onClick={() => navigate("/trainers")}>
               Trainers
             </p>
-            <p className="links mx-4" onClick={() => Link("/about-us")}>
+            <p className="links mx-4" onClick={() => navigate("/about-us")}>
               About Us
             </p>
-            <p className="links mx-4" onClick={() => Link("/help")}>
+            <p className="links mx-4" onClick={() => navigate("/help")}>
               Help
             </p>
           </div>
@@ -248,70 +248,19 @@ function LandingPage(props) {
         </div>
       </div>
 
-      <div className="slider-main-one">
-
-        <div className="slider-main">
-
-          <h3 className="slider-category ">Categories</h3>
-          <Button className="btn-color1"
-
-            onClick={() => Link("/login")}>
-            View All
-          </Button>
-          <Carousel>
-            <Carousel.Item>
+      <div >
 
 
-              <div>
-                <img src={emptyGallery} alt="first slide"
-                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt=" second slide"
-                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-
-
-              <div>
-                <img src={emptyGallery} alt="first slide" className="emptyGallery1"
-
-                />
-              </div>
-            </Carousel.Item>
-          </Carousel>
-
-          {/* <Carousel  className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}> */}
-
-        </div>
-        <br />
-
-
-
-
-
-
-
-
-      </div>
-
-
+     
+        
       <div
       // className="upcomings-div-main"
       >
-        <div
-          className="upcomings">
-
-
-          <h3
-            className="slider-category-upcoming"
-          >Recommended Courses for you</h3>
-          <Button className="btn-course" onClick={() => Link("/login")}>
+       
+              <div className="profile-div-main">
+        <div className="profile-div-sub">
+          <p className="slider-trainer-upcoming">Categories</p>
+          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
             View All
           </Button>
           {/* <br/> */}
@@ -342,26 +291,62 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
           </Carousel>
-          {/* <Row>
-                <Col md={6}>
-               
-              <Card className="Course-recommended1" >
-                <img src={course} alt=""/>
-                </Card>
-                </Col>  
-                <Col md={3}>
-                <Card className="Course-recommended2">
-                <img src={courseImg2} alt=""/>
-                </Card>
-                </Col>
-                <Col md={3}>
-                <Card className="Course-recommended3">
-                <img src={courseImg2} alt=""/>
-                   
-                </Card>
-                </Col>
-              </Row>
-              */}
+
+
+
+
+
+
+        </div>
+      </div>
+        <br />
+
+
+
+
+
+
+
+
+      </div>
+
+
+           <div className="profile-div-main">
+        <div className="profile-div-sub">
+          <p className="slider-trainer-upcoming">Recommended Courses for you</p>
+          
+          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
+            View All
+          </Button>
+          {/* <br/> */}
+          <Carousel>
+            <Carousel.Item>
+
+
+              <div>
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div>
+                <img src={emptyGallery} alt=" second slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+
+
+              <div>
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", margin: "auto" }}
+                />
+              </div>
+            </Carousel.Item>
+          </Carousel>
+
 
 
 
@@ -379,7 +364,7 @@ function LandingPage(props) {
               <p className="back-image-pTag1" style={{ color: "Yellow" }}>Become an Instructor</p>
               <p className="back-image-pTag2">
                 Teach what you love. Aviar gives you the tools start
-                <br /> an online course.
+                <br/> an online course.
               </p>
               <div className="round-image-content">
                 <div className="round-and-pTag justify-content-end">
@@ -411,7 +396,7 @@ function LandingPage(props) {
                 </div>
               </div>
               <div className="btn-back-image">
-                <Button className="btn-back-image-main Aviar-save-btn" onClick={() => Link("/teacher/signup")}>
+                <Button className="btn-back-image-main Aviar-save-btn" onClick={() => navigate("/teacher/signup")}>
                   Teacher Signup
                 </Button>
               </div>
@@ -424,38 +409,55 @@ function LandingPage(props) {
       </div>
       <br />
       <br />
-      <Container className="upcoming-course">
-        <div className="upcoming-div-main" >
-          <h3 className="slider-category-upcoming ">Upcoming Courses</h3>
-          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => Link("/login")}>
+
+
+           <div className="profile-div-main">
+        <div className="profile-div-sub">
+          <p className="slider-trainer-upcoming">Upcoming Courses</p>
+         
+          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
             View All
           </Button>
-          <br />
-          <br />
-        </div>
-        <div className="carousel-wrapper">
+          {/* <br/> */}
+          <Carousel>
+            <Carousel.Item>
 
-          <Carousel
-          // className="arrows"  itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}
-          >
-            <Carousel.Item>
-              <img src={emptyGallery} alt="first slide" style={{ width: "20%", display: "flex", margin: "auto" }} />
+
+              <div>
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={emptyGallery} alt="second slide" style={{ width: "20%", display: "flex", margin: "auto" }} />
+              <div>
+                <img src={emptyGallery} alt=" second slide"
+                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
+                />
+              </div>
             </Carousel.Item>
             <Carousel.Item>
-              <img src={emptyGallery} alt="third slide" style={{ width: "20%", display: "flex", margin: "auto" }} />
+
+
+              <div>
+                <img src={emptyGallery} alt="first slide"
+                  style={{ width: "16%", display: "flex", margin: "auto" }}
+                />
+              </div>
             </Carousel.Item>
           </Carousel>
 
 
+
+
+
         </div>
-      </Container>
+      </div>
       <div className="profile-div-main">
         <div className="profile-div-sub">
           <p className="slider-trainer-upcoming">Top Trainers</p>
-          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => Link("/login")}>
+          
+          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
             View All
           </Button>
           <Carousel >
@@ -663,7 +665,7 @@ function LandingPage(props) {
           </Row>
           <hr className="my-2 mb-2" />
           <div className="text-center copy-rights ">
-            &copy; {new Date().getFullYear()} Kharphi Team <br />
+            &copy; {new Date().getFullYear()} Kharphi Team 
             Designed by{" "}
             <a
               onClick={() => {
@@ -677,7 +679,7 @@ function LandingPage(props) {
         </Container>
       </div>
     </div>
-    // </div>
+    </div>
   )
 
 }

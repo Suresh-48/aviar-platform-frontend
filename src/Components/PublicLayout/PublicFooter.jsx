@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faInstagram, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import "@fortawesome/fontawesome-free/css/fontawesome.css";
 import aviar from "../Images/aviar.png";
+import "../CSS/LandingPage.css";
 import { faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 export default function DefaultFooter(props) {
@@ -126,16 +127,19 @@ export default function DefaultFooter(props) {
                  </div>
                </Col>
              </Row>
+             <br/>
              <hr className="my-2 mb-2" />
+             <br/>
+             
              <div className="text-center copy-rights ">
-               &copy; {new Date().getFullYear()} Kharphi Team <br />
+               &copy; {new Date().getFullYear()} Aviar Team
                Designed by{" "}
                <a
                  onClick={() => {
                    window.open("https://aviartechservices.com/");
                  }}
                  className="footer-text-decoderation"
-               >
+               > 
                  Aviar Technology Services
                </a>
              </div>

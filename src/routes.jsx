@@ -17,7 +17,9 @@ import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import { components } from "react-select";
 import StudentDashboard from "./Components/Dashboard/Studentdashboard.jsx";
+import AboutUs from "./Components/AboutUs/Index.jsx";
 import { HomeWork, Quiz } from "@mui/icons-material";
+import NavbarLoginBefore from "./Components/PublicLayout/navbar";
 import ActiveCourses from "./Components/ActiveEnroleCourses/ActiveCourses.jsx";
 import CompleteCourse from "./Components/CompleteCourseList/CompleteCourse.jsx";
 import CourseHistory from "./Components/CourseHistory/CourseHistory.jsx";
@@ -36,6 +38,7 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import { Component } from "react";
+import ChatBotConversation from "./Components/ChatBotConversation/ChatBotConversation.jsx";
 import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 const routes = [
   // {
@@ -50,6 +53,23 @@ const routes = [
       name: "LandingPage",
       component: LandingPage,
     },
+    {
+      path:"/chatbot",
+      exact:true,
+      name:"ChatBotConversation",
+      component:ChatBotConversation,
+    }
+    {
+      path:"/navbar",
+      exact:true,
+      name:"NavbarLoginBefore",
+      component:NavbarLoginBefore,
+    }
+    {
+      path:"/about-us",
+      exact:true,
+      component:AboutUs
+    }
     {
         path: "/login",
         exact: true,
@@ -147,12 +167,12 @@ const routes = [
   name:"StudentDashboard",
   component:StudentDashboard
 },
-// {
-//   path:"/student/update/detail",
-//   exact:true,
-//   name:"Updatestudentdetail",
-//   component:Updatestudentdetail
-// },
+{
+  path:"/student/update/detail",
+  exact:true,
+  name:"Updatestudentdetail",
+  component:Updatestudentdetail
+},
 {
   path:"/student/upcoming/schedule1",
   exact:true,
