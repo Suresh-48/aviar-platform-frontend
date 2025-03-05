@@ -11,7 +11,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 // import{Link} from "react-router-dom"
-import {  useNavigate } from "react-router-dom";
+// import {  useNavigate } from "react-router-dom";
 // import { Button } from 'react-bootstrap';
 
 // import { useHistory } from "react-router-dom";
@@ -52,6 +52,7 @@ import {
   faEyeSlash,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 // import { customStyles } from "../core/Selector";
 // import { gapi } from "gapi-script";
 
@@ -75,6 +76,7 @@ const StudentRegistration = (props) => {
   const [aliasName, setaliasName] = useState(
     props?.props?.location?.state?.aliasName
   );
+  
 //   let scope = "https://www.googleapis.com/auth/cloud-platform.read-only";
 
 // //   const isParent = role === ROLES_PARENT;
@@ -166,25 +168,27 @@ const StudentRegistration = (props) => {
     toast.error(response);
   };
   const [captcha, setCaptcha] = useState("");
-  const navigate = useNavigate()
+
+  
+
 
 
   // Date Format
-  // const setDateFormat = (e) => {
-  //   let dateValue = moment(e).format("LLLL");
-  //   let dateOfBirth = new Date(dateValue);
-  //   let month = Date.now() - dateOfBirth.getTime();
-  //   let getAge = new Date(month);
-  //   let year = getAge.getUTCFullYear();
-  //   let age = Math.abs(year - 1970);
+  const setDateFormat = (e) => {
+    let dateValue = moment(e).format("LLLL");
+    let dateOfBirth = new Date(dateValue);
+    let month = Date.now() - dateOfBirth.getTime();
+    let getAge = new Date(month);
+    let year = getAge.getUTCFullYear();
+    let age = Math.abs(year - 1970);
 
-  //   if (age >= 5 && age <= 18) {
-  //     setdob(dateValue);
-  //   } else {
-  //     toast.warning("Your Age Must Be at least 5 years to at most 18 years");
-  //     setdob(null);
-  //   }
-  // };
+    if (age >= 5 && age <= 18) {
+      setdob(dateValue);
+    } else {
+      toast.warning("Your Age Must Be at least 5 years to at most 18 years");
+      setdob(null);
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setPasswordShown(passwordShown ? false : true);
@@ -225,70 +229,47 @@ const StudentRegistration = (props) => {
 
   //Submit Form
   const submitForm = (values) => {
+    console.log("values", values);
+    console.log("dob....",startDate);
     const user_captcha = values.captcha;
     const email = values.email.toLowerCase();
-    const startDate = dob;
-    const dateValue = moment(startDate).format("ll");
+    const startDateValue = dob;
+    const dateValue = moment(startDateValue).format("ll");
     setisSubmit(true);
     if (
       values.password === values.confirmPassword &&
       captcha === user_captcha
     ) {
       getRandomCaptcha();
-      Api.post("api/v1/student/signup", {
+    axios.post(`http://localhost:3000/api/v1/student/signup`), {
         firstName: values.firstName,
         lastName: values.lastName,
         email: email,
         password: values.password,
         confirmPassword: values.confirmPassword,
-        parentId: parentId,
-        dob: dateValue,
+        dob: dob,
         gender: gender,
-      })
+      }
         .then((response) => {
+          console.log("response......",response)
           setisSubmit(false);
           const status = response.status;
           if (status === 201) {
-            if (parentId) {
-              history.push({
-                pathname: "/dashboard",
-                state: { sidebar: true },
-              });
-              // window.location.reload();
-            } else {
-              const role = response.data.studentLogin.role;
-              const userId = response.data.studentLogin.id;
-              const studentId = response.data.studentLogin.studentId;
-              const token = response.data.studentLogin.token;
-              localStorage.setItem("role", role);
-              localStorage.setItem("userId", userId);
-              localStorage.setItem("studentId", studentId);
-              localStorage.setItem("token", token);
-
-              history.push({
-                pathname: "/dashboard",
-                state: { sidebar: true },
-              });
-              // window.location.reload();
-            }
+            
+      
           } else {
             toast.error(response.data.message);
             setisSubmit(false);
           }
         })
-        .catch((error) => {
-          if (error.response && error.response.status >= 400) {
-            let errorMessage;
-            const errorRequest = error.response.request;
-            if (errorRequest && errorRequest.response) {
-              errorMessage = JSON.parse(errorRequest.response).message;
-            }
-            toast.error(error.response.data.message);
-            values.captcha = "";
-            setisSubmit(false);
-          }
-          setisSubmit(false);
-        });
+     
+        .catch((error)=>{
+              if(error.status === 400){
+                console.log("error.....",error.response.data.message)
+                toast.error(error.response.data.message)
+              }
+           
+            })
     } else {
       setisSubmit(false);
       toast.error("Captcha Does Not Match");
@@ -311,7 +292,7 @@ const StudentRegistration = (props) => {
       .email("Enter Valid Email")
       .required("Email Is Required"),
 
-    dob: Yup.string().required("Date Of Birth Is Required"),
+    // dob: Yup.string().required("Date Of Birth Is Required"),
 
     gender: Yup.object().required("Gender Is Required"),
 
@@ -384,7 +365,7 @@ const StudentRegistration = (props) => {
                 lastName: "",
                 email: "",
                 password: "",
-                dob: "",
+                // dob: "",
                 gender: "",
                 confirmPassword: "",
                 captcha: "",
@@ -715,7 +696,8 @@ const StudentRegistration = (props) => {
                         <div className="d-flex justify-content-center mt-3">
                           <div className="btn-primary">
                         
-                          <Button  onClick={()=> navigate('/Studentsidebar')}
+                          <Button  
+                          // onClick={()=> navigate('/Studentsidebar')}
                          
                             className=  {`${
                             
@@ -727,7 +709,7 @@ const StudentRegistration = (props) => {
                             variant="contained"
                             type="submit"
                             color="btn-primary"
-                            disabled={!isValid || isSubmit}
+                            // disabled={!isValid || isSubmit}
                                           >           
                             Sign Up as Student
                             

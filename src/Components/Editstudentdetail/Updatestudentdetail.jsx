@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Container, Row, Col, Form, FormControl, Dropdown, InputGroup,Button } from "react-bootstrap";
+import { Container, Row, Col, Form, FormControl, Dropdown, InputGroup,Button,ButtonGroup } from "react-bootstrap";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -27,6 +27,7 @@ import { faPen, faEye, faEyeSlash, faCalendarDay } from "@fortawesome/free-solid
 // import Loader from "../../components/core/Loader";
 import states from "../Core/States";
 import profile from "../Images/NoProfile.png";
+import axios from "axios";
 // import { customStyles } from "../core/Selector";
 
 // Validations
@@ -105,7 +106,7 @@ const EditStudentDetails = (props) => {
     const userId = localStorage.getItem("userId");
     setImagePreview(base64);
     if (type === "image") {
-      Api.post("api/v1/student/profile/upload", {
+      axios.post(`http://localhost:3000/api/v1/student/profile/upload`, {
         studentId: studentId,
         image: imagePreview,
         userId: userId,
@@ -734,23 +735,29 @@ const EditStudentDetails = (props) => {
                             <div className="row d-flex justify-content-center">
                               <Col xs={12} sm={12} md={12} className="d-flex justify-content-center">
                                 <div className="row">
+                                  <Row>
+                                    <ButtonGroup>
                                   <Button
                                     type="submit"
                                     variant="contained"
-                                    className="btn-success btn-submit btn-primary my-2 me-2"
+                                    className="btn-success btn-submit btn-danger my-2 me-2"
                                     disabled={isSubmit}
                                   >
-                                    Update
+                                    Cancel
                                   </Button>
                                   <Button
                                     variant="contained"
-                                    className="btn-danger btn-cancel my-2"
+                                    className="btn-primary btn-cancel my-2"
                                     onClick={() => {
                                       props.history.goBack();
                                     }}
                                   >
-                                    Cancel
+                                    Update
                                   </Button>
+                            
+                                  </ButtonGroup>
+                                  </Row>
+
                                 </div>
                               </Col>
                             </div>

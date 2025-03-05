@@ -53,7 +53,7 @@ function CourseCategory(props) {
       {/* {isLoading ? (
         <Loader />
       ) : ( */}
-      <CourseCategory/>
+      
         <Container className="mb-5">
           <div className="py-3">
             <h5>Course Category</h5>

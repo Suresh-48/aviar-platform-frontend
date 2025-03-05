@@ -8,6 +8,7 @@ import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import App from './App.jsx'
 import Password from './Components/ResetPassword/Password.jsx'
 import ChangePassword from './Components/SubmitPassword/Index.jsx'
+import CourseCategory from './Components/CourseCategory/Index.jsx'
 // import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
@@ -23,12 +24,13 @@ import ChangePassword from './Components/SubmitPassword/Index.jsx'
 // import AdminStudentList from './Components/AdminStudentList/Index.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
-
+ import UpcomingSchedule from './Components/Studentupcomingschedule/Upcomingschedule1.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
-createRoot(document.getElementById('root')).render(
+createRoot
+(document.getElementById('root')).render(
   <StrictMode> 
-    <App/>
+  <App/>
   </StrictMode>,
 )

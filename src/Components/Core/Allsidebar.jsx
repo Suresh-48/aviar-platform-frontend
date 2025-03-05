@@ -47,7 +47,7 @@ import Avatar from "react-avatar";
 import { toast } from "react-toastify";
 const Allsidebar = ({ onClick,sidebar }) => {
   const[open,setOpen] = useState(true)
-  const [role, setrole] = useState("");
+  // const [role, setrole] = useState("");
   const sidebarValue = sidebar;
   const [userId, setuserId] = useState(localStorage.getItem("userId"));
   const [userDetails, setuserDetails] = useState("");
@@ -60,15 +60,16 @@ const Allsidebar = ({ onClick,sidebar }) => {
   const [teacherId, setTeacherId] = useState("");
   const [image, setImage] = useState("");
   const [status, setstatus] = useState("");
-
-  
+    const[role]=useState("");
+    
   //   const history = useHistory();
   //   const pathName = history.location.pathname;
 
   const isStudent = role === ROLES_STUDENT;
   const isAdmin = role === ROLES_ADMIN;
   const isTeacher = role === ROLES_TEACHER;
-  // const teacherId = localStorage.getItem("teacherId");
+  const userRole = localStorage.getItem("role");
+  console.log("userRole",userRole);
   useEffect(() => {
     // getUserDetails();
   }, [sidebarValue]);
@@ -191,8 +192,11 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </div>
               </div>
 
-              {/* Student DashBoard */}
-              <div className="nav-list">
+             
+             
+            </div>
+            {/* Student DashBoard */}
+            <div className="nav-list">
                 <div className="menu-list">
                   <NavLink to="/student/dashboard" activeClassName="main-nav-active-style">
                     <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon" title="Dashboard" size="1x" />
@@ -308,22 +312,100 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   </NavLink>
                 </div>
               </div>
-            </div>
+            {/* {userRole=="students" ?
+             <div div className="nav-list">
+             <div className="menu-list">
+               <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
+                 <FontAwesomeIcon
+                   icon={faPersonCircleCheck}
+                   title="Teacher Application"
+                   className="menu-icon"
+                   size="1x"
+                 />
+                 Teacher Application
+               </NavLink>
+             </div>
+           </div>: null
+            } */}
+
+           {/* { userRole =="Teacher" ?
+           <div className="nav-list">
+           <div className="menu-list">
+             <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
+               Dashboard
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/profile" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faIdCard} title="My Profile" className="menu-icon" size="1x" />
+               My Profile
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/schedule" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faClipboardCheck} title="Schedeule List" className="menu-icon" size="1x" />
+               Schedeule List
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/upcoming/schedule/list" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon
+                 icon={faCalendarCheck}
+                 title="Upcoming Schedeule"
+                 className="menu-icon"
+                 size="1x"
+               />
+               Upcoming Schedule
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/review/quiz" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon" size="1x" />
+               Quiz
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/homework/review" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
+               Homework
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/not-available/time" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faUserPlus} title="Teacher Availability" className="menu-icon" size="1x" />
+               Teacher Availability
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/forum/details" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faUserGroup} title="Forum" className="menu-icon" size="1x" />
+               Forum
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink exact to="/teacher/payments" activeClassName="main-nav-active-style">
+               <FontAwesomeIcon icon={faMoneyCheckDollar} className="menu-icon" size="1x" />
+               Payments
+             </NavLink>
+           </div>
+           <div className="menu-list">
+             <NavLink
+               exact
+               to="#"
+               onClick={() => {
+                 logout();
+               }}
+             >
+               <FontAwesomeIcon icon={faPowerOff} title="Logout" className="menu-icon" size="1x" />
+               Logout
+             </NavLink>
+           </div>
+         </div>: null 
+          }  */}
             {/* teacher approval */}
-            <div div className="nav-list">
-              <div className="menu-list">
-                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon
-                    icon={faPersonCircleCheck}
-                    title="Teacher Application"
-                    className="menu-icon"
-                    size="1x"
-                  />
-                  Teacher Application
-                </NavLink>
-              </div>
-            </div>
-            teacher review
+           
+            {/* teacher review
             <div div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
@@ -350,83 +432,12 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   Teacher Application
                 </NavLink>
               </div>
-            </div>
-            <div className="nav-list">
-              <div className="menu-list">
-                <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
-                  Dashboard
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/profile" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faIdCard} title="My Profile" className="menu-icon" size="1x" />
-                  My Profile
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/schedule" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faClipboardCheck} title="Schedeule List" className="menu-icon" size="1x" />
-                  Schedeule List
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/upcoming/schedule/list" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon
-                    icon={faCalendarCheck}
-                    title="Upcoming Schedeule"
-                    className="menu-icon"
-                    size="1x"
-                  />
-                  Upcoming Schedule
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/review/quiz" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon" size="1x" />
-                  Quiz
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/homework/review" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
-                  Homework
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/not-available/time" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faUserPlus} title="Teacher Availability" className="menu-icon" size="1x" />
-                  Teacher Availability
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/forum/details" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faUserGroup} title="Forum" className="menu-icon" size="1x" />
-                  Forum
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink exact to="/teacher/payments" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon icon={faMoneyCheckDollar} className="menu-icon" size="1x" />
-                  Payments
-                </NavLink>
-              </div>
-              <div className="menu-list">
-                <NavLink
-                  exact
-                  to="#"
-                  onClick={() => {
-                    logout();
-                  }}
-                >
-                  <FontAwesomeIcon icon={faPowerOff} title="Logout" className="menu-icon" size="1x" />
-                  Logout
-                </NavLink>
-              </div>
-            </div>
+            </div> */}
+           
 
                   {/* Admin DashBoard */}
-            <div className="nav-list">
+                
+            {/* <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/admin/dashboard" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
@@ -440,7 +451,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 </NavLink>
               </div>
               <div className="menu-list">
-                <NavLink exact to="/admin/coursecategory" activeClassName="main-nav-active-style">
+                <NavLink exact to="/admin/course/category" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faBookOpen} title="Course Category" className="menu-icon" size="1x" />
                   Course Category
                 </NavLink>
@@ -499,7 +510,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
               <div className="menu-list">
                 <NavLink
                   exact
-                  to="#"
+                  to="/"
                   onClick={() => {
                     logout();
                   }}
@@ -507,8 +518,8 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   <FontAwesomeIcon icon={faPowerOff} title="Logout" className="menu-icon" size="1x" />
                   Logout
                 </NavLink>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
         </div>
       </div>

@@ -60,7 +60,6 @@ const Login = () => {
       }
    
     })
-  //  navigate("/student/dashboard");
   };
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
