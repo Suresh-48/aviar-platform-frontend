@@ -143,82 +143,95 @@ const EditStudentDetails = (props) => {
   // Delete Image
   const removeImage = () => {
     const userId = localStorage.getItem("userId");
-    // Api.delete("api/v1/student/remove/profile", {
-    //   params: {
-    //     studentId: studentId,
-    //     userId: userId,
-    //   },
-    // })
-    //   .then((response) => {
-    //     studentDetails();
-    //     window.location.reload();
-    //   })
-    //   .catch((error) => {
-        // const errorStatus = error?.response?.status;
-        // if (errorStatus === 401) {
-        //   logout();
-        //   toast.error("Session Timeout");
-        // }
-    //   });
+    axios.delete("http://localhost:3000/api/v1/student/remove/profile", {
+      params: {
+        studentId: studentId,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        studentDetails();
+        window.location.reload();
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
     setImagePreview("");
   };
 
   // Convert Image to Base64
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
+  // const convertBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
 
   // Parent details get
-//   const studentDetails = () => {
-    // const userId = localStorage.getItem("userId");
-//     Api.get(`/api/v1/student/${studentId}`, { headers: { userId: userId } })
-//       .then((res) => {
-//         const data = res.data.data.getOne;
-//         setDetails(data);
-//         setIsLoading(false);
-//         setFirstName(data?.firstName);
-//         setMiddleName(data?.middleName);
-//         setLastName(data?.lastName);
-//         setAddress1(data?.address1);
-//         setAddress2(data?.address2);
-//         setPhone(data?.phone);
-//         setEmail(data?.email);
-//         setDob(data?.dob ? data?.dob : "");
-//         setPassword(data?.password);
-//         setConfirmPassword(data?.confirmPassword);
-//         setImagePreview(data?.imageUrl);
-//         setGenderValue(data?.gender);
-//         setGender(data?.gender ? { value: data?.gender, label: data?.gender } : "");
-//         setZipCode(data?.zipCode);
-//         setCity(data?.city ? { value: data?.city, label: data?.city } : "");
-//         setCityValue(data?.city);
-//         setState(data?.state ? { value: data?.state, label: data?.state } : "");
-//         setStateValue(data?.state);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const studentDetails = () => {
+    const userId = localStorage.getItem("userId");
+    axios
+    .get(`http://localhost:3000/api/v1/student/${studentId}`, {
+      headers: { userId: userId },
+    })
+    .then((res) => {
+      const data = res.data.data.getOne;
+  
+      if (!data) {
+        console.error("No data returned from API");
+        return;
+      }
+  
+      setDetails(data);
+      setIsLoading(false);
+      setFirstName(data.firstName || "");
+      setMiddleName(data.middleName || "");
+      setLastName(data.lastName || "");
+      setAddress1(data.address1 || "");
+      setAddress2(data.address2 || "");
+      setPhone(data.phone || "");
+      setEmail(data.email || "");
+      setDob(data.dob || "");
+      setPassword(data.password || "");
+      setConfirmPassword(data.confirmPassword || "");
+      setImagePreview(data.imageUrl || "");
+      setGenderValue(data.gender || "");
+      setGender(data.gender ? { value: data.gender, label: data.gender } : "");
+      setZipCode(data.zipCode || "");
+      setCity(data.city ? { value: data.city, label: data.city } : "");
+      setCityValue(data.city || "");
+      setState(data.state ? { value: data.state, label: data.state } : "");
+      setStateValue(data.state || "");
+    })
+    .catch((error) => {
+      const errorStatus = error?.response?.status;
+  
+      if (errorStatus === 401) {
+        logout();
+        toast.error("Session Timeout");
+      } else {
+        // console.error("API Error:", error.response || error.message);
+      }
+    });
+  };  
 
-//   useEffect(() => {
-//     studentDetails();
-//   }, []);
+  useEffect(() => {
+    studentDetails();
+  }, []);
 
   // Submit Details
   const submitForm = (values) => {
+    console.log("values",values);
     setIsSubmit(true);
     const email = values.email.toLowerCase();
     const startDate = dob;
@@ -227,7 +240,7 @@ const EditStudentDetails = (props) => {
     const state = values.state.value ? values.state.value : "";
     const dateValue = moment(startDate).format("ll");
     const userId = localStorage.getItem("userId");
-    Api.patch(`api/v1/student/${studentId}`, {
+    axios.patch(`http://localhost:3000/api/v1/student/${studentId}`, {
       firstName: values.firstName,
       lastName: values.lastName,
       middleName: values.middleName ? values.middleName : "",
@@ -748,9 +761,9 @@ const EditStudentDetails = (props) => {
                                   <Button
                                     variant="contained"
                                     className="btn-primary btn-cancel my-2"
-                                    onClick={() => {
-                                      props.history.goBack();
-                                    }}
+                                    // onClick={() => {
+                                    //   props.history.goBack();
+                                    // }}
                                   >
                                     Update
                                   </Button>

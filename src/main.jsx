@@ -15,7 +15,7 @@ import CourseCategory from './Components/CourseCategory/Index.jsx'
 // import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 // import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 // import Index from './Components/Courselist/Index.jsx'
-
+import TeacherAvailable from './Components/TeacherAvailablity/Index.jsx'
 // import CoursesCreation from './Components/Course/CourseCreation.jsx'
 // import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 // import UpcomingTeacherScheduleList from'./Components/UpcomingTeacherScheduleList/Index.jsx'

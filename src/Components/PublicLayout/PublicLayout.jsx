@@ -4,6 +4,7 @@ import Allsidebar from "../Core/Allsidebar"      // Your existing sidebar compon
 import HeaderNavbar from "../Core/HeaderNavbar";
 import PublicFooter from "../PublicLayout/PublicFooter";
 import ChatBotConversation from "../ChatBotConversation/ChatBotConversation";
+
 const PublicLayout = ({ open, onClick }) => {
  
   return (
@@ -14,7 +15,7 @@ const PublicLayout = ({ open, onClick }) => {
     <div>
       {/* Fixed Sidebar */}
       <Allsidebar  />
-    
+
       {/* Main Content */}
       <div
         style={{

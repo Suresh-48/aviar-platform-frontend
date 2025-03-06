@@ -167,7 +167,7 @@ const StudentRegistration = (props) => {
   const responseGoogleError = (response) => {
     toast.error(response);
   };
-  const [captcha, setCaptcha] = useState("");
+  
 
   
 
@@ -207,7 +207,7 @@ const StudentRegistration = (props) => {
         Math.floor(Math.random() * randomChars.length)
       );
     }
-    setCaptcha(result);
+    
   };
 
 //   const history = useHistory();
@@ -230,53 +230,55 @@ const StudentRegistration = (props) => {
   //Submit Form
   const submitForm = (values) => {
     console.log("values", values);
-    console.log("dob....",startDate);
-    const user_captcha = values.captcha;
+    console.log("dob....", startDate);
+  
     const email = values.email.toLowerCase();
-    const startDateValue = dob;
+    const startDateValue = startDate; // Use startDate here
     const dateValue = moment(startDateValue).format("ll");
     setisSubmit(true);
-    if (
-      values.password === values.confirmPassword &&
-      captcha === user_captcha
-    ) {
-      getRandomCaptcha();
-    axios.post(`http://localhost:3000/api/v1/student/signup`), {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: email,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
-        dob: dob,
-        gender: gender,
-      }
+  
+    // Check if password and confirm password match
+    if (values.password === values.confirmPassword) {
+      // Send a POST request
+      axios
+        .post(`http://localhost:3000/api/v1/student/signup`, {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: email,
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+          dob: dateValue, // Use formatted date value
+          gender: gender, // Make sure gender is defined elsewhere in your code
+        })
         .then((response) => {
-          console.log("response......",response)
+          console.log("response......", response);
           setisSubmit(false);
           const status = response.status;
           if (status === 201) {
-            
-      
+            // Handle success response if needed
+            console.log("User created successfully!");
           } else {
-            toast.error(response.data.message);
-            setisSubmit(false);
+            toast.error(response.data.message); // Show error message
           }
         })
-     
-        .catch((error)=>{
-              if(error.status === 400){
-                console.log("error.....",error.response.data.message)
-                toast.error(error.response.data.message)
-              }
-           
-            })
+        .catch((error) => {
+          // Handle errors properly, checking the response
+          if (error.response && error.response.status === 400) {
+            console.log("error.....", error.response.data.message);
+            toast.error(error.response.data.message);
+          } else {
+            // Generic error handling
+            toast.error("Something went wrong!");
+          }
+          setisSubmit(false);
+        });
     } else {
       setisSubmit(false);
-      toast.error("Captcha Does Not Match");
-      values.captcha = "";
-      getRandomCaptcha();
+      toast.error("Password and confirm password do not match.");
+      getRandomCaptcha(); // You can call this function to refresh the captcha
     }
   };
+  
 
   //Validations
   const loginSchema = Yup.object().shape({
@@ -309,11 +311,7 @@ const StudentRegistration = (props) => {
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
         "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
-      .required("Confirm Password Is Required"),
-    captcha: Yup.string()
-      .min(6, "Captcha required minimum 6 characters ")
-      .max(6, "Captcha maximum 6 characters")
-      .required("Captcha Is Required"),
+      .required("Confirm Password Is Required")
   });
 
   return (
@@ -368,7 +366,7 @@ const StudentRegistration = (props) => {
                 // dob: "",
                 gender: "",
                 confirmPassword: "",
-                captcha: "",
+             
               }}
               validationSchema={loginSchema}
               onSubmit={(values) => submitForm(values)}
@@ -631,67 +629,7 @@ const StudentRegistration = (props) => {
                             />
                           </Form.Group>
                         </Col>
-                        <Row>
-                          <Col md="7" className="mb-3">
-                            <Form.Group
-                              className="form-row"
-                              style={{ marginRight: 20, width: "100%" }}
-                            >
-                              {/* <Label notify={true}>Captcha</Label> */}
-                              <span>Captcha</span>
-                              <span className="text-danger">*</span>
-
-                              <Form.Control
-                                type="text"
-                                id="captcha"
-                                name="captcha"
-                                value={values.captcha}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className="form-width captcha-field"
-                                placeholder="Captcha"
-                                onPaste={(e) => {
-                                  e.preventDefault();
-                                  return false;
-                                }}
-                              />
-                              <ErrorMessage
-                                name="captcha"
-                                component="span"
-                                className="error text-danger"
-                              />
-                            </Form.Group>
-                          </Col>
-                          <Col className="d-flex justify-content-center align-items-center mt-3">
-                            <Form.Group
-                              className="form-row"
-                              style={{ width: "100%" }}
-                            >
-                              <Form.Label className="captcha-form">
-                                <s
-                                  className="border border-primary px-2 captcha-alignment"
-                                  style={{ backgroundColor: "azure" }}
-                                  onCopy={(e) => {
-                                    e.preventDefault();
-                                    return false;
-                                  }}
-                                >
-                                  {captcha}
-                                </s>
-                                <FontAwesomeIcon
-                                  icon={faRedoAlt}
-                                  size="1x"
-                                  color="#1d1464"
-                                  className="captcha-text mx-3 mt-1"
-                                  onClick={() => {
-                                    values.captcha = "";
-                                    getRandomCaptcha();
-                                  }}
-                                />
-                              </Form.Label>
-                            </Form.Group>
-                          </Col>
-                        </Row>
+                       
 
                         <div className="d-flex justify-content-center mt-3">
                           <div className="btn-primary">

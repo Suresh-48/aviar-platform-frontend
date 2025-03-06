@@ -58,18 +58,18 @@ const routes = [
       exact:true,
       name:"ChatBotConversation",
       component:ChatBotConversation,
-    }
+    },
     {
       path:"/navbar",
       exact:true,
       name:"NavbarLoginBefore",
       component:NavbarLoginBefore,
-    }
+    },
     {
       path:"/about-us",
       exact:true,
       component:AboutUs
-    }
+    },
     {
         path: "/login",
         exact: true,

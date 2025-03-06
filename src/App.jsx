@@ -58,6 +58,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
+          {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/navbar" element={<NavbarLoginBefore/>}/>
