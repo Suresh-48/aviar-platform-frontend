@@ -9,6 +9,7 @@ import App from './App.jsx'
 import Password from './Components/ResetPassword/Password.jsx'
 import ChangePassword from './Components/SubmitPassword/Index.jsx'
 import CourseCategory from './Components/CourseCategory/Index.jsx'
+// import CourseChekOut from './Components/CourseChekOut/CourseChekOut.jsx'
 // import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'
