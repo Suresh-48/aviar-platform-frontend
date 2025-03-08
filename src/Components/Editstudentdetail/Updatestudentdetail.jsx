@@ -57,8 +57,10 @@ const options = [
 ];
 
 const EditStudentDetails = (props) => {
+  console.log("std id....", localStorage.getItem("userId"));
+  
   const [details, setDetails] = useState([]);
-  const [studentId, setStudentId] = useState(props?.match?.params?.id);
+  const [studentId, setStudentId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [gender, setGender] = useState("");
   const [genderValue, setGenderValue] = useState("");
@@ -186,32 +188,26 @@ const EditStudentDetails = (props) => {
     })
     .then((res) => {
       const data = res.data.data.getOne;
-  
-      if (!data) {
-        console.error("No data returned from API");
-        return;
-      }
-  
       setDetails(data);
       setIsLoading(false);
-      setFirstName(data.firstName || "");
-      setMiddleName(data.middleName || "");
-      setLastName(data.lastName || "");
-      setAddress1(data.address1 || "");
-      setAddress2(data.address2 || "");
-      setPhone(data.phone || "");
-      setEmail(data.email || "");
-      setDob(data.dob || "");
-      setPassword(data.password || "");
-      setConfirmPassword(data.confirmPassword || "");
-      setImagePreview(data.imageUrl || "");
-      setGenderValue(data.gender || "");
-      setGender(data.gender ? { value: data.gender, label: data.gender } : "");
-      setZipCode(data.zipCode || "");
-      setCity(data.city ? { value: data.city, label: data.city } : "");
-      setCityValue(data.city || "");
-      setState(data.state ? { value: data.state, label: data.state } : "");
-      setStateValue(data.state || "");
+      setFirstName(data?.firstName);
+      setMiddleName(data?.middleName);
+      setLastName(data?.lastName);
+      setAddress1(data?.address1);
+      setAddress2(data?.address2);
+      setPhone(data?.phone);
+      setEmail(data?.email);
+      setDob(data?.dob ? data?.dob : "");
+      setPassword(data?.password);
+      setConfirmPassword(data?.confirmPassword);
+      setImagePreview(data?.imageUrl);
+      setGenderValue(data?.gender);
+      setGender(data?.gender ? { value: data?.gender, label: data?.gender } : "");
+      setZipCode(data?.zipCode);
+      setCity(data?.city ? { value: data?.city, label: data?.city } : "");
+      setCityValue(data?.city);
+      setState(data?.state ? { value: data?.state, label: data?.state } : "");
+      setStateValue(data?.state);
     })
     .catch((error) => {
       const errorStatus = error?.response?.status;

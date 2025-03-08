@@ -49,6 +49,7 @@ const Login = () => {
 
         localStorage.setItem ("token",response.data.updateToken.token);
         localStorage.setItem("role",response.data.updateToken.role);
+        
         console.log("response",response.data)
         toast.success(response.data)
         navigate("/student/dashboard");
