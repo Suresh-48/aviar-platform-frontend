@@ -8,6 +8,15 @@ import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import App from './App.jsx'
 import Password from './Components/ResetPassword/Password.jsx'
 import ChangePassword from './Components/SubmitPassword/Index.jsx'
+import CourseCategory from './Components/CourseCategory/Index.jsx'
+import EditCourses from "./Components/EditCourses/Index.jsx"
+import CourseLesson from "./Components/CourseLesson/Index.jsx";
+import EditCourseSchedule from './Components/CourseLesson/EditCourseLesson.jsx'
+import CreateCourseLessons from './Components/CourseLesson/CreateCourseLesson.jsx'
+import CreateCourseSchedule from './Components/CourseSchedule/CreateCourseSchedule.jsx'
+import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
+// import CourseDetail from './Components/Course/CourseDetail.jsx'
+
 // import Adminsidebar from './Components/Core/Adminsidebar.jsx';
 // import DashboardTiles from './Components/Core/DashboardTiles.jsx'
 // import PublicFooter from './Components/PublicLayout/PublicFooter.jsx'

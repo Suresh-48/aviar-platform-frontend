@@ -16,6 +16,7 @@ import ResetPassword from "./Components/ResetPassword/Password.jsx";
 import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
+// import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
@@ -47,11 +48,18 @@ import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import PublicLayout from './Components/PublicLayout/PublicLayout.jsx';
 import NavbarLoginBefore from "./Components/PublicLayout/navbar";
+import CourseLesson from "./Components/CourseLesson/Index.jsx";
+import CreateCourseLesson from "./Components/CourseLesson/CreateCourseLesson.jsx";
+import EditCourses from "./Components/EditCourses/Index.jsx"
+import CourseSchedule from "./Components/CourseSchedule/Index.jsx";
+import CreateCourseSchedule from "./Components/CourseSchedule/CreateCourseSchedule.jsx";
+// import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
   // const [open, setOpen] = useState(false);
   return (
     <div>
       <ToastContainer autoClose={5000} hideProgressBar pauseOnHover={false} toastClassName="toastRequestSuccess" bodyClassName="toastBody" closeButton={false} />
+      <ChatBotConversation/>
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
@@ -106,13 +114,19 @@ const App = () => {
           >
             <Route index element={<Navigate to="/admin/dashboard" />} />
             <Route path="dashboard" element={<Admindashboard />} />
-            <Route path="coursecategory" element={<CourseCategory />} />
+            <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+            <Route path="course/edit/1" element ={<EditCourses/>}/>
+            <Route path="course/lesson" element={<CourseLesson/>}/>
+            <Route path="course/schedule" element={<CourseSchedule/>}/>
+            <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
+            <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
             <Route path="students/list" element={<StudentList />} />
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
+            {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
           </Route>

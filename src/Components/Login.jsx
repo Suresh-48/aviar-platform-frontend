@@ -43,24 +43,29 @@ const Login = () => {
       password: values.password,
 
     }).then((response)=>{
-      console.log("response",response.data);
-      if(response.status === 200){
-        console.log("")
-        toast.success(response.data)
-        navigate("/student/dashboard");
+      console.log("response",response.data.updateToken); 
+      console.log("response",response.data.updateToken.role);
+      if(response.status === 200){  
+        
+        localStorage.setItem("token", response.data.updateToken.token);
+        localStorage.setItem("role",response.data.updateToken.role);
+        localStorage.setItem("userId", response.data.updateToken.id)
+
+        toast.success(response.data);
+        navigate("/admin/dashboard");
       }
     }).catch((error)=>{
       if(error.status === 400){
-        console.log("error.....",error.response.data.message)
-        toast.error(error.response.data.message)
+        console.log("error.....",error.response.data.message);
+        toast.error(error.response.data.message);
       }
    
     })
   //  navigate("/student/dashboard");
   };
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setPasswordVisible(!passwordVisible);
+  // };
   const tooglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };

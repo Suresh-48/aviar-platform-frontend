@@ -11,6 +11,7 @@ import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
 // import Loader from "../core/Loader";
 // import CourseCard from "../../components/core/CourseCard";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AllCourseList = (props) => {
   const [landingPageCategoryList, setLandingPageCategoryList] = useState(props?.location?.state);
@@ -51,6 +52,9 @@ const AllCourseList = (props) => {
     setPageNumbers(pageNumbers);
   }, [courseList, postPerPage]);
 
+  // const getCategory=()=>{
+  //   axios.get()
+  // }
 //   const getCategory = () => {
 //     const userId = localStorage.getItem("userId");
 //     Api.get("api/v1/category", {

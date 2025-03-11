@@ -123,10 +123,10 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
       <Navbar color="light" light expand="md" className="navbar-style">
         <Container fluid>
           {/* {Open ? ( */}
-            <NavbarBrand
+            {/* <NavbarBrand
               className="navbarbrand-alignment"
             //   onClick={() => history.push("/kharpi", { sideClose: "closed" })}
-            >
+            > */}
               {/* <img
                 src={aviar}
                 width="100"
@@ -134,23 +134,23 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
                 className="d-inline-block align-top"
                 alt="logo"
               /> */}
-            </NavbarBrand>
+            {/* </NavbarBrand> */}
           {/* ) : null} */}
 
-          <NavbarToggler onClick={toggle} />
-          {!isStudent && !isTeacher && !isAdmin && (
-            <Collapse
+          {/* <NavbarToggler onClick={toggle} /> */}
+          {/* {!isStudent && !isTeacher && !isAdmin && ( */}
+            {/* <Collapse
               isOpen={isOpen}
               navbar
               style={{ justifyContent: "flex-end" }}
             >
-              <Nav className="mr-auto" navbar>
+              <Nav className="mr-auto" navbar> */}
                 {/* {pathName !== "/kharpi" && (
                   <NavItem className="ml-auto">
                     <NavLink href="/kharpi">Home Page</NavLink>
                   </NavItem>
                 )} */}
-                <NavItem className="">
+                {/* <NavItem className="">
                   <NavLink href="/about-us">About Us</NavLink>
                 </NavItem>
                 <NavItem className="">
@@ -160,9 +160,9 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
                   <NavLink href="/login">Login</NavLink>
                 </NavItem>
               </Nav>
-            </Collapse>
-          )}
-          {isStudent || isTeacher ? (
+            </Collapse> */}
+          {/* )} */}
+          {/* {isStudent || isTeacher ? ( */}
             <Collapse
               isOpen={isOpen}
               navbar
@@ -193,8 +193,8 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
                 </UncontrolledDropdown>
               </Nav>
             </Collapse>
-          ) : (
-            isAdmin && (
+          {/* ) : ( */}
+            {/* isAdmin && ( */}
               <Collapse
                 isOpen={isOpen}
                 navbar
@@ -211,8 +211,8 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
                   </Link>
                 </Nav>
               </Collapse>
-            )
-          )}
+            {/* ) */}
+          {/* )} */}
         </Container>
       </Navbar>
     </>
