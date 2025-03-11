@@ -42,17 +42,17 @@ const Login = () => {
       email: values.email,
       password: values.password,
 
-    }).then((response)=>{
+    }).then((response)=>{ 
       console.log("response",response.data.updateToken); 
       console.log("response",response.data.updateToken.role);
       if(response.status === 200){  
         
         localStorage.setItem("token", response.data.updateToken.token);
         localStorage.setItem("role",response.data.updateToken.role);
-        localStorage.setItem("userId", response.data.updateToken.id)
+          localStorage.setItem("userId", response.data.updateToken.id)
 
-        toast.success(response.data);
-        navigate("/admin/dashboard");
+          toast.success(response.data);
+          navigate("/admin/dashboard");
       }
     }).catch((error)=>{
       if(error.status === 400){

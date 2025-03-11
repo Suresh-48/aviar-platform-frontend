@@ -1060,9 +1060,9 @@
     width: 90%;
   }
   @media only screen and (min-width: 1025px) and (max-width: 1440px) {
-    width: 91%;
+    /* width : 91%; */
   }
-}
+
 .category-div-one {
   display: flex;
   align-items: baseline;

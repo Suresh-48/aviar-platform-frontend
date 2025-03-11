@@ -34,6 +34,7 @@ import {
   faEyeSlash,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 // import { customStyles } from "../core/Selector";
 
 const TeacherSignup = () => {
@@ -136,7 +137,7 @@ const SignInSchema = Yup.object().shape({
     if (values.password === values.confirmPassword && captcha === user_captcha) {
       getRandomCaptcha();
       setIsSubmit(true);
-      Api.post("api/v1/teacher/signup", {
+      axios.post("http://localhost:3000/api/v1/teacher/signup", {
         firstName: values.firstName,
         lastName: values.lastName,
         middleName: values.middleName,
@@ -198,7 +199,7 @@ const SignInSchema = Yup.object().shape({
       setUserName(username);
     }
 
-    Api.get("api/v1/teacher/check/username", {
+    axios.get("api/v1/teacher/check/username", {
       params: {
         userName: username,
       },
@@ -214,7 +215,7 @@ const SignInSchema = Yup.object().shape({
   };
 
 //   const getCategoryList = () => {
-//     // Api.get("api/v1/category").then((res) => {
+//     axios.get("http://localhost:3000//api/v1/category").then((res) => {
 //       const option = res.data.data.data;
 //       setCategoryList(option);
 //     });

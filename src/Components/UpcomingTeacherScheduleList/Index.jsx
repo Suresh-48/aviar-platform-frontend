@@ -155,7 +155,7 @@ function UpcomingTeacherScheduleList(props) {
     setshow(false);
   };
 
-  const isTeacher = role === ROLES_TEACHER;
+  // const isTeacher = role === ROLES_TEACHER;
 
   function closeShow() {
     setshowAlert(false);
