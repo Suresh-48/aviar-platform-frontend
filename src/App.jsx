@@ -117,7 +117,8 @@ const App = () => {
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
-            <Route path="course/edit/1" element ={<EditCourses/>}/>
+            <Route path="course/edit/:id" element ={<EditCourses/>}/>
+            
             <Route path="course/lesson" element={<CourseLesson/>}/>
             <Route path="course/schedule" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>

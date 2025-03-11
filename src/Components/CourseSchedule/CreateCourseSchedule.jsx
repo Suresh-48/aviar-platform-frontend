@@ -163,7 +163,7 @@ const CreateCourseSchedule = (props) => {
                               />
                             </Form.Group>
                           </Col>
-                          {/* <Col xs={12} sm={6} md={6}>
+                          <Col xs={12} sm={6} md={6}>
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>Weekly On</Label>
                               <FormControl
@@ -183,7 +183,7 @@ const CreateCourseSchedule = (props) => {
                                 className="error text-danger error-message"
                               />
                             </Form.Group>
-                          </Col> */}
+                          </Col>
                         </Row>
 
                         <Row>
@@ -223,7 +223,7 @@ const CreateCourseSchedule = (props) => {
                               />
                             </Form.Group>
                           </Col>
-                          {/* <Col xs={12} sm={6}>
+                          <Col xs={12} sm={6}>
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>End Time</Label>
                               <br />
@@ -251,7 +251,7 @@ const CreateCourseSchedule = (props) => {
                                 className="error text-danger error-message"
                               />
                             </Form.Group>
-                          </Col> */}
+                          </Col>
                         </Row>
                         <Row>
                           <Col xs={12} sm={6}>
@@ -298,7 +298,7 @@ const CreateCourseSchedule = (props) => {
                         </Row>
 
                         <Row>
-                          {/* <Col>
+                          <Col>
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>Teachers</Label>
                               <Select
@@ -345,7 +345,7 @@ const CreateCourseSchedule = (props) => {
                                 className="error text-danger error-message"
                               />
                             </Form.Group>
-                          </Col> */}
+                          </Col>
                         </Row>
                         <div style={{ display: "flex", justifyContent: "flex-end" }} className="mb-3 mt-5">
                           <div className="d-flex">

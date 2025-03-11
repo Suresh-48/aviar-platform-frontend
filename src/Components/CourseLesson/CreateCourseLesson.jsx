@@ -28,6 +28,7 @@ import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 const CreateCourseLessons = (props) => {
   const [duration, setDuration] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
+  const [description, setDescription] = useState("");
   const [courseName, setCourseName] = useState(props?.location?.state?.courseName);
   const [courseId, setCourseId] = useState(props?.location?.state?.courseId);
 //   const [description, setDescription] = useState(EditorState.createEmpty());
@@ -249,25 +250,26 @@ const handleGoBack = () => {
                         </Col>
                       </Row>
                       
-                      {/* <div> */}
-                        {/* <Label notify={true}>Description</Label> */}
-                        {/* <div className="description">
+                      <div>
+                        <Label notify={true}>Description</Label>
+                        {/* <div className="description"> */}
                           <ReactQuill
                             spellCheck
                             name="descriptionValue"
-                            // editorState={description}
-                            // onEditorStateChange={(e) => {
-                            //   setDescription(e);
-                            //   onChangeDescription({ setFieldValue }, e);
-                            // }}
+                            editorState={description}
+                            onEditorStateChange={(e) => {
+                              setDescription(e);
+                              onChangeDescription({ setFieldValue }, e);
+                            }}
                             toolbar={{
                               options: ["inline", "list", "textAlign"],
                             }}
                           />
-                        </div> */}
-                        {/* <ErrorMessage name="descriptionValue" component="span" className="error text-danger" /> */}
-                      {/* </div>
-                   */}
+                                  
+                        </div>
+                        <ErrorMessage name="descriptionValue" component="span" className="error text-danger" />
+                       {/* </div> */}
+                   
                         <div className="d-flex mt-3">
                           <Button
                             className="px-3 aviar-cancel-btn danger mt-3"

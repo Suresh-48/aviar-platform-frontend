@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/CourseList.css";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -49,21 +50,45 @@ const CourseList = () => {
   const [lessonShow, setLessonShow] = useState(false);
   const navigate = useNavigate();
 
-  // Dummy data for demonstration
-  useEffect(() => {
-    setPublish([
-      { id: 1, name: "Published Course 1", description: "Description 1", imageUrl: null },
-      { id: 2, name: "Published Course 2", description: "Description 2", imageUrl: null },
-    ]);
-    setDraft([
-      { id: 3, name: "Draft Course 1", description: "Description 3", imageUrl: null },
-      { id: 4, name: "Draft Course 2", description: "Description 4", imageUrl: null },
-    ]);
-    setArchive([
-      { id: 5, name: "Archived Course 1", description: "Description 5", imageUrl: null },
-      { id: 6, name: "Archived Course 2", description: "Description 6", imageUrl: null },
-    ]);
-  }, []);
+
+
+  useEffect(()=>{
+    getPublishCourse();
+    getDraftCourse();
+  },[]);
+
+  const getPublishCourse = () => {
+    const userId = localStorage.getItem("userId");
+    axios.get("http://localhost:3000/api/v1/course/publish", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res?.data?.data?.data;  
+        setPublish(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const getDraftCourse = () => {
+    const userId = localStorage.getItem("userId");
+    axios.get("http://localhost:3000/api/v1/course/Draft", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res.data.data.data;   
+        setDraft(data);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   const handlePublishPageClick = (data) => {
     setPublishCurrentPage(data.selected);
@@ -167,6 +192,7 @@ const CourseList = () => {
                     {publishCourses.map((course) => (
                       <Col xs={12} sm={6} md={6} lg={4} key={course.id} style={{ marginTop: 10 }}>
                         <Card className="card-height-style">
+                          {console.log("ppp2ppppp......", course)}
                           <div className="image-content">
                             <img
                               className="image-heigh"
@@ -197,7 +223,7 @@ const CourseList = () => {
                                     </NavLink>
                                     <hr />
                                     <NavLink
-                                      to={"/admin/course/edit/1"}
+                                      to={"/admin/course/edit/:id"}
                                       className="navigate-edit-text-NavLink"
                                     >
                                       Edit
@@ -280,6 +306,7 @@ const CourseList = () => {
                               width={"100%"}
                               height={"100%"}
                             />
+                            {console.log("course//////",course.id)}
                             <div className="top-right">
                               <FontAwesomeIcon
                                 icon={faEllipsisV}
@@ -295,14 +322,14 @@ const CourseList = () => {
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={`/course/detail/${course.id}`}
+                                      to={`/admin/course/detail/${course.id}`}
                                       className="navigate-edit-text-NavLink"
                                     >
                                       View
                                     </NavLink>
                                     <hr />
                                     <NavLink
-                                      to={`/course/edit/${course.id}`}
+                                      to={"/admin/course/edit/:id"}
                                       className="navigate-edit-text-NavLink"
                                     >
                                       Edit

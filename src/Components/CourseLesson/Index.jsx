@@ -21,6 +21,7 @@ import CourseSideMenu from "../CourseSideMenu";
 import tableIcons from "../Core/TableIcons";
 
 function CourseLesson(props) {
+  console.log("props.......",props)
   const [data, setData] = useState([]);
   const[selectedLesson,setSelectedLesson] = useState(null);
   const[editLessonDetails,setEditLessonDetails] = useState(false);
@@ -135,6 +136,7 @@ const handleCancel=()=>{
 
   const editLesson = () => {
     if (!selectedLesson) return;
+    console.log("res",editLessonName)
 
     axios
       .patch(`http://localhost:3000/api/v1/courseLesson/${selectedLesson.id}`, {
@@ -163,6 +165,7 @@ const handleCancel=()=>{
       .delete(`http://localhost:3000/api/v1/courseLesson/${selectedLesson.id}`, {
       headers:{ userId: userId},
       lessonName:deleteLessonName,
+      userId: userId,
       
       })
       .then((res) => {
@@ -218,6 +221,7 @@ const handleCancel=()=>{
   return (
     <div>
     <Container className="mt-1">
+      {console.log("course id @@@@ .....",courseId)}
       <CourseSideMenu courseId={courseId} />
       <div className="row edit-course-lesson-style">
         <ThemeProvider theme={tableTheme}>
@@ -357,13 +361,13 @@ const handleCancel=()=>{
                     onChange={(e) => setEditDiscountAmount(e.target.value)}
                   />
                       <br />
-                  {/* <Label notify={true}>Description</Label>
+                  <Label notify={true}>Description</Label>
                   <FormControl
                     type="text"
                     placeholder="Description"
                     value={editDescription}
                     onChange={(e) => setEditDescription(e.target.value)}
-                  /> */}
+                  />
                     <br />
                   {/* <Label notify={true}>Duration</Label>
                   <FormControl

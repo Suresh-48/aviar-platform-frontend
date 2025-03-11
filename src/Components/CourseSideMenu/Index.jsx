@@ -53,7 +53,7 @@ const CourseSideMenu = (props) => {
               }}
               activeClassName="main-nav-active"
             >
-              Home Work
+              Home Works
             </NavLink>
           </Col>
         </Row>
@@ -63,7 +63,7 @@ const CourseSideMenu = (props) => {
             <NavLink
               exact
               to={{
-                pathname: "/admin/course/edit/1",
+                pathname: "/admin/course/edit/:id",
                 // state: { courseId: courseId },
               }}
               activeClassName="main-nav-active"

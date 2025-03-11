@@ -165,14 +165,14 @@ const routes = [
   name:"StudentList",
   components:StudentList,
  },
-//  {
-//   path: "/course/edit/:id",
-//   exact: true,
-//   name: "EditCourses",
-//   component: EditCourses,
-// },
+ {
+  path: "/admin/course/edit/:id",
+  exact: true,
+  name: "EditCourses",
+  component: EditCourses,
+},
 {
-  path:"/admin/course/edit/1",
+  path:"/admin/course/edit/:id",
   exact:true,
   name:EditCourses,
 },

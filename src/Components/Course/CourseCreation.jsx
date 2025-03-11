@@ -51,7 +51,7 @@ const SignInSchema = Yup.object().shape({
   category: Yup.object().required("Category Name Is Required"),
   courseName: Yup.string().required("Course Name Is Required"),
   descriptionValue: Yup.string().required("Description Is Required"),
-  courseImage: Yup.mixed().required("Image Is Required"),
+  // courseImage: Yup.mixed().required("Image Is Required"),
   duration: Yup.object().required("Duration is Required").nullable(),
 });
 
@@ -74,18 +74,29 @@ const CoursesCreation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   getCategory();
-  // }, []);
+  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    getCourseCategory();
+  }, []);
 
   // Description on change
   const onChangeDescription = ({ setFieldValue }, e) => {
     const editedText = convertToRaw(e.getCurrentContent());
     setFieldValue("descriptionValue", editedText.blocks[0].text);
   };
-
+   
   // Get Course Category
+  const getCourseCategory = ()=>{
+    axios.get(`http://localhost:3000/api/v1/category/list${categoryId}`,{ header:{
+    userId:userId}
+  }).then((res)=>{console.log("res",res)})
+  // setoptions
+
+  }
+  
+
+
+
   // const getCategory = () => {
   //   const userId = localStorage.getItem("userId");
   //   Api.get("/api/v1/category/", { headers: { userId: userId } })
@@ -110,7 +121,22 @@ const CoursesCreation = () => {
   };
 
   // Form submit
-  // const submitForm = (values) => {
+  const submitForm = (values) => {
+  axios.post("http://localhost:3000/api/v1/course",{
+  
+
+       category: categoryId,
+        name: values.courseName,
+        description: convertedData,
+        type: typeId,
+        isFuture: isFuture,
+        duration: duration,
+        userId: userId,
+  })
+  .then((res)=>{console.log("res",res)})
+  }
+
+  
   //   const userId = localStorage.getItem("userId");
   //   const convertedData = JSON.stringify(
   //     convertToRaw(description.getCurrentContent())
@@ -275,7 +301,7 @@ const CoursesCreation = () => {
 
  const createCategory =()=>{
   const userId = localStorage.getItem("userId");
-  console.log("userid......",userId)
+ 
   axios.post("http://localhost:3000/api/v1/category", {
        name: selectCategory,
       createdBy: userId,
