@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/CourseList.css";
 
 const theme = createTheme({
@@ -189,27 +189,27 @@ const CourseList = () => {
                               {cardId === course.id && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
-                                    <Link
-                                      to={`/course/detail/${course.id}`}
-                                      className="navigate-edit-text-link"
+                                    <NavLink
+                                      to={"/admin/course/detail"}
+                                      className="navigate-edit-text-NavLink"
                                     >
                                       View
-                                    </Link>
+                                    </NavLink>
                                     <hr />
-                                    <Link
-                                      to={`/course/edit/${course.id}`}
-                                      className="navigate-edit-text-link"
+                                    <NavLink
+                                      to={"/admin/course/edit/1"}
+                                      className="navigate-edit-text-NavLink"
                                     >
                                       Edit
-                                    </Link>
+                                    </NavLink>
                                     <hr />
-                                    <Link
+                                    <NavLink
                                       to="#"
-                                      className="navigate-edit-text-link"
+                                      className="navigate-edit-text-NavLink"
                                       onClick={() => setLessonShow(true)}
                                     >
                                       Archive
-                                    </Link>
+                                    </NavLink>
                                   </div>
                                 </Collapse>
                               )}
@@ -249,11 +249,11 @@ const CourseList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         pageClassName={"page-item"}
-                        pageLinkClassName={"page-link"}
+                        pageNavLinkClassName={"page-NavLink"}
                         previousClassName={"page-item"}
-                        previousLinkClassName={"page-link"}
+                        previousNavLinkClassName={"page-NavLink"}
                         nextClassName={"page-item"}
-                        nextLinkClassName={"page-link"}
+                        nextNavLinkClassName={"page-NavLink"}
                       />
                     </div>
                   </Row>
@@ -294,27 +294,27 @@ const CourseList = () => {
                               {cardId === course.id && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
-                                    <Link
+                                    <NavLink
                                       to={`/course/detail/${course.id}`}
-                                      className="navigate-edit-text-link"
+                                      className="navigate-edit-text-NavLink"
                                     >
                                       View
-                                    </Link>
+                                    </NavLink>
                                     <hr />
-                                    <Link
+                                    <NavLink
                                       to={`/course/edit/${course.id}`}
-                                      className="navigate-edit-text-link"
+                                      className="navigate-edit-text-NavLink"
                                     >
                                       Edit
-                                    </Link>
+                                    </NavLink>
                                     <hr />
-                                    <Link
+                                    <NavLink
                                       to="#"
-                                      className="navigate-edit-text-link"
+                                      className="navigate-edit-text-NavLink"
                                       onClick={() => setLessonShow(true)}
                                     >
                                       Publish
-                                    </Link>
+                                    </NavLink>
                                   </div>
                                 </Collapse>
                               )}
@@ -354,11 +354,11 @@ const CourseList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         pageClassName={"page-item"}
-                        pageLinkClassName={"page-link"}
+                        pageNavLinkClassName={"page-NavLink"}
                         previousClassName={"page-item"}
-                        previousLinkClassName={"page-link"}
+                        previousNavLinkClassName={"page-NavLink"}
                         nextClassName={"page-item"}
-                        nextLinkClassName={"page-link"}
+                        nextNavLinkClassName={"page-NavLink"}
                       />
                     </div>
                   </Row>
@@ -399,27 +399,27 @@ const CourseList = () => {
                               {cardId === course.id && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
-                                    <Link
-                                      to={`/course/detail/${course.id}`}
-                                      className="navigate-edit-text-link"
+                                    <NavLink
+                                      to={"/admin/course/detail/"}
+                                      className="navigate-edit-text-NavLink"
                                     >
                                       View
-                                    </Link>
+                                    </NavLink>
                                     <hr />
-                                    <Link
+                                    <NavLink
                                       to={`/course/edit/${course.id}`}
-                                      className="navigate-edit-text-link"
+                                      className="navigate-edit-text-NavLink"
                                     >
                                       Edit
-                                    </Link>
+                                    </NavLink>
                                     <hr />
-                                    <Link
+                                    <NavLink
                                       to="#"
-                                      className="navigate-edit-text-link"
+                                      className="navigate-edit-text-NavLink"
                                       onClick={() => setLessonShow(true)}
                                     >
                                       Publish
-                                    </Link>
+                                    </NavLink>
                                   </div>
                                 </Collapse>
                               )}
@@ -459,11 +459,11 @@ const CourseList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         pageClassName={"page-item"}
-                        pageLinkClassName={"page-link"}
+                        pageNavLinkClassName={"page-NavLink"}
                         previousClassName={"page-item"}
-                        previousLinkClassName={"page-link"}
+                        previousNavLinkClassName={"page-NavLink"}
                         nextClassName={"page-item"}
-                        nextLinkClassName={"page-link"}
+                        nextNavLinkClassName={"page-NavLink"}
                       />
                     </div>
                   </Row>

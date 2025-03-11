@@ -39,7 +39,14 @@ import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import { Component } from "react";
 import ChatBotConversation from "./Components/ChatBotConversation/ChatBotConversation.jsx";
+import EditCourses from "./Components/EditCourses/Index.jsx";
+import CourseLesson from "./Components/CourseLesson/Index.jsx";
 import CoursesCreation from "./Components/Course/CourseCreation.jsx";
+import CreateCourseLesson from "./Components/CourseLesson/CreateCourseLesson.jsx";
+import CreateCourseSchedule from "./Components/CourseSchedule/CreateCourseSchedule.jsx";
+import CourseSchedule from "./Components/CourseSchedule/Index.jsx";
+import EditCourseSchedule from "./Components/CourseSchedule/EditCourseSchedule.jsx";
+import CourseDetail from "./Components/Course/CourseDetail.jsx";
 const routes = [
   // {
   //   path: "/",
@@ -47,6 +54,27 @@ const routes = [
   //   name: "Home",
   //   component: Home,
   // },
+  {
+    path: "/admin/course/lesson",
+    exact: true,
+    name: "CourseLesson",
+    component: CourseLesson,
+  },
+  
+    {
+      path: "/admin/course/detail",
+      exact: true,
+      name: "CourseDetail",
+      component: CourseDetail,
+    },
+  
+    {
+      path: "/admin/course/checkout",
+      exact: true,
+      name: "CourseCheckout",
+      component: CourseCheckout,
+    },
+  
     {
       path: "/home",
       exact: true,
@@ -58,6 +86,12 @@ const routes = [
       exact:true,
       name:"ChatBotConversation",
       component:ChatBotConversation,
+    },
+    {
+      path: "/course/schedule",
+      exact: true,
+      name: "CourseSchedule",
+      component: CourseSchedule,
     },
     {
       path:"/navbar",
@@ -108,7 +142,7 @@ const routes = [
     component:Admindashboard,
    },
    {
-    path:"/admin/coursecategory",
+    path:"/admin/course/category",
     exact:true,
     name:"CourseCategory",
     component:CourseCategory,
@@ -131,11 +165,46 @@ const routes = [
   name:"StudentList",
   components:StudentList,
  },
+//  {
+//   path: "/course/edit/:id",
+//   exact: true,
+//   name: "EditCourses",
+//   component: EditCourses,
+// },
+{
+  path:"/admin/course/edit/1",
+  exact:true,
+  name:EditCourses,
+},
  {
-  path:"admin/course/list",
+  path:"/admin/course/list",
   exact:true,
   name:"CourseList",
   component:CourseList
+ },
+ 
+  {
+    path: "/admin/course/schedule",
+    exact: true,
+    name: "CourseSchedule",
+    component: CourseSchedule,
+  },
+  {
+    path: "/admin/course/schedule/add",
+    exact: true,
+    name: "CreateCourseSchedule",
+    component: CreateCourseSchedule,
+  },
+  {
+    path:"/admin/course/schedule/update",
+    exact:true,
+    name:"EditCourseSchedule",
+    component: EditCourseSchedule,
+  },
+ {
+  path: "/admin/course/lesson/add",
+  name:"CreateCourseLesson",
+  component:CreateCourseLesson,
  },
  {
   path:"/admin/teacher/list",

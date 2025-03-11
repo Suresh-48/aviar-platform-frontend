@@ -126,7 +126,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
   return (
     <div>
       
-        
+      <HeaderNavbar/>  
       <div>
         <div className={`${open ? "sidebar active" : "sidebar"}`}>
           <div className="logo-content">

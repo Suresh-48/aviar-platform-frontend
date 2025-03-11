@@ -43,31 +43,28 @@ const Login = () => {
       password: values.password,
 
     }).then((response)=>{
-      console.log("response",response.data.updateToken.token);
+      console.log("response",response.data.updateToken); 
       console.log("response",response.data.updateToken.role);
-      console.log("response",response.data.updateToken.id)
-      // console.log("response",response.data.updateToken.userId);
-      if(response.status === 200){
-
-        localStorage.setItem ("token",response.data.updateToken.token);
-        localStorage.setItem("role",response.data.updateToken.role);
-        localStorage.setItem("userId",response.data.updateToken.id);
+      if(response.status === 200){  
         
-        console.log("response",response.data)
-        toast.success(response.data)
-        navigate("/student/dashboard");
+        localStorage.setItem("token", response.data.updateToken.token);
+        localStorage.setItem("role",response.data.updateToken.role);
+        localStorage.setItem("userId", response.data.updateToken.id)
+
+        toast.success(response.data);
+        navigate("/admin/dashboard");
       }
     }).catch((error)=>{
       if(error.status === 400){
-        console.log("error.....",error.response.data.message)
-        toast.error(error.response.data.message)
+        console.log("error.....",error.response.data.message);
+        toast.error(error.response.data.message);
       }
    
     })
   };
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setPasswordVisible(!passwordVisible);
+  // };
   const tooglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };

@@ -10,7 +10,7 @@ const PublicLayout = ({ open, onClick }) => {
   return (
     <div>
     <div>
-    <HeaderNavbar/>
+    {/* <HeaderNavbar/> */}
     </div>
     <div>
       {/* Fixed Sidebar */}
@@ -19,7 +19,7 @@ const PublicLayout = ({ open, onClick }) => {
       {/* Main Content */}
       <div
         style={{
-          bottom:"-60px",
+          bottom:"-70px",
           marginLeft: open ? "250px" : "60px",
           transition: "margin-left 0.3s ease",
           padding: "20px",
@@ -30,18 +30,14 @@ const PublicLayout = ({ open, onClick }) => {
       </div>
   
     </div>
-  
-    <div style={{
-      bottom :"-50px",
-      marginLeft: open ? "250px" : "60px",
-      transition: "margin-left 0.3s ease",
-      padding: "20px",
-    }}>
-
  
+<div>
+ <footer className="Publicfooter" style={{marginTop:"800px"}}>
       <PublicFooter/>
+      </footer>
+      </div>
     </div>
-    </div>
+  
   );
 };
 

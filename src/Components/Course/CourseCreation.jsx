@@ -27,6 +27,7 @@ import { Link, useNavigate} from "react-router-dom";
 // import Api from "../../Api";
 
 // Styles
+import axios from 'axios';
 import "../CSS/CourseCreation.css";
 
 // Icons
@@ -272,13 +273,26 @@ const CoursesCreation = () => {
     setCategoryImagePreview(undefined);
   };
 
+ const createCategory =()=>{
+  const userId = localStorage.getItem("userId");
+  console.log("userid......",userId)
+  axios.post("http://localhost:3000/api/v1/category", {
+       name: selectCategory,
+      createdBy: userId,
+      userId: userId,
+  })
+  .then((response)=>{
+    console.log("response",response);
+  })
+
+ }
   return (
     <Container>
       
         <div className="row">
           <div className="d-flex justify-content-center align-items-center mt-1">
             <FontAwesomeIcon icon={faBookOpen} size="3x" color="#1d1464" />
-          </div>
+          </div> 
           <div className="d-flex justify-content-center align-items-center mt-1">
             <h2>Course  Creation</h2>
           </div>

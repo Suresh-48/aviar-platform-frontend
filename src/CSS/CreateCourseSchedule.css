@@ -1,4 +1,4 @@
-/* .start-time-style {
+.start-time-style {
     width: 100%;
     border: 1px solid #dadfe3 !important;
     background-color: hsl(0, 0%, 100%);
@@ -42,7 +42,7 @@
     -webkit-appearance: none;
     appearance: none;
     border-radius: 0.25rem;
-    // transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    /* // transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; */
   }
   
   .create-button-styles {
@@ -72,4 +72,4 @@
   .dropdown-names {
     margin-left: 15px;
   }
-   */
+  
