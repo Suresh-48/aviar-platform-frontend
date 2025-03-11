@@ -219,6 +219,7 @@ const EditStudentDetails = (props) => {
         // console.error("API Error:", error.response || error.message);
       }
     });
+    // console.log("res", res);
   };  
 
   useEffect(() => {

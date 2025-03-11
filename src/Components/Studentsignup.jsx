@@ -198,34 +198,35 @@ const StudentRegistration = (props) => {
     setConfirmPasswordShown(confirmPasswordShown ? false : true);
   };
 
-  const getRandomCaptcha = () => {
-    let randomChars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    for (let i = 0; i < 6; i++) {
-      result += randomChars.charAt(
-        Math.floor(Math.random() * randomChars.length)
-      );
-    }
+  // const getRandomCaptcha = () => {
+  //   let randomChars =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   let result = "";
+  //   for (let i = 0; i < 6; i++) {
+  //     result += randomChars.charAt(
+  //       Math.floor(Math.random() * randomChars.length)
+  //     );
+  //   }
     
-  };
+  // };
 
 //   const history = useHistory();
 
-  useEffect(() => {
-    getRandomCaptcha();
-    let parentId = localStorage.getItem("parentId");
-    const role = localStorage.getItem("role");
-    setrole(role);
-    setparentId(parentId);
-    const initClient = () => {
-      gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: scope,
-      });
-    };
+  // useEffect(() => {
+  //   getRandomCaptcha();
+  //   let parentId = localStorage.getItem("parentId");
+  //   const role = localStorage.getItem("role");
+
+  //   setrole(role);
+  //   setparentId(parentId);
+  //   const initClient = () => {
+  //     gapi.client.init({
+  //       clientId: CLIENT_ID,
+  //       scope: scope,
+  //     });
+  //   };
     // gapi.load("client:auth2", initClient);
-  }, []);
+  // }, []);
 
   //Submit Form
   const submitForm = (values) => {
@@ -240,15 +241,14 @@ const StudentRegistration = (props) => {
     // Check if password and confirm password match
     if (values.password === values.confirmPassword) {
       // Send a POST request
-      axios
-        .post(`http://localhost:3000/api/v1/student/signup`, {
+      axios.post(`http://localhost:3000/api/v1/student/signup`, {
           firstName: values.firstName,
           lastName: values.lastName,
-          email: email,
+          email:values.email,
           password: values.password,
           confirmPassword: values.confirmPassword,
-          dob: dateValue, // Use formatted date value
-          gender: gender, // Make sure gender is defined elsewhere in your code
+          dob: dateValue, 
+          gender: gender, 
         })
         .then((response) => {
           console.log("response......", response);
@@ -257,6 +257,9 @@ const StudentRegistration = (props) => {
           if (status === 201) {
             // Handle success response if needed
             console.log("User created successfully!");
+            localStorage.getItem("userId",response.data.updateToken.id);
+            localStorage.getItem("studentId" ,response.data.updateToken.studentId);
+
           } else {
             toast.error(response.data.message); // Show error message
           }
@@ -363,7 +366,7 @@ const StudentRegistration = (props) => {
                 lastName: "",
                 email: "",
                 password: "",
-                // dob: "",
+                dob: "",
                 gender: "",
                 confirmPassword: "",
              

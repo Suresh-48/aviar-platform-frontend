@@ -55,7 +55,7 @@ const Login = () => {
         
         console.log("response",response.data)
         toast.success(response.data)
-        // navigate("/student/dashboard");
+        navigate("/student/dashboard");
       }
     }).catch((error)=>{
       if(error.status === 400){
