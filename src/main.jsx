@@ -23,7 +23,8 @@ import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 // import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 // import Studentsidebar from './Components/Core/Studentsidebar.jsx'
 // import Index from './Components/Courselist/Index.jsx'
-
+// import TeacherAvailable from './Components/TeacherAvailablity/Index.jsx'
+// import CourseSchedule from'./Components/AdminSchedule/CourseSchedule.jsx'
 // import CoursesCreation from './Components/Course/CourseCreation.jsx'
 // import Studentdashboard from './Components/Dashboard/Studentdashboard.jsx'
 // import UpcomingTeacherScheduleList from'./Components/UpcomingTeacherScheduleList/Index.jsx'
@@ -32,12 +33,13 @@ import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 // import AdminStudentList from './Components/AdminStudentList/Index.jsx'
 // import Admindashboard from './Components/Dashboard/Admindashboard.jsx'
 // import DashboardTiles from './Components/core/DashboardTiles.jsx'
-
+//  import UpcomingSchedule from './Components/Studentupcomingschedule/Upcomingschedule1.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
-createRoot(document.getElementById('root')).render(
+createRoot
+(document.getElementById('root')).render(
   <StrictMode> 
-    <App/>
+  <App/>
   </StrictMode>,
 )

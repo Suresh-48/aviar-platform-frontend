@@ -61,7 +61,6 @@ const Login = () => {
       }
    
     })
-  //  navigate("/student/dashboard");
   };
   // const togglePasswordVisibility = () => {
   //   setPasswordVisible(!passwordVisible);
@@ -69,6 +68,14 @@ const Login = () => {
   const tooglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
+//   const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+//     <React.StrictMode>
+//       <GoogleAccount />
+//     </React.StrictMode>
+//   </GoogleOAuthProvider>
+// );
   return (
     <div className="Login-container">
 

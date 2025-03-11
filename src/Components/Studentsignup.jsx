@@ -11,7 +11,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 // import{Link} from "react-router-dom"
-import {  useNavigate } from "react-router-dom";
+// import {  useNavigate } from "react-router-dom";
 // import { Button } from 'react-bootstrap';
 
 // import { useHistory } from "react-router-dom";
@@ -52,6 +52,7 @@ import {
   faEyeSlash,
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 // import { customStyles } from "../core/Selector";
 // import { gapi } from "gapi-script";
 
@@ -75,6 +76,7 @@ const StudentRegistration = (props) => {
   const [aliasName, setaliasName] = useState(
     props?.props?.location?.state?.aliasName
   );
+  
 //   let scope = "https://www.googleapis.com/auth/cloud-platform.read-only";
 
 // //   const isParent = role === ROLES_PARENT;
@@ -165,26 +167,28 @@ const StudentRegistration = (props) => {
   const responseGoogleError = (response) => {
     toast.error(response);
   };
-  const [captcha, setCaptcha] = useState("");
-  const navigate = useNavigate()
+  
+
+  
+
 
 
   // Date Format
-  // const setDateFormat = (e) => {
-  //   let dateValue = moment(e).format("LLLL");
-  //   let dateOfBirth = new Date(dateValue);
-  //   let month = Date.now() - dateOfBirth.getTime();
-  //   let getAge = new Date(month);
-  //   let year = getAge.getUTCFullYear();
-  //   let age = Math.abs(year - 1970);
+  const setDateFormat = (e) => {
+    let dateValue = moment(e).format("LLLL");
+    let dateOfBirth = new Date(dateValue);
+    let month = Date.now() - dateOfBirth.getTime();
+    let getAge = new Date(month);
+    let year = getAge.getUTCFullYear();
+    let age = Math.abs(year - 1970);
 
-  //   if (age >= 5 && age <= 18) {
-  //     setdob(dateValue);
-  //   } else {
-  //     toast.warning("Your Age Must Be at least 5 years to at most 18 years");
-  //     setdob(null);
-  //   }
-  // };
+    if (age >= 5 && age <= 18) {
+      setdob(dateValue);
+    } else {
+      toast.warning("Your Age Must Be at least 5 years to at most 18 years");
+      setdob(null);
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setPasswordShown(passwordShown ? false : true);
@@ -194,108 +198,90 @@ const StudentRegistration = (props) => {
     setConfirmPasswordShown(confirmPasswordShown ? false : true);
   };
 
-  const getRandomCaptcha = () => {
-    let randomChars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    for (let i = 0; i < 6; i++) {
-      result += randomChars.charAt(
-        Math.floor(Math.random() * randomChars.length)
-      );
-    }
-    setCaptcha(result);
-  };
+  // const getRandomCaptcha = () => {
+  //   let randomChars =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   let result = "";
+  //   for (let i = 0; i < 6; i++) {
+  //     result += randomChars.charAt(
+  //       Math.floor(Math.random() * randomChars.length)
+  //     );
+  //   }
+    
+  // };
 
 //   const history = useHistory();
 
-  useEffect(() => {
-    getRandomCaptcha();
-    let parentId = localStorage.getItem("parentId");
-    const role = localStorage.getItem("role");
-    setrole(role);
-    setparentId(parentId);
-    const initClient = () => {
-      gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: scope,
-      });
-    };
+  // useEffect(() => {
+  //   getRandomCaptcha();
+  //   let parentId = localStorage.getItem("parentId");
+  //   const role = localStorage.getItem("role");
+
+  //   setrole(role);
+  //   setparentId(parentId);
+  //   const initClient = () => {
+  //     gapi.client.init({
+  //       clientId: CLIENT_ID,
+  //       scope: scope,
+  //     });
+  //   };
     // gapi.load("client:auth2", initClient);
-  }, []);
+  // }, []);
 
   //Submit Form
   const submitForm = (values) => {
-    const user_captcha = values.captcha;
+    console.log("values", values);
+    console.log("dob....", startDate);
+  
     const email = values.email.toLowerCase();
-    const startDate = dob;
-    const dateValue = moment(startDate).format("ll");
+    const startDateValue = startDate; // Use startDate here
+    const dateValue = moment(startDateValue).format("ll");
     setisSubmit(true);
-    if (
-      values.password === values.confirmPassword &&
-      captcha === user_captcha
-    ) {
-      getRandomCaptcha();
-      Api.post("api/v1/student/signup", {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: email,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
-        parentId: parentId,
-        dob: dateValue,
-        gender: gender,
-      })
+  
+    // Check if password and confirm password match
+    if (values.password === values.confirmPassword) {
+      // Send a POST request
+      axios.post(`http://localhost:3000/api/v1/student/signup`, {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email:values.email,
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+          dob: dateValue, 
+          gender: gender, 
+        })
         .then((response) => {
+          console.log("response......", response);
           setisSubmit(false);
           const status = response.status;
           if (status === 201) {
-            if (parentId) {
-              history.push({
-                pathname: "/dashboard",
-                state: { sidebar: true },
-              });
-              // window.location.reload();
-            } else {
-              const role = response.data.studentLogin.role;
-              const userId = response.data.studentLogin.id;
-              const studentId = response.data.studentLogin.studentId;
-              const token = response.data.studentLogin.token;
-              localStorage.setItem("role", role);
-              localStorage.setItem("userId", userId);
-              localStorage.setItem("studentId", studentId);
-              localStorage.setItem("token", token);
+            // Handle success response if needed
+            console.log("User created successfully!");
+            localStorage.getItem("userId",response.data.updateToken.id);
+            localStorage.getItem("studentId" ,response.data.updateToken.studentId);
 
-              history.push({
-                pathname: "/dashboard",
-                state: { sidebar: true },
-              });
-              // window.location.reload();
-            }
           } else {
-            toast.error(response.data.message);
-            setisSubmit(false);
+            toast.error(response.data.message); // Show error message
           }
         })
         .catch((error) => {
-          if (error.response && error.response.status >= 400) {
-            let errorMessage;
-            const errorRequest = error.response.request;
-            if (errorRequest && errorRequest.response) {
-              errorMessage = JSON.parse(errorRequest.response).message;
-            }
+          // Handle errors properly, checking the response
+          if (error.response && error.response.status === 400) {
+            console.log("error.....", error.response.data.message);
             toast.error(error.response.data.message);
-            values.captcha = "";
-            setisSubmit(false);
+          } else {
+            // Generic error handling
+            toast.error("Something went wrong!");
           }
           setisSubmit(false);
         });
     } else {
       setisSubmit(false);
-      toast.error("Captcha Does Not Match");
-      values.captcha = "";
-      getRandomCaptcha();
+      toast.error("Password and confirm password do not match.");
+      getRandomCaptcha(); // You can call this function to refresh the captcha
     }
   };
+  
 
   //Validations
   const loginSchema = Yup.object().shape({
@@ -311,7 +297,7 @@ const StudentRegistration = (props) => {
       .email("Enter Valid Email")
       .required("Email Is Required"),
 
-    dob: Yup.string().required("Date Of Birth Is Required"),
+    // dob: Yup.string().required("Date Of Birth Is Required"),
 
     gender: Yup.object().required("Gender Is Required"),
 
@@ -328,11 +314,7 @@ const StudentRegistration = (props) => {
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
         "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
-      .required("Confirm Password Is Required"),
-    captcha: Yup.string()
-      .min(6, "Captcha required minimum 6 characters ")
-      .max(6, "Captcha maximum 6 characters")
-      .required("Captcha Is Required"),
+      .required("Confirm Password Is Required")
   });
 
   return (
@@ -387,7 +369,7 @@ const StudentRegistration = (props) => {
                 dob: "",
                 gender: "",
                 confirmPassword: "",
-                captcha: "",
+             
               }}
               validationSchema={loginSchema}
               onSubmit={(values) => submitForm(values)}
@@ -650,72 +632,13 @@ const StudentRegistration = (props) => {
                             />
                           </Form.Group>
                         </Col>
-                        <Row>
-                          <Col md="7" className="mb-3">
-                            <Form.Group
-                              className="form-row"
-                              style={{ marginRight: 20, width: "100%" }}
-                            >
-                              {/* <Label notify={true}>Captcha</Label> */}
-                              <span>Captcha</span>
-                              <span className="text-danger">*</span>
-
-                              <Form.Control
-                                type="text"
-                                id="captcha"
-                                name="captcha"
-                                value={values.captcha}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className="form-width captcha-field"
-                                placeholder="Captcha"
-                                onPaste={(e) => {
-                                  e.preventDefault();
-                                  return false;
-                                }}
-                              />
-                              <ErrorMessage
-                                name="captcha"
-                                component="span"
-                                className="error text-danger"
-                              />
-                            </Form.Group>
-                          </Col>
-                          <Col className="d-flex justify-content-center align-items-center mt-3">
-                            <Form.Group
-                              className="form-row"
-                              style={{ width: "100%" }}
-                            >
-                              <Form.Label className="captcha-form">
-                                <s
-                                  className="border border-primary px-2 captcha-alignment"
-                                  style={{ backgroundColor: "azure" }}
-                                  onCopy={(e) => {
-                                    e.preventDefault();
-                                    return false;
-                                  }}
-                                >
-                                  {captcha}
-                                </s>
-                                <FontAwesomeIcon
-                                  icon={faRedoAlt}
-                                  size="1x"
-                                  color="#1d1464"
-                                  className="captcha-text mx-3 mt-1"
-                                  onClick={() => {
-                                    values.captcha = "";
-                                    getRandomCaptcha();
-                                  }}
-                                />
-                              </Form.Label>
-                            </Form.Group>
-                          </Col>
-                        </Row>
+                       
 
                         <div className="d-flex justify-content-center mt-3">
                           <div className="btn-primary">
                         
-                          <Button  onClick={()=> navigate('/Studentsidebar')}
+                          <Button  
+                          // onClick={()=> navigate('/Studentsidebar')}
                          
                             className=  {`${
                             
@@ -727,7 +650,7 @@ const StudentRegistration = (props) => {
                             variant="contained"
                             type="submit"
                             color="btn-primary"
-                            disabled={!isValid || isSubmit}
+                            // disabled={!isValid || isSubmit}
                                           >           
                             Sign Up as Student
                             

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Container, Row, Col, Form, FormControl, Dropdown, InputGroup,Button } from "react-bootstrap";
+import { Container, Row, Col, Form, FormControl, Dropdown, InputGroup,Button,ButtonGroup } from "react-bootstrap";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -27,6 +27,7 @@ import { faPen, faEye, faEyeSlash, faCalendarDay } from "@fortawesome/free-solid
 // import Loader from "../../components/core/Loader";
 import states from "../Core/States";
 import profile from "../Images/NoProfile.png";
+import axios from "axios";
 // import { customStyles } from "../core/Selector";
 
 // Validations
@@ -56,8 +57,10 @@ const options = [
 ];
 
 const EditStudentDetails = (props) => {
+  console.log("std id....", localStorage.getItem("userId"));
+  
   const [details, setDetails] = useState([]);
-  const [studentId, setStudentId] = useState(props?.match?.params?.id);
+  const [studentId, setStudentId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [gender, setGender] = useState("");
   const [genderValue, setGenderValue] = useState("");
@@ -105,7 +108,7 @@ const EditStudentDetails = (props) => {
     const userId = localStorage.getItem("userId");
     setImagePreview(base64);
     if (type === "image") {
-      Api.post("api/v1/student/profile/upload", {
+      axios.post(`http://localhost:3000/api/v1/student/profile/upload`, {
         studentId: studentId,
         image: imagePreview,
         userId: userId,
@@ -142,82 +145,90 @@ const EditStudentDetails = (props) => {
   // Delete Image
   const removeImage = () => {
     const userId = localStorage.getItem("userId");
-    // Api.delete("api/v1/student/remove/profile", {
-    //   params: {
-    //     studentId: studentId,
-    //     userId: userId,
-    //   },
-    // })
-    //   .then((response) => {
-    //     studentDetails();
-    //     window.location.reload();
-    //   })
-    //   .catch((error) => {
-        // const errorStatus = error?.response?.status;
-        // if (errorStatus === 401) {
-        //   logout();
-        //   toast.error("Session Timeout");
-        // }
-    //   });
+    axios.delete("http://localhost:3000/api/v1/student/remove/profile", {
+      params: {
+        studentId: studentId,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        studentDetails();
+        window.location.reload();
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
     setImagePreview("");
   };
 
   // Convert Image to Base64
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
+  // const convertBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
 
   // Parent details get
-//   const studentDetails = () => {
-    // const userId = localStorage.getItem("userId");
-//     Api.get(`/api/v1/student/${studentId}`, { headers: { userId: userId } })
-//       .then((res) => {
-//         const data = res.data.data.getOne;
-//         setDetails(data);
-//         setIsLoading(false);
-//         setFirstName(data?.firstName);
-//         setMiddleName(data?.middleName);
-//         setLastName(data?.lastName);
-//         setAddress1(data?.address1);
-//         setAddress2(data?.address2);
-//         setPhone(data?.phone);
-//         setEmail(data?.email);
-//         setDob(data?.dob ? data?.dob : "");
-//         setPassword(data?.password);
-//         setConfirmPassword(data?.confirmPassword);
-//         setImagePreview(data?.imageUrl);
-//         setGenderValue(data?.gender);
-//         setGender(data?.gender ? { value: data?.gender, label: data?.gender } : "");
-//         setZipCode(data?.zipCode);
-//         setCity(data?.city ? { value: data?.city, label: data?.city } : "");
-//         setCityValue(data?.city);
-//         setState(data?.state ? { value: data?.state, label: data?.state } : "");
-//         setStateValue(data?.state);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const studentDetails = () => {
+    const userId = localStorage.getItem("userId");
+    axios
+    .get(`http://localhost:3000/api/v1/student/${studentId}`, {
+      headers: { userId: userId },
+    })
+    .then((res) => {
+      const data = res.data.data.getOne;
+      setDetails(data);
+      setIsLoading(false);
+      setFirstName(data?.firstName);
+      setMiddleName(data?.middleName);
+      setLastName(data?.lastName);
+      setAddress1(data?.address1);
+      setAddress2(data?.address2);
+      setPhone(data?.phone);
+      setEmail(data?.email);
+      setDob(data?.dob ? data?.dob : "");
+      setPassword(data?.password);
+      setConfirmPassword(data?.confirmPassword);
+      setImagePreview(data?.imageUrl);
+      setGenderValue(data?.gender);
+      setGender(data?.gender ? { value: data?.gender, label: data?.gender } : "");
+      setZipCode(data?.zipCode);
+      setCity(data?.city ? { value: data?.city, label: data?.city } : "");
+      setCityValue(data?.city);
+      setState(data?.state ? { value: data?.state, label: data?.state } : "");
+      setStateValue(data?.state);
+    })
+    .catch((error) => {
+      const errorStatus = error?.response?.status;
+  
+      if (errorStatus === 401) {
+        logout();
+        toast.error("Session Timeout");
+      } else {
+        // console.error("API Error:", error.response || error.message);
+      }
+    });
+    // console.log("res", res);
+  };  
 
-//   useEffect(() => {
-//     studentDetails();
-//   }, []);
+  useEffect(() => {
+    studentDetails();
+  }, []);
 
   // Submit Details
   const submitForm = (values) => {
+    console.log("values",values);
     setIsSubmit(true);
     const email = values.email.toLowerCase();
     const startDate = dob;
@@ -226,7 +237,7 @@ const EditStudentDetails = (props) => {
     const state = values.state.value ? values.state.value : "";
     const dateValue = moment(startDate).format("ll");
     const userId = localStorage.getItem("userId");
-    Api.patch(`api/v1/student/${studentId}`, {
+    axios.patch(`http://localhost:3000/api/v1/student/${studentId}`, {
       firstName: values.firstName,
       lastName: values.lastName,
       middleName: values.middleName ? values.middleName : "",
@@ -734,23 +745,29 @@ const EditStudentDetails = (props) => {
                             <div className="row d-flex justify-content-center">
                               <Col xs={12} sm={12} md={12} className="d-flex justify-content-center">
                                 <div className="row">
+                                  <Row>
+                                    <ButtonGroup>
                                   <Button
                                     type="submit"
                                     variant="contained"
-                                    className="btn-success btn-submit btn-primary my-2 me-2"
+                                    className="btn-success btn-submit btn-danger my-2 me-2"
                                     disabled={isSubmit}
-                                  >
-                                    Update
-                                  </Button>
-                                  <Button
-                                    variant="contained"
-                                    className="btn-danger btn-cancel my-2"
-                                    onClick={() => {
-                                      props.history.goBack();
-                                    }}
                                   >
                                     Cancel
                                   </Button>
+                                  <Button
+                                    variant="contained"
+                                    className="btn-primary btn-cancel my-2"
+                                    // onClick={() => {
+                                    //   props.history.goBack();
+                                    // }}
+                                  >
+                                    Update
+                                  </Button>
+                            
+                                  </ButtonGroup>
+                                  </Row>
+
                                 </div>
                               </Col>
                             </div>

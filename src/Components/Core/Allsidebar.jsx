@@ -196,7 +196,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
              
             </div>
             {/* Student DashBoard */}
-            {/* <div className="nav-list">
+            <div className="nav-list">
                 <div className="menu-list">
                   <NavLink to="/student/dashboard" activeClassName="main-nav-active-style">
                     <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon" title="Dashboard" size="1x" />
@@ -311,7 +311,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                     Logout
                   </NavLink>
                 </div>
-              </div> */}
+              </div>
             {/* {userRole=="students" ?
              <div div className="nav-list">
              <div className="menu-list">
@@ -437,7 +437,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
 
                   {/* Admin DashBoard */}
                 
-            <div className="nav-list">
+            {/* <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/admin/dashboard" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
@@ -518,8 +518,8 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   <FontAwesomeIcon icon={faPowerOff} title="Logout" className="menu-icon" size="1x" />
                   Logout
                 </NavLink>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
         </div>
       </div>

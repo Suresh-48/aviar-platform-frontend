@@ -138,15 +138,15 @@ function LandingPage(props) {
   return (
     <div className="landing-page-content-main">
       <div className="curve-shape-main-div">
-        <div className="curve-shape-main-div-sec">
+        <div className="curve-shape-main-div-sec-value ">
           <img src={curveImg} alt="" className="curve-shape-main-image" />
         </div>
         <div className="aviar-img-div">
+         
           <img src={aviar} alt="" className="aviar-logo" />
-          {console.log("role......",role)}
-          {!role ? (
-            <div className="login-arrow-div" onClick={() => navigate("/login")}>
-              <img src={loginArrow} className="login-arrow" />
+          {role === "admin" || role === "teacher" || role === "student" ? null : (
+            <div className="login-arrow-div-arrows" onClick={() => navigate("/login")}>
+              <img src={loginArrow} className="login-arrow " />
               <p className="login-pTag mb-0 mx-1">Login</p>
             </div>
           ): null}

@@ -13,6 +13,13 @@
       margin:auto;
       justify-content: center;
      }
+     @media (max-width:2560px) {
+      Aviarlogo{
+    width: 700px;
+      }
+    
+      
+     }
      .text-center{
       display: flex;
       justify-content: center;
@@ -39,8 +46,8 @@
         justify-content: center;
         width:100%;
         margin-bottom: 1000px;
-      } */
+      }
       .signup{
         box-shadow: 20px;
         /* background-color:rgb(222, 225, 235); */
-      }b
+      

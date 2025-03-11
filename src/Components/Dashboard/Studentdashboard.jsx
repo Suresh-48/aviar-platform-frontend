@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Table, Button, Modal, Col,Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
-
+import { useNavigate } from "react-router-dom";
 // Component
 import Loader from "../core/Loader";
 // import DashboardTiles from "../../Components/Core/DashboardTiles";
@@ -29,7 +29,7 @@ function StudentDashboard() {
   const [sessionEndModal, setSessionEndModal] = useState(false);
   const [zoomStartTimeGet, setZoomStartTimeGet] = useState("");
   const studentId = localStorage.getItem("studentId");
-
+  const navigate=useNavigate();
   // function closeShow() {
   //   setshowAlert(false);
   // }
@@ -199,7 +199,8 @@ function StudentDashboard() {
                 <Button
                   variant="primary"
                   className="Kharpi-save-btn me-2 px-3"
-                  onClick={() => history.push("/course/search")}
+                  onClick={() =>{navigate("/student/allcourselist")}}
+                  // onClick={() => navigate('/teacher/not-available/time')} 
                 >
                   Enroll
                 </Button>
