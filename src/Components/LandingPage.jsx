@@ -3,7 +3,6 @@ import studentsImg from "./Images/studentsImg.png";
 import "../CSS/LandingPage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import aviar from "./Images/aviar.png";
-
 import { Button, Card, Form, InputGroup, Carousel, Container, Row, Col } from "react-bootstrap";
 // import Avatar from "react-avatar";
 import {
@@ -64,7 +63,6 @@ import {
 // import England from "../../container/PublicLayout/England.png";
 // import Russia from "../../container/PublicLayout/Russia.jpg";
 // import USA from "../../container/PublicLayout/USA.png";
-
 function LandingPage(props) {
 
   const loginClosed = props?.location?.state?.sideClose;
@@ -94,7 +92,6 @@ function LandingPage(props) {
   // const scrollLeft = () => {
   //   cardRowRef.current.scrollBy({ left: -220, behavior: 'smooth' });
   // };
-
   // const scrollRight = () => {
   //   cardRowRef.current.scrollBy({ left: 220, behavior: 'smooth' });
   // };
@@ -105,14 +102,12 @@ function LandingPage(props) {
   //     setAllCourseList(data);
   //   });
   // };
-
   // const getAllCourse = () => {
   //   Api.get("api/v1/course/").then((res) => {
   //     const allCourse = res?.data?.data?.data;
   //     // setAllCourseList(allCourse);
   //   });
   // };
-
   // const getCategory = () => {
   //   Api.get("api/v1/category/").then((res) => {
   //     const categoryDetails = res?.data?.data?.data;
@@ -125,7 +120,6 @@ function LandingPage(props) {
   //     setTeacher(data);
   //   });
   // };
-
   // const convertFromJSONToHTML = (value) => {
   //   try {
   //     return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
@@ -134,7 +128,6 @@ function LandingPage(props) {
   //   }
   // };
   const role = localStorage.getItem("role");
-
   useEffect(() => {
     // getAllCourse();
     // getCategory();
@@ -142,7 +135,6 @@ function LandingPage(props) {
     // getPublishCourse();
     localStorage.clear();
   }, []);
-
   return (
     <div className="landing-page-content-main">
       <div className="curve-shape-main-div">
@@ -201,7 +193,6 @@ function LandingPage(props) {
           </Card>
 
         </div>
-
         <div className="one-line-comment">
           <div>
             <div className=" d-flex">
@@ -216,7 +207,6 @@ function LandingPage(props) {
 
         </div>
       </div>
-
       <div className="extra-content-div my-4">
         <div className="extra-content-list">
           <img src={layer2} alt="" className="extra-content" />
@@ -225,7 +215,6 @@ function LandingPage(props) {
             <p className="extra-content-pTag-two">We value quality over quantity</p>
           </p>
         </div>
-
         <div className="extra-content-list">
           <img src={layer3} alt="" className="extra-content" />
           <p className="extra-content-pTag-one ">
@@ -248,17 +237,11 @@ function LandingPage(props) {
           </p>
         </div>
       </div>
-
       <div >
-
-
-     
-        
-      <div
+      <div>
       // className="upcomings-div-main"
-      >
-       
-              <div className="profile-div-main">
+      
+       <div className="profile-div-main">
         <div className="profile-div-sub">
           <p className="slider-trainer-upcoming">Categories</p>
           <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
@@ -267,8 +250,6 @@ function LandingPage(props) {
           {/* <br/> */}
           <Carousel>
             <Carousel.Item>
-
-
               <div>
                 <img src={emptyGallery} alt="first slide"
                   style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
@@ -283,8 +264,6 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-
-
               <div>
                 <img src={emptyGallery} alt="first slide"
                   style={{ width: "16%", display: "flex", margin: "auto" }}
@@ -292,38 +271,19 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
           </Carousel>
-
-
-
-
-
-
         </div>
       </div>
         <br />
-
-
-
-
-
-
-
-
       </div>
-
-
            <div className="profile-div-main">
         <div className="profile-div-sub">
           <p className="slider-trainer-upcoming">Recommended Courses for you</p>
-          
           <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
             View All
           </Button>
           {/* <br/> */}
           <Carousel>
             <Carousel.Item>
-
-
               <div>
                 <img src={emptyGallery} alt="first slide"
                   style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
@@ -338,8 +298,6 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-
-
               <div>
                 <img src={emptyGallery} alt="first slide"
                   style={{ width: "16%", display: "flex", margin: "auto" }}
@@ -347,16 +305,9 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
           </Carousel>
-
-
-
-
-
-
         </div>
       </div>
       <br />
-
       <div className="back-image-main">
         <img src={backImg4} alt="" className="back-image-one" />
         <div className="back-image-center">
@@ -410,8 +361,6 @@ function LandingPage(props) {
       </div>
       <br />
       <br />
-
-
            <div className="profile-div-main">
         <div className="profile-div-sub">
           <p className="slider-trainer-upcoming">Upcoming Courses</p>
@@ -422,8 +371,6 @@ function LandingPage(props) {
           {/* <br/> */}
           <Carousel>
             <Carousel.Item>
-
-
               <div>
                 <img src={emptyGallery} alt="first slide"
                   style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
@@ -438,8 +385,6 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-
-
               <div>
                 <img src={emptyGallery} alt="first slide"
                   style={{ width: "16%", display: "flex", margin: "auto" }}
@@ -447,11 +392,6 @@ function LandingPage(props) {
               </div>
             </Carousel.Item>
           </Carousel>
-
-
-
-
-
         </div>
       </div>
       <div className="profile-div-main">
@@ -466,7 +406,6 @@ function LandingPage(props) {
               {/* {teacher?.slice(0, 5).map((item, i) => ( */}
               <div className="inside-carousel-div1" style={{ margin: "auto" }}>
                 <div className="inside-carousel-div2">
-
                   <div className="user-details-div" >
                     <div className="user1img">
                       <img src={user1} alt=""
@@ -474,7 +413,6 @@ function LandingPage(props) {
                       />
                     </div>
                     <div>
-
                       <hr className="hr-line-user my-2" />
                       <p className="Aviar-user-profession">Aviar User1</p>
                     </div>
@@ -486,10 +424,8 @@ function LandingPage(props) {
               {/* {teacher?.slice(0, 5).map((item, i) => ( */}
               <div className="inside-carousel-div1" style={{ margin: "auto" }}>
                 <div className="inside-carousel-div2">
-
                   <div className="user-details-div" >
                     <div>
-
                       <hr className="hr-line-user my-2" />
                       <p className="Aviar-user-profession">Aviar User2</p>
                     </div>
@@ -501,10 +437,8 @@ function LandingPage(props) {
               {/* {teacher?.slice(0, 5).map((item, i) => ( */}
               <div className="inside-carousel-div1" style={{ margin: "auto" }}>
                 <div className="inside-carousel-div2">
-
                   <div className="user-details-div" >
                     <div>
-
                       <hr className="hr-line-user my-2" />
                       <p className="Aviar-user-profession">Aviar User3</p>
                     </div>
@@ -516,10 +450,8 @@ function LandingPage(props) {
               {/* {teacher?.slice(0, 5).map((item, i) => ( */}
               <div className="inside-carousel-div1" style={{ margin: "auto" }}>
                 <div className="inside-carousel-div2">
-
                   <div className="user-details-div" >
                     <div>
-
                       <hr className="hr-line-user my-2" />
                       <p className="Aviar-user-profession"> Aviar User4</p>
                     </div>
@@ -527,40 +459,23 @@ function LandingPage(props) {
                 </div>
               </div>
             </Carousel.Item>
-
           </Carousel>
-
           <div className="carousel-wrapper">
-
           </div>
         </div>
       </div>
-
-
-
       {/* <Row>
                 <Col md={2}> */}
       <div className="Col-6">
-
-
         {/* </Col> */}
-
         <div className="Col-3">
-
-
           {/* <Col md={3}> */}
-
           {/* </Col>
               </Row> */}
         </div>
-
-
       </div>
       {/* <div className="carousel-wrapper">
-
             </div> */}
-
-
       {/* <ChatBotConversation /> */}
       <div className="landing-page-footer-background">
         <Container className="p-4">
@@ -576,14 +491,12 @@ function LandingPage(props) {
                 }}
               >
                 <FontAwesomeIcon icon={faLocationDot} width={"20px"} className="mt-1 me-1 footer-map" color="#3f51b5" />
-
                 <text className="footer-font footer-map">Tiruvannamalai, </text>
                 <text className="footer-font footer-map">Tamilnadu</text>
               </div>
               <div className="d-flex flex-direction-row mt-2">
                 {/* <FontAwesomeIcon icon={faPhone} width={"20px"} className="mt-1 me-1" color="#3f51b5" /> */}
                 <b className="footer-font">
-
                 </b>
               </div>
               <div className="d-flex flex-direction-row mt-2">
@@ -682,7 +595,5 @@ function LandingPage(props) {
     </div>
     </div>
   )
-
 }
-
 export default LandingPage;
