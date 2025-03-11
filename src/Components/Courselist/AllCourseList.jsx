@@ -81,14 +81,14 @@ const AllCourseList = (props) => {
       filter: filterData,
       range: range,
       search: searchData === undefined ? search : searchData,
-      userId: userId,
+     
     })
       .then((res) => {
         const data = res.data.data;
         const assending = data.sort((a, b) => a - b);
         setCourseList(assending);
-        setIsLoading(false);
-        setSpinner(false);
+        // setIsLoading(false);
+        // setSpinner(false);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;

@@ -40,7 +40,7 @@ import {
   faPeopleLine,
 } from "@fortawesome/free-solid-svg-icons";
 // Roles
-// import { ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
+import { ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../Constants/Role";
 // Api
 // import Api from "../../Api";
 import Avatar from "react-avatar";

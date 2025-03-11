@@ -44,15 +44,18 @@ const Login = () => {
 
     }).then((response)=>{
       console.log("response",response.data.updateToken.token);
-      console.log("response",response.data.updateToken.role)
+      console.log("response",response.data.updateToken.role);
+      console.log("response",response.data.updateToken.id)
+      // console.log("response",response.data.updateToken.userId);
       if(response.status === 200){
 
         localStorage.setItem ("token",response.data.updateToken.token);
         localStorage.setItem("role",response.data.updateToken.role);
+        localStorage.setItem("userId",response.data.updateToken.id);
         
         console.log("response",response.data)
         toast.success(response.data)
-        navigate("/student/dashboard");
+        // navigate("/student/dashboard");
       }
     }).catch((error)=>{
       if(error.status === 400){
