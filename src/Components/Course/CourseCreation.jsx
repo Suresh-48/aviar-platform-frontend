@@ -87,7 +87,7 @@ const CoursesCreation = () => {
    
   // Get Course Category
   const getCourseCategory = ()=>{
-    axios.get(`http://localhost:3000/api/v1/category/list${categoryId}`,{ header:{
+    axios.get(`http://localhost:3000/api/v1/category/list${categoryId}`,{ params:{
     userId:userId}
   }).then((res)=>{console.log("res",res)})
   // setoptions
