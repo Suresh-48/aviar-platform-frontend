@@ -230,7 +230,7 @@ const StudentRegistration = (props) => {
 
   //Submit Form
   const submitForm = (values) => {
-    console.log("values", values);
+    // console.log("values", values);
     console.log("dob....", startDate);
   
     const email = values.email.toLowerCase();
@@ -251,26 +251,31 @@ const StudentRegistration = (props) => {
           gender: gender, 
         })
         .then((response) => {
-          console.log("response......", response);
+          console.log("response.data.....studentLogin",response.data);
           setisSubmit(false);
           const status = response.status;
           if (status === 201) {
-            // Handle success response if needed
             console.log("User created successfully!");
-            localStorage.getItem("userId",response.data.updateToken.id);
-            localStorage.getItem("studentId" ,response.data.updateToken.studentId);
+            toast.success("Student sign UP created Successfully");
+            
+
+           
+          
 
           } else {
-            toast.error(response.data.message); // Show error message
+            toast.error(response.data.message); 
+            localStorage.setItem("studentId", studentId);
+            history.push({
+              pathname: `update/detail${studentId}`,
+              // state: { courseId: courseId, aliasName: aliasName },
+            });
           }
         })
         .catch((error) => {
-          // Handle errors properly, checking the response
           if (error.response && error.response.status === 400) {
             console.log("error.....", error.response.data.message);
             toast.error(error.response.data.message);
           } else {
-            // Generic error handling
             toast.error("Something went wrong!");
           }
           setisSubmit(false);
@@ -278,13 +283,11 @@ const StudentRegistration = (props) => {
     } else {
       setisSubmit(false);
       toast.error("Password and confirm password do not match.");
-      getRandomCaptcha(); // You can call this function to refresh the captcha
+      getRandomCaptcha();
     }
   };
   
-
-  //Validations
-  const loginSchema = Yup.object().shape({
+const loginSchema = Yup.object().shape({
     firstName: Yup.string()
       .matches(/^[aA-zZ\s]+$/, "Enter Valid Name")
       .matches(/^[A-Z]/, "First Letter Must Be In Capital")

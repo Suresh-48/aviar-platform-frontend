@@ -43,13 +43,16 @@ const Login = () => {
       password: values.password,
 
     }).then((response)=>{ 
-      console.log("response",response.data.updateToken); 
+  
       console.log("response",response.data.updateToken.role);
+
       if(response.status === 200){  
         
         localStorage.setItem("token", response.data.updateToken.token);
         localStorage.setItem("role",response.data.updateToken.role);
           localStorage.setItem("userId", response.data.updateToken.id)
+          localStorage.setItem("studentId", response.data.updateToken.studentId);
+          localStorage.setItem("teacherId", response.data.updateToken.teacherId);
 
           toast.success(response.data);
           navigate("/admin/dashboard");
