@@ -70,7 +70,7 @@ const Education = ({ onFormValidityChange }) => {
                     name="institutionName"
                     type="text"
                     placeholder="Enter your institution name"
-                    className="form-control field"
+                    className="form-control field p-3 custom-border"
                     // onChange={(e) => {
                     //   setFormData({ ...formData, field: e.target.value });
                     //   validateForm();
@@ -86,7 +86,7 @@ const Education = ({ onFormValidityChange }) => {
                     <Field
                       name="degree"
                       type="text"
-                      className="form-control field"
+                      className="form-control field p-3"
                       placeholder="Eg: BE/CSE"
                       // onChange={(e) => {
                       //   setFormData({ ...formData, field: e.target.value });
@@ -101,7 +101,7 @@ const Education = ({ onFormValidityChange }) => {
                     <Field
                       name="yearOfPassing"
                       type="number"
-                      className="form-control field"
+                      className="form-control field p-3"
                       placeholder="Year of passing"
                       // onChange={(e) => {
                       //   setFormData({ ...formData, field: e.target.value });
@@ -119,7 +119,7 @@ const Education = ({ onFormValidityChange }) => {
                     <Field
                       name="city"
                       type="text"
-                      className="form-control field"
+                      className="form-control field p-3"
                       placeholder="City"
                       // onChange={(e) => {
                       //   setFormData({ ...formData, field: e.target.value });
@@ -134,7 +134,7 @@ const Education = ({ onFormValidityChange }) => {
                     <Field
                       name="state"
                       type="text"
-                      className="form-control field"
+                      className="form-control field p-3"
                       placeholder="State"
                       // onChange={(e) => {
                       //   setFormData({ ...formData, field: e.target.value });
@@ -152,7 +152,7 @@ const Education = ({ onFormValidityChange }) => {
                     <Field
                       name="country"
                       type="text"
-                      className="form-control field"
+                      className="form-control field p-3"
                       placeholder="Country"
                       // onChange={(e) => {
                       //   setFormData({ ...formData, field: e.target.value });
