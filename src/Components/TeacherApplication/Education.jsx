@@ -1,321 +1,179 @@
-import React, { useState } from "react";
-import { FormContext } from "./FormContext";
-import { Col, Container, Row, Form, FormControl } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
-import Select from "react-select";
-import "../../CSS/TeacherApplication.css";
+import React from 'react';
+import { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import '../CSS/Education.css';
 
-//Components
-import Label from "../Core/Label";
-import states from "../Core/States";
-import years from "../Core/Years";
-import countries from "../Core/Countries";
+const Education = ({ onFormValidityChange }) => {
+  const [formData, setFormData] = useState({});
+  const [isValid, setIsValid] = useState(false);  const initialValues = {
+    institutionName: '',
+    degree: '',
+    department: '',
+    yearOfPassing: '',
+    city: '',
+    state: '',
+    country: '',
+  };
 
-const Education = () => {
-  const [value, setValue] = useState(FormContext);
+  const validationSchema = Yup.object({
+    institutionName: Yup.string().required('Enter your institution name'),
+    degree: Yup.string().required('Degree is required'),
+    department: Yup.string().required('Enter your department'),
+    yearOfPassing: Yup.string().required('Enter your year of passing'),
+    city: Yup.string().required('City is required'),
+    state: Yup.string().required('State is required'),
+    country: Yup.string().required('Country is required'),
+  });
 
-//   const { educationData } = value;
+  const navigate = useNavigate();
 
+  const onSubmit = (values) => {
+    console.log('Form Values:', values); // Log the form values
+    navigate('/teacher/experience');
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const sections = [
+    { title: 'Education', onClick: () => setCurrentPage(1) },
+    { title: 'Experience', onClick: () => setCurrentPage(2) },
+    { title: 'Online Profile', onClick: () => setCurrentPage(3) },
+    { title: 'Application Form Confirmation', onClick: () => setCurrentPage(4) },
+  ];
+
+  
+    // Function to validate form
+    const validateForm = () => {
+      const valid = /* Your validation logic */
+      setIsValid(valid);
+      onFormValidityChange(valid);
+    };
 
   return (
     <>
-      <div className="form-row">
-        {/* {educationData.map((inputField, index) => (
-          <NormalAccordionItem index={index} inputField={inputField} />
-        ))} */}
-      </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ handleSubmit }) => (
+          <Container>
+            <Card className="p-5 bg-light-round shadow">
+              <h2 className="topic">Education Detail</h2>
+              <Form onSubmit={handleSubmit}>
+                <div>
+                  <label>Institution Name</label>
+                  <span className="text-danger">*</span>
+                  <Field
+                    name="institutionName"
+                    type="text"
+                    placeholder="Enter your institution name"
+                    className="form-control field"
+                    // onChange={(e) => {
+                    //   setFormData({ ...formData, field: e.target.value });
+                    //   validateForm();
+                    // }}
+                  />
+                  <ErrorMessage name="institutionName" className="error text-danger" component="span" />
+                </div>
+
+                <Row>
+                  <Col>
+                    <label>Degree/Department</label>
+                    <span className="text-danger">*</span>
+                    <Field
+                      name="degree"
+                      type="text"
+                      className="form-control field"
+                      placeholder="Eg: BE/CSE"
+                      // onChange={(e) => {
+                      //   setFormData({ ...formData, field: e.target.value });
+                      //   validateForm();
+                      // }}
+                    />
+                    <ErrorMessage name="degree" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Year of Passing</label>
+                    <span className="text-danger">*</span>
+                    <Field
+                      name="yearOfPassing"
+                      type="number"
+                      className="form-control field"
+                      placeholder="Year of passing"
+                      // onChange={(e) => {
+                      //   setFormData({ ...formData, field: e.target.value });
+                      //   validateForm();
+                      // }}
+                    />
+                    <ErrorMessage name="yearOfPassing" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col>
+                    <label>City</label>
+                    <span className="text-danger">*</span>
+                    <Field
+                      name="city"
+                      type="text"
+                      className="form-control field"
+                      placeholder="City"
+                      // onChange={(e) => {
+                      //   setFormData({ ...formData, field: e.target.value });
+                      //   validateForm();
+                      // }}
+                    />
+                    <ErrorMessage name="city" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>State</label>
+                    <span className="text-danger">*</span>
+                    <Field
+                      name="state"
+                      type="text"
+                      className="form-control field"
+                      placeholder="State"
+                      // onChange={(e) => {
+                      //   setFormData({ ...formData, field: e.target.value });
+                      //   validateForm();
+                      // }}
+                    />
+                    <ErrorMessage name="state" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col>
+                    <label>Country</label>
+                    <span className="text-danger">*</span>
+                    <Field
+                      name="country"
+                      type="text"
+                      className="form-control field"
+                      placeholder="Country"
+                      // onChange={(e) => {
+                      //   setFormData({ ...formData, field: e.target.value });
+                      //   validateForm();
+                      // }}
+                    />
+                    <ErrorMessage name="country" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+
+                <br />
+                <Button type="onSubmit" className="btn-primary" variant="container">
+                  Next
+                </Button>
+              </Form>
+            </Card>
+          </Container>
+        )}
+      </Formik>
     </>
   );
 };
 
-export const educationSchema = (event) => {
-  const eduation = event.educationData;
-  let status = false;
-  let newArr = eduation.map(function (value) {
-    if (
-      !value.institution ||
-      !value.subject ||
-      !value.yearOfPassing ||
-      !value.state ||
-      !value.city ||
-      !value.country
-    ) {
-      status = false;
-    } else {
-      status = true;
-    }
-  });
-
-  return status;
-};
-
 export default Education;
-
-const NormalAccordionItem = ({ index, inputField, expanded, onClick }) => {
-  const [value, setValue] = React.useContext(FormContext);
-  const [errorsShow, setErrorsShow] = React.useContext(FormContext);
-
-  const [stateCode, setStateCode] = useState("");
-
-  const { educationData } = value;
-
-  const handleAddFields = () => {
-    setStateCode("arun...");
-    setValue((prev) => {
-      const educationData = [
-        ...prev.educationData,
-        {
-          institution: "",
-          subject: "",
-          yearOfPassing: "",
-          state: "",
-          city: "",
-          country: "",
-        },
-      ];
-
-      return { ...prev, educationData };
-    });
-  };
-
-  const handleRemoveFields = (index) => {
-    setValue((prev) => {
-      const educationData = prev.educationData.filter((v, i) => i !== index);
-      return { ...prev, educationData };
-    });
-  };
-
-  const handleInputChange = (index, event) => {
-    if (event.target) {
-      const { name, value } = event.target;
-
-      setValue((prev) => {
-        const educationData = prev.educationData.map((v, i) => {
-          if (i !== index) {
-            return v;
-          }
-
-          return { ...v, [name]: value };
-        });
-
-        return { ...prev, educationData };
-      });
-    } else {
-      const { name, value } = event.value;
-      setValue((prev) => {
-        const educationData = prev.educationData.map((v, i) => {
-          if (i !== index) {
-            return v;
-          }
-
-          return { ...v, [name]: value };
-        });
-
-        return { ...prev, educationData };
-      });
-    }
-  };
-
-  // const Index = (value) => {
-  //   let selectState = value;
-  //   for (let i = 0; i < states.length; i++) {
-  //     if (states[i].state === selectState.value) {
-  //       setStateCode(i);
-  //     }
-  //   }
-  // };
-
-  // const handleChangeState = (e) => {
-  //   inputField.state = e;
-  //   inputField.city = "";
-  // };
-
-  // const handleChangeCity = (e) => {
-  //   inputField.city = e;
-  // };
-  // const handleChangeYear = (e) => {
-  //   inputField.yearOfPassing = e;
-  // };
-  // const handleChangeCountry = (e) => {
-  //   inputField.country = e;
-  // };
-  return (
-    <Container>
-      <Row className="mt-4">
-        <Col xs={12}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label notify={true} className="mb-2">
-              Institution Name
-            </Label>
-            <FormControl
-              type="text"
-              className="form-control"
-              placeholder="Institution Name"
-              id="institution"
-              name="institution"
-              value={inputField.institution}
-              onChange={(event) => handleInputChange(index, event)}
-            />
-            <span className="text-danger">
-              {!inputField.institution ? value.errors.institution : ""}
-            </span>
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={6} md={6}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label notify={true} className="mb-2">
-              Degree / Department
-            </Label>
-            <FormControl
-              type="text"
-              name="subject"
-              id="subject"
-              className="form-control"
-              placeholder="Eg: BE / CSE"
-              onChange={(event) => handleInputChange(index, event)}
-              value={inputField.subject}
-            />
-            <span className="text-danger">
-              {!inputField.subject ? value.errors.subject : ""}
-            </span>
-          </Form.Group>
-        </Col>
-
-        <Col sm={6} md={6}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label notify={true} className="mb-2">
-              Year of Passing
-            </Label>
-            <Select
-              value={inputField.yearOfPassing}
-              name="yearOfPassing"
-              placeholder="Year of Passing"
-              onChange={(event) => {
-                Index(event);
-                handleChangeYear(event);
-                handleInputChange(index, event);
-              }}
-              options={years.map((item) => ({
-                label: item,
-                value: item,
-              }))}
-            />
-            <span className="text-danger">
-              {!inputField.yearOfPassing ? value.errors.yearOfPassing : ""}
-            </span>
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={6} md={6}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label notify={true} className="mb-2">
-              City
-            </Label>
-            <FormControl
-              placeholder="City"
-              value={inputField.city}
-              name="city"
-              onChange={(event) => {
-                handleInputChange(index, event);
-              }}
-            />
-            <span className="text-danger">
-              {!inputField.city ? value.errors.city : ""}
-            </span>
-          </Form.Group>
-        </Col>
-
-        <Col sm={6} md={6}>
-          {" "}
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label notify={true} className="mb-2">
-              States
-            </Label>
-            <FormControl
-              value={inputField.state}
-              name="state"
-              placeholder="State"
-              onChange={(event) => {
-                Index(event);
-                handleInputChange(index, event);
-              }}
-            />
-            <span className="text-danger">
-              {!inputField.state ? value.errors.state : ""}
-            </span>
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={6} md={6}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label notify={true} className="mb-2">
-              Country
-            </Label>
-            <Select
-              value={inputField.country}
-              name="country"
-              placeholder="Country"
-              onChange={(event) => {
-                Index(event);
-                handleChangeCountry(event);
-                handleInputChange(index, event);
-              }}
-              options={countries.map((item) => ({
-                label: item,
-                value: item,
-              }))}
-            />
-            <span className="text-danger">
-              {!inputField.country ? value.errors.country : ""}
-            </span>
-          </Form.Group>
-        </Col>
-      </Row>
-      <div className="d-flex mt-2 mb-4">
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          className={"me-2"}
-          onClick={() => handleAddFields()}
-        >
-          ADD MORE
-        </Button>
-
-        {educationData?.length > 1 ? (
-          <Button
-            variant="contained"
-            color="error"
-            className={"me-1"}
-            type="button"
-            onClick={() => handleRemoveFields(index)}
-          >
-            REMOVE
-          </Button>
-        ) : null}
-      </div>
-    </Container>
-  );
-};

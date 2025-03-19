@@ -330,106 +330,106 @@ const Allsidebar = ({ onClick,sidebar }) => {
 
            {/* { userRole =="Teacher" ?
            <div className="nav-list">
-           <div className="menu-list">
-             <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
+            <div className="menu-list">
+              <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
                <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
-               Dashboard
-             </NavLink>
-           </div>
+                Dashboard
+               </NavLink>
+               </div>
            <div className="menu-list">
-             <NavLink exact to="/teacher/profile" activeClassName="main-nav-active-style">
+              <NavLink exact to="/teacher/profile" activeClassName="main-nav-active-style">
                <FontAwesomeIcon icon={faIdCard} title="My Profile" className="menu-icon" size="1x" />
-               My Profile
-             </NavLink>
+                My Profile
+              </NavLink>
            </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/schedule" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon icon={faClipboardCheck} title="Schedeule List" className="menu-icon" size="1x" />
-               Schedeule List
-             </NavLink>
+            <div className="menu-list">
+              <NavLink exact to="/teacher/schedule" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon icon={faClipboardCheck} title="Schedeule List" className="menu-icon" size="1x" />
+                Schedeule List
+              </NavLink>
            </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/upcoming/schedule/list" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon
-                 icon={faCalendarCheck}
-                 title="Upcoming Schedeule"
-                 className="menu-icon"
-                 size="1x"
-               />
-               Upcoming Schedule
-             </NavLink>
-           </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/review/quiz" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon" size="1x" />
-               Quiz
-             </NavLink>
-           </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/homework/review" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
-               Homework
-             </NavLink>
-           </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/not-available/time" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon icon={faUserPlus} title="Teacher Availability" className="menu-icon" size="1x" />
-               Teacher Availability
-             </NavLink>
-           </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/forum/details" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon icon={faUserGroup} title="Forum" className="menu-icon" size="1x" />
-               Forum
-             </NavLink>
-           </div>
-           <div className="menu-list">
-             <NavLink exact to="/teacher/payments" activeClassName="main-nav-active-style">
-               <FontAwesomeIcon icon={faMoneyCheckDollar} className="menu-icon" size="1x" />
-               Payments
-             </NavLink>
-           </div>
-           <div className="menu-list">
-             <NavLink
-               exact
-               to="#"
-               onClick={() => {
-                 logout();
-               }}
-             >
+            <div className="menu-list">
+              <NavLink exact to="/teacher/upcoming/schedule/list" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon
+                  icon={faCalendarCheck}
+                  title="Upcoming Schedeule"
+                  className="menu-icon"
+                  size="1x"
+                />
+                Upcoming Schedule
+              </NavLink>
+            </div>
+            <div className="menu-list">
+              <NavLink exact to="/teacher/review/quiz" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon icon={faLightbulb} title="Quiz" className="menu-icon" size="1x" />
+                Quiz
+              </NavLink>
+            </div>
+            <div className="menu-list">
+              <NavLink exact to="/teacher/homework/review" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon icon={faHouseCircleCheck} title="Homework" className="menu-icon" size="1x" />
+                Homework
+              </NavLink>
+          </div>
+            <div className="menu-list">
+              <NavLink exact to="/teacher/not-available/time" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon icon={faUserPlus} title="Teacher Availability" className="menu-icon" size="1x" />
+                Teacher Availability
+              </NavLink>
+            </div>
+            <div className="menu-list">
+              <NavLink exact to="/teacher/forum/details" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon icon={faUserGroup} title="Forum" className="menu-icon" size="1x" />
+                Forum
+              </NavLink>
+            </div>
+            <div className="menu-list">
+              <NavLink exact to="/teacher/payments" activeClassName="main-nav-active-style">
+                <FontAwesomeIcon icon={faMoneyCheckDollar} className="menu-icon" size="1x" />
+                Payments
+              </NavLink>
+            </div>
+            <div className="menu-list">
+              <NavLink
+                exact
+                to="#"
+                onClick={() => {
+                  logout();
+                }}
+              >
                <FontAwesomeIcon icon={faPowerOff} title="Logout" className="menu-icon" size="1x" />
-               Logout
-             </NavLink>
-           </div>
-         </div>: null 
+                Logout
+              </NavLink>
+            </div>
+          </div>: null 
           } 
             {/* teacher approval */}
            
             {/* teacher review
             <div div className="nav-list">
-              <div className="menu-list">
-                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon
-                    icon={faPersonCircleCheck}
-                    title="Teacher Application"
-                    className="menu-icon"
-                    size="1x"
-                  />
-                  Teacher Application
-                </NavLink>
-              </div>
-            </div>
-            teacher reject
-            <div className="nav-list">
-              <div className="menu-list">
-                <NavLink exact to="/teacher/application/details"activeClassName="main-nav-active-style">
-                  <FontAwesomeIcon
-                    icon={faPersonCircleCheck}
-                    title="Teacher Application"
-                    className="menu-icon"
-                    size="1x"
-                  />
-                  Teacher Application
+               <div className="menu-list">
+                 <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
+                   <FontAwesomeIcon
+                     icon={faPersonCircleCheck}
+                     title="Teacher Application"
+                     className="menu-icon"
+                     size="1x"
+                   />
+                   Teacher Application
+                 </NavLink>
+               </div>
+             </div>
+             teacher reject
+             <div className="nav-list">
+               <div className="menu-list">
+                 <NavLink exact to="/teacher/application/details"activeClassName="main-nav-active-style">
+                   <FontAwesomeIcon
+                     icon={faPersonCircleCheck}
+                     title="Teacher Application"
+                     className="menu-icon"
+                     size="1x"
+                   />
+                   Teacher Application
                 </NavLink>
               </div>
             </div> */}

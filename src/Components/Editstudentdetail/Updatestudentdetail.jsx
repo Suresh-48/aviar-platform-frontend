@@ -198,39 +198,36 @@ const EditStudentDetails = (props) => {
   // Parent details get
   const studentDetails = () => {
     const userId = localStorage.getItem("userId");
-     const studentId= localStorage.getItem("studentId");
-    
-    
+    const studentId = localStorage.getItem("studentId");
+
     axios
       .get(`http://localhost:3000/api/v1/student/${studentId}`, {
         headers: { userId: userId },
       })
       .then((res) => {
-    
-
         const data = res.data.data.getOne;
 
         // setDetails(data);
         // setIsLoading(false);
-        setFirstName(data?.firstName);
-        setMiddleName(data?.middleName);
-        setLastName(data?.lastName);
-        setAddress1(data?.address1);
-        setAddress2(data?.address2);
-        setPhone(data?.phone);
-        setEmail(data?.email);
-        setDob(data?.dob ? data?.dob : "");
-        setPassword(data?.password);
-        setConfirmPassword(data?.confirmPassword);
-        setImagePreview(data?.imageUrl);
-        setGenderValue(data?.gender);
+        setFirstName(data.firstName);
+        setMiddleName(data.middleName);
+        setLastName(data.lastName);
+        setAddress1(data.address1);
+        setAddress2(data.address2);
+        setPhone(data.phone);
+        setEmail(data.email);
+        setDob(data.dob);
+        setPassword(data.password);
+        setConfirmPassword(data.confirmPassword);
+        setImagePreview(data.imageUrl);
+        setGenderValue(data.gender);
         setGender(
           data?.gender ? { value: data?.gender, label: data?.gender } : ""
         );
-        setZipCode(data?.zipCode);
-      setCityValue(data?.city);
-        setState(data?.state ? { value: data?.state, label: data?.state } : "");
-        setStateValue(data?.state);
+        setZipCode(data.zipCode);
+        setCityValue(data.city);
+        setState(data.state ? { value: data?.state, label: data?.state } : "");
+        setStateValue(data.state);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -250,10 +247,10 @@ const EditStudentDetails = (props) => {
   }, []);
 
   // Submit Details
- 
+
   const submitForm = (values) => {
-    
-    setIsSubmit(true);
+    console.log("values...",values)
+    setIsSubmit(false);
 
     const email = values.email.toLowerCase();
     const startDate = dob;
@@ -262,45 +259,46 @@ const EditStudentDetails = (props) => {
     const state = values.state.value ? values.state.value : "";
     const dateValue = moment(startDate).format("ll");
     const userId = localStorage.getItem("userId");
-    const studentId= localStorage.getItem("studentId");
+    const studentId = localStorage.getItem("studentId");
     axios
-    .patch(`http://localhost:3000/api/v1/student/${studentId}`, {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      middleName: values.middleName ? values.middleName : "",
-      dob: dateValue,
-      gender: gender,
-      phone: values.phoneNumber ? values.phoneNumber : "",
-      email: email,
-      address1: values.address1 ? values.address1 : "",
-      address2: values.address2 ? values.address2 : "",
-      city: City,
-      state: state,
-      zipCode: values.zipCode ? values.zipCode : "",
-      password: values.password,
-      confirmPassword: values.confirmPassword,
-      loginType: details.loginType,
-      userId: userId,
-    })
-      .then((response) => {
-        const status = response.status;
-        console.log("response", data);
+      .patch(`http://localhost:3000/api/v1/student/${studentId}`, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        middleName: values.middleName,
+        dob: dateValue,
+        gender: gender,
+        phone: values.phoneNumber,
+        email: email,
+        address1: values.address1,
+        address2: values.address2,
+        city: City,
+        state: state,
+        zipCode: values.zipCode,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+        loginType: details.loginType,
+        userId: userId,
+      })
+      // .then((res)=>{console.log("res",res.data.editDetail)})
+      .then((res) => {
+        const status = res.status;
+
+        // console.log("res",res.data.editDetail);
 
         if (status === 201) {
-          setIsSubmit(false);
+          setIsSubmit(true);
           toast.success("Updated");
-     
         }
       })
       .catch((error) => {
- 
-
-        const errorStatus = error?.response?.status;
+        const errorStatus = error?.res?.status;
         if (errorStatus === 401) {
           logout();
-          toast.error("Session Timeout");
+          toast.error("something went wrong");
+          // toast.error("Session Timeout");
         }
       });
+      
   };
 
   // Date Format
@@ -372,13 +370,8 @@ const EditStudentDetails = (props) => {
             onSubmit={(values) => submitForm(values)}
           >
             {(formik) => {
-              const {
-                values,
-                handleChange,
-                handleSubmit,
-                setFieldValue,
-                handleBlur,
-              } = formik;
+              const { values, handleChange, setFieldValue,handleSubmit, handleBlur } =
+                formik;
               return (
                 <div>
                   <Form onSubmit={handleSubmit}>
@@ -596,29 +589,29 @@ const EditStudentDetails = (props) => {
                               <span className="text-danger">*</span>
                               <br />
                               <Field
-                                    variant="standard"
-                                    className="start-time-style"
-                                    style={{ paddingLeft: 10 }}
-                                    placeholder="Select Start Date"
-                                    helperText={""}
-                                    InputProps={{
-                                      disableUnderline: true,
-                                    }}
-                                    format="MMM dd yyyy"
-                                    value={values.dob}
-                                    onChange={(e) => {
-                                      setFieldValue("dob", e);
-                                      setDateFormat(e);
-                                    }}
-                                    // keyboardIcon={
-                                    //   <FontAwesomeIcon
-                                    //     icon={faCalendarDay}
-                                    //     size="sm"
-                                    //     color="grey"
-                                    //     style={{ padding: 0 }}
-                                    //   />
-                                    // }
-                                  />
+                                variant="standard"
+                                className="start-time-style"
+                                style={{ paddingLeft: 10 }}
+                                placeholder="Select Start Date"
+                                helperText={""}
+                                InputProps={{
+                                  disableUnderline: true,
+                                }}
+                                format="MMM dd yyyy"
+                                value={values.dob}
+                                onChange={(e) => {
+                                  setFieldValue("dob", e);
+                                  setDateFormat(e);
+                                }}
+                                // keyboardIcon={
+                                //   <FontAwesomeIcon
+                                //     icon={faCalendarDay}
+                                //     size="sm"
+                                //     color="grey"
+                                //     style={{ padding: 0 }}
+                                //   />
+                                // }
+                              />
                               <ErrorMessage
                                 name="dob"
                                 component="span"
@@ -744,6 +737,7 @@ const EditStudentDetails = (props) => {
                                     ),
                                   },
                                 ]}
+                                
                               />
                             </Form.Group>
                           </Col>
@@ -868,11 +862,11 @@ const EditStudentDetails = (props) => {
                                     Cancel
                                   </Button>
                                   <Button
+                                  type="submit"
+                                    // Add this line
                                     variant="contained"
                                     className="btn-primary btn-cancel my-2"
-                                    // onClick={() => {
-                                    //   props.history.goBack();
-                                    // }}
+                                    disabled={isSubmit} // Disable the button while submitting
                                   >
                                     Update
                                   </Button>

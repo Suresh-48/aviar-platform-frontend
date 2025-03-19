@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import{useNavigate} from 'react-router-dom'
 import {
   InputGroup,
   Form,
@@ -43,6 +44,7 @@ import { responsiveProperty } from "@mui/material/styles/cssUtils";
 
 const TeacherSignup = () => {
   //   const history = useHistory();
+  const navigate = useNavigate ();
 
   const [details, setDetails] = useState([]);
   const [parentId, setParentId] = useState("");
@@ -152,6 +154,7 @@ const TeacherSignup = () => {
                 if (response.status === 201) {
                   toast.success("Teacher created successfully");
                   console.log("User created successfully!");
+                  navigate("/teacher/menu");
                   resetForm();
                 // localStorage.setItem("teacherId",teacherId);
                 // localStorage.setItem("token",token);
