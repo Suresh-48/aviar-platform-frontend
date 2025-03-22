@@ -1,13 +1,13 @@
-/* Stepper Container */
+
 .stepper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
   position: relative;
+  margin-bottom: 20px;
 }
 
-/* Stepper Line */
+
 .stepper::before {
   content: '';
   position: absolute;
@@ -15,8 +15,19 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #ccc;
-  z-index: -1;
+  background-color: #e0e0e0; 
+  z-index: 1;
+}
+
+/* Blue Progress Line */
+.stepper .progress-line {
+  position: absolute;
+  top: 20px; 
+  left: 0;
+  height: 2px;
+  background-color: #007bff; 
+  z-index: 2;
+  transition: width 0.3s ease; 
 }
 
 /* Stepper Item */
@@ -24,43 +35,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  z-index: 1;
+  position: relative;
+  z-index: 3;
 }
 
 /* Stepper Number */
 .stepper-number {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: #e0e0e0; 
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #fff;
+  justify-content: center;
   font-weight: bold;
-  margin-bottom: 5px;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
-/* Stepper Topic */
+.stepper-item.active .stepper-number {
+  background-color: #007bff;
+}
+
+.stepper-item.completed .stepper-number {
+  background-color: #007bff; 
+}
+
 .stepper-topic {
   font-size: 14px;
-  color: #666;
+  color: #333;
 }
 
-/* Active Stepper Item */
-.stepper-item.active .stepper-number {
-  background-color: #007bff; /* Change to your preferred active color */
-}
 
-.stepper-item.active .stepper-topic {
-  color: #007bff; /* Change to your preferred active color */
-  font-weight: bold;
-}
-.navigation-buttons {
+ .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; 
   margin-top: 20px;
+  margin-left: 400px; 
 }
 
 .nav-button {
@@ -72,6 +83,15 @@
   cursor: pointer;
 }
 
-.nav-button:hover {
-  background-color: #0056b3;
+.nav-button.previous {
+  order: 1;
+  margin-right: 80px; 
 }
+
+.nav-button.next {
+  order: 2;
+  margin-right: 160px; 
+}
+
+
+

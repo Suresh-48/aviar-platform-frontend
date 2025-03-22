@@ -57,7 +57,7 @@ import Menu from "./Components/TeacherApplication/Menu.jsx";
 import Education from "./Components/TeacherApplication/Education.jsx";
 import Experience from"./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
-import ApplicationFormConfirmation from "./Components/TeacherApplication/Applicationform.jsx";
+
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
   // const [open, setOpen] = useState(false);
@@ -164,7 +164,7 @@ const App = () => {
             <Route path="education" element={<Education />} />
             <Route path="experience" element={<Experience />} />
             <Route path="online/profile" element={<OnlineProfile />} />
-            <Route path="teacher/application form" element={<ApplicationFormConfirmation />} />
+           
 
           </Route>
         </Routes>

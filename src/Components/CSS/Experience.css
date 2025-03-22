@@ -2,3 +2,8 @@
     /* margin-right:20px ; */
     margin-bottom: 30px;
 }
+#myInput::placeholder {
+    font-size: 15px; /* Adjust font size */
+    color: gray; /* Change placeholder text color */
+  }
+  

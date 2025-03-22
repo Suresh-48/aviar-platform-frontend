@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import '../CSS/Menu.css'; // Import a CSS file for styling
+import React, { useState, useEffect } from 'react';
+import '../CSS/Menu.css';
 import Education from './Education.jsx';
 import Experience from './Experience';
 import OnlineProfile from './OnlineProfile.jsx';
-import Applicationform from './Applicationform.jsx';
+import TeacherApplicationForm from './TeacherApplicationForm.jsx';
 
 const Menu = () => {
-  // State to track the active menu item
   const [activeItem, setActiveItem] = useState(1);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [educationData, setEducationData] = useState(null);
+  const [experienceData, setExperienceData] = useState(null);
+  const [onlineProfileData, setOnlineProfileData] = useState(null);
 
-  // Stepper data
   const steps = [
     { number: 1, topic: 'Education' },
     { number: 2, topic: 'Experience' },
@@ -17,28 +19,41 @@ const Menu = () => {
     { number: 4, topic: 'Application Form' },
   ];
 
-  // Function to go to the next step
   const nextStep = () => {
-    if (activeItem < steps.length) {
-      setActiveItem(activeItem + 1);
+    if (activeItem < steps.length && isFormValid) {
+      setActiveItem(activeItem + 1); // Move to the next step
+      setIsFormValid(false); // Reset validation for the next form
     }
   };
 
-  // Function to go to the previous step
   const prevStep = () => {
     if (activeItem > 1) {
-      setActiveItem(activeItem - 1);
+      setActiveItem(activeItem - 1); // Move to the previous step
+      setIsFormValid(false); // Reset validation for the previous form
     }
   };
+
+  const progressWidth = ((activeItem - 1) / (steps.length - 1)) * 100;
+
+  // Debugging: Log isFormValid state
+  useEffect(() => {
+    console.log('isFormValid:', isFormValid);
+  }, [isFormValid]);
 
   return (
     <div>
       {/* Stepper */}
       <div className="stepper">
+        <div
+          className="progress-line"
+          style={{ width: `${progressWidth}%` }}
+        ></div>
         {steps.map((step) => (
           <div
             key={step.number}
-            className={`stepper-item ${activeItem === step.number ? 'active' : ''}`}
+            className={`stepper-item ${
+              activeItem === step.number ? 'active' : ''
+            } ${activeItem > step.number ? 'completed' : ''}`}
           >
             <div className="stepper-number">{step.number}</div>
             <div className="stepper-topic">{step.topic}</div>
@@ -46,23 +61,51 @@ const Menu = () => {
         ))}
       </div>
 
-      {/* Conditional Rendering of Components */}
+      {/* Form Container */}
       <div className="form-container">
-        {activeItem === 1 && <Education />}
-        {activeItem === 2 && <Experience />}
-        {activeItem === 3 && <OnlineProfile />}
-        {activeItem === 4 && <Applicationform />}
+        {activeItem === 1 && (
+          <Education
+            onFormValidityChange={setIsFormValid}
+            onSubmit={nextStep}
+            setEducationData={setEducationData}
+          />
+        )}
+        {activeItem === 2 && (
+          <Experience
+            onFormValidityChange={setIsFormValid}
+            onSubmit={nextStep}
+            setExperienceData={setExperienceData}
+          />
+        )}
+        {activeItem === 3 && (
+          <OnlineProfile
+            onFormValidityChange={setIsFormValid}
+            onSubmit={nextStep}
+            setOnlineProfileData={setOnlineProfileData}
+          />
+        )}
+        {activeItem === 4 && (
+          <TeacherApplicationForm
+            educationData={educationData}
+            experienceData={experienceData}
+            onlineProfileData={onlineProfileData}
+          />
+        )}
       </div>
 
       {/* Navigation Buttons */}
       <div className="navigation-buttons">
         {activeItem > 1 && (
-          <button onClick={prevStep} className="nav-button">
+          <button onClick={prevStep} className="nav-button previous">
             Previous
           </button>
         )}
         {activeItem < steps.length && (
-          <button onClick={nextStep} className="nav-button">
+          <button
+            onClick={nextStep}
+            className="nav-button next"
+            disabled={!isFormValid}
+          >
             Next
           </button>
         )}

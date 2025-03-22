@@ -252,7 +252,7 @@ const Form = () => {
                       </Col>
                     </Row>
                   </div>
-                </div>
+    </div>
               </Modal.Body>
             </Modal>
           </>

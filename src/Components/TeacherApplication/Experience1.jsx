@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FormContext } from "./FormContext";
+import  FormContent  from "./FormContent";
 import {
   Col,
   Container,
@@ -34,7 +34,7 @@ import { toast } from "react-toastify";
 // import { useHistory } from "react-router-dom";
 
 const Experience = () => {
-  const [value, setValue] = React.useContext(FormContext);
+  const [value, setValue] = React.useContext(FormContent);
   const { experienceData } = value;
 
   return (

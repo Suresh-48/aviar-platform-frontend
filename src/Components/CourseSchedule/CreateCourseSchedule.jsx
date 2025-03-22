@@ -84,6 +84,15 @@ const CreateCourseSchedule = (props) => {
 
     })
     // .then((res)=>{console.log("res",res.data)})
+    const handleStartDateChange = (date, setFieldValue) => {
+      if (date && date.isValid()) {
+        setStartDate(date); // Update local state
+        setFieldValue("startDate", date); // Update Formik's `startDate` field
+        const dayOfWeek = getDayOfWeek(date); // Get the day of the week
+        setWeekly(dayOfWeek); // Update local state
+        setFieldValue("weekly", dayOfWeek); // Update Formik's `weekly` field
+      }
+    };
 
     const formattedDate = dayjs(values.startDate).format("LLLL"); // Full date & time
     const dayOfWeek = dayjs(values.startDate).format("dddd"); // Weekday name

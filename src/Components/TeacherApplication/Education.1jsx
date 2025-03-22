@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormContext } from "./FormContext";
+import { FormContent } from "./FormContext";
 import { Col, Container, Row, Form, FormControl } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
@@ -12,7 +12,7 @@ import years from "../Core/Years";
 import countries from "../Core/Countries";
 
 const Education = () => {
-  const [value, setValue] = useState(FormContext);
+  const [value, setValue] = useState(FormContent);
 
 //   const { educationData } = value;
 
