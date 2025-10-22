@@ -13,7 +13,6 @@ import {
   faChevronCircleLeft,
   faChevronCircleRight,
   faLink,
-
   faSearch,
   faThumbsUp,
   faUser,
@@ -149,7 +148,7 @@ function LandingPage(props) {
               <img src={loginArrow} className="login-arrow " />
               <p className="login-pTag mb-0 mx-1">Login</p>
             </div>
-          ): null}
+          )}
         </div>
         <div className="aviar-img-div-two">
           <div className="content-link">
