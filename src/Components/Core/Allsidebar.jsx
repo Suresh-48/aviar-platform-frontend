@@ -312,7 +312,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   </NavLink>
                 </div>
               </div> 
-            {/* {userRole=="students" ?
+            {userRole=="students" ?
              <div div className="nav-list">
              <div className="menu-list">
                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
@@ -326,9 +326,9 @@ const Allsidebar = ({ onClick,sidebar }) => {
                </NavLink>
              </div>
            </div>: null
-            } */}
+            } 
 
-           {/* { userRole =="Teacher" ?
+           { userRole =="Teacher" ?
            <div className="nav-list">
             <div className="menu-list">
               <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
@@ -405,7 +405,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
           } 
             {/* teacher approval */}
            
-            {/* teacher review
+            teacher review
             <div div className="nav-list">
                <div className="menu-list">
                  <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
@@ -432,12 +432,12 @@ const Allsidebar = ({ onClick,sidebar }) => {
                    Teacher Application
                 </NavLink>
               </div>
-            </div> */}
+            </div>
            
 
                   {/* Admin DashBoard */}
                 
-            {/* <div className="nav-list">
+             <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/admin/dashboard" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
@@ -519,7 +519,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   Logout
                 </NavLink>
               </div> 
-             </div> */}
+             </div>
           </div>
         </div>
       </div>
