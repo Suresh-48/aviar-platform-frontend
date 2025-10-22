@@ -37,32 +37,48 @@ const Login = () => {
       .required("Password Is Required"),
   });
   const onSubmit = (values) => {
- 
-    axios.post(`http://localhost:3000/api/v1/user/login`,{
+
+    axios.post(`http://localhost:3000/api/v1/user/login`, {
       email: values.email,
       password: values.password,
 
-    }).then((response)=>{ 
-  
-      console.log("response",response.data.updateToken.role);
+    }).then((response) => {
 
-      if(response.status === 200){  
-        
-        localStorage.setItem("token", response.data.updateToken.token);
-        localStorage.setItem("role",response.data.updateToken.role);
-          localStorage.setItem("userId", response.data.updateToken.id)
-          localStorage.setItem("studentId", response.data.updateToken.studentId);
-          localStorage.setItem("teacherId", response.data.updateToken.teacherId);
+      console.log("response", response.data.updateToken.role);
+      let userRole = "";
 
-          toast.success(response.data);
-          navigate("/admin/dashboard");
+      if (values.email.includes("student")) {
+        userRole = "student";
+      } else if (values.email.includes("teacher")) {
+        userRole = "teacher";
+      } else {
+        userRole = "admin";
       }
-    }).catch((error)=>{
-      if(error.status === 400){
-        console.log("error.....",error.response.data.message);
+      if (response.status === 200) {
+
+        localStorage.setItem("token", response.data.updateToken.token);
+        localStorage.setItem("role", response.data.updateToken.role);
+        localStorage.setItem("userId", response.data.updateToken.id)
+        localStorage.setItem("studentId", response.data.updateToken.studentId);
+        localStorage.setItem("teacherId", response.data.updateToken.teacherId);
+
+        toast.success(response.data);
+        if (userRole === "admin") {
+          navigate("/admin/dashboard");
+        } else if (userRole === "teacher") {
+          navigate("/teacher/dashboard");
+        } else if (userRole === "student") {
+          navigate("/student/dashboard");
+        } else {
+          navigate("/login"); // fallback
+        }
+      }
+    }).catch((error) => {
+      if (error.status === 400) {
+        console.log("error.....", error.response.data.message);
         toast.error(error.response.data.message);
       }
-   
+
     })
   };
   // const togglePasswordVisibility = () => {
@@ -71,14 +87,14 @@ const Login = () => {
   const tooglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
-//   const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
-//     <React.StrictMode>
-//       <GoogleAccount />
-//     </React.StrictMode>
-//   </GoogleOAuthProvider>
-// );
+  //   const root = ReactDOM.createRoot(document.getElementById('root'));
+  // root.render(
+  //   <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+  //     <React.StrictMode>
+  //       <GoogleAccount />
+  //     </React.StrictMode>
+  //   </GoogleOAuthProvider>
+  // );
   return (
     <div className="Login-container">
 
