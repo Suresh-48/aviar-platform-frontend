@@ -196,7 +196,10 @@ const Allsidebar = ({ onClick,sidebar }) => {
              
             </div>
             {/* Student DashBoard */}
-            <div className="nav-list">
+           
+            {userRole=="student" ?
+             <div div className="nav-list">
+               <div className="nav-list">
                 <div className="menu-list">
                   <NavLink to="/student/dashboard" activeClassName="main-nav-active-style">
                     <FontAwesomeIcon icon={faChalkboardUser} className="menu-icon" title="Dashboard" size="1x" />
@@ -302,7 +305,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                 <div className="menu-list">
                   <NavLink
                     exact
-                    to="#"
+                    to="/login"
                     onClick={() => {
                       logout();
                     }}
@@ -312,8 +315,6 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   </NavLink>
                 </div>
               </div> 
-            {userRole=="students" ?
-             <div div className="nav-list">
              <div className="menu-list">
                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
                  <FontAwesomeIcon
@@ -328,7 +329,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
            </div>: null
             } 
 
-           { userRole =="Teacher" ?
+            { userRole =="teacher" ?
            <div className="nav-list">
             <div className="menu-list">
               <NavLink exact to="/teacher/dashboard" activeClassName="main-nav-active-style">
@@ -392,7 +393,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
             <div className="menu-list">
               <NavLink
                 exact
-                to="#"
+                 to="/login"
                 onClick={() => {
                   logout();
                 }}
@@ -402,11 +403,11 @@ const Allsidebar = ({ onClick,sidebar }) => {
               </NavLink>
             </div>
           </div>: null 
-          } 
+} 
             {/* teacher approval */}
            
-            teacher review
-            <div div className="nav-list">
+            {/* teacher review */}
+            {/* <div div className="nav-list">
                <div className="menu-list">
                  <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
                    <FontAwesomeIcon
@@ -418,9 +419,9 @@ const Allsidebar = ({ onClick,sidebar }) => {
                    Teacher Application
                  </NavLink>
                </div>
-             </div>
-             teacher reject
-             <div className="nav-list">
+             </div> */}
+             {/* teacher reject */}
+             {/* <div className="nav-list">
                <div className="menu-list">
                  <NavLink exact to="/teacher/application/details"activeClassName="main-nav-active-style">
                    <FontAwesomeIcon
@@ -436,8 +437,8 @@ const Allsidebar = ({ onClick,sidebar }) => {
            
 
                   {/* Admin DashBoard */}
-                
-             <div className="nav-list">
+                  { userRole =="admin" ?
+            <div className="nav-list">
               <div className="menu-list">
                 <NavLink exact to="/admin/dashboard" activeClassName="main-nav-active-style">
                   <FontAwesomeIcon icon={faChalkboardUser} title="Dashboard" className="menu-icon" size="1x" />
@@ -510,7 +511,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
               <div className="menu-list">
                 <NavLink
                   exact
-                  to="/"
+                  to="/login"
                   onClick={() => {
                     logout();
                   }}
@@ -519,7 +520,8 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   Logout
                 </NavLink>
               </div> 
-             </div>
+             </div> 
+             : null }
           </div>
         </div>
       </div>

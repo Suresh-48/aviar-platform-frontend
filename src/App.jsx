@@ -16,6 +16,8 @@ import ResetPassword from "./Components/ResetPassword/Password.jsx";
 import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
+import Course from "./Components/Course.jsx";
+import Trainers from "./Components/Trainers.jsx";
 // import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
@@ -71,6 +73,9 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
+          <Route path="/course/search" element={<Course/>} />
+          <Route path="/trainers" element={<Trainers/>} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/about-us" element={<AboutUs/>}/>
@@ -92,7 +97,7 @@ const App = () => {
             }
           >
             <Route index element={<Navigate to="/student/dashboard" />} />
-            <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="update/detail" element={<Updatestudentdetail />} />
             <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
             <Route path="allcourselist" element={<AllCourseList />} />
@@ -119,7 +124,7 @@ const App = () => {
             }
           >
             <Route index element={<Navigate to="/admin/dashboard" />} />
-            <Route path="dashboard" element={<Admindashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
@@ -151,7 +156,7 @@ const App = () => {
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
             <Route path="menu" element={<Menu />} />
-            <Route path="dashboard" element={<TeacherDashboard/>}/>
+            <Route path="dashboard" element={<Dashboard />}/>
             <Route path="schedule" element={<TeacherCourseList />} />
             <Route path="profile" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />

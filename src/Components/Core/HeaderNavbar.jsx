@@ -202,9 +202,11 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
               >
                 <Nav className="mr-auto" navbar>
                   <Link
-                    to="#"
+                    to="/login"
                     className="navigate-profile-link"
-                    onClick={logout}
+                     onClick={() => {
+                    logout();
+                  }}
                     style={{ cursor: "pointer", zIndex: 0 }}
                   >
                     Logout
