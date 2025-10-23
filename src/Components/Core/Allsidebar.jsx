@@ -433,7 +433,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                    Teacher Application
                 </NavLink>
               </div>
-            </div> */}
+            </div>
            
 
                   {/* Admin DashBoard */}
