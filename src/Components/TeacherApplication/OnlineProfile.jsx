@@ -1,144 +1,123 @@
-import React, { useState } from "react";
-import { FormContext } from "./FormContext";
-import { Col, Container, Row, Form, FormControl } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
-import Label from "../core/Label";
+import React from 'react';
+import { Container, Row, Col, FormGroup, Card } from 'react-bootstrap';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import '../CSS/OnlineProfile.css';
 
-const OnlineProfileDetails = () => {
-//   const [value, setValue] = React.useContext(FormContext);
-//   const { profileData } = value;
-
-  return (
-    <>
-      {/* <div className="form-row">
-        {profileData.map((inputField, index) => (
-          <NormalAccordionItem index={index} inputField={inputField} />
-        ))}
-      </div> */}
-    </>
-  );
-};
-
-export default OnlineProfileDetails;
-
-const NormalAccordionItem = ({ index, inputField, expanded, onClick }) => {
-  const [value, setValue] = React.useContext(FormContext);
-  const { profileData } = value;
-
-  const handleAddFields = () => {
-    setValue((prev) => {
-      const profileData = [
-        ...prev.profileData,
-        { ownSite: "", facebook: "", linkedIn: "", addInfo: "" },
-      ];
-
-      return { ...prev, profileData };
-    });
+const OnlineProfile = ({ onFormValidityChange, onSubmit, setOnlineProfileData }) => {
+  const initialValues = {
+    professionalWebSite: '',
+    facebook: '',
+    linkedIn: '',
+    additionalInformation: '',
   };
 
-  const handleRemoveFields = (index) => {
-    setValue((prev) => {
-      const profileData = prev.profileData.filter((v, i) => i !== index);
-      return { ...prev, profileData };
-    });
-  };
+  const validationSchema = Yup.object({
+    professionalWebSite: Yup.string().required('Professional website is required'),
+    facebook: Yup.string().required('Facebook link is required'),
+    linkedIn: Yup.string().required('LinkedIn link is required'),
+    additionalInformation: Yup.string().required('Additional information is required'),
+  });
 
-  const handleInputChange = (index, event) => {
-    const { name, value } = event.target;
-
-    setValue((prev) => {
-      const profileData = prev.profileData.map((v, i) => {
-        if (i !== index) {
-          return v;
-        }
-
-        return { ...v, [name]: value };
-      });
-
-      return { ...prev, profileData };
-    });
+  const handleSubmit = (values) => {
+    console.log('Form Values:', values); // Log the form values
+    setOnlineProfileData(values); // Update parent state with form data
+    onSubmit(); // Trigger navigation to the next step
   };
 
   return (
-    <Container>
-      <Row className="mt-4">
-        <Col xs={12}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label className="mb-2">Professional Websites :</Label>
-            <FormControl
-              type="text"
-              className="form-control"
-              placeholder="Enter Websites"
-              id="ownSite"
-              name="ownSite"
-              value={inputField.ownSite}
-              onChange={(event) => handleInputChange(index, event)}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ handleSubmit, isValid, dirty }) => {
+        // Notify parent about form validity
+        React.useEffect(() => {
+          console.log('isValid:', isValid, 'dirty:', dirty); // Debugging
+          onFormValidityChange(isValid && dirty);
+        }, [isValid, dirty, onFormValidityChange]);
 
-      <Row>
-        <Col sm={6} md={6}>
-          <Form.Group
-            className="form-row mb-3"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label>Facebook :</Label>
-            <FormControl
-              name="facebook"
-              type="type"
-              id="facebook"
-              placeholder="Enter Facebook Link"
-              className="form-styles"
-              onChange={(event) => handleInputChange(index, event)}
-              value={inputField.facebook}
-            />
-          </Form.Group>
-        </Col>
-        <Col sm={6} md={6}>
-          <Form.Group
-            className="form-row mb-3"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label>LinkedIn :</Label>
-            <FormControl
-              name="linkedIn"
-              type="type"
-              id="linkedIn"
-              placeholder="Enter LinkedIn Address"
-              className="form-styles"
-              onChange={(event) => handleInputChange(index, event)}
-              value={inputField.linkedIn}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <Form.Group
-            className="form-row mb-3 input-text-style"
-            style={{ marginRight: 20, width: "100%" }}
-          >
-            <Label  className="mb-2">
-              Additional Information :
-            </Label>
-
-            <textarea
-              style={{ width: "100%", height: "168px" }}
-              name="addInfo"
-              type="text"
-              id="addInfo"
-              className="form-styles"
-              onChange={(event) => handleInputChange(index, event)}
-              value={inputField.addInfo}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-    </Container>
+        return (
+          <Container>
+            <Card className="p-5 bg-light-round shadow">
+              <Form onSubmit={handleSubmit}>
+                <h2 className="profileheading">Online Profile Details</h2>
+                <FormGroup>
+                  <label>Professional Website:</label>
+                  <span className="text-danger">*</span>
+                  <br />
+                  <Field
+                    id="myInputs"
+                    name="professionalWebSite"
+                    type="text"
+                    placeholder="Enter Website"
+                    className="form-control form-control-lg"
+                  />
+                  <ErrorMessage name="professionalWebSite" className="error text-danger" component="span" />
+                </FormGroup>
+                <br />
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <label>Enter Facebook Link:</label>
+                      <span className="text-danger">*</span>
+                      <br />
+                      <Field
+                        id="myInputs"
+                        className="form-control form-control-lg"
+                        name="facebook"
+                        type="text"
+                        placeholder="Enter Facebook Link"
+                      />
+                      <ErrorMessage name="facebook" className="error text-danger" component="span" />
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <label>LinkedIn</label>
+                      <span className="text-danger">*</span>
+                      <br />
+                      <Field
+                        id="myInputs"
+                        className="form-control form-control-lg"
+                        style={{ marginRight: 20, width: '100%' }}
+                        name="linkedIn"
+                        type="text"
+                        placeholder="Enter LinkedIn Address"
+                      />
+                      <ErrorMessage name="linkedIn" className="error text-danger" component="span" />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <br />
+                <FormGroup
+                  className="form-row mb-3 input-text-style"
+                  style={{ marginRight: 20, width: '100%' }}
+                >
+                  <label className="mb-2">Additional Information:</label>
+                  <span className="text-danger">*</span>
+                  <br />
+                  <Field
+                    as="textarea"
+                    style={{ width: '100%', height: '168px' }}
+                    name="additionalInformation"
+                    id="additionalInformation"
+                    className="form-control form-control-lg"
+                  />
+                  <ErrorMessage name="additionalInformation" className="error text-danger" component="span" />
+                </FormGroup>
+                <br />
+                <button type="submit" className="btn btn-primary" disabled={!isValid}>
+                  Submit
+                </button>
+              </Form>
+            </Card>
+          </Container>
+        );
+      }}
+    </Formik>
   );
 };
+
+export default OnlineProfile;

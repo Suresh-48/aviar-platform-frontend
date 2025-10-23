@@ -17,7 +17,9 @@ import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import { components } from "react-select";
 import StudentDashboard from "./Components/Dashboard/Studentdashboard.jsx";
+import AboutUs from "./Components/AboutUs/Index.jsx";
 import { HomeWork, Quiz } from "@mui/icons-material";
+import NavbarLoginBefore from "./Components/PublicLayout/navbar";
 import ActiveCourses from "./Components/ActiveEnroleCourses/ActiveCourses.jsx";
 import CompleteCourse from "./Components/CompleteCourseList/CompleteCourse.jsx";
 import CourseHistory from "./Components/CourseHistory/CourseHistory.jsx";
@@ -36,7 +38,15 @@ import ForumSelect from "./Components/Forum/Forumdetail.jsx";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment.jsx";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication.jsx";
 import { Component } from "react";
+import ChatBotConversation from "./Components/ChatBotConversation/ChatBotConversation.jsx";
+import EditCourses from "./Components/EditCourses/Index.jsx";
+import CourseLesson from "./Components/CourseLesson/Index.jsx";
 import CoursesCreation from "./Components/Course/CourseCreation.jsx";
+import CreateCourseLesson from "./Components/CourseLesson/CreateCourseLesson.jsx";
+import CreateCourseSchedule from "./Components/CourseSchedule/CreateCourseSchedule.jsx";
+import CourseSchedule from "./Components/CourseSchedule/Index.jsx";
+import EditCourseSchedule from "./Components/CourseSchedule/EditCourseSchedule.jsx";
+import CourseDetail from "./Components/Course/CourseDetail.jsx";
 const routes = [
   // {
   //   path: "/",
@@ -44,11 +54,55 @@ const routes = [
   //   name: "Home",
   //   component: Home,
   // },
+  {
+    path: "/admin/course/lesson",
+    exact: true,
+    name: "CourseLesson",
+    component: CourseLesson,
+  },
+  
+    {
+      path: "/admin/course/detail",
+      exact: true,
+      name: "CourseDetail",
+      component: CourseDetail,
+    },
+  
+    {
+      path: "/admin/course/checkout",
+      exact: true,
+      name: "CourseCheckout",
+      component: CourseCheckout,
+    },
+  
     {
       path: "/home",
       exact: true,
       name: "LandingPage",
       component: LandingPage,
+    },
+    {
+      path:"/chatbot",
+      exact:true,
+      name:"ChatBotConversation",
+      component:ChatBotConversation,
+    },
+    {
+      path: "/course/schedule",
+      exact: true,
+      name: "CourseSchedule",
+      component: CourseSchedule,
+    },
+    {
+      path:"/navbar",
+      exact:true,
+      name:"NavbarLoginBefore",
+      component:NavbarLoginBefore,
+    },
+    {
+      path:"/about-us",
+      exact:true,
+      component:AboutUs
     },
     {
         path: "/login",
@@ -88,7 +142,7 @@ const routes = [
     component:Admindashboard,
    },
    {
-    path:"/admin/coursecategory",
+    path:"/admin/course/category",
     exact:true,
     name:"CourseCategory",
     component:CourseCategory,
@@ -111,11 +165,46 @@ const routes = [
   name:"StudentList",
   components:StudentList,
  },
+//  {
+//   path: "/course/edit/:id",
+//   exact: true,
+//   name: "EditCourses",
+//   component: EditCourses,
+// },
+{
+  path:"/admin/course/edit/1",
+  exact:true,
+  name:EditCourses,
+},
  {
-  path:"admin/course/list",
+  path:"/admin/course/list",
   exact:true,
   name:"CourseList",
   component:CourseList
+ },
+ 
+  {
+    path: "/admin/course/schedule",
+    exact: true,
+    name: "CourseSchedule",
+    component: CourseSchedule,
+  },
+  {
+    path: "/admin/course/schedule/add",
+    exact: true,
+    name: "CreateCourseSchedule",
+    component: CreateCourseSchedule,
+  },
+  {
+    path:"/admin/course/schedule/update",
+    exact:true,
+    name:"EditCourseSchedule",
+    component: EditCourseSchedule,
+  },
+ {
+  path: "/admin/course/lesson/add",
+  name:"CreateCourseLesson",
+  component:CreateCourseLesson,
  },
  {
   path:"/admin/teacher/list",
@@ -147,12 +236,12 @@ const routes = [
   name:"StudentDashboard",
   component:StudentDashboard
 },
-// {
-//   path:"/student/update/detail",
-//   exact:true,
-//   name:"Updatestudentdetail",
-//   component:Updatestudentdetail
-// },
+{
+  path:"/student/update/detail",
+  exact:true,
+  name:"Updatestudentdetail",
+  component:Updatestudentdetail
+},
 {
   path:"/student/upcoming/schedule1",
   exact:true,

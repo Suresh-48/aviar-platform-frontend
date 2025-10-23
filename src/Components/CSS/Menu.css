@@ -1,0 +1,97 @@
+
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+
+.stepper::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e0e0e0; 
+  z-index: 1;
+}
+
+/* Blue Progress Line */
+.stepper .progress-line {
+  position: absolute;
+  top: 20px; 
+  left: 0;
+  height: 2px;
+  background-color: #007bff; 
+  z-index: 2;
+  transition: width 0.3s ease; 
+}
+
+/* Stepper Item */
+.stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+/* Stepper Number */
+.stepper-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e0e0e0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.stepper-item.active .stepper-number {
+  background-color: #007bff;
+}
+
+.stepper-item.completed .stepper-number {
+  background-color: #007bff; 
+}
+
+.stepper-topic {
+  font-size: 14px;
+  color: #333;
+}
+
+
+ .navigation-buttons {
+  display: flex;
+  justify-content: flex-end; 
+  margin-top: 20px;
+  margin-left: 400px; 
+}
+
+.nav-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button.previous {
+  order: 1;
+  margin-right: 80px; 
+}
+
+.nav-button.next {
+  order: 2;
+  margin-right: 160px; 
+}
+
+
+

@@ -16,7 +16,7 @@ import { Tab, Tabs } from   "@mui/material";
 // Component
 // import Loader from "../core/Loader";
 import tableIcons  from "../Core/TableIcons";
-import { ROLES_TEACHER } from "../../Constants/Role";
+// import { ROLES_TEACHER } from "../../Constants/Role";
 
 // Api
 // import Api from "../../Api";
@@ -155,7 +155,7 @@ function UpcomingTeacherScheduleList(props) {
     setshow(false);
   };
 
-  const isTeacher = role === ROLES_TEACHER;
+  // const isTeacher = role === ROLES_TEACHER;
 
   function closeShow() {
     setshowAlert(false);

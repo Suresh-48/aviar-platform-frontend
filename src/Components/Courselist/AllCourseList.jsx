@@ -11,6 +11,7 @@ import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
 // import Loader from "../core/Loader";
 // import CourseCard from "../../components/core/CourseCard";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AllCourseList = (props) => {
   const [landingPageCategoryList, setLandingPageCategoryList] = useState(props?.location?.state);
@@ -51,67 +52,67 @@ const AllCourseList = (props) => {
     setPageNumbers(pageNumbers);
   }, [courseList, postPerPage]);
 
-//   const getCategory = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get("api/v1/category", {
-//       headers: {
-//         userId: userId,
-//       },
-//     })
-//       .then((res) => {
-//         setCategory(res.data.data.data);
-//         setIsLoading(false);
-//         setSpinner(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getCategory = () => {
+    const userId = localStorage.getItem("userId");
+    axios.get("http://localhost:3000/api/v1/category", {
+      headers: {
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        setCategory(res.data.data.data);
+        setIsLoading(false);
+        setSpinner(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   const courseFilter = (searchData) => {
-//     const userId = localStorage.getItem("userId");
-//     const filterData = landingPageCategoryList ? [landingPageCategoryList] : data;
-//     Api.post("api/v1/course/filter", {
-//       userId: userId,
-//       filter: filterData,
-//       range: range,
-//       search: searchData === undefined ? search : searchData,
-//       userId: userId,
-//     })
-//       .then((res) => {
-//         const data = res.data.data;
-//         const assending = data.sort((a, b) => a - b);
-//         setCourseList(assending);
-//         setIsLoading(false);
-//         setSpinner(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const courseFilter = (searchData) => {
+    const userId = localStorage.getItem("userId");
+    const filterData = landingPageCategoryList ? [landingPageCategoryList] : data;
+    axios.post("http://localhost:3000/api/v1/course/filter", {
+      userId: userId,
+      filter: filterData,
+      range: range,
+      search: searchData === undefined ? search : searchData,
+     
+    })
+      .then((res) => {
+        const data = res.data.data;
+        const assending = data.sort((a, b) => a - b);
+        setCourseList(assending);
+        // setIsLoading(false);
+        // setSpinner(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   const handleChange = (e) => {
     setSearch(e);
   };
 
-  // const spinnerLoader = () => {
-  //   setSpinner(!spinner);
-  // };
+  const spinnerLoader = () => {
+    setSpinner(!spinner);
+  };
 
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear(props.history.push("/kharpi"));
-//       window.location.reload();
-//     }, 2000);
-//   };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear(props.history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
 
   const onSelected = (selectedList) => {
     setData(selectedList);
@@ -319,7 +320,7 @@ const AllCourseList = (props) => {
                     }}
                   >
                     Apply Filter
-                  </Button>
+                   </Button>
                 </div>
               </div>
             </div>

@@ -1,0 +1,17 @@
+/* Education.css */
+
+  .topic{
+    margin-left: 400px;
+    margin-bottom: 50px;
+    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+  }
+  .bg-white{
+    background-color: white;
+  }
+  #myInputs::placeholder {
+    font-size: 15px; /* Adjust font size */
+    color: gray; /* Change placeholder text color */
+  }
+  /* .custom-border{
+    border: 20px;
+  } */

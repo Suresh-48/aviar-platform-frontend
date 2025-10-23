@@ -1,645 +1,245 @@
-import React, { useEffect, useState } from "react";
-import { FormContext } from "./FormContext";
-import {
-  Col,
-  Container,
-  Row,
-  Form,
-  FormControl,
-  InputGroup,
-} from "react-bootstrap";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import DatePicker from "react-datepicker";
-import Button from "@material-ui/core/Button";
-import DateFnsUtils from "@date-io/date-fns";
-import moment from "moment";
-import Select from "react-select";
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Container, Card, Row, Col } from 'react-bootstrap';
+import * as Yup from 'yup';
+import '../CSS/Experience.css';
 
-//Components
-import Label from "../core/Label";
-import states from "../Core/States";
-import countries from "../Core/Countries";
+const Experience = ({ onFormValidityChange, onSubmit, setExperienceData }) => {
+  const initialValues = {
+    workInstitutionName: '',
+    subjectTaught: '',
+    experience: '',
+    role: '',
+    roleStartDate: '',
+    roleEndDate: '',
+    institutionAddressLine1: '',
+    institutionAddressLine2: '',
+    city: '',
+    state: '',
+    country: '',
+    zipCode: '',
+    webSite: '',
+  };
 
-// Api
-// import Api from "../../Api";
-
-//Icon
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
-import { customStyles } from "../Core/Selector";
-import { toast } from "react-toastify";
-// import { useHistory } from "react-router-dom";
-
-const Experience = () => {
-  const [value, setValue] = React.useContext(FormContext);
-  const { experienceData } = value;
-
-  return (
-    <>
-      <div className="form-row">
-        {experienceData.map((inputField, index) => (
-          <NormalAccordionItem index={index} inputField={inputField} />
-        ))}
-      </div>
-    </>
-  );
-};
-
-export const experienceSchema = (event) => {
-  const experience = event.experienceData;
-  let status = false;
-  let newArr = experience.map(function (value) {
-    if (
-      !value.workInstitution ||
-      !value.experience ||
-      !value.role ||
-      !value.startDate ||
-      !value.workInstitution ||
-      !value.classSize ||
-      !value.ageRangeFrom ||
-      !value.ageRangeTo ||
-      !value.workAddress1 ||
-      !value.workState ||
-      !value.workCity ||
-      !value.workCountry ||
-      !value.workZipCode
-    ) {
-      status = false;
-    } else {
-      status = true;
-    }
+  const validationSchema = Yup.object({
+    workInstitutionName: Yup.string().required('Work institution name is required'),
+    subjectTaught: Yup.string().required('Subject taught is required'),
+    experience: Yup.string().required('Experience is required'),
+    role: Yup.string().required('Role is required'),
+    roleStartDate: Yup.string().required('Role start date is required'),
+    roleEndDate: Yup.string().required('Role end date is required'),
+    institutionAddressLine1: Yup.string().required('Institution address line 1 is required'),
+    city: Yup.string().required('City is required'),
+    state: Yup.string().required('State is required'),
+    country: Yup.string().required('Country is required'),
+    zipCode: Yup.string().required('Zip code is required'),
+    webSite: Yup.string().required('Website is required'),
   });
 
-  return status;
+  const handleSubmit = (values) => {
+    console.log('Form Values:', values);
+    setExperienceData(values); // Update parent state
+    onSubmit(); // Move to the next step
+  };
+
+  return (
+    <Container>
+      <Card className="p-5 bg-light-round shadow">
+        <h2 className="heading">Experience Details</h2>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ handleSubmit, isValid, dirty }) => {
+            React.useEffect(() => {
+              onFormValidityChange(isValid && dirty);
+            }, [isValid, dirty, onFormValidityChange]);
+
+            return (
+              <Form onSubmit={handleSubmit}>
+                <Row>
+                  <Col>
+                    <label>Work Institution Name</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="workInstitutionName"
+                      type="text"
+                      placeholder="Work institution"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="workInstitutionName" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Subject Taught</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="subjectTaught"
+                      type="text"
+                      placeholder="Subject taught"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="subjectTaught" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col>
+                    <label>Experience</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="experience"
+                      type="text"
+                      placeholder="Enter your experience"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="experience" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Role</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="role"
+                      type="text"
+                      placeholder="Choose the role"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="role" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col>
+                    <label>Role Start Date</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="roleStartDate"
+                      type="date"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="roleStartDate" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Role End Date</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="roleEndDate"
+                      type="date"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="roleEndDate" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col>
+                    <label>Institution Address Line 1</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="institutionAddressLine1"
+                      type="text"
+                      placeholder="Address line 1"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="institutionAddressLine1" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Institution Address Line 2</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="institutionAddressLine2"
+                      type="text"
+                      placeholder="Address line 2"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="institutionAddressLine2" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col>
+                    <label>City</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="city"
+                      type="text"
+                      placeholder="City"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="city" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>State</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="state"
+                      type="text"
+                      placeholder="State"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="state" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Country</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="country"
+                      type="text"
+                      placeholder="Country"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="country" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col>
+                    <label>Zip Code</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="zipCode"
+                      type="text"
+                      placeholder="Zip code"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="zipCode" className="error text-danger" component="span" />
+                  </Col>
+                  <Col>
+                    <label>Website</label>
+                    <span className="text-danger">*</span>
+                    <br />
+                    <Field
+                      name="webSite"
+                      type="text"
+                      placeholder="Website"
+                      className="form-control form-control-lg"
+                    />
+                    <ErrorMessage name="webSite" className="error text-danger" component="span" />
+                  </Col>
+                </Row>
+                <br />
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </Card>
+    </Container>
+  );
 };
 
 export default Experience;
-
-const NormalAccordionItem = ({ index, inputField, expanded, onClick }) => {
-  const [value, setValue] = React.useContext(FormContext);
-  const { experienceData } = value;
-  const [stateCode, setStateCode] = useState("");
-  const [category, setCategory] = useState([]);
-  const history = useHistory();
-
-  //logout
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear(history.push("/kharpi"));
-      window.location.reload();
-    }, 2000);
-  };
-
-  // Get Course Category
-  const getCategory = () => {
-    Api.get("api/v1/category").then((res) => {
-      const option = res.data.data.data;
-      setCategory(option);
-    });
-  };
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
-  const handleAddFields = () => {
-    setValue((prev) => {
-      const experienceData = [
-        ...prev.experienceData,
-        {
-          workInstitution: "",
-          subjectTaught: [],
-          experience: "",
-          role: "",
-          startDate: "",
-          endDate: "",
-          classSize: "",
-          ageRangeFrom: "",
-          ageRangeTo: "",
-          workAddress1: "",
-          workAddress2: "",
-          workState: "",
-          workCity: "",
-          workCountry: "",
-          workZipCode: "",
-          workInsWebsite: "",
-        },
-      ];
-
-      return { ...prev, experienceData };
-    });
-  };
-
-  const handleRemoveFields = (index) => {
-    setValue((prev) => {
-      const experienceData = prev.experienceData.filter((v, i) => i !== index);
-      return { ...prev, experienceData };
-    });
-  };
-
-  const handleInputChange = (index, event) => {
-    if (event.target) {
-      const { name, value } = event.target;
-
-      setValue((prev) => {
-        const experienceData = prev.experienceData.map((v, i) => {
-          if (i !== index) {
-            return v;
-          }
-
-          return { ...v, [name]: value };
-        });
-
-        return { ...prev, experienceData };
-      });
-    } else {
-      const { name, value } = event;
-
-      setValue((prev) => {
-        const experienceData = prev.experienceData.map((v, i) => {
-          if (i !== index) {
-            return v;
-          }
-
-          return { ...v, [name]: value };
-        });
-
-        return { ...prev, experienceData };
-      });
-    }
-  };
-
-  const handleChange = (e) => {
-    inputField.role = e;
-  };
-
-  const options = [
-    { value: "Teacher", label: "Teacher" },
-    {
-      value: "Teaching Assistant,",
-      label: "Teaching Assistant",
-    },
-    { value: "Admin", label: "Admin" },
-    {
-      value: "Volunteer",
-      label: "Volunteer",
-    },
-    { value: "Personal", label: "Personal" },
-    { value: "Other", label: "Other" },
-  ];
-
-  const Index = (value) => {
-    let selectState = value;
-    for (let i = 0; i < states.length; i++) {
-      if (states[i].state === selectState.value) {
-        setStateCode(i);
-      }
-    }
-  };
-  const handleChangeStartDate = (e) => {
-    inputField.startDate = e;
-  };
-  const handleChangeEndDate = (e) => {
-    inputField.endDate = e;
-  };
-
-  const handleChangeState = (e) => {
-    inputField.workState = e;
-    inputField.workCity = "";
-  };
-
-  const handleChangeCity = (e) => {
-    inputField.workCity = e;
-  };
-
-  const handleChangeCountry = (e) => {
-    inputField.workCountry = e;
-  };
-  const handleChangeRole = (e) => {
-    inputField.role = e;
-  };
-  const handleChangeSubjectTaught = (e) => {
-    inputField.subjectTaught = e;
-  };
-  return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Container>
-        <Row className="mt-4">
-          <Col xs={12} sm={6} md={6}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}> Work Institution Name</Label>
-              <FormControl
-                type="text"
-                className="form-control"
-                placeholder="Work Institution Name"
-                id="workInstitution"
-                name="workInstitution"
-                value={inputField.workInstitution}
-                onChange={(event) => handleInputChange(index, event)}
-              />
-              <span className="text-danger">
-                {!inputField.workInstitution
-                  ? value.errors.workInstitution
-                  : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col xs={12} sm={6} md={6}>
-            <Form.Group className="form-row mb-2">
-              <Label>Subjects Taught</Label>
-              <Select
-                isMulti
-                styles={customStyles}
-                value={inputField.subjectTaught}
-                name="subjectTaught"
-                placeholder="Choose Skills..."
-                onChange={(event) => {
-                  handleChangeSubjectTaught(event);
-                  handleInputChange(index, event);
-                }}
-                options={[
-                  {
-                    options: category.map((list) => ({
-                      value: list.name,
-                      label: list.name,
-                    })),
-                  },
-                ]}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col xs={12} sm={6} md={6}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Experience</Label>
-              <FormControl
-                type="type"
-                id="experience"
-                name="experience"
-                placeholder="Enter Your Experience"
-                className="form-styles"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.experience}
-              />
-              <span className="text-danger">
-                {!inputField.experience ? value.errors.experience : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col xs={12} sm={6} md={6}>
-            <Form.Group className="form-row mb-2">
-              <Label notify={true}>Role</Label>
-              <Select
-                value={inputField.role}
-                name="role"
-                styles={customStyles}
-                placeholder="Choose Role..."
-                onChange={(event) => {
-                  handleChangeRole(event);
-                  handleInputChange(index, event);
-                }}
-                options={options}
-              />
-              <span className="text-danger">
-                {!inputField.role ? value.errors.role : ""}
-              </span>
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col xs={12} sm={6}>
-            <Form.Group className="form-row mb-2">
-              <Label notify={true}>Role Start Date</Label>
-              <br />
-              <KeyboardDatePicker
-                variant="standard"
-                className="start-time-style"
-                style={{ paddingLeft: 10 }}
-                placeholder="Select Start Date"
-                helperText={""}
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                format="MMM dd yyyy"
-                value={inputField.startDate}
-                onChange={(event) => {
-                  handleChangeStartDate(event);
-                  handleInputChange(index, event);
-                }}
-                keyboardIcon={
-                  <FontAwesomeIcon
-                    icon={faCalendarDay}
-                    size="sm"
-                    color="grey"
-                    style={{ padding: 0 }}
-                  />
-                }
-              />
-              <span className="text-danger">
-                {!inputField.startDate ? value.errors.startDate : ""}
-              </span>
-            </Form.Group>
-          </Col>
-
-          <Col xs={12} sm={6}>
-            <Form.Group className="form-row mb-2">
-              <Label>Role End Date</Label>
-              <br />
-              <KeyboardDatePicker
-                variant="standard"
-                className="start-time-style"
-                style={{ paddingLeft: 10 }}
-                placeholder="Select End Date"
-                helperText={""}
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                format="MMM dd yyyy"
-                value={inputField.endDate}
-                onChange={(event) => {
-                  handleChangeEndDate(event);
-                  handleInputChange(index, event);
-                }}
-                keyboardIcon={
-                  <FontAwesomeIcon
-                    icon={faCalendarDay}
-                    size="sm"
-                    color="grey"
-                    style={{ padding: 0 }}
-                  />
-                }
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col sm={4} md={4}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Class Size</Label>
-              <FormControl
-                type="type"
-                placeholder="Enter Class Size"
-                id="classSize"
-                name="classSize"
-                className="form-width"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.classSize}
-              />
-              <span className="text-danger">
-                {!inputField.classSize ? value.errors.classSize : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col sm={4} md={4}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Student Age Range From</Label>
-              <FormControl
-                type="type"
-                placeholder="Age Range From"
-                id="ageRangeFrom"
-                name="ageRangeFrom"
-                className="form-width"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.ageRangeFrom}
-              />
-              <span className="text-danger">
-                {!inputField.ageRangeFrom ? value.errors.ageRangeFrom : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col sm={4} md={4}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Student Age Range To</Label>
-              <FormControl
-                type="type"
-                placeholder="Age Range To"
-                id="ageRangeTo"
-                name="ageRangeTo"
-                className="form-width"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.ageRangeTo}
-              />
-              <span className="text-danger">
-                {!inputField.ageRangeTo ? value.errors.ageRangeTo : ""}
-              </span>
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col sm={6} md={6}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Institution Address Line 1</Label>
-              <FormControl
-                type="type"
-                placeholder="Address Line 1"
-                id="workAddress1"
-                name="workAddress1"
-                className="form-width"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.workAddress1}
-              />
-              <span className="text-danger">
-                {!inputField.workAddress1 ? value.errors.workAddress1 : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col sm={6} md={6}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label>Institution Address Line 2</Label>
-              <FormControl
-                type="type"
-                placeholder="Address Line 2"
-                id="workAddress2"
-                name="workAddress2"
-                className="form-width"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.workAddress2}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={4} md={4}>
-            <Form.Group className="form-row mb-2" style={{ width: "100%" }}>
-              <Label notify={true}>City</Label>
-              <FormControl
-                placeholder="City"
-                value={inputField.workCity}
-                name="workCity"
-                onChange={(event) => {
-                  handleInputChange(index, event);
-                }}
-              />
-              <span className="text-danger">
-                {!inputField.workCity ? value.errors.workCity : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col sm={4} md={4}>
-            <Form.Group className="form-row mb-2" style={{ width: "100%" }}>
-              <Label notify={true}>State</Label>
-              <FormControl
-                value={inputField.workState}
-                name="workState"
-                placeholder="State"
-                onChange={(event) => {
-                  handleInputChange(index, event);
-                }}
-              />
-              <span className="text-danger">
-                {!inputField.workState ? value.errors.workState : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col sm={4} md={4}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Country</Label>
-              <Select
-                value={inputField.workCountry}
-                name="workCountry"
-                placeholder="Country"
-                styles={customStyles}
-                onChange={(event) => {
-                  Index(event);
-                  handleChangeCountry(event);
-                  handleInputChange(index, event);
-                }}
-                options={countries.map((item) => ({
-                  label: item,
-                  value: item,
-                }))}
-              />
-              <span className="text-danger">
-                {!inputField.workCountry ? value.errors.workCountry : ""}
-              </span>
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={6} md={6}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label notify={true}>Zip Code</Label>
-              <FormControl
-                type="tel"
-                placeholder="Zip Code"
-                id="workZipCode"
-                name="workZipCode"
-                maxLength={5}
-                className="form-width"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.workZipCode}
-              />
-              <span className="text-danger">
-                {!inputField.workZipCode ? value.errors.workZipCode : ""}
-              </span>
-            </Form.Group>
-          </Col>
-          <Col sm={6} md={6}>
-            <Form.Group
-              className="form-row mb-2"
-              style={{
-                marginRight: 20,
-                width: "100%",
-              }}
-            >
-              <Label>Web site</Label>
-              <FormControl
-                type="type"
-                placeholder="Enter Website if any"
-                name="workInsWebsite"
-                id="workInsWebsite"
-                onChange={(event) => handleInputChange(index, event)}
-                value={inputField.workInsWebsite}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <div className="d-flex justify-content-start mt-2 mb-4">
-          {experienceData?.length > 1 ? (
-            <Button
-              variant="contained"
-              color="error"
-              className="Kharpi-cancel-btn me-1"
-              type="button"
-              onClick={() => handleRemoveFields(index)}
-            >
-              REMOVE
-            </Button>
-          ) : null}
-          <Button
-            variant="contained"
-            color="primary"
-            type="button"
-            className={"ms-1"}
-            onClick={() => handleAddFields()}
-          >
-            ADD MORE
-          </Button>
-        </div>
-      </Container>
-    </MuiPickersUtilsProvider>
-  );
-};

@@ -8,6 +8,8 @@ import { createTheme } from "@mui/material";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { Tab, Tabs } from "@material-ui/core";
+import { useNavigate } from 'react-router-dom';
+
 // import Button from "@restart/ui/esm/Button";
 // import { useHistory } from "react-router-dom";
 
@@ -24,7 +26,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
-import '../Dashboard/css/Studentdashboard.css';
+import '../Dashboard/UpcomingSchedule.css';
 
 const tableTheme = createTheme({
   overrides: {
@@ -57,7 +59,7 @@ function UpcomingSchedule(props) {
   const [studentCourseScheduleId, setStudentCourseScheduleId] = useState("");
   const [sessionEndModal, setSessionEndModal] = useState(false);
   const [zoomStartTimeGet, setZoomStartTimeGet] = useState("");
-
+  const navigate = useNavigate();
 
   // Column Heading
   const studentColumns = [
@@ -427,15 +429,11 @@ function UpcomingSchedule(props) {
                 icon={faCalendarDay}
                 color="#397ad4"
                 style={{ cursor: "pointer", fontSize: 30, color: "#375474" }}
-                onClick={() => {
-                  history.push({
-                    pathname: "/calendar/view/upcoming/schedule",
-                    state: {
-                      studentId: studentId,
-                      parentId: parentId,
-                    },
-                  });
-                }}
+                // onClick={() => {
+                // pathname:not-available/time
+                
+                // }}
+                 onClick={() => navigate('/teacher/not-available/time')} 
               />
             </div>
             <Tabs
@@ -494,6 +492,8 @@ function UpcomingSchedule(props) {
                         },
                         showTitle: false,
                       }}
+                      columns={completeParentColumns}
+                      // actions={rowData=>({icon:()=>([{<p>John</p>,tooltip:delete}}]))}
                       // columns={isParent ? parentColumns : studentColumns}
                       // actions={
                       //   isStudent
@@ -634,6 +634,7 @@ function UpcomingSchedule(props) {
                         },
                         showTitle: false,
                       }}
+                      columns={ completeStudentColumns}
                       localization={{
                         body: {
                           emptyDataSourceMessage: "No Completed Schedule ",

@@ -1,0 +1,8 @@
+.profileheading{
+    margin-left: 300px;
+    margin-bottom: 10px;
+}
+#myInputs::placeholder {
+    font-size: 15px; /* Adjust font size */
+    color: gray; /* Change placeholder text color */
+  }
