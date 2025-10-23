@@ -7,7 +7,6 @@ import aviar from "../Images/aviar.png";
 import"../CSS/Navbar.css";
 
 
-
 function NavbarLoginBefore(props) {
 //   const history = useHistory();
 const navigate = useNavigate();

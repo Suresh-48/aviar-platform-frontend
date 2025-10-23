@@ -21,15 +21,9 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 // import { convertToRaw } from "draft-js";
 // import Quill from "quill";
-import { Link, useNavigate} from "react-router-dom";
-
-// Api
-// import Api from "../../Api";
-
-// Styles
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "../CSS/CourseCreation.css";
-
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -50,10 +44,11 @@ import { customStyles } from "../Core/Selector";
 const SignInSchema = Yup.object().shape({
   category: Yup.object().required("Category Name Is Required"),
   courseName: Yup.string().required("Course Name Is Required"),
-  descriptionValue: Yup.string().required("Description Is Required"),
-  courseImage: Yup.mixed().required("Image Is Required"),
+  description: Yup.string().required("Description Is Required"),
+  // courseImage: Yup.mixed().required("Image Is Required"),
   duration: Yup.object().required("Duration is Required").nullable(),
 });
+
 
 const CoursesCreation = () => {
   const [category, setCategory] = useState("");
@@ -61,6 +56,8 @@ const CoursesCreation = () => {
   const [type, setType] = useState("");
   const [typeId, setTypeId] = useState("Draft");
   const [options, setOptions] = useState([]);
+  const[overall,setOverall]=useState({});
+  const [createCourse, setCreateCourse] = useState([]);
   const [show, setShow] = useState(false);
   const [selectCategory, setSelectCategory] = useState("");
   const [date, setDate] = useState("");
@@ -75,9 +72,10 @@ const CoursesCreation = () => {
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   getCategory();
-  // }, []);
+   const submitForm =(values)=>{
+    setOverall(values)
+    console.log("values",values)
+   }
 
   // Description on change
   const onChangeDescription = ({ setFieldValue }, e) => {
@@ -273,343 +271,386 @@ const CoursesCreation = () => {
     setCategoryImagePreview(undefined);
   };
 
- const createCategory =()=>{
-  const userId = localStorage.getItem("userId");
-  console.log("userid......",userId)
-  axios.post("http://localhost:3000/api/v1/category", {
-       name: selectCategory,
+  const createCategory = () => {
+    const userId = localStorage.getItem("userId");
+    console.log("userid......", userId)
+    axios.post("http://localhost:3000/api/v1/category", {
+      name: selectCategory,
       createdBy: userId,
       userId: userId,
+    })
+      .then((response) => {
+        console.log("response", response.data.data.createCategory.name);
+        // setCreateCourse(response.data.data.createCategory.name);
+        const newCategory = response.data.data.createCategory;
+
+        setOptions(prevOptions => [
+          ...prevOptions,
+          {
+            id: newCategory.id,
+            name: newCategory.name,
+          },
+        ]);
+        setCreateCourse(newCategory.name);
+        setShow(false)
+      })
+  }
+
+  const getCategoryList = () => {
+    const userId = localStorage.getItem("userId");
+    axios.get("http://localhost:3000/api/v1/category/list", {
+      params: {
+        // name: categoryName,
+        createdBy: userId,
+        userId: userId,
+      }
+    })
+      .then((response) => {
+        // console.log("category list", response.data.data);
+        setOptions(response.data.data);
+
+      })
+
+  }
+  const createCourseCategory=()=>{
+     const userId = localStorage.getItem("userId");
+   axios.post("http://localhost:3000//api/v1/course", {
+      category: categoryId,
+      name: overall.courseName,
+      description: overall.description, 
+      type: typeId,
+      userId: userId,
+      isFuture: isFuture,
+      duration: duration,
   })
   .then((response)=>{
-    console.log("response",response);
+    console.log("Course create",response)
   })
+}
+createCourseCategory();
 
- }
+  useEffect(() => {
+    getCategoryList();
+  }, [options])
+
   return (
     <Container>
-      
-        <div className="row">
-          <div className="d-flex justify-content-center align-items-center mt-1">
-            <FontAwesomeIcon icon={faBookOpen} size="3x" color="#1d1464" />
-          </div> 
-          <div className="d-flex justify-content-center align-items-center mt-1">
-            <h2>Course  Creation</h2>
-          </div>
-          <div className="col-sm-12">
-            <Formik
-              enableReinitialize={true}
-              initialValues={{
-                category: category,
-                courseName: "",
-                description: "",
-                descriptionValue: "",
-                type: { value: "Quill", label: "Quill" },
-                courseImage: "",
-                duration: { value: "1", label: "1 Hour" },
-              }}
-              validationSchema={SignInSchema}
-              onSubmit={(values) => submitForm(values)}
-            >
-              {(formik) => {
-                const {
-                  values,
-                  handleChange,
-                  handleSubmit,
-                  handleBlur,
-                  isValid,
-                  setFieldValue,
-                } = formik;
-                return (
-                  <Row>
-                    <Form onSubmit={handleSubmit}>
-                      <Row>
-                        <Col md={7}>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Category</Label>
-                            <Select
-                              value={values.category}
-                              styles={customStyles}
-                              placeholder="Select Category"
-                              name="category"
-                              onChange={(e) => {
-                                if (e.value === "create new") {
-                                  handleModal();
-                                } else {
-                                  setFieldValue("category", e);
-                                  setCategory(e);
-                                  setCategoryId(e.value);
-                                }
-                              }}
-                              options={[
-                                {
-                                  value: "create new",
-                                  label: "Create New Category",
-                                },
-                                {
-                                  options: options?.map((list) => ({
-                                    value: list.id,
-                                    label: list.name,
-                                  })),
-                                },
-                              ]}
-                            />
-                            <ErrorMessage
-                              name="category"
-                              component="span"
-                              className="error text-danger error-message"
-                            />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Course Name</Label>
-                            <FormControl
-                              type="type"
-                              name="courseName"
-                              id="courseName"
-                              placeholder="Enter Course Name"
-                              value={values.courseName}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-styles"
-                            />
-                            <ErrorMessage
-                              name="courseName"
-                              component="span"
-                              className="error text-danger error-message"
-                            />
-                          </Form.Group>
-                          <div className="mb-3">
-                            <Label notify={true}>Description</Label>
-                            <div className="description">
-                              <ReactQuill
-                                spellCheck
-                                name="descriptionValue"
-                                editorState={description}
-                                onEditorStateChange={(e) => {
-                                  setDescription(e);
-                                  onChangeDescription({ setFieldValue }, e);
-                                }}
-                                toolbar={{
-                                  options: ["inline", "list", "textAlign"],
-                                }}
-                              />
-                            </div>
-                            <ErrorMessage
-                              name="descriptionValue"
-                              component="span"
-                              className="error text-danger"
-                            />
-                          </div>
 
-                          <div className="row mb-3">
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group
-                                className="form-row"
-                                style={{ marginRight: 20, width: "100%" }}
-                              >
-                                <Label notify={true}>Status</Label>
-                                <br />
-                                <Select
-                                  value={values.type}
-                                  styles={customStyles}
-                                  placeholder="Select Status"
-                                  onChange={(e) => {
-                                    setFieldValue("type", e);
-                                    setTypeId(e.value);
-                                  }}
-                                  options={[{ value: "Draft", label: "Draft" }]}
-                                />
-                                <ErrorMessage
-                                  name="type"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row">
-                                <Label notify={true}>Duration</Label>
-                                <Select
-                                  name="duration"
-                                  styles={customStyles}
-                                  placeholder="Select Duration"
-                                  value={values.duration}
-                                  onChange={(e) => {
-                                    setFieldValue("duration", e);
-                                    setDuration(e.value);
-                                  }}
-                                  options={[
-                                    {
-                                      value: "1 ",
-                                      label: "1 Hour",
-                                    },
-                                  ]}
-                                />
-                                <ErrorMessage
-                                  name="duration"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </div>
-                          <div>
-                            <Col
-                              xs={12}
-                              sm={12}
-                              md={12}
-                              className="d-flex justify-content-start align-items-center"
-                            >
-                              <Form.Group className="form-row">
-                                <Form.Check
-                                  className="checkbox-style mt-0"
-                                  type="checkbox"
-                                  label="Display In Landing Page"
-                                  checked={isFuture}
-                                  onChange={(e) => {
-                                    setIsFuture(!isFuture);
-                                  }}
-                                />
-                              </Form.Group>
-                            </Col>
-                          </div>
-                        </Col>
-                        <Col md={5}>
-                          <Row>
-                            <Row className="d-flex justify-content-center flex-direction-row ">
-                              <Label className="file-upload" notify={true}>
-                                <input
-                                  type="file"
-                                  name="courseImage"
-                                  accept="image/*"
-                                  className="fileToUpload"
-                                  id="fileToUpload"
-                                  onChange={(e) => {
-                                    selectFile(e, { setFieldValue });
-                                  }}
-                                />
-                                {imagePreview ? "Change File" : "Choose File"}
-                              </Label>
-                            </Row>
-                            <div>
-                              {imagePreview ? (
-                                <div>
-                                  <div className="d-flex justify-content-center mt-4">
-                                    <img
-                                      className="image-preview-size"
-                                      src={imagePreview}
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="d-flex justify-content-center align-items-center mt-3 ">
-                                    {imageType !== "image" ? (
-                                      <p className="d-flex justify-content-center error text-danger fs-6">
-                                        Please Select A Image File
-                                      </p>
-                                    ) : (
-                                      <p
-                                        style={{
-                                          color: "red",
-                                          fontWeight: "400",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() => {
-                                          closePreview(setFieldValue);
-                                        }}
-                                      >
-                                        <FontAwesomeIcon
-                                          icon={faTrashAlt}
-                                          size="sm"
-                                          color="#bf1000"
-                                          className="delete-icon"
-                                        />
-                                        Remove Image
-                                      </p>
-                                    )}
-                                  </div>
-                                </div>
-                              ) : (
-                                <Row className="d-flex justify-content-center">
-                                  <Row>
-                                    <img
-                                      className="image-preview-size"
-                                      src="https://thumbs.dreamstime.com/b/arrow-upload-icon-logo-design-template-117344870.jpg"
-                                      alt=""
-                                    />
-                                  </Row>
-                                  <Row>
-                                    <ErrorMessage
-                                      className="d-flex justify-content-center error text-danger fs-6"
-                                      name="courseImage"
-                                      component="span"
-                                    />
-                                  </Row>
-                                </Row>
-                              )}
-                            </div>
-                          </Row>
-                        </Col>
-                        <Row className="d-flex justify-content-end align-items-center mb-4  ">
-                          <Button
-                            type="submit"
-                            disabled={!isValid || isSubmit}
-                            style={{ width: "30%" }}
-                            variant="contained"
-                            className={`${
-                              !isValid || isSubmit
-                                ? "create-disable"
-                                : "create-active"
-                            }`}
-                          >
-                            CREATE
-                          </Button>
-                        </Row>
-                      </Row>
-                    </Form>
-                  </Row>
-                );
-              }}
-            </Formik>
-            <Modal show={show} centered onHide={() => handleModal()}>
-              <Modal.Body id="contained-modal-title-vcenter">
-                <div className="container py-3">
-                  <div className="row flex-direction-row">
-                    <h3 className=" d-flex justify-content-center align-self-center ">
-                      Create Course Category
-                    </h3>
-                  </div>
-                  <div className="mt-3">
+      <div className="row">
+        <div className="d-flex justify-content-center align-items-center mt-1">
+          <FontAwesomeIcon icon={faBookOpen} size="3x" color="#1d1464" />
+        </div>
+        <div className="d-flex justify-content-center align-items-center mt-1">
+          <h2>Course  Creation</h2>
+        </div>
+        <div className="col-sm-12">
+          <Formik
+            enableReinitialize={true}
+            initialValues={{
+              category: category,
+              courseName: "",
+              description: "",
+              // descriptionValue: "",
+              type: { value: "Quill", label: "Quill" },
+              // courseImage: "",
+              duration: { value: "1", label: "1 Hour" },
+            }}
+            // validationSchema={SignInSchema}
+            onSubmit={(values) => submitForm(values)}
+          >
+            {(formik) => {
+              const {
+                values,
+                handleChange,
+                handleSubmit,
+                handleBlur,
+                isValid,
+                setFieldValue,
+              } = formik;
+              return (
+                <Row>
+                  <Form onSubmit={handleSubmit}>
                     <Row>
-                      <Form className="category-form-style">
-                        <Form.Group
-                          className="form-row mb-3"
-                          style={{ width: "100%" }}
-                        >
-                          <Label notify={true}>Category Name</Label>
-                          <FormControl
-                            className="form-styles align-self-center"
-                            type="text"
-                            placeholder="Category Name"
-                            value={selectCategory}
-                            onChange={(e) => setSelectCategory(e.target.value)}
+                      <Col md={7}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Category</Label>
+                          <Select
+                            value={values.category}
+                            styles={customStyles}
+                            placeholder="Select Category"
+                            name="category"
+                            onChange={(e) => {
+                              if (e.value === "create new") {
+                                handleModal();
+                              } else {
+                                setFieldValue("category", e);
+                                setCategory(e);
+                                setCategoryId(e.value);
+                              }
+                            }}
+                            options={[
+                              { value: "create new", label: "Create New Category" },
+                              ...(options?.map((list) => ({
+                                value: list.id,
+                                label: list.name,
+                              })) || []),
+                            ]}
+
+
+                          />
+                          <ErrorMessage
+                            name="category"
+                            component="span"
+                            className="error text-danger error-message"
                           />
                         </Form.Group>
-                      </Form>
-                    </Row>
-                    <Row>
-                      <Form className="category-form-style">
-                        <Form.Group
-                          className="form-row mb-1"
-                          style={{ width: "100%" }}
-                        >
-                          <Label notify={true}>Select Category Image</Label>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Course Name</Label>
+                          <FormControl
+                            type="type"
+                            name="courseName"
+                            id="courseName"
+                            placeholder="Enter Course Name"
+                            value={values.courseName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form-styles"
+                          />
+                          <ErrorMessage
+                            name="courseName"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
                         </Form.Group>
-                        <Form.Group
+                        <div className="mb-3">
+                          <Label notify={true}>Description</Label>
+                            <ReactQuill
+                              spellCheck
+                              name="descriptionValue"
+                              editorState={description}
+                              onEditorStateChange={(e) => {
+                                setDescription(e);
+                                onChangeDescription({ setFieldValue }, e);
+                              }}
+                              toolbar={{
+                                options: ["inline", "list", "textAlign"],
+                              }}
+                            />
+                          <ErrorMessage
+                            name="descriptionValue"
+                            component="span"
+                            className="error text-danger"
+                          />
+                        </div>
+
+                        <div className="row mb-3">
+                          <Col xs={12} sm={6} md={6}>
+                            <Form.Group
+                              className="form-row"
+                              style={{ marginRight: 20, width: "100%" }}
+                            >
+                              <Label notify={true}>Status</Label>
+                              <br />
+                              <Select
+                                value={values.type}
+                                styles={customStyles}
+                                placeholder="Select Status"
+                                onChange={(e) => {
+                                  setFieldValue("type", e);
+                                  setTypeId(e.value);
+                                }}
+                                options={[{ value: "Draft", label: "Draft" }]}
+                              />
+                              <ErrorMessage
+                                name="type"
+                                component="span"
+                                className="error text-danger error-message"
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col xs={12} sm={6} md={6}>
+                            <Form.Group className="form-row">
+                              <Label notify={true}>Duration</Label>
+                              <Select
+                                name="duration"
+                                styles={customStyles}
+                                placeholder="Select Duration"
+                                value={values.duration}
+                                onChange={(e) => {
+                                  setFieldValue("duration", e);
+                                  setDuration(e.value);
+                                }}
+                                options={[
+                                  {
+                                    value: "1 ",
+                                    label: "1 Hour",
+                                  },
+                                ]}
+                              />
+                              <ErrorMessage
+                                name="duration"
+                                component="span"
+                                className="error text-danger error-message"
+                              />
+                            </Form.Group>
+                          </Col>
+                        </div>
+                        <div>
+                          <Col
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            className="d-flex justify-content-start align-items-center"
+                          >
+                            <Form.Group className="form-row">
+                              <Form.Check
+                                className="checkbox-style mt-0"
+                                type="checkbox"
+                                label="Display In Landing Page"
+                                checked={isFuture}
+                                onChange={(e) => {
+                                  setIsFuture(!isFuture);
+                                }}
+                              />
+                            </Form.Group>
+                          </Col>
+                        </div>
+                      </Col>
+                      <Col md={5}>
+                        <Row>
+                          {/* <Row className="d-flex justify-content-center flex-direction-row ">
+                            <Label className="file-upload" notify={true}>
+                              <input
+                                type="file"
+                                name="courseImage"
+                                accept="image/*"
+                                className="fileToUpload"
+                                id="fileToUpload"
+                                onChange={(e) => {
+                                  selectFile(e, { setFieldValue });
+                                }}
+                              />
+                              {imagePreview ? "Change File" : "Choose File"}
+                            </Label>
+                          </Row> */}
+                          <div>
+                            {imagePreview ? (
+                              <div>
+                                <div className="d-flex justify-content-center mt-4">
+                                  <img
+                                    className="image-preview-size"
+                                    src={imagePreview}
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="d-flex justify-content-center align-items-center mt-3 ">
+                                  {imageType !== "image" ? (
+                                    <p className="d-flex justify-content-center error text-danger fs-6">
+                                      Please Select A Image File
+                                    </p>
+                                  ) : (
+                                    <p
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "400",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() => {
+                                        closePreview(setFieldValue);
+                                      }}
+                                    >
+                                      <FontAwesomeIcon
+                                        icon={faTrashAlt}
+                                        size="sm"
+                                        color="#bf1000"
+                                        className="delete-icon"
+                                      />
+                                      Remove Image
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <Row className="d-flex justify-content-center">
+                                <Row>
+                                  <img
+                                    className="image-preview-size"
+                                    src="https://thumbs.dreamstime.com/b/arrow-upload-icon-logo-design-template-117344870.jpg"
+                                    alt=""
+                                  />
+                                </Row>
+                                <Row>
+                                  <ErrorMessage
+                                    className="d-flex justify-content-center error text-danger fs-6"
+                                    name="courseImage"
+                                    component="span"
+                                  />
+                                </Row>
+                              </Row>
+                            )}
+                          </div>
+                        </Row>
+                      </Col>
+                      <Row className="d-flex justify-content-end align-items-center mb-4  ">
+                        <Button
+                          type="submit"
+                          // disabled={!isValid || isSubmit}
+                          style={{ width: "30%" }}
+                          variant="contained"
+                          className={`${!isValid || isSubmit
+                            ? "create-disable"
+                            : "create-active"
+                            }`}
+                        >
+                          CREATE
+                        </Button>
+                      </Row>
+                    </Row>
+                  </Form>
+                </Row>
+              );
+            }}
+          </Formik>
+          <Modal show={show} centered onHide={() => handleModal()}>
+            <Modal.Body id="contained-modal-title-vcenter">
+              <div className="container py-3">
+                <div className="row flex-direction-row">
+                  <h3 className=" d-flex justify-content-center align-self-center ">
+                    Create Course Category
+                  </h3>
+                </div>
+                <div className="mt-3">
+                  <Row>
+                    <Form className="category-form-style">
+                      <Form.Group
+                        className="form-row mb-3"
+                        style={{ width: "100%" }}
+                      >
+                        <Label notify={true}>Category Name</Label>
+                        <FormControl
+                          className="form-styles align-self-center"
+                          type="text"
+                          placeholder="Category Name"
+                          value={selectCategory}
+                          onChange={(e) => setSelectCategory(e.target.value)}
+                        />
+                      </Form.Group>
+                    </Form>
+                  </Row>
+                  {/* <Row>
+                    <Form className="category-form-style"> */}
+                      {/* <Form.Group
+                        className="form-row mb-1"
+                        style={{ width: "100%" }}
+                      >
+                        <Label notify={true}>Select Category Image</Label>
+                      </Form.Group> */}
+                      {/* <Form.Group
                           className="form-row "
                           style={{ width: "100%", marginBottom: "30px" }}
-                        >
-                          <label className="file-upload">
-                            <input
+                        > */}
+                      {/* <label className="file-upload"> */}
+                      {/* <input
                               type="file"
                               name="courseImage"
                               accept="image/*"
@@ -618,15 +659,16 @@ const CoursesCreation = () => {
                               onChange={(e) => {
                                 selectCategoryFile(e);
                               }}
-                            />
-                            {/* {categoryImagePreview
+                            /> */}
+                      {/* {categoryImagePreview
                               ? "Change Image"
                               : "Upload Image"} */}
-                          </label>
-                        </Form.Group>
-                      </Form>
-                    </Row>
-                    <Row>
+                      {/* </label> */}
+                      {/* </Form.Group> */}
+                    {/* </Form>
+                  </Row> */}
+                  {/* <Row>
+
                       <div>
                         {categoryImagePreview ? (
                           <div>
@@ -676,33 +718,33 @@ const CoursesCreation = () => {
                           </Row>
                         )}
                       </div>
-                    </Row>
-                  </div>
-                  <div className="mt-3 mb-3">
-                    <Row>
-                      <Button
-                        variant="contained"
-                        onClick={() => createCategory()}
-                        disabled={!selectCategory}
-                        style={{
-                          backgroundColor: !selectCategory ? "gray" : "#1d1464",
-                          color: "#fff",
-                          borderRadius: "4px",
-                        }}
-                        className="create-category-button-style"
-                      >
-                        CREATE
-                      </Button>
-                    </Row>
-                  </div>
+                    </Row> */}
                 </div>
-              </Modal.Body>
-            </Modal>
-          </div>
+                <div className="mt-3 mb-3">
+                  <Row>
+                    <Button
+                      variant="contained"
+                      onClick={() => createCategory()}
+                      disabled={!selectCategory}
+                      style={{
+                        backgroundColor: !selectCategory ? "gray" : "#1d1464",
+                        color: "#fff",
+                        borderRadius: "4px",
+                      }}
+                      className="create-category-button-style"
+                    >
+                      CREATE
+                    </Button>
+                  </Row>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         </div>
-      
+      </div>
+
     </Container>
   );
 };
-  
+
 export default CoursesCreation;
