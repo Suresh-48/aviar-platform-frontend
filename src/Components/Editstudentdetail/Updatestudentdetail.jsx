@@ -115,53 +115,51 @@ const EditStudentDetails = (props) => {
 
   const fileUploadAction = () => inputReference.current.click();
 
-  const fileUploadInputChange = async (e) => {
-    const file = e.target.files[0];
-    const type = file?.type?.split("/")[0];
-    const base64 = await convertBase64(file);
-    const userId = localStorage.getItem("userId");
-    setImagePreview(base64);
-    if (type === "image") {
-      axios
-        .post(`http://localhost:3000/api/v1/student/profile/upload`, {
-          studentId: studentId,
-          image: imagePreview,
-          userId: userId,
-        })
-        .then((response) => {
-          const status = response.status;
-          if (status === 201) {
-            toast.success("Profile Upload Successfully!...");
-            // studentDetails();
-            window.location.reload();
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status >= 400) {
-            let errorMessage;
-            const errorRequest = error.response.request;
-            if (errorRequest && errorRequest.response) {
-              errorMessage = JSON.parse(errorRequest.response).message;
-            }
-            toast.error(error.response.data.message);
-          }
+ const fileUploadInputChange = async (e) => {
+  const file = e.target.files[0];
+  
+  if (!file) return;
 
-          const errorStatus = error?.response?.status;
-          if (errorStatus === 401) {
-            logout();
-            toast.error("Session Timeout");
-          }
-        });
-    } else {
-      toast.error("Image Only Accept");
+  // Check if it's an image
+  if (!file.type.startsWith('image/')) {
+    toast.error("Only image files are accepted");
+    return;
+  }
+
+  const reader = new FileReader();
+  
+  reader.onloadend = async () => {
+    const base64 = reader.result;
+    setImagePreview(base64);
+
+    try {
+      const userId = localStorage.getItem("userId");
+      const studentId = localStorage.getItem("studentId");
+
+      const response = await axios.post(`http://localhost:3000/api/v1/student/profile/upload`, {
+        studentId: studentId,
+        image: base64,
+        userId: userId,
+      });
+
+      if (response.status === 201) {
+        toast.success("Profile Uploaded Successfully!");
+        setTimeout(() => window.location.reload(), 1000);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Upload failed");
     }
   };
+
+  reader.readAsDataURL(file);
+  e.target.value = ''; // Reset input
+};
 
   // Delete Image
   const removeImage = () => {
     const userId = localStorage.getItem("userId");
     axios
-      .delete("http://localhost:3000/api/v1/student/remove/profile", {
+      .delete("http://localhost:3000/api/v1/remove/profile", {
         params: {
           studentId: studentId,
           userId: userId,
@@ -866,7 +864,7 @@ const EditStudentDetails = (props) => {
                                     // Add this line
                                     variant="contained"
                                     className="btn-primary btn-cancel my-2"
-                                    disabled={isSubmit} // Disable the button while submitting
+                              
                                   >
                                     Update
                                   </Button>
