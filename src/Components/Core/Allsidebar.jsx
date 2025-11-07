@@ -315,7 +315,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                   </NavLink>
                 </div>
               </div> 
-             <div className="menu-list">
+             {/* <div className="menu-list">
                <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
                  <FontAwesomeIcon
                    icon={faPersonCircleCheck}
@@ -323,10 +323,11 @@ const Allsidebar = ({ onClick,sidebar }) => {
                    className="menu-icon"
                    size="1x"
                  />
-                 Teacher Application
+                 Teacher Application1
                </NavLink>
-             </div>
-           </div>: null
+             </div> */}
+           </div>
+           : null
             } 
 
             { userRole =="teacher" ?
@@ -433,7 +434,7 @@ const Allsidebar = ({ onClick,sidebar }) => {
                    Teacher Application
                 </NavLink>
               </div>
-            </div>
+            </div> */}
            
 
                   {/* Admin DashBoard */}
