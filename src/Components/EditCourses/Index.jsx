@@ -73,8 +73,10 @@ const EditCourses = (props) => {
   // Get Course Data
   // const getCourseData = () => {
   //   const userId = localStorage.getItem("userId");
-  //   axios.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
+  //   console.log("course id");
+  //   Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
   //     .then((response) => {
+  //       console.log(response,"response1234");
   //       const data = response.data.data;
   //       const contentState = convertFromRaw(JSON.parse(data.description));
   //       const editorState = EditorState.createWithContent(contentState);

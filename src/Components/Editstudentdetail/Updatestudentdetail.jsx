@@ -23,7 +23,7 @@ import moment from "moment";
 // import { DatePicker } from '@material-ui/pickers';
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Style
 import "../CSS/Student.css";
