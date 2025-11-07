@@ -23,6 +23,7 @@ import "react-quill/dist/quill.bubble.css";
 // import Quill from "quill";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import Api from "../../Api";
 import "../CSS/CourseCreation.css";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,7 +57,7 @@ const CoursesCreation = () => {
   const [type, setType] = useState("");
   const [typeId, setTypeId] = useState("Draft");
   const [options, setOptions] = useState([]);
-  const[overall,setOverall]=useState({});
+  const [overall, setOverall] = useState({});
   const [createCourse, setCreateCourse] = useState([]);
   const [show, setShow] = useState(false);
   const [selectCategory, setSelectCategory] = useState("");
@@ -72,10 +73,6 @@ const CoursesCreation = () => {
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
-   const submitForm =(values)=>{
-    setOverall(values)
-    console.log("values",values)
-   }
 
   // Description on change
   const onChangeDescription = ({ setFieldValue }, e) => {
@@ -271,16 +268,24 @@ const CoursesCreation = () => {
     setCategoryImagePreview(undefined);
   };
 
+
+
+  const submitForm = (values) => {
+    setOverall(values)
+    createCourseCategory();
+    console.log("values", values)
+  }
+
   const createCategory = () => {
     const userId = localStorage.getItem("userId");
     console.log("userid......", userId)
-    axios.post("http://localhost:3000/api/v1/category", {
+    Api.post("api/v1/category", {
       name: selectCategory,
       createdBy: userId,
       userId: userId,
     })
       .then((response) => {
-        console.log("response", response.data.data.createCategory.name);
+        console.log("response123", response.data.data.createCategory.name);
         // setCreateCourse(response.data.data.createCategory.name);
         const newCategory = response.data.data.createCategory;
 
@@ -298,7 +303,7 @@ const CoursesCreation = () => {
 
   const getCategoryList = () => {
     const userId = localStorage.getItem("userId");
-    axios.get("http://localhost:3000/api/v1/category/list", {
+    Api.get("api/v1/category/list", {
       params: {
         // name: categoryName,
         createdBy: userId,
@@ -306,28 +311,29 @@ const CoursesCreation = () => {
       }
     })
       .then((response) => {
-        // console.log("category list", response.data.data);
+        console.log("category list", response.data.data);
         setOptions(response.data.data);
-
       })
 
   }
-  const createCourseCategory=()=>{
-     const userId = localStorage.getItem("userId");
-   axios.post("http://localhost:3000//api/v1/course", {
+  const createCourseCategory = () => {
+    const userId = localStorage.getItem("userId");
+    console.log("overall")
+    Api.post("api/v1/course", {
       category: categoryId,
       name: overall.courseName,
-      description: overall.description, 
+      description: overall.description,
       type: typeId,
       userId: userId,
       isFuture: isFuture,
       duration: duration,
-  })
-  .then((response)=>{
-    console.log("Course create",response)
-  })
-}
-createCourseCategory();
+    })
+
+      .then((response) => {
+        console.log("Course create", response)
+      })
+  }
+
 
   useEffect(() => {
     getCategoryList();
@@ -335,7 +341,6 @@ createCourseCategory();
 
   return (
     <Container>
-
       <div className="row">
         <div className="d-flex justify-content-center align-items-center mt-1">
           <FontAwesomeIcon icon={faBookOpen} size="3x" color="#1d1464" />
@@ -422,7 +427,7 @@ createCourseCategory();
                             className="error text-danger error-message"
                           />
                         </Form.Group>
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                           <Label notify={true}>Description</Label>
                             <ReactQuill
                               spellCheck
@@ -441,8 +446,43 @@ createCourseCategory();
                             component="span"
                             className="error text-danger"
                           />
-                        </div>
+                        </div> */}
+                        <div className="mb-3">
+                          <Label notify={true}>Description</Label>
+                          <ReactQuill
+                            theme="snow"
+                            spellCheck
+                            name="description"
+                            value={values.description}
+                            // onChange={setDescription}
+                            onChange={(value) => {
+                              setFieldValue("description", value);
+                              setDescription(value);
+                            }}
 
+
+                            // onChange={(e) => {
+                            //     setFieldValue("description",e);
+                            //   setDescription(e.toolbar);
+
+                            //   // onChangeDescription({ setFieldValue }, e);
+                            // }}
+                            modules={{
+                              toolbar: [
+                                [{ header: [1, 2, false] }],
+                                ["bold", "italic", "underline"],
+                                [{ list: "ordered" }, { list: "bullet" }],
+                                [{ align: [] }],
+                                ["clean"],
+                              ],
+                            }}
+                          />
+                          <ErrorMessage
+                            name="description"
+                            component="span"
+                            className="error text-danger"
+                          />
+                        </div>
                         <div className="row mb-3">
                           <Col xs={12} sm={6} md={6}>
                             <Form.Group
@@ -639,18 +679,18 @@ createCourseCategory();
                   </Row>
                   {/* <Row>
                     <Form className="category-form-style"> */}
-                      {/* <Form.Group
+                  {/* <Form.Group
                         className="form-row mb-1"
                         style={{ width: "100%" }}
                       >
                         <Label notify={true}>Select Category Image</Label>
                       </Form.Group> */}
-                      {/* <Form.Group
+                  {/* <Form.Group
                           className="form-row "
                           style={{ width: "100%", marginBottom: "30px" }}
                         > */}
-                      {/* <label className="file-upload"> */}
-                      {/* <input
+                  {/* <label className="file-upload"> */}
+                  {/* <input
                               type="file"
                               name="courseImage"
                               accept="image/*"
@@ -660,12 +700,12 @@ createCourseCategory();
                                 selectCategoryFile(e);
                               }}
                             /> */}
-                      {/* {categoryImagePreview
+                  {/* {categoryImagePreview
                               ? "Change Image"
                               : "Upload Image"} */}
-                      {/* </label> */}
-                      {/* </Form.Group> */}
-                    {/* </Form>
+                  {/* </label> */}
+                  {/* </Form.Group> */}
+                  {/* </Form>
                   </Row> */}
                   {/* <Row>
 

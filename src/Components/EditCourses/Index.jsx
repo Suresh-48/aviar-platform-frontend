@@ -12,10 +12,10 @@ import { toast } from "react-toastify";
 import "react-quill"
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
-
+import axios from "axios";
 import ReactQuill from "react-quill";
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,6 +29,7 @@ import Loader from "../core/Loader";
 import CourseSideMenu from "../CourseSideMenu/Index.jsx";
 import Label from "../Core/Label";
 import { customStyles } from "../Core/Selector";
+// import { Api } from "@mui/icons-material";
 
 // Validation
 const SignInSchema = Yup.object().shape({
@@ -70,44 +71,52 @@ const EditCourses = (props) => {
   // };
 
   // Get Course Data
-//   const getCourseData = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
-//       .then((response) => {
-//         const data = response.data.data;
-//         const contentState = convertFromRaw(JSON.parse(data.description));
-//         const editorState = EditorState.createWithContent(contentState);
-//         const editedText = convertToRaw(editorState.getCurrentContent());
-//         setCourseData(data);
-//         setCategory({ value: data?.category?._id, label: data?.category?.name });
-//         setType({ value: data.submitType, label: data.submitType });
-//         setIsFuture(data.isFuture);
-//         setCategoryId(data?.category?._id);
-//         setImagePreview(data.imageUrl);
-//         setTypeId(data.submitType);
-//         setDuration({ value: data.duration, label: data.duration });
-//         setDurationValue(data.duration);
-//         setIsLoading(false);
-//         setDescription(editorState);
-//         setDescriptionValue(editedText.blocks[0].text);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
-
+  // const getCourseData = () => {
+  //   const userId = localStorage.getItem("userId");
+  //   axios.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
+  //     .then((response) => {
+  //       const data = response.data.data;
+  //       const contentState = convertFromRaw(JSON.parse(data.description));
+  //       const editorState = EditorState.createWithContent(contentState);
+  //       const editedText = convertToRaw(editorState.getCurrentContent());
+  //       setCourseData(data);
+  //       setCategory({ value: data?.category?._id, label: data?.category?.name });
+  //       setType({ value: data.submitType, label: data.submitType });
+  //       setIsFuture(data.isFuture);
+  //       setCategoryId(data?.category?._id);
+  //       setImagePreview(data.imageUrl);
+  //       setTypeId(data.submitType);
+  //       setDuration({ value: data.duration, label: data.duration });
+  //       setDurationValue(data.duration);
+  //       setIsLoading(false);
+  //       setDescription(editorState);
+  //       setDescriptionValue(editedText.blocks[0].text);
+  //     })
+  //     .catch((error) => {
+  //       const errorStatus = error?.response?.status;
+  //       if (errorStatus === 401) {
+  //         logout();
+  //         toast.error("Session Timeout");
+  //       }
+  //     });
+  // };
+const getCourseData = () => {
+    const userId = localStorage.getItem("userId");  
+    console.log("course id");
+    Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
+  .then((response) => {
+        const data = response;
+        console.log("course data", data);
+  })
+}
   const onChangeDescription = (setFieldValue, e) => {
     const editedText = convertToRaw(e.getCurrentContent());
     setDescriptionValue(editedText.blocks[0].text);
   };
 
   useEffect(() => {
-    // getCategory();
-    // getCourseData();
+     getCategory();
+    getCourseData();
   }, []);
 
   // Get category
@@ -131,6 +140,20 @@ const EditCourses = (props) => {
 //       });
 //   };
 
+const getCategory = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("hapi/v1/category", {
+      headers: { userId: userId },
+    }   
+    )
+    .then((res) => {
+     
+        const option = res.data.data;
+         console.log("category data", option);
+        setOptions(option);
+      }
+    )
+  }
   const handleModal = () => {
     setShow(!show);
   };
@@ -395,7 +418,7 @@ const EditCourses = (props) => {
                             </Form.Group>
                             <div className="mb-3">
                               <Label notify={true}>Description</Label>
-                              <div className="description">
+                              {/* <div className="description"> */}
                                 <ReactQuill
                                   spellCheck
                                   // editorState={description}
@@ -407,7 +430,7 @@ const EditCourses = (props) => {
                                     options: ["inline", "list", "textAlign"],
                                   }}
                                 />
-                              </div>
+                              {/* </div> */}
                               {descriptionValue === "" && <p className="error text-danger">Description Is Required</p>}
                             </div>
 
