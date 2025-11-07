@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import Api from "../../Api";
+import Api from "../Api";
 // import './css/Studentsignup.css'
 import {
   Col,
@@ -241,7 +241,7 @@ const StudentRegistration = (props) => {
     // Check if password and confirm password match
     if (values.password === values.confirmPassword) {
       // Send a POST request
-      axios.post(`http://localhost:3000/api/v1/student/signup`, {
+      Api.post(`api/v1/student/signup`, {
           firstName: values.firstName,
           lastName: values.lastName,
           email:values.email,

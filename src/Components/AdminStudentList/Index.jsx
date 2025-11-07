@@ -16,7 +16,7 @@ import { Container, Row, Modal } from "react-bootstrap";
 import "../../CSS/AdminStudentsList.css";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Loader
 // import Loader from "../../Components/Core/Loader";

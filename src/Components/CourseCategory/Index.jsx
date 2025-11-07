@@ -8,6 +8,7 @@ import { createTheme } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen, faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import Api from "../../Api";
 import tableIcons from "../Core/TableIcons";// Ensure this path is correct
 import Label from "../Core/Label";
 
@@ -24,8 +25,6 @@ const tableTheme = createTheme({
     },
   },
 });
-
-
 
 function CourseCategory(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +75,7 @@ function CourseCategory(props) {
     // editCourseCategory()
   }, []);
   const getCourseCategory = () => {
-    axios.get("http://localhost:3000/api/v1/category")
+   Api.get("api/v1/category")
       .then((response) => {
 
         let data = response.data.data;
@@ -88,15 +87,15 @@ function CourseCategory(props) {
   
   const editCourseCategory = () => {
     if (!selectedCategory) return;
-    axios.patch(`http://localhost:3000/api/v1/category/${selectedCategory.id}`,{
+    Api.patch(`api/v1/category/${selectedCategory.id}`,{
       name: editCategoryName,
       userId: userId,
     })
       // console.log(editCategoryName)
       .then((res) => {
         console.log("Updated Successfullys", res);
-        setEditCategory(false); // Close the modal
-        getCourseCategory();// Refresh data
+        setEditCategory(false); 
+        getCourseCategory();
          toast.success(res.data); 
       })
       .catch((error) => {
@@ -107,7 +106,7 @@ function CourseCategory(props) {
   const deleteCourseCategory = () => {
     if (!selectedCategory) return;
     console.log("user id......",userId)
-    axios.delete(`http://localhost:3000/api/v1/category/${selectedCategory.id}`, {
+    Api.delete(`api/v1/category/${selectedCategory.id}`, {
       headers: { userId: userId }, // Send userId in headers
     })
       .then((res) => {

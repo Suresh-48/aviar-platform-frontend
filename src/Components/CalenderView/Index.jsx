@@ -11,7 +11,7 @@ import moment from "moment-timezone";
 // import Loader from "../Core/Loader";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Styles
 import "../CSS/Calendar.css";

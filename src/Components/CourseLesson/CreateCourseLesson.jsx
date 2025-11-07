@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import "../../CSS/CreateCourseLesson.css";
 import axios from "axios";
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Component
 import { toast } from "react-toastify";
@@ -119,7 +119,7 @@ const handleGoBack = () => {
   // Submit form
   const submitForm = (values) => {
       const userId = localStorage.getItem("userId");
-    axios.post("http://localhost:3000/api/v1/courseLesson/",{ 
+    Api.post("api/v1/courseLesson/",{ 
       courseId: courseId,
       lessonNumber: values.lessonNumber,
       lessonName: values.lessonName,
@@ -135,12 +135,6 @@ const handleGoBack = () => {
 })
     }
    
-  
-
-
-
-
-
   // Validations
 
   return (
