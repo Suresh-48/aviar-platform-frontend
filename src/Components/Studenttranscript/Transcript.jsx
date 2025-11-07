@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Container } from "react-bootstrap";
+import axios from "axios";
 // import Api from "../../Api";
 // import { Link, useHistory } from "react-router-dom";
 
@@ -79,30 +80,30 @@ function StudentTranscript(props) {
     },
   ];
 
-//   const getStudentMarks = () => {
-//     Api.get(`api/v1/quizSchedule/student/completed/quiz/result`, {
-//       params: {
-//         studentId: studentId,
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const data = response.data.getAll;
-//         setData(data);
-//         setisLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getStudentMarks = () => {
+    axios.get(`api/v1/quizSchedule/student/completed/quiz/result`, { 
+      params: {
+        studentId: studentId,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const data = response.data.getAll;
+        setData(data);
+        setisLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   useEffect(() => {
-//     getStudentMarks();
-//   }, []);
+  useEffect(() => {
+    getStudentMarks();
+  }, []);
 
   return (
     <div>

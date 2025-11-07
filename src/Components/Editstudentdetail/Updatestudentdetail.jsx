@@ -145,16 +145,40 @@ const EditStudentDetails = (props) => {
             toast.error(error.response.data.message);
           }
 
-          const errorStatus = error?.response?.status;
-          if (errorStatus === 401) {
-            logout();
-            toast.error("Session Timeout");
-          }
-        });
-    } else {
-      toast.error("Image Only Accept");
+  // Check if it's an image
+  if (!file.type.startsWith('image/')) {
+    toast.error("Only image files are accepted");
+    return;
+  }
+
+  const reader = new FileReader();
+  
+  reader.onloadend = async () => {
+    const base64 = reader.result;
+    setImagePreview(base64);
+
+    try {
+      const userId = localStorage.getItem("userId");
+      const studentId = localStorage.getItem("studentId");
+
+      const response = await axios.post(`http://localhost:3000/api/v1/student/profile/upload`, {
+        studentId: studentId,
+        image: base64,
+        userId: userId,
+      });
+
+      if (response.status === 201) {
+        toast.success("Profile Uploaded Successfully!");
+        setTimeout(() => window.location.reload(), 1000);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Upload failed");
     }
   };
+
+  reader.readAsDataURL(file);
+  e.target.value = ''; // Reset input
+};
 
   // Delete Image
   const removeImage = () => {
@@ -861,7 +885,7 @@ const EditStudentDetails = (props) => {
                                     // Add this line
                                     variant="contained"
                                     className="btn-primary btn-cancel my-2"
-                                    disabled={isSubmit} // Disable the button while submitting
+                              
                                   >
                                     Update
                                   </Button>
