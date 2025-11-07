@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import axios from 'axios';
 import { customStyles } from "../Core/Selector.js";
+import Api from "../../Api";
 import Label from "../../Components/Core/Label";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -71,7 +72,7 @@ const CreateCourseSchedule = (props) => {
   
   const submitForm = (values, { setFieldValue }) => {
     const userId = localStorage.getItem("userId");
-    axios.post("http://localhost:3000/api/v1/courseSchedule/createSchedule",{
+    Api.post("api/v1/courseSchedule/createSchedule",{
       courseId:courseId,
       weekly: weekly,
       startTime: startTime,

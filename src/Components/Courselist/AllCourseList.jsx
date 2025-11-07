@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import { Slider } from "@mui/material";
 import Label from "../../Components/Core/Label";
 import "../../css/AllCourseList.css";
-// import Api from "../../Api";
+import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
 // import Loader from "../core/Loader";
@@ -54,7 +54,7 @@ const AllCourseList = (props) => {
 
   const getCategory = () => {
     const userId = localStorage.getItem("userId");
-    axios.get("http://localhost:3000/api/v1/category", {
+    Api.get("api/v1/category", {
       headers: {
         userId: userId,
       },
@@ -76,7 +76,7 @@ const AllCourseList = (props) => {
   const courseFilter = (searchData) => {
     const userId = localStorage.getItem("userId");
     const filterData = landingPageCategoryList ? [landingPageCategoryList] : data;
-    axios.post("http://localhost:3000/api/v1/course/filter", {
+    Api.post("api/v1/course/filter", {
       userId: userId,
       filter: filterData,
       range: range,

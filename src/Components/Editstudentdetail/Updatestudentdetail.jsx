@@ -23,7 +23,7 @@ import moment from "moment";
 // import { DatePicker } from '@material-ui/pickers';
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Style
 import "../CSS/Student.css";
@@ -115,10 +115,35 @@ const EditStudentDetails = (props) => {
 
   const fileUploadAction = () => inputReference.current.click();
 
- const fileUploadInputChange = async (e) => {
-  const file = e.target.files[0];
-  
-  if (!file) return;
+  const fileUploadInputChange = async (e) => {
+    const file = e.target.files[0];
+    const type = file?.type?.split("/")[0];
+    const base64 = await convertBase64(file);
+    const userId = localStorage.getItem("userId");
+    setImagePreview(base64);
+    if (type === "image") {
+      Api.post(`api/v1/student/profile/upload`, {
+          studentId: studentId,
+          image: imagePreview,
+          userId: userId,
+        })
+        .then((response) => {
+          const status = response.status;
+          if (status === 201) {
+            toast.success("Profile Upload Successfully!...");
+            // studentDetails();
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status >= 400) {
+            let errorMessage;
+            const errorRequest = error.response.request;
+            if (errorRequest && errorRequest.response) {
+              errorMessage = JSON.parse(errorRequest.response).message;
+            }
+            toast.error(error.response.data.message);
+          }
 
   // Check if it's an image
   if (!file.type.startsWith('image/')) {
@@ -158,8 +183,7 @@ const EditStudentDetails = (props) => {
   // Delete Image
   const removeImage = () => {
     const userId = localStorage.getItem("userId");
-    axios
-      .delete("http://localhost:3000/api/v1/remove/profile", {
+    Api.delete("api/v1/student/remove/profile", {
         params: {
           studentId: studentId,
           userId: userId,
@@ -197,9 +221,7 @@ const EditStudentDetails = (props) => {
   const studentDetails = () => {
     const userId = localStorage.getItem("userId");
     const studentId = localStorage.getItem("studentId");
-
-    axios
-      .get(`http://localhost:3000/api/v1/student/${studentId}`, {
+   Api.get(`api/v1/student/${studentId}`, {
         headers: { userId: userId },
       })
       .then((res) => {
@@ -258,8 +280,7 @@ const EditStudentDetails = (props) => {
     const dateValue = moment(startDate).format("ll");
     const userId = localStorage.getItem("userId");
     const studentId = localStorage.getItem("studentId");
-    axios
-      .patch(`http://localhost:3000/api/v1/student/${studentId}`, {
+    Api.patch(`http://localhost:3000/api/v1/student/${studentId}`, {
         firstName: values.firstName,
         lastName: values.lastName,
         middleName: values.middleName,

@@ -19,7 +19,7 @@ const PublicLayout = ({ open, onClick }) => {
       {/* Main Content */}
       <div
         style={{
-          bottom:"-70px",
+          bottom:"-100px",
           marginLeft: open ? "250px" : "60px",
           transition: "margin-left 0.3s ease",
           padding: "20px",

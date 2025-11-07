@@ -4,6 +4,7 @@ import { Container,Modal,FormControl,Button,Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen, faX } from "@fortawesome/free-solid-svg-icons";
 // Material Table Icons
@@ -96,7 +97,7 @@ function CourseLesson(props) {
   // Fetch Course Lesson List
   const getCourseLessonDetail =()=>{
   
-    axios.get("http://localhost:3000/api/v1/courseLesson/lessonlist",{params: {courseId:courseId, userId:userId}})
+      Api.get("api/v1/courseLesson/lessonlist",{params: {courseId:courseId, userId:userId}})
     .then((response)=>{
       console.log("response",response.data.lessonList);
    
@@ -109,8 +110,7 @@ function CourseLesson(props) {
     }
       // Fetch Course Detail
   const getCourseDetail = () => {
-    axios
-      .get(`http://localhost:3000/api/v1/course/${courseId}`, {
+     Api.get(`api/v1/course/${courseId}`, {
         headers: { userId: userId },
       })
       .then((response) => {
@@ -135,9 +135,7 @@ const handleCancel=()=>{
 
   const editLesson = () => {
     if (!selectedLesson) return;
-
-    axios
-      .patch(`http://localhost:3000/api/v1/courseLesson/${selectedLesson.id}`, {
+      Api.patch(`api/v1/courseLesson/${selectedLesson.id}`, {
         lessonName: editLessonName,
         lessonActualAmount: editActualAmount,
         lessonDiscountAmount: editDiscountAmount,
@@ -158,9 +156,7 @@ const handleCancel=()=>{
   };
   const deleteLessonDetails = () => {
     if (!selectedLesson) return;
-
-    axios
-      .delete(`http://localhost:3000/api/v1/courseLesson/${selectedLesson.id}`, {
+      Api.delete(`api/v1/courseLesson/${selectedLesson.id}`, {
       headers:{ userId: userId},
       lessonName:deleteLessonName,
       

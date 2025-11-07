@@ -38,17 +38,10 @@ import Img2 from "./Images/Img2.png";
 import Img3 from "./Images/Img3.png";
 import course from "./Images/course.png";
 import courseImg2 from "./Images/courseImg2.png";
-// import Api from "../../Api";
-// import user1 from "./Images/user1.png";
-// import Img4 from "./Images/Img4.png";
-// import DQ from "./Images/DQ.png";
 import { Link, useNavigate } from "react-router-dom";
 import curveImg from "./Images/curveImg.png";
 import emptyGallery from "./Images/emptyGallery.jpg";
 import loginArrow from "./Images/loginArrow.png";
-// import { convertFromRaw } from "draft-js";
-// import { stateToHTML } from "draft-js-export-html";
-// import overlayImg from "./Images/overlayImg.png";
 import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelope,
@@ -59,10 +52,7 @@ import {
   faPhone,
   faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
-// import Aviar from "../../components/core/Aviar.png";
-// import England from "../../container/PublicLayout/England.png";
-// import Russia from "../../container/PublicLayout/Russia.jpg";
-// import USA from "../../container/PublicLayout/USA.png";
+
 function LandingPage(props) {
 
   const loginClosed = props?.location?.state?.sideClose;
@@ -71,6 +61,7 @@ function LandingPage(props) {
   const [teacher, setTeacher] = useState([]);
   // const cards = Array.from({ length: 20 }, (_, i) => i + 1);
   const navigate = useNavigate();
+  
   const ChangeArrow = ({ type, onClick, isEdge }) => (
     <div onClick={onClick} className="arrow-div">
       {type === consts.PREV ? (
@@ -89,6 +80,7 @@ function LandingPage(props) {
       )}
     </div>
   );
+  
   // const scrollLeft = () => {
   //   cardRowRef.current.scrollBy({ left: -220, behavior: 'smooth' });
   // };
@@ -135,6 +127,16 @@ function LandingPage(props) {
     // getPublishCourse();
     localStorage.clear();
   }, []);
+  
+  useEffect(() => {
+    if (role === "admin") {
+      navigate("/admin/dashboard");
+    } else if (role === "teacher") {
+      navigate("/teacher/dashboard");
+    } else if (role === "student") {
+      navigate("/student/dashboard");
+    }
+  }, [role, navigate]);
   return (
     <div className="landing-page-content-main">
       <div className="curve-shape-main-div">
