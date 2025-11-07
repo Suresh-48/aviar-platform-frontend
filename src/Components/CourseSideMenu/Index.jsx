@@ -12,7 +12,7 @@ const CourseSideMenu = (props) => {
 
   return (
     <div className="d-flex justify-content-center">
-      {/* {courseId && lessonId ? ( */}
+      {courseId && lessonId ? (
         <Row className="sidenav">
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
@@ -57,7 +57,7 @@ const CourseSideMenu = (props) => {
             </NavLink>
           </Col>
         </Row>
-      {/* ) : ( */}
+      ) : (
         <Row className="sidenav">
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
@@ -96,7 +96,7 @@ const CourseSideMenu = (props) => {
             </NavLink>
           </Col>
         </Row>
-      {/* )} */}
+       )} 
     </div>
   );
 };

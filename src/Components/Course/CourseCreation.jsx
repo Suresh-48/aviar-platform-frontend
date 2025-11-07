@@ -311,7 +311,7 @@ const CoursesCreation = () => {
       }
     })
       .then((response) => {
-        console.log("category list", response.data.data);
+        // console.log("category list", response.data.data);
         setOptions(response.data.data);
       })
 
@@ -346,7 +346,7 @@ const CoursesCreation = () => {
           <FontAwesomeIcon icon={faBookOpen} size="3x" color="#1d1464" />
         </div>
         <div className="d-flex justify-content-center align-items-center mt-1">
-          <h2>Course  Creation</h2>
+          <h2>Course Creation</h2>
         </div>
         <div className="col-sm-12">
           <Formik
@@ -642,7 +642,7 @@ const CoursesCreation = () => {
                             : "create-active"
                             }`}
                         >
-                          CREATE
+                          CREATEw
                         </Button>
                       </Row>
                     </Row>
