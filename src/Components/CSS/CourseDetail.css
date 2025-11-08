@@ -1,0 +1,28 @@
+.create-disable {
+  background-color: #375474 !important;
+  opacity: 0.7 !important;
+  color: white !important;
+  font-size: 16px !important; /* removed quotes */
+  border: none !important;    /* optional: keep consistent look */
+  cursor: not-allowed;        /* optional: indicates disabled state */
+}
+
+@media (max-width: 768px) {
+  .create-disable {
+    font-size: 14px !important; /* fixed wrong property name */
+  }
+}
+
+@media (max-width: 576px) {
+  .create-disable {
+    font-size: 13px !important;
+  }
+}
+
+.create-active {
+  border: 1px solid #375474 !important; /* added solid border */
+  background-color: #375474 !important;
+  color: white !important;
+  opacity: 1 !important;
+  cursor: pointer; /* indicates clickable */
+}

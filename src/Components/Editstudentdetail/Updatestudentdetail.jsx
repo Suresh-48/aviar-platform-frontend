@@ -144,7 +144,8 @@ const EditStudentDetails = (props) => {
             }
             toast.error(error.response.data.message);
           }
-
+        });
+      }
   // Check if it's an image
   if (!file.type.startsWith('image/')) {
     toast.error("Only image files are accepted");

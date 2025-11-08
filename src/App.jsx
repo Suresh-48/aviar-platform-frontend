@@ -18,7 +18,7 @@ import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import Course from "./Components/Course.jsx";
 import Trainers from "./Components/Trainers.jsx";
-// import CourseDetail from "./Components/Course/CourseDetail.jsx";
+import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
@@ -137,7 +137,7 @@ const App = () => {
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
+            <Route path="course/detail" element={<CourseDetail/>}/>
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
           </Route>
