@@ -128,7 +128,7 @@ const Education = ({ onFormValidityChange, onSubmit, setEducationData }) => {
                 </Row>
                 <br />
                 <button type="submit" className="btn btn-primary">
-                  Submit
+                  Next
                 </button>
               </Form>
             );
