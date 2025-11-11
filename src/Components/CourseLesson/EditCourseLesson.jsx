@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import "react-quill"
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
-
+import CourseSideMenu from "../CourseSideMenu";
 import ReactQuill from "react-quill";
 import * as Yup from "yup";
 // Styles
@@ -27,7 +27,9 @@ import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 
 const EditCourseLessons = (props) => {
   const [duration, setDuration] = useState("");
+    const [courseID, setCourseID] = useState(props?.location?.state?.courseId);
   const [isSubmit, setIsSubmit] = useState(false);
+   const [lessonId, setLessonId] = useState(props?.match?.params?.id);
   const [courseName, setCourseName] = useState(props?.location?.state?.courseName);
   const [courseId, setCourseId] = useState(props?.location?.state?.courseId);
 //   const [description, setDescription] = useState(EditorState.createEmpty());
@@ -67,13 +69,6 @@ const handleGoBack = () => {
     navigate(-1);
 };
 
-
-
-
-
-
-
-
   // Submit form
   const submitForm = (values) => {
       const userId = localStorage.getItem("userId");
@@ -92,20 +87,17 @@ const handleGoBack = () => {
   }
 })
     }
-   
-  
-
-
-
-
-
   // Validations
-
   return (
     <div>
       <Container>
+   <CourseSideMenu
+        lessonId={lessonId}
+        courseId={courseId ? courseId : courseID}
+      />
       <h5 className="text-center "> Edit Lesson Detail</h5>
       <br/>
+      
         <Row>
           <Col lg={12} md={12} sm={12}>
             <div className=" mt-2 mb-4">

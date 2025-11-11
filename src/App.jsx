@@ -18,13 +18,14 @@ import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import Course from "./Components/Course.jsx";
 import Trainers from "./Components/Trainers.jsx";
-// import CourseDetail from "./Components/Course/CourseDetail.jsx";
+import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
 import StudentList from "./Components/AdminStudentList/Index.jsx";
 import CourseList from "./Components/Courselist/Index.jsx";
 import Allsidebar from './Components/Core/Allsidebar.jsx';
+import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 import TeacherList from "./Components/TeacherList/Index.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
@@ -59,6 +60,7 @@ import Menu from "./Components/TeacherApplication/Menu.jsx";
 import Education from "./Components/TeacherApplication/Education.jsx";
 import Experience from"./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
+import WizardForm from "./Components/TeacherApplication/WizardForm.jsx"
 
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
@@ -75,6 +77,7 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
+
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -127,6 +130,7 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
+            <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="course/edit/1" element ={<EditCourses/>}/>
             <Route path="course/lesson" element={<CourseLesson/>}/>
@@ -137,7 +141,7 @@ const App = () => {
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
+            <Route path="course/detail" element={<CourseDetail/>}/>
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
           </Route>
@@ -155,10 +159,11 @@ const App = () => {
           >
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
-            <Route path="menu" element={<Menu />} />
-            <Route path="dashboard" element={<Dashboard />}/>
-            <Route path="schedule" element={<TeacherCourseList />} />
-            <Route path="profile" element={<TeacherProfile />} />
+            {/* <Route path="menu" element={<Menu />} /> */}
+            <Route path="menu" element={<WizardForm />} />
+            <Route path="dashboard" element={<TeacherDashboard />}/>
+            <Route path="schedule/:id" element={<TeacherCourseList />} />
+            <Route path="profile/:id" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="review/quiz" element={<TeacherQuizReview />} />
             <Route path="homework/review" element={<TeacherHomeworkReview />} />
