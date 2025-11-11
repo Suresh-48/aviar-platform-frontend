@@ -1,6 +1,7 @@
 import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 // Component
+import { useNavigate } from "react-router-dom";
 
 // import tableIcons  from "../Core/TableIcons";
 import tableIcons  from "../Core/TableIcons";
@@ -20,7 +21,7 @@ import Api from "../../Api";
 
 // Loader
 // import Loader from "../../Components/Core/Loader";
-// import StudentPublicProfile from "../../StudentPublicProfile";
+import StudentPublicProfile from "../../StudentPublicProfile";
 import { toast } from "react-toastify";
 
 function AdminStudentsList(props) {
@@ -29,6 +30,7 @@ function AdminStudentsList(props) {
   const [show, setshow] = useState(false);
   const [studentId, setStudentId] = useState("");
 //   const history = useHistory();
+const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
   const tableTheme = createTheme({
@@ -84,35 +86,35 @@ function AdminStudentsList(props) {
   ];
 
   // Log out
-//   const logout = () => {
-//      setTimeout(() => {
-//        localStorage.clear(history.push("/kharpi"));
-//        window.location.reload();
-//      }, 2000);
-//   };
+  const logout = () => {
+     setTimeout(() => {
+       localStorage.clear(history.push("/kharpi"));
+       window.location.reload();
+     }, 2000);
+  };
 
-//   const getAdminStudentsList = () => {
-//     Api.get("api/v1/student", { headers: { userId: userId } })
-//       .then((response) => {
-//         const data = response?.data?.data?.data;
-//         setData(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getAdminStudentsList = () => {
+    Api.get("api/v1/student", { headers: { userId: userId } })
+      .then((response) => {
+        const data = response?.data?.data?.data;
+        setData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   const handleModal = () => {
     setshow(false);
   };
 
   useEffect(() => {
-    // getAdminStudentsList();
+    getAdminStudentsList();
   }, []);
 
   return (
@@ -166,8 +168,8 @@ function AdminStudentsList(props) {
                       // <FontAwesomeIcon icon={faEye} size="sm" color="#375474" />
                     ),
                     onClick: (event, rowData) => {
-                      history.push({
-                        pathname: `/upcoming/schedule/list/${rowData.id}`,
+                      navigate({
+                        pathname: `/admin/upcoming/schedule/list/${rowData.id}`,
                         state: {
                           firstName: rowData.firstName,
                           lastName: rowData.lastName,
@@ -185,7 +187,7 @@ function AdminStudentsList(props) {
       <Modal show={show} onHide={() => handleModal()} dialogClassName="popup-container-Style">
         <Modal.Header closeButton className="popup-header-close-style" />
         <Modal.Body id="contained-modal-title-vcenter " className="popup-body-style">
-          {/* <StudentPublicProfile studentId={studentId} /> */}
+          <StudentPublicProfile studentId={studentId} />
         </Modal.Body>
       </Modal>
     </div>

@@ -144,7 +144,8 @@ const EditStudentDetails = (props) => {
             }
             toast.error(error.response.data.message);
           }
-
+        });
+      }
   // Check if it's an image
   if (!file.type.startsWith('image/')) {
     toast.error("Only image files are accepted");
@@ -161,7 +162,7 @@ const EditStudentDetails = (props) => {
       const userId = localStorage.getItem("userId");
       const studentId = localStorage.getItem("studentId");
 
-      const response = await axios.post(`http://localhost:3000/api/v1/student/profile/upload`, {
+      const response = await Api.post(`api/v1/student/profile/upload`, {
         studentId: studentId,
         image: base64,
         userId: userId,
@@ -184,7 +185,7 @@ const EditStudentDetails = (props) => {
   const removeImage = () => {
     const userId = localStorage.getItem("userId");
     Api.delete("api/v1/student/remove/profile", {
-        params: {
+        params:{
           studentId: studentId,
           userId: userId,
         },

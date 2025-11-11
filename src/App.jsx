@@ -59,6 +59,7 @@ import Menu from "./Components/TeacherApplication/Menu.jsx";
 import Education from "./Components/TeacherApplication/Education.jsx";
 import Experience from"./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
+import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
 
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
@@ -128,18 +129,20 @@ const App = () => {
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+            <Route path = "upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList/>}/>
             <Route path="course/edit/1" element ={<EditCourses/>}/>
             <Route path="course/lesson" element={<CourseLesson/>}/>
             <Route path="course/schedule" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
             <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
-            <Route path="students/list" element={<StudentList />} />
+            <Route path="students/list" element={<StudentList />} /> 
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
             {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
+            <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>
           </Route>
           {/* Teacher Routes */}
           <Route

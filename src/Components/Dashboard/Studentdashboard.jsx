@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Table, Button, Modal, Col,Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Row, Table, Button, Modal, Col } from "react-bootstrap";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // Component
 import Loader from "../core/Loader";
-// import DashboardTiles from "../../Components/Core/DashboardTiles";
+import DashboardTiles from "../../components/core/DashboardTiles.jsx";
+
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Styles
-// import "./CSS/Studentdashboard.css";
+import "../../css/StudentDashboard.css";
 
 function StudentDashboard() {
+   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [upcomingData, setUpcomingData] = useState([]);
   const [completedList, setCompletedList] = useState([]);
-  // const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [CurrentDate, setCurrentDate] = useState("");
   const [lessTime, setLessTime] = useState("");
@@ -29,166 +30,171 @@ function StudentDashboard() {
   const [sessionEndModal, setSessionEndModal] = useState(false);
   const [zoomStartTimeGet, setZoomStartTimeGet] = useState("");
   const studentId = localStorage.getItem("studentId");
-  const navigate=useNavigate();
-  // function closeShow() {
-  //   setshowAlert(false);
-  // }
 
-  // // Log out
-  // const logout = () => {
-  //   setTimeout(() => {
-  //     localStorage.clear(history.push("/kharpi"));
-  //     window.location.reload();
-  //   }, 2000);
-  // };
+  function closeShow() {
+    setshowAlert(false);
+  }
+
+  // Log out
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
 
   // Get Student Data
-  // const getStudentDashboardData = () => {
-  //   Api.get(`api/v1/dashboard/student/`, {
-  //     params: {
-  //       studentId: studentId,
-  //     },
-  //   }).then((response) => {
-  //     const data = response?.data?.data;
-  //     setData(data);
-  //     setisLoading(false);
-  //   });
-  // };
+  const getStudentDashboardData = () => {
+    Api.get(`api/v1/dashboard/student/`, {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const data = response?.data?.data;
+      setData(data);
+      setisLoading(false);
+    });
+  };
 
-  // const getStudentUpcomingSchedule = () => {
-  //   Api.get("api/v1/upcomingcourse/student/list", {
-  //     params: {
-  //       studentId: studentId,
-  //     },
-  //   }).then((response) => {
-  //     const dataValues = response?.data?.upcomingList;
-  //     dataValues.sort(function compare(a, b) {
-  //       var dateA = new Date(a.lessonDate);
-  //       var dateB = new Date(b.lessonDate);
-  //       return dateA - dateB;
-  //     });
-  //     setUpcomingData(dataValues);
-  //     const orginalTime = response.data.upcomingList;
-  //     orginalTime.forEach(function(list) {
-  //       const time = moment(list.courseScheduleId.startTime, "LT")
-  //         .subtract(15, "minutes")
-  //         .format("HH:mm");
-  //       list.courseScheduleId["zoomTime"] = time;
-  //     });
-  //     setisLoading(false);
-  //   });
-  // };
+  const getStudentUpcomingSchedule = () => {
+    Api.get("api/v1/upcomingcourse/student/list", {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const dataValues = response?.data?.upcomingList;
+      dataValues.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setUpcomingData(dataValues);
+      const orginalTime = response.data.upcomingList;
+      orginalTime.forEach(function(list) {
+        const time = moment(list.courseScheduleId.startTime, "LT")
+          .subtract(15, "minutes")
+          .format("HH:mm");
+        list.courseScheduleId["zoomTime"] = time;
+      });
+      setisLoading(false);
+    });
+  };
 
-  // const getStudentCompletedSchedule = () => {
-  //   Api.get("api/v1/upcomingcourse/student/complete/list", {
-  //     params: {
-  //       studentId: studentId,
-  //     },
-  //   }).then((response) => {
-  //     const dataValues = response?.data?.upcomingList;
-  //     setCompletedList(dataValues);
-  //   });
-  // };
+  const getStudentCompletedSchedule = () => {
+    Api.get("api/v1/upcomingcourse/student/complete/list", {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const dataValues = response?.data?.upcomingList;
+      setCompletedList(dataValues);
+    });
+  };
 
-  // useEffect(() => {
-  //   getStudentDashboardData();
-  //   getStudentUpcomingSchedule();
-  //   getStudentCompletedSchedule();
-  //   const currentDate = moment()
-  //     .tz("America/Chicago")
-  //     .format();
-  //   const date = moment(currentDate)
-  //     .tz("America/Chicago")
-  //     .format("ll");
-  //   var lessTime = moment(currentDate)
-  //     .tz("America/Chicago")
-  //     .format("HH:mm");
-  //   setCurrentDate(date);
-  //   setLessTime(lessTime);
+  useEffect(() => {
+    getStudentDashboardData();
+    getStudentUpcomingSchedule();
+    getStudentCompletedSchedule();
+    const currentDate = moment()
+      .tz("America/Chicago")
+      .format();
+    const date = moment(currentDate)
+      .tz("America/Chicago")
+      .format("ll");
+    var lessTime = moment(currentDate)
+      .tz("America/Chicago")
+      .format("HH:mm");
+    setCurrentDate(date);
+    setLessTime(lessTime);
 
-  //   window.onpopstate = async (event) => {
-  //     const r = await window.confirm("Are you sure! Do you want logout?");
-  //     if (r === true) {
-  //       // Call Back button programmatically as per user confirmation.
-  //       await history.go(1);
-  //       await localStorage.clear(history.push("/kharpi"));
-  //       window.location.reload();
-  //       return;
-  //       // Uncomment below line to redirect to the previous page instead.
-  //       // window.location = document.referrer // Note: IE11 is not supporting this.
-  //     } else {
-  //       // Stay on the current page.
-  //       history.go(1);
-  //       return;
-  //     }
-  //   };
-  // }, [studentId]);
+    window.onpopstate = async (event) => {
+      const r = await window.confirm("Are you sure! Do you want logout?");
+      if (r === true) {
+        // Call Back button programmatically as per user confirmation.
+        await history.go(1);
+        await localStorage.clear(history.push("/kharpi"));
+        window.location.reload();
+        return;
+        // Uncomment below line to redirect to the previous page instead.
+        // window.location = document.referrer // Note: IE11 is not supporting this.
+      } else {
+        // Stay on the current page.
+        history.go(1);
+        return;
+      }
+    };
+  }, [studentId]);
 
-  // const handleModal = () => {
-  //   setshow(false);
-  // };
+  const handleModal = () => {
+    setshow(false);
+  };
 
-  // const zoomTiming = (e) => {
-  //   const studentId = localStorage.getItem("studentId");
-  //   let current_time = moment().format("HH:mm a");
-  //   var travelTime = moment()
-  //     .add(1, "hours")
-  //     .format("HH:mm a");
-  //   // const newDate = new Date();
-  //   // const sessionTiming = newDate.toLocaleTimeString();
-  //   // const sessionTimingEnd = parseInt(sessionTiming) + 1;
+  const zoomTiming = (e) => {
+    const studentId = localStorage.getItem("studentId");
+    let current_time = moment().format("HH:mm a");
+    var travelTime = moment()
+      .add(1, "hours")
+      .format("HH:mm a");
+    // const newDate = new Date();
+    // const sessionTiming = newDate.toLocaleTimeString();
+    // const sessionTimingEnd = parseInt(sessionTiming) + 1;
 
-  //   Api.patch("/api/v1/upcomingcourse/student/zoom/timing", {
-  //     studentCourseScheduleId: studentCourseScheduleId,
-  //     zoomStartTime: e === "open" ? current_time : zoomStartTimeGet,
-  //     zoomEndTime: current_time ? travelTime : "",
-  //     // zoomEndTime: e === "close" ? sessionTiming : "",
-  //     studentId: studentId,
-  //   }).then((res) => {
-  //     const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
-  //     setZoomStartTimeGet(ZoomstartTime);
-  //   });
-  // };
+    Api.patch("/api/v1/upcomingcourse/student/zoom/timing", {
+      studentCourseScheduleId: studentCourseScheduleId,
+      zoomStartTime: e === "open" ? current_time : zoomStartTimeGet,
+      zoomEndTime: current_time ? travelTime : "",
+      // zoomEndTime: e === "close" ? sessionTiming : "",
+      studentId: studentId,
+    }).then((res) => {
+      const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
+      setZoomStartTimeGet(ZoomstartTime);
+    });
+  };
 
-  // const showModal = () => {
-  //   setSessionEndModal(false);
-  //   setTimeout(() => {
-  //     setSessionEndModal(true);
-  //   }, 1000);
-  // };
+  const showModal = () => {
+    setSessionEndModal(false);
+    setTimeout(() => {
+      setSessionEndModal(true);
+    }, 1000);
+  };
 
   return (
     <div>
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loader />
-      ) : ( */}
+      ) : (
         <Container>
-          <Row className="main-card pb-3">
-            {/* <DashboardTiles
-              label="Active Enrolled Courses"
-              count={data.activeCourse}
-              url="/active/enroll/course/list"
-            /> */}
-
-            {/* <DashboardTiles label="Completed Courses" count={data.completeCourse} url="/completed/course/list" /> */}
-          </Row>
-          <div>
-          <Row>
-            <Col>
-<Card className="col-5  texte-center  bg-light rounded shadow" style={{padding:"1cm",marginLeft:"5cm"}}>
-  <h5>  Active Enroll courses </h5>
-    {/* <p className="text-center text-primary">0</p> */}
-</Card>
+<Row className="main-card pb-3">
+    {/* <DashboardTiles label="Active Enrolled Courses" count={data.activeCourse} url="/student/activecourses" />
+    <DashboardTiles label="Completed Courses" count={data.completeCourse} url="/student/completecourse" /> */}
+ {/* DELETE THESE LINES - THEY ARE DUPLICATES */}
+<Col md={6} className="mb-3">
+  <div className="dashboard-tile p-3 border rounded">
+    <h5>Active Enrolled Courses</h5>
+    <p className="count">{data.activeCourse|| 0}</p>
+    <Button 
+      variant="primary"
+      onClick={() => navigate("/student/activecourses")}
+    >
+      View Details
+    </Button>
+  </div>
 </Col>
-<Col >
-<Card className="col-5   bg-light rounded shadow mr-4" style={{padding:"1cm",marginRight:"5cm", }}>
-   <h5> Completed courses </h5>
-    {/* <p className="text-center text-primary"> 0 </p> */}
-    </Card>
+
+{/* DELETE THESE LINES - THEY ARE DUPLICATES */}
+<Col md={6} className="mb-3">
+  <div className="dashboard-tile p-3 border rounded">
+    <h5>Completed Courses</h5>
+    <p className="count">{data.completeCourse || 0}</p>
+    <Button 
+      variant="primary"
+      onClick={() => navigate("/student/completecourse")}
+    >
+      View Details
+    </Button>
+  </div>
 </Col>
 </Row>
-</div>
-
 
           <div className="mt-3">
             <div className="d-flex justify-content-between">
@@ -196,7 +202,7 @@ function StudentDashboard() {
                 <h4>Upcoming Schedule</h4>
               </div>
               <div>
-                <Button
+                   <Button
                   variant="primary"
                   className="Kharpi-save-btn me-2 px-3"
                   onClick={() =>{navigate("/student/allcourselist")}}
@@ -378,7 +384,7 @@ function StudentDashboard() {
             </Row>
           </Modal> */}
         </Container>
-      {/* // )} */}
+      )}
     </div>
   );
 }

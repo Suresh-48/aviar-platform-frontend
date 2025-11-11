@@ -40,17 +40,17 @@ const navigate=useNavigate
     }, 2000);
   };
   // Get Student Data
-//   const getStudentDashboardData = () => {
-//     Api.get(`api/v1/dashboard/student/`, {
-//       params: {
-//         studentId: studentId,
-//       },
-//     }).then((response) => {
-//       const data = response?.data?.data;
-//       setData(data);
-//       setisLoading(false);
-//     });
-//   };
+  const getStudentDashboardData = () => {
+    Api.get(`api/v1/dashboard/student/`, {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const data = response?.data?.data;
+      setData(data);
+      setisLoading(false);
+    });
+  };
   const getStudentUpcomingSchedule = () => {
     Api.get("api/v1/upcomingcourse/student/list", {
       params: {
@@ -85,36 +85,36 @@ const navigate=useNavigate
     });
   };
   useEffect(() => {
-    // getStudentDashboardData();
-    // getStudentUpcomingSchedule();
-    // getStudentCompletedSchedule();
-    // const currentDate = moment()
-    //   .tz("America/Chicago")
-    //   .format();
-    // const date = moment(currentDate)
-    //   .tz("America/Chicago")
-    //   .format("ll");
-    // var lessTime = moment(currentDate)
-    //   .tz("America/Chicago")
-    //   .format("HH:mm");
-    // setCurrentDate(date);
-    // setLessTime(lessTime);
-    // window.onpopstate = async (event) => {
-    //   const r = await window.confirm("Are you sure! Do you want logout?");
-    //   if (r === true) {
-    //     // Call Back button programmatically as per user confirmation.
-    //     await history.go(1);
-    //     await localStorage.clear(history.push("/kharpi"));
-    //     window.location.reload();
-    //     return;
-    //     // Uncomment below line to redirect to the previous page instead.
-    //     // window.location = document.referrer // Note: IE11 is not supporting this.
-    //   } else {
-    //     // Stay on the current page.
-    //     history.go(1);
-    //     return;
-    //   }
-    // };
+    getStudentDashboardData();
+    getStudentUpcomingSchedule();
+    getStudentCompletedSchedule();
+    const currentDate = moment()
+      .tz("America/Chicago")
+      .format();
+    const date = moment(currentDate)
+      .tz("America/Chicago")
+      .format("ll");
+    var lessTime = moment(currentDate)
+      .tz("America/Chicago")
+      .format("HH:mm");
+    setCurrentDate(date);
+    setLessTime(lessTime);
+    window.onpopstate = async (event) => {
+      const r = await window.confirm("Are you sure! Do you want logout?");
+      if (r === true) {
+        // Call Back button programmatically as per user confirmation.
+        await history.go(1);
+        await localStorage.clear(history.push("/kharpi"));
+        window.location.reload();
+        return;
+        // Uncomment below line to redirect to the previous page instead.
+        // window.location = document.referrer // Note: IE11 is not supporting this.
+      } else {
+        // Stay on the current page.
+        history.go(1);
+        return;
+      }
+    };
   }, [studentId]);
   const handleModal = () => {
     setshow(false);
