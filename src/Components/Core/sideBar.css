@@ -1,0 +1,109 @@
+/* General Sidebar */
+.sidebar-container {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #333;
+}
+
+.sidebar-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #00adb5;
+}
+
+.toggle-icon {
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.toggle-icon:hover {
+  color: #00adb5;
+  transform: scale(1.1);
+}
+
+/* Profile Section */
+.sidebar-profile {
+  text-align: center;
+  padding: 20px 10px;
+  border-bottom: 1px solid #333;
+}
+
+.sidebar-username {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 8px;
+  color: #eee;
+}
+
+/* Menu Items */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  padding-bottom: 50px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #dcdcdc;
+  padding: 12px 18px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.sidebar-link:hover {
+  background-color: #222831;
+  color: #00adb5;
+}
+
+.sidebar-link.active {
+  background-color: #24272b;
+  color: #00adb5;
+  font-weight: 600;
+}
+
+.sidebar-icon {
+  min-width: 20px;
+  font-size: 18px;
+}
+
+/* Logout */
+.sidebar-link.logout {
+  border-top: 1px solid #333;
+  margin-top: 10px;
+}
+
+/* Tooltip for collapsed state */
+.sidebar-link[title]:hover::after {
+  /* content: attr(title); */
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #00adb5;
+  color: white;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0.9;
+  z-index: 10;
+}
