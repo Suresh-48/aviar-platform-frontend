@@ -92,7 +92,6 @@ const EditStudentDetails = (props) => {
   // ✅ Upload file
   const fileUploadInputChange = async (e) => {
     const file = e.target.files[0];
-// <<<<<<< HEAD
     const type = file?.type?.split("/")[0];
     const base64 = await convertBase64(file);
     const userId = localStorage.getItem("userId");
@@ -133,32 +132,16 @@ const EditStudentDetails = (props) => {
   reader.onloadend = async () => {
     const base64 = reader.result;
     setImagePreview(base64);
-// =======
-//     if (!file) return;
-
-//     if (!file.type.startsWith("image/")) {
-//       toast.error("Only image files are accepted");
-//       return;
-//     }
-// >>>>>>> ca039ec1e19e57a6d56a62a0f37abae5de64048a
 
     try {
       const base64 = await convertBase64(file);
       const userId = localStorage.getItem("userId");
       const studentId = localStorage.getItem("studentId");
 
-// <<<<<<< HEAD
-      const response = await Api.post(`api/v1/student/profile/upload`, {
-        studentId: studentId,
-        image: base64,
-        userId: userId,
-      });
-// =======
-//       const response = await axios.post(
-//         `http://localhost:3000/api/v1/student/profile/upload`,
-//         { studentId, image: base64, userId }
-//       );
-// >>>>>>> ca039ec1e19e57a6d56a62a0f37abae5de64048a
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/student/profile/upload`,
+        { studentId, image: base64, userId }
+      );
 
       if (response.status === 201) {
         toast.success("Profile Uploaded Successfully!");
@@ -172,45 +155,21 @@ const EditStudentDetails = (props) => {
     e.target.value = "";
   };
 
-// <<<<<<< HEAD
-  reader.readAsDataURL(file);
-  e.target.value = ''; // Reset input
-};
-
-  // Delete Image
-  const removeImage = () => {
-    const userId = localStorage.getItem("userId");
-    Api.delete("api/v1/student/remove/profile", {
-        params:{
-          studentId: studentId,
-          userId: userId,
-        },
-      })
-      .then((response) => {
-        studentDetails();
-        window.location.reload();
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-// =======
-//   // ✅ Delete Image
-//   const removeImage = async () => {
-//     try {
-//       const userId = localStorage.getItem("userId");
-//       const studentId = localStorage.getItem("studentId");
-//       await Api.delete("api/v1/student/remove/profile", {
-//         params: { studentId, userId },
-// >>>>>>> ca039ec1e19e57a6d56a62a0f37abae5de64048a
+  // ✅ Delete Image
+  const removeImage = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const studentId = localStorage.getItem("studentId");
+      await Api.delete("api/v1/student/remove/profile", {
+        params: { studentId, userId },
       });
       toast.success("Profile Removed");
       setImagePreview("");
       window.location.reload();
-    } 
-
+    } catch (error) {
+      toast.error("Failed to remove image");
+    }
+  };
 
   // ✅ Get Student Details
   const studentDetails = async () => {

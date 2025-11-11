@@ -16,6 +16,7 @@ import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import { components } from "react-select";
+import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 import StudentDashboard from "./Components/Dashboard/Studentdashboard.jsx";
 import AboutUs from "./Components/AboutUs/Index.jsx";
 import { HomeWork, Quiz } from "@mui/icons-material";
@@ -86,6 +87,12 @@ const routes = [
       exact:true,
       name:"ChatBotConversation",
       component:ChatBotConversation,
+    },
+    {
+     path:"/course/lesson/edit",
+      exact:true,
+      name:"EditCourseLesson",
+      component:EditCourseLesson,
     },
     {
       path: "/course/schedule",
