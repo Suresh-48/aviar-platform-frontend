@@ -4,21 +4,34 @@ import './css/Admindashboard.css';
 
 // components/AdminDashboard.js
 import  { useState, useEffect } from 'react';
+import Api from '../../Api';
 
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [teachers, setTeachers] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+
+  const [adminDashboard, setAdminDashboard] = useState('');
+  const [approveData, setApprovedData] = useState('');
+  const [pendingData, setPendingData] = useState('');
+
   const [students, setStudents] = useState([]);
   const [payments, setPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [loading, setLoading] = useState(true);
 
+  const userId = localStorage.getItem("userId");
+
+  // console.log(userId, " userId")
+
   // Mock data - replace with actual API calls
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      getAdminDashboard();
+      getTeacherPendingListData();
       
       // Simulate API call
       setTimeout(() => {
@@ -172,6 +185,42 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
+//Admin Details for Teachers and Student and Course Count 
+   const getAdminDashboard = () => {
+    Api.get("api/v1/dashboard/admin/", { headers: { userId: userId } }).then((response) => {
+      const data = response.data.data;
+      setAdminDashboard(data);
+      setisLoading(false);
+    });
+  };
+
+
+  // Log out
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
+
+  //get approved teacher list
+  const getTeacherApprovedListData = () => {
+    Api.get("api/v1/teacher/list").then((response) => {
+      const approvedData = response.data.teacherList;
+      setApprovedData(approvedData);
+      setisLoading(false);
+    });
+  };
+
+  // get pending teacher list
+  const getTeacherPendingListData = () => {
+    Api.get("api/v1/teacher/pending/list", { headers: { userId: userId } }).then((response) => {
+      const pendingData = response.data.PendingList;
+      setPendingData(pendingData);
+      setisLoading(false);
+    });
+  };
+
   // Filtered data
   const approvedTeachers = teachers.filter(teacher => teacher.status === 'approved');
   const pendingTeachers = teachers.filter(teacher => teacher.status === 'pending');
@@ -264,31 +313,23 @@ const AdminDashboard = () => {
           <div className="stat-icon">👨‍🏫</div>
           <div className="stat-info">
             <h3>Total Teachers</h3>
-            <div className="stat-number">{teachers.length}</div>
+            <div className="stat-number">{adminDashboard.totalTeacher}</div>
           </div>
         </div>
         
-        <div className="stat-card success">
-          <div className="stat-icon">✅</div>
-          <div className="stat-info">
-            <h3>Approved Teachers</h3>
-            <div className="stat-number">{approvedTeachers.length}</div>
-          </div>
-        </div>
-        
-        <div className="stat-card warning">
+        {/* <div className="stat-card warning">
           <div className="stat-icon">⏳</div>
           <div className="stat-info">
             <h3>Pending Teachers</h3>
             <div className="stat-number">{pendingTeachers.length}</div>
           </div>
-        </div>
+        </div> */}
         
         <div className="stat-card info">
           <div className="stat-icon">👨‍🎓</div>
           <div className="stat-info">
             <h3>Total Students</h3>
-            <div className="stat-number">{students.length}</div>
+            <div className="stat-number">{adminDashboard.totalStudent}</div>
           </div>
         </div>
         
@@ -312,8 +353,9 @@ const AdminDashboard = () => {
       <div className="recent-activity">
         <div className="activity-section">
           <h3>Recent Teacher Applications</h3>
+          {console.log(pendingData,"pendingData")}
           <div className="activity-list">
-            {pendingTeachers.slice(0, 3).map(teacher => (
+            {pendingData.slice(0, 3).map(teacher => (
               <div key={teacher.id} className="activity-item">
                 <div className="activity-avatar">👨‍🏫</div>
                 <div className="activity-content">

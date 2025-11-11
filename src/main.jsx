@@ -23,6 +23,7 @@ import Experiance from './Components/TeacherApplication/Experience.jsx'
 import TeacherApplicationForm from './Components/TeacherApplication/TeacherApplicationForm.jsx'
 import Education from './Components/TeacherApplication/Education.jsx'
 import App from './App.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
 // import CourseDetail from './Components/Course/CourseDetail.jsx'
 
 // import Adminsidebar from './Components/Core/Adminsidebar.jsx';
@@ -46,8 +47,10 @@ import App from './App.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
 createRoot
-(document.getElementById('root')).render(
-  <StrictMode> 
-  <App/>
-  </StrictMode>,
-)
+  (document.getElementById('root')).render(
+    <StrictMode>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </StrictMode>,
+  )
