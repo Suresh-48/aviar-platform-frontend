@@ -231,7 +231,7 @@ const Experience = ({ onFormValidityChange, onSubmit, setExperienceData }) => {
                 </Row>
                 <br />
                 <button type="submit" className="btn btn-primary">
-                  Submit
+                  Next
                 </button>
               </Form>
             );
