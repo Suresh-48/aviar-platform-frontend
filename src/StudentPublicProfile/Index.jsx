@@ -5,12 +5,12 @@ import Avatar from "react-avatar";
 
 // Component
 // import Loader from "../core/Loader";
-import Loader from "../../Components/Core/Loader";
+// import Loader from "../../Components/Core/Loader";
 // Api
 // import Api from "../../Api";
 
 // style
-import "../../Css/StudentDetails.scss";
+import "../../Css/StudentDetails.css";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -23,46 +23,51 @@ function StudentPublicProfile(props) {
 //   const history = useHistory();
 
   useEffect(() => {
-    // userDetails();
-    // getDashboardDetails();
+    userDetails();
+    getDashboardDetails();
   }, []);
 
-  //logout
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear(history.push("/kharpi"));
-//       window.location.reload();
-//     }, 2000);
-//   };
+  logout
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
 
-//   const userDetails = () => {
-//     Api.get(`api/v1/student/${props.studentId}`, {
-//       headers: { userId: userId },
-//     })
-//       .then((response) => {
-//         const data = response.data.data.getOne;
-//         setUserDetail(data);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const userDetails = () => {
+    
+    Api.get(`api/v1/student/${props.studentId}`, {
+      headers: { userId: userId },
 
-//   const getDashboardDetails = () => {
-//     Api.get("api/v1/dashboard/student/", {
-//       params: {
-//         studentId: props.studentId,
-//       },
-//     }).then((res) => {
-//       const data = res?.data?.data;
-//       setCardDetail(data);
-//       setisLoading(false);
-//     });
-//   };
+    })
+      .then((response) => {
+        const data = response.data.data.getOne;
+        setUserDetail(data);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const getDashboardDetails = () => {
+    const userId = localStorage.getItem("userId");
+    const studentId = localStorage.getItem("studentId");
+
+    Api.get("api/v1/dashboard/student/", {
+      params: {
+        studentId: props.studentId,
+      },
+    }).then((res) => {
+      const data = res?.data?.data;
+      setCardDetail(data);
+      setisLoading(false);
+    });
+  };
 
   return (
     <div>
@@ -73,23 +78,23 @@ function StudentPublicProfile(props) {
           <div>
             <Row className="student-details">
               <div xs={6} md={3} className="user-avatar-style">
-                {/* {userDetail.imageUrl === undefined ||
+                 {userDetail.imageUrl === undefined ||
                 userDetail.imageUrl === "null" ||
-                userDetail.imageUrl === "" ? ( */}
+                userDetail.imageUrl === "" ? ( 
                   <Avatar
                     name={`${userDetail?.firstName} ${userDetail?.lastName}`}
                     size="170"
                     round={true}
                     color="silver"
                   />
-                {/* ) : ( */}
+                 ) : ( 
                   <Avatar
                     src={userDetail?.imageUrl}
                     size="170"
                     round={true}
                     color="silver"
                   />
-                {/* )} */}
+               )} 
               </div>
               <div>
                 <p className="student-detail">
