@@ -55,11 +55,13 @@ const CoursesCreation = () => {
   const [category, setCategory] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [type, setType] = useState("");
+  const[courseName,setCourseName]=useState("");
   const [typeId, setTypeId] = useState("Draft");
   const [options, setOptions] = useState([]);
   const [overall, setOverall] = useState({});
   const [createCourse, setCreateCourse] = useState([]);
   const [show, setShow] = useState(false);
+  const [courseId, setCourseId] = useState();
   const [selectCategory, setSelectCategory] = useState("");
   const [date, setDate] = useState("");
   const [isFuture, setIsFuture] = useState(false);
@@ -164,12 +166,12 @@ const CoursesCreation = () => {
   // };
 
   // Log out
-  // const logout = () => {
-  //   setTimeout(() => {
-  //     // localStorage.clear(history.push("/kharpi"));
-  //     window.location.reload();
-  //   }, 2000);
-  // };
+  const logout = () => {
+    setTimeout(() => {
+      // localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
 
   // Create Category
   // const createCategory = () => {
@@ -258,7 +260,9 @@ const CoursesCreation = () => {
   //     };
   //   });
   // };
-
+  useEffect(() => {
+    getCourseData();
+  }, []);
   const closePreview = (setFieldValue) => {
     setImagePreview(undefined);
     setFieldValue("courseImage", "");
@@ -267,13 +271,117 @@ const CoursesCreation = () => {
   const categoryImageClosePReview = () => {
     setCategoryImagePreview(undefined);
   };
+  const getCourseData = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
+      .then((res) => {
+        const data = res.data.data;
+        setCourseActualAmount(data?.actualAmount);
+        setCourseDiscountAmount(data?.discountAmount);
+        getLessonData(data?.discountAmount);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+ const getLessonData = (discountAmount) => {
+    const userId = localStorage.getItem("userId");
 
+    const disAmount = courseDiscountAmount? courseDiscountAmount :discountAmount;
+    Api.get("api/v1/courseLesson/details", {
+      params: {
+        courseId: courseId,
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        const total = res.data.lessonTotal;
+        setOverAllLessonTotal(total);
+        if (total > disAmount) {
+          toast.error("Over All Lesson Amount exceed than course Amount");
+          setIsSubmit(true);
+        }
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
 
   const submitForm = (values) => {
+        const userId = localStorage.getItem("userId");
+    
+    // const actualAmount = parseInt(values.lessonActualAmount);
+    // const discountAmount = parseInt(values.lessonDiscountAmount);
+    // if (discountAmount > actualAmount) {
+    //   toast.error("Lesson Discount Amount Should Be Lesser Than Actual Amount ");
+    // } else {
+    //   Api.post("api/v1/courseLesson/", {
+    //     courseId: courseId,
+    //     lessonNumber: values.lessonNumber,
+    //     lessonName: values.lessonName,
+    //     lessonActualAmount: actualAmount,
+    //     lessonDiscountAmount: discountAmount,
+    //     // zoomId: zoomLink,
+    //     // zoomPassword: zoomPassword,
+    //     // description: convertedData,
+    //     duration: duration,
+    //     userId: userId,
+    //   })
+    //     .then((response) => {
+    //       console.log("response877",response)
+    //       const status = response.status;
+    //       if (status === 201) {
+    //         setIsSubmit(false);
+    //         props.history.goBack();
+    //       } else {
+    //         toast.error(response.data.message);
+    //         setIsSubmit(false);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       if (error.response && error.response.status >= 400) {
+    //         let errorMessage;
+    //         const errorRequest = error.response.request;
+    //         if (errorRequest && errorRequest.response) {
+    //           errorMessage = JSON.parse(errorRequest.response).message;
+    //         }
+    //         toast.error(error.response.data.message);
+    //         setIsSubmit(false);
+    //       }
+    //       const errorStatus = error?.response?.status;
+    //       if (errorStatus === 401) {
+    //         logout();
+    //         toast.error("Session Timeout");
+    //       }
+    //       setIsSubmit(false);
+    //     });
+    // }   
+    Api.post("api/v1/courseLesson/",{
+      // courseId:courseId,
+       userId: userId,
+            lessonNumber: values.lessonNumber,
+        lessonName: values.lessonName,
+         lessonActualAmount:values.actualAmount,
+        lessonDiscountAmount:values.discountAmount,
+          description: convertedData,
+            duration: duration,
+        userId: userId,
+    }).then((response)=>{
+      console.log("response877",response)
+    })
     setOverall(values)
     createCourseCategory();
-    console.log("values", values)
+    console.log("values", values?.courseName)
+    setCourseName(values?.courseName)
   }
 
   const createCategory = () => {
@@ -311,7 +419,7 @@ const CoursesCreation = () => {
       }
     })
       .then((response) => {
-        // console.log("category list", response.data.data);
+        //  console.log("category list", response.data.data);
         setOptions(response.data.data);
       })
 
@@ -330,7 +438,9 @@ const CoursesCreation = () => {
     })
 
       .then((response) => {
-        console.log("Course create", response)
+        console.log("Course create", response.data.data.exist[0].id);
+         const courseID = response.data.data.exist[0].id;
+         console.log("courseID",courseID)
       })
   }
 
@@ -352,6 +462,10 @@ const CoursesCreation = () => {
           <Formik
             enableReinitialize={true}
             initialValues={{
+               lessonNumber: "",
+                lessonName: "",
+                lessonActualAmount: "",
+                lessonDiscountAmount: "",
               category: category,
               courseName: "",
               description: "",

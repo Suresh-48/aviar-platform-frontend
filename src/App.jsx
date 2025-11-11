@@ -25,6 +25,7 @@ import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleLis
 import StudentList from "./Components/AdminStudentList/Index.jsx";
 import CourseList from "./Components/Courselist/Index.jsx";
 import Allsidebar from './Components/Core/Allsidebar.jsx';
+import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 import TeacherList from "./Components/TeacherList/Index.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
+
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -127,6 +129,7 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
+            <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="course/edit/1" element ={<EditCourses/>}/>
             <Route path="course/lesson" element={<CourseLesson/>}/>
