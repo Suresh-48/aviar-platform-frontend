@@ -203,12 +203,22 @@ const CourseList = () => {
                                       Edit
                                     </NavLink>
                                     <hr />
-                                    <NavLink
+                                    <NavLink 
                                       to="#"
                                       className="navigate-edit-text-NavLink"
-                                      onClick={() => setLessonShow(true)}
+                                      // onClick={() => setLessonShow(true)}
                                     >
                                       Archive
+                                    </NavLink>
+                                     <hr />
+                                    <NavLink
+                                        to="#"
+                                        className="navigate-edit-text-NavLink"
+                                        // onClick={() =>
+                                        //   changeCourseType("Draft")
+                                        // }
+                                        >
+                                        Draft
                                     </NavLink>
                                   </div>
                                 </Collapse>
@@ -308,6 +318,14 @@ const CourseList = () => {
                                       Edit
                                     </NavLink>
                                     <hr />
+                                     <NavLink 
+                                      to="#"
+                                      className="navigate-edit-text-NavLink"
+                                      onClick={() => setLessonShow(true)}
+                                    >
+                                      Archive
+                                    </NavLink>
+                                         <hr />
                                     <NavLink
                                       to="#"
                                       className="navigate-edit-text-NavLink"
@@ -400,7 +418,7 @@ const CourseList = () => {
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={"/admin/course/detail/"}
+                                      to={`/course/detail/${course.id}`}
                                       className="navigate-edit-text-NavLink"
                                     >
                                       View

@@ -257,22 +257,24 @@ const handleCancel=()=>{
                   {
                     icon: () => <FontAwesomeIcon icon={faPen} style={{ color: "#03358c" }} size="sm" />,
                     tooltip: 'Edit',
-                      // onClick: (event, rowData) => {
-                      //   navigate("/admin/course/lesson/edit/${rowData.id}", {
-                      //     state: rowData,
-                      //   });
-                      // },
                       onClick: (event, rowData) => {
-                        setSelectedLesson(rowData);
-                        setEditLessonName(rowData.lessonName);
-                        setEditActualAmount(rowData.lessonActualAmount);
-                        setEditDiscountAmount(rowData.lessonDiscountAmount);
-                        setEditDescription(rowData.description);
-                        setEditDuration(rowData.duration);
-                        setEditLessonDetails(true);
+                        navigate(`/admin/course/lesson/edit/${rowData.id}`, {
+                          state: rowData,
+                        });
                       },
+                     
+                      // onClick: (event, rowData) => {
+                      //   // setSelectedLesson(rowData);
+                      //   // setEditLessonName(rowData.lessonName);
+                      //   // setEditActualAmount(rowData.lessonActualAmount);
+                      //   // setEditDiscountAmount(rowData.lessonDiscountAmount);
+                      //   // setEditDescription(rowData.description);
+                      //   // setEditDuration(rowData.duration);
+                      //   // setEditLessonDetails(true);
+                      // },
                  
                   },
+                 
                   {
                     icon: () => <FontAwesomeIcon icon={faTrash} style={{ color: "#03358c" }} size="sm" />,
                      
@@ -316,6 +318,7 @@ const handleCancel=()=>{
             </div>
           {/* // )} */}
         </ThemeProvider>
+        {console.log("CourseID",courseId)}
       </div>
     </Container>
        <Modal show={editLessonDetails} centered onHide={() => handleModal()}>

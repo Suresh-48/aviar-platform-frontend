@@ -1,4 +1,6 @@
 import React from "react";
+import Footer from "../Footer";
+import Navbar from "../Navbar";
 import { Container, Row, Col } from "react-bootstrap";
 // Style
 // import "../CSS/LandingPage.css";
@@ -6,6 +8,7 @@ import { Container, Row, Col } from "react-bootstrap";
 function AboutUs() {
   return (
     <div>
+      <Navbar/>
       <Container>
         <div>
           <h1 className="heading mt-2">Preparing Kids For Life After School...!</h1>
@@ -73,6 +76,7 @@ function AboutUs() {
           </Col>
         </Row>
       </Container>
+      <Footer/>
     </div>
   );
 }

@@ -9,10 +9,12 @@ const CourseSideMenu = (props) => {
   const [courseId, setcourseId] = useState(props.courseId);
   const [lessonId, setlessonId] = useState(props.lessonId);
 //   const history = useHistory();
-
+console.log("courseId in side menu", courseId);
+console.log("lessonId in side menu", lessonId);
+ const navigate = useNavigate();
   return (
     <div className="d-flex justify-content-center">
-      {/* {courseId && lessonId ? ( */}
+      {courseId && lessonId ? (
         <Row className="sidenav">
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
@@ -56,9 +58,12 @@ const CourseSideMenu = (props) => {
               Home Work
             </NavLink>
           </Col>
+
         </Row>
-      {/* ) : ( */}
+      ) : (
         <Row className="sidenav">
+          
+                  {console.log("lessonId", lessonId, "courseId", courseId)}
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
               exact
@@ -96,7 +101,7 @@ const CourseSideMenu = (props) => {
             </NavLink>
           </Col>
         </Row>
-      {/* )} */}
+       )} 
     </div>
   );
 };

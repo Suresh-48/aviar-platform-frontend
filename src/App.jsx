@@ -18,13 +18,14 @@ import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import Course from "./Components/Course.jsx";
 import Trainers from "./Components/Trainers.jsx";
-// import CourseDetail from "./Components/Course/CourseDetail.jsx";
+import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
 import StudentList from "./Components/AdminStudentList/Index.jsx";
 import CourseList from "./Components/Courselist/Index.jsx";
 import Allsidebar from './Components/Core/Allsidebar.jsx';
+import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 import TeacherList from "./Components/TeacherList/Index.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
@@ -77,6 +78,7 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
+
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -129,6 +131,7 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
+            <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path = "upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList/>}/>
             <Route path="course/edit/1" element ={<EditCourses/>}/>
@@ -140,7 +143,7 @@ const App = () => {
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
+            <Route path="course/detail" element={<CourseDetail/>}/>
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>
