@@ -10,8 +10,12 @@ import { List, ListItem, ListItemText } from "@material-ui/core";
 import Loader from "../core/Loader";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import Api from "../../Api";
+import { useNavigate } from "react-router-dom";
 
 const DisplayTeacherApplication = (props) => {
+
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoading, setisLoading] = useState(true);
@@ -19,7 +23,7 @@ const DisplayTeacherApplication = (props) => {
   const [experience, setExperience] = useState([]);
   const [profile, setProfile] = useState([]);
   const [status, setStatus] = useState("");
-//   const history = useHistory();
+  //   const history = useHistory();
 
   //logout
   const logout = () => {
@@ -29,118 +33,232 @@ const DisplayTeacherApplication = (props) => {
     }, 2000);
   };
 
-//   useEffect(() => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     const userId = localStorage.getItem("userId");
-//     Api.get(`api/v1/teacherApplication/${teacherId}`, {
-//       headers: { userId: userId },
-//     })
-//       .then((response) => {
-//         const data = response?.data?.getTeacherApplication;
-//         setStatus(data?.status);
-//         if (data === null) {
-//           setisLoading(false);
-//           // logout();
-//           history.push("/teacher/application/form");
-//         } else {
-//           const firstName = data.teacherId.firstName;
-//           const lastName = data.teacherId.lastName;
-//           const educationData = data.education;
-//           const experienceData = data.experience;
-//           const profileData = data.profile;
-//           setEducation(educationData);
-//           setExperience(experienceData);
-//           setProfile(profileData);
-//           setFirstName(firstName);
-//           setLastName(lastName);
-//           setisLoading(false);
-//         }
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   }, []);
+  useEffect(() => {
+    const teacherId = localStorage.getItem("teacherId");
+    const userId = localStorage.getItem("userId");
+
+    Api.get(`api/v1/teacherApplication/${teacherId}`, {
+      headers: { userId: userId },
+    })
+      .then((response) => {
+        const data = response?.data?.getTeacherApplication;
+        setStatus(data?.status);
+        if (data === null) {
+          setisLoading(false);
+          // logout();
+          // history.push("/teacher/application/form");
+          // navigate("menu");
+          navigate("/teacher/menu");
+
+        } else {
+          const firstName = data.teacherId.firstName;
+          const lastName = data.teacherId.lastName;
+          const educationData = data.education;
+          const experienceData = data.experience;
+          const profileData = data.profile;
+          setEducation(educationData);
+          setExperience(experienceData);
+          setProfile(profileData);
+          setFirstName(firstName);
+          setLastName(lastName);
+          setisLoading(false);
+        }
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  }, []);
 
   return (
     <div className="mx-2">
       {/* {isLoading ? ( */}
-        {/* <Loader /> */}
+      {/* <Loader /> */}
       {/* ) : ( */}
-        <div>
-          {status === "Rejected" ? (
-            <Row>
-              <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
-                <p className="d-flex justify-content-center mt-1">
-                  Your Application is rejected!!! Please contact our Admin
-                </p>
-              </Col>
-            </Row>
-          ) : (
-            <Row>
-              <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
-                <p className="d-flex justify-content-center mt-1">
-                  Your application is being processed. You will be notified
-                  about the application status via your registered email.
-                </p>
-              </Col>
-            </Row>
-          )}
+      <div>
 
-          <hr />
-          {education?.length > 0 ? (
+        {status === "Rejected" ? (
+          <Row>
+            <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
+              <p className="d-flex justify-content-center mt-1">
+                Your Application is rejected!!! Please contact our Admin
+              </p>
+            </Col>
+          </Row>
+        ) : status === "Pending" ? (
+          <Row>
+            <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
+              <p className="d-flex justify-content-center mt-1">
+                Your application is being processed. You will be notified
+                about the application status via your registered email.
+              </p>
+            </Col>
+          </Row>
+        ): <><h5>Welcome {firstName} {lastName} 🎉</h5></>}
+
+        <hr />
+
+
+        {education?.length > 0 ? (
+          <div>
+            {" "}
+            {education.map((index, i) => (
+              <List className="application">
+                <div>
+                  <Row className="teacher-profile-header">
+                    <h5 className="d-flex justify-content-start">
+                      EDUCATION INFORMATION :
+                    </h5>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <ListItem>
+                        <ListItemText
+                          id="institution"
+                          primary="Institution Name"
+                        ></ListItemText>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          secondary={
+                            index.institutionName ? index.institutionName : "-"
+                          }
+                        ></ListItemText>
+                      </ListItem>
+                    </Col>
+                    <Col>
+                      <ListItem>
+                        <ListItemText id="subject" primary="Degree" />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          secondary={index.degree ? index.degree : "-"}
+                        ></ListItemText>
+                      </ListItem>
+                    </Col>
+                    <Col>
+                      <ListItem>
+                        <ListItemText
+                          id="yearOfPassing"
+                          primary="Year of Passing"
+                        />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          secondary={
+                            typeof index.yearOfPassing === "object"
+                              ? index.yearOfPassing?.value || "-"
+                              : index.yearOfPassing || "-"
+                          }
+                        ></ListItemText>
+                      </ListItem>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <ListItem>
+                        <ListItemText
+                          id="state"
+                          primary="State"
+                        ></ListItemText>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          secondary={index.state ? index.state : "-"}
+                        ></ListItemText>
+                      </ListItem>
+                    </Col>
+                    <Col>
+                      <ListItem>
+                        <ListItemText id="city" primary="City" />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          secondary={index.city ? index.city : "-"}
+                        ></ListItemText>
+                      </ListItem>
+                    </Col>
+                    <Col>
+                      <ListItem>
+                        <ListItemText id="country" primary="Country" />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          secondary={
+                            typeof index.country.value === "object"
+                              ? index.country.value || "-"
+                              : index.country || "-"
+                          }
+                        ></ListItemText>
+                      </ListItem>
+                    </Col>
+                  </Row>
+                </div>
+              </List>
+            ))}
+          </div>
+        ) : null}
+        <hr />
+
+        <div>
+          {experience?.length > 0 ? (
             <div>
               {" "}
-              {education.map((index, i) => (
+              {experience.map((index, i) => (
                 <List className="application">
                   <div>
                     <Row className="teacher-profile-header">
                       <h5 className="d-flex justify-content-start">
-                        EDUCATION INFORMATION :
+                        WORKING INFORMATION :
                       </h5>
                     </Row>
                     <Row>
                       <Col>
                         <ListItem>
                           <ListItemText
-                            id="institution"
-                            primary="Institution Name"
+                            id="workInstitution"
+                            primary="Work Institution Name"
                           ></ListItemText>
                         </ListItem>
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.institution ? index.institution : "-"
+                              index.workInstitutionName
+                                ? index.workInstitutionName
+                                : "-"
                             }
                           ></ListItemText>
                         </ListItem>
                       </Col>
                       <Col>
                         <ListItem>
-                          <ListItemText id="subject" primary="Subject" />
+                          <ListItemText
+                            id="subjectTaught"
+                            primary="Subjects Taught"
+                          />
                         </ListItem>
                         <ListItem>
-                          <ListItemText
-                            secondary={index.subject ? index.subject : "-"}
-                          ></ListItemText>
+                          {Array.isArray(index.subjectTaught)
+                            ? index.subjectTaught
+                              .map((skill) => (skill?.value ? skill.value : skill))
+                              .join(", ")
+                            : index.subjectTaught || "-"}
                         </ListItem>
                       </Col>
                       <Col>
                         <ListItem>
                           <ListItemText
-                            id="yearOfPassing"
-                            primary="Year of Passing"
+                            id="experience"
+                            primary="Year of Experience"
                           />
                         </ListItem>
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.yearOfPassing.value
-                                ? index.yearOfPassing.value
-                                : "-"
+                              index.experience ? index.experience : "-"
                             }
                           ></ListItemText>
                         </ListItem>
@@ -150,19 +268,151 @@ const DisplayTeacherApplication = (props) => {
                       <Col>
                         <ListItem>
                           <ListItemText
-                            id="state"
-                            primary="State"
+                            id="role"
+                            primary="Role"
                           ></ListItemText>
                         </ListItem>
                         <ListItem>
                           <ListItemText
-                            secondary={index.state ? index.state : "-"}
+                            secondary={
+                              typeof index.role === "object"
+                                ? index.role?.value || "-"
+                                : index.role || "-"
+                            }
                           ></ListItemText>
                         </ListItem>
                       </Col>
                       <Col>
                         <ListItem>
-                          <ListItemText id="city" primary="City" />
+                          <ListItemText id="startDate" primary="Start Date" />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.roleStartDate
+                                ? moment(index.startDate).format(
+                                  "MMM DD YYYY"
+                                )
+                                : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                      <Col>
+                        <ListItem>
+                          <ListItemText id="endDate" primary="End Date" />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.roleEndDate
+                                ? moment(index.endDate).format("MMM DD YYYY")
+                                : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                    </Row>
+
+                    {/* <Row>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="classSize"
+                            primary="Class Size"
+                          ></ListItemText>
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.classSize ? index.classSize : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="ageRangeFrom"
+                            primary="Age Range From"
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.ageRangeFrom ? index.ageRangeFrom : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="ageRangeTo"
+                            primary="Age Range To"
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.ageRangeTo ? index.ageRangeTo : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                    </Row> */}
+
+                    <Row>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="workAddress1"
+                            primary="Address Line 1"
+                          ></ListItemText>
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.institutionAddressLine1 ? index.institutionAddressLine1 : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="workAddress2"
+                            primary="Address Line 2"
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.institutionAddressLine2 ? index.institutionAddressLine2 : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                      <Col>
+                        <ListItem>
+                          <ListItemText id="workState" primary="State" />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.state ? index.state : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="workCity"
+                            primary="City"
+                          ></ListItemText>
                         </ListItem>
                         <ListItem>
                           <ListItemText
@@ -172,12 +422,45 @@ const DisplayTeacherApplication = (props) => {
                       </Col>
                       <Col>
                         <ListItem>
-                          <ListItemText id="country" primary="Country" />
+                          <ListItemText id="workCountry" primary="Country" />
                         </ListItem>
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.country.value ? index.country.value : "-"
+                              typeof index.country === "object"
+                                ? index.country.value || "-"
+                                : index.country || "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                      <Col>
+                        <ListItem>
+                          <ListItemText id="workZipCode" primary="Zip Code" />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.zipCode ? index.zipCode : "-"
+                            }
+                          ></ListItemText>
+                        </ListItem>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <ListItem>
+                          <ListItemText
+                            id="workInsWebsite"
+                            primary="Web site"
+                          ></ListItemText>
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            secondary={
+                              index.webSite
+                                ? index.webSite
+                                : "-"
                             }
                           ></ListItemText>
                         </ListItem>
@@ -188,276 +471,10 @@ const DisplayTeacherApplication = (props) => {
               ))}
             </div>
           ) : null}
-          <hr />
-
-          <div>
-            {experience?.length > 0 ? (
-              <div>
-                {" "}
-                {experience.map((index, i) => (
-                  <List className="application">
-                    <div>
-                      <Row className="teacher-profile-header">
-                        <h5 className="d-flex justify-content-start">
-                          WORKING INFORMATION :
-                        </h5>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="workInstitution"
-                              primary="Work Institution Name"
-                            ></ListItemText>
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workInstitution
-                                  ? index.workInstitution
-                                  : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="subjectTaught"
-                              primary="Subjects Taught"
-                            />
-                          </ListItem>
-                          <ListItem>
-                            {index.subjectTaught.map(
-                              (skill, i) => skill.value + ",  "
-                            )}
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="experience"
-                              primary="Year of Experience"
-                            />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.experience ? index.experience : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="role"
-                              primary="Role"
-                            ></ListItemText>
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.role.value ? index.role.value : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText id="startDate" primary="Start Date" />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.startDate
-                                  ? moment(index.startDate).format(
-                                      "MMM DD YYYY"
-                                    )
-                                  : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText id="endDate" primary="End Date" />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.endDate
-                                  ? moment(index.endDate).format("MMM DD YYYY")
-                                  : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                      </Row>
-
-                      <Row>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="classSize"
-                              primary="Class Size"
-                            ></ListItemText>
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.classSize ? index.classSize : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="ageRangeFrom"
-                              primary="Age Range From"
-                            />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.ageRangeFrom ? index.ageRangeFrom : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="ageRangeTo"
-                              primary="Age Range To"
-                            />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.ageRangeTo ? index.ageRangeTo : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                      </Row>
-
-                      <Row>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="workAddress1"
-                              primary="Address Line 1"
-                            ></ListItemText>
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workAddress1 ? index.workAddress1 : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="workAddress2"
-                              primary="Address Line 2"
-                            />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workAddress2 ? index.workAddress2 : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText id="workState" primary="State" />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workState ? index.workState : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="workCity"
-                              primary="City"
-                            ></ListItemText>
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={index.workCity ? index.workCity : "-"}
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText id="workCountry" primary="Country" />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workCountry.value
-                                  ? index.workCountry.value
-                                  : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                        <Col>
-                          <ListItem>
-                            <ListItemText id="workZipCode" primary="Zip Code" />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workZipCode ? index.workZipCode : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <ListItem>
-                            <ListItemText
-                              id="workInsWebsite"
-                              primary="Web site"
-                            ></ListItemText>
-                          </ListItem>
-                          <ListItem>
-                            <ListItemText
-                              secondary={
-                                index.workInsWebsite
-                                  ? index.workInsWebsite
-                                  : "-"
-                              }
-                            ></ListItemText>
-                          </ListItem>
-                        </Col>
-                      </Row>
-                    </div>
-                  </List>
-                ))}
-              </div>
-            ) : null}
-          </div>
-          <hr />
         </div>
-    {/* //   )} */}
+        <hr />
+      </div>
+      {/* //   )} */}
 
       <div>
         {profile?.length > 0 ? (

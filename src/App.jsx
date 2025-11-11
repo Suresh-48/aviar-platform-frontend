@@ -60,6 +60,7 @@ import Education from "./Components/TeacherApplication/Education.jsx";
 import Experience from"./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
 import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
+import WizardForm from "./Components/TeacherApplication/WizardForm.jsx"
 
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
@@ -158,10 +159,11 @@ const App = () => {
           >
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
-            <Route path="menu" element={<Menu />} />
-            <Route path="dashboard" element={<Dashboard />}/>
-            <Route path="schedule" element={<TeacherCourseList />} />
-            <Route path="profile" element={<TeacherProfile />} />
+            {/* <Route path="menu" element={<Menu />} /> */}
+            <Route path="menu" element={<WizardForm />} />
+            <Route path="dashboard" element={<TeacherDashboard />}/>
+            <Route path="schedule/:id" element={<TeacherCourseList />} />
+            <Route path="profile/:id" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="review/quiz" element={<TeacherQuizReview />} />
             <Route path="homework/review" element={<TeacherHomeworkReview />} />

@@ -60,8 +60,8 @@ const ApplicationFormConfirmation = () => {
                       <ListItem>
                         <ListItemText
                           secondary={
-                            index.yearOfPassing.value
-                              ? index.yearOfPassing.value
+                            index.yearOfPassing
+                              ? index.yearOfPassing
                               : "-"
                           }
                         ></ListItemText>
@@ -96,7 +96,7 @@ const ApplicationFormConfirmation = () => {
                       <ListItem>
                         <ListItemText
                           secondary={
-                            index.country.value ? index.country.value : "-"
+                            index.country ? index.country : "-"
                           }
                         ></ListItemText>
                       </ListItem>
@@ -106,7 +106,7 @@ const ApplicationFormConfirmation = () => {
               </List>
             ))}
           </div>
-         ) : null} 
+        ) : null}
       </div>
       <hr />
       <div className="form-row">
@@ -145,9 +145,9 @@ const ApplicationFormConfirmation = () => {
                         />
                       </ListItem>
                       <ListItem>
-                        {index.subjectTaught.map(
-                          (skill, i) => skill.value + ",  "
-                        )}
+                        <ListItemText
+                          secondary={index.subjectTaught ? index.subjectTaught : "-"}
+                        ></ListItemText>
                       </ListItem>
                     </Col>
                     <Col>
@@ -171,7 +171,7 @@ const ApplicationFormConfirmation = () => {
                       </ListItem>
                       <ListItem>
                         <ListItemText
-                          secondary={index.role.value ? index.role.value : "-"}
+                          secondary={index.role ? index.role : "-"}
                         ></ListItemText>
                       </ListItem>
                     </Col>
@@ -309,8 +309,8 @@ const ApplicationFormConfirmation = () => {
                       <ListItem>
                         <ListItemText
                           secondary={
-                            index.workCountry.value
-                              ? index.workCountry.value
+                            index.workCountry
+                              ? index.workCountry
                               : "-"
                           }
                         ></ListItemText>

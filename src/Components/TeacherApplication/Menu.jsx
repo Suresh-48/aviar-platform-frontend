@@ -4,8 +4,11 @@ import Education from './Education.jsx';
 import Experience from './Experience';
 import OnlineProfile from './OnlineProfile.jsx';
 import TeacherApplicationForm from './TeacherApplicationForm.jsx';
+import Api from '../../Api.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const Menu = () => {
+  const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState(1);
   const [isFormValid, setIsFormValid] = useState(false);
   const [educationData, setEducationData] = useState(null);
@@ -33,6 +36,37 @@ const Menu = () => {
     }
   };
 
+   const handleSubmit = (e) => {
+    e.preventDefault();
+    const applicationStatus = "Review";
+
+    // API call to submit application (uncomment and implement as needed)
+    Api.post(`api/v1/teacherApplication`, {
+      teacherId: teacherId,
+      education: value.educationData,
+      experience: value.experienceData,
+      profile: value.profileData,
+      userId: userId,
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          toast.success("Updated Successfully");
+          // history.push("/teacher/application/details");
+
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          toast.error(error.response.data.message);
+        }
+        if (error?.response?.status === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
   const progressWidth = ((activeItem - 1) / (steps.length - 1)) * 100;
 
   // Debugging: Log isFormValid state
@@ -51,9 +85,8 @@ const Menu = () => {
         {steps.map((step) => (
           <div
             key={step.number}
-            className={`stepper-item ${
-              activeItem === step.number ? 'active' : ''
-            } ${activeItem > step.number ? 'completed' : ''}`}
+            className={`stepper-item ${activeItem === step.number ? 'active' : ''
+              } ${activeItem > step.number ? 'completed' : ''}`}
           >
             <div className="stepper-number">{step.number}</div>
             <div className="stepper-topic">{step.topic}</div>
@@ -100,13 +133,21 @@ const Menu = () => {
             Previous
           </button>
         )}
-        {activeItem < steps.length && (
+        {activeItem < steps.length ? (
           <button
             onClick={nextStep}
             className="nav-button next"
             disabled={!isFormValid}
           >
             Next
+          </button>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            className="nav-button next"
+            disabled={!isFormValid}
+          >
+            Submit
           </button>
         )}
       </div>

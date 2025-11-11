@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import tableIcons  from "../Core/TableIcons";
+import tableIcons from "../Core/TableIcons";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
@@ -15,6 +15,8 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../core/Loader";
 // import { ROLES_ADMIN } from "../../constants/roles";
 import { toast } from "react-toastify";
+import { useLocation, useParams } from "react-router-dom";
+import Api from "../../Api";
 
 const columns = [
   { title: "S.No", render: (rowdata) => `${rowdata.tableData.id + 1}` },
@@ -56,10 +58,13 @@ const columns = [
 ];
 
 function TeacherCourseList(props) {
-  const [teacherId, setTeacherId] = useState(props?.match?.params?.id);
-  const [firstName, setfirstName] = useState(
-    props?.location?.state?.rowData?.firstName
-  );
+  // const [teacherId, setTeacherId] = useState(props?.match?.params?.id);
+  // const [firstName, setfirstName] = useState(
+  //   props?.location?.state?.rowData?.firstName
+  // );
+  const { id: teacherId } = useParams();
+  const location = useLocation();
+  const firstName = location.state?.rowData?.firstName;
   const [lastName, setlastName] = useState(
     props?.location?.state?.rowData?.lastName
   );
@@ -69,7 +74,7 @@ function TeacherCourseList(props) {
   const [colId, setColId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const userId = localStorage.getItem("userId");
-//   const history = useHistory();
+  //   const history = useHistory();
 
   //logout
   const logout = () => {
@@ -94,136 +99,136 @@ function TeacherCourseList(props) {
     },
   });
 
-//   useEffect(() => {
-//     const role = localStorage.getItem("role");
-//     setRole(role);
-//     getTeacherScheduleList();
-//   }, []);
+    useEffect(() => {
+      const role = localStorage.getItem("role");
+      setRole(role);
+      getTeacherScheduleList();
+    }, []);
 
-//   const isAdmin = role === ROLES_ADMIN;
+    // const isAdmin = role === ROLES_ADMIN;
 
-//   const getTeacherScheduleList = () => {
-//     Api.get(`api/v1/teacher/course/list`, {
-//       params: {
-//         teacherId: teacherId,
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const data = response.data.teacherCourses;
-//         setdata(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+    const getTeacherScheduleList = () => {
+      Api.get(`api/v1/teacher/course/list`, {
+        params: {
+          teacherId: teacherId,
+          userId: userId,
+        },
+      })
+        .then((response) => {
+          const data = response.data.teacherCourses;
+          setdata(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            logout();
+            toast.error("Session Timeout");
+          }
+        });
+    };
 
   return (
     <div>
       <Container className="mb-3">
         {/* {isLoading ? ( */}
-          {/* <Loader /> */}
+        {/* <Loader /> */}
         {/* ) : ( */}
-          <div>
-            {/* {isAdmin ? ( */}
-              <div className="d-flex justify-content-center align-items-center py-3">
-                <h5>{`${firstName + " " + lastName}`} Schedule List</h5>
-              </div>
-            {/* ) : ( */}
-              <div className="d-flex justify-content-center align-items-center py-3">
-                <h5> Schedule List</h5>
-              </div>
-            {/* // )} */}
-            <div className="material-table-responsive">
-              <ThemeProvider theme={tableTheme}>
-                <MaterialTable
-                  icons={tableIcons}
-                  columns={columns}
-                  options={{
-                    actionsColumnIndex: -1,
-                    addRowPosition: "last",
-                    headerStyle: {
-                      fontWeight: "bold",
-                      backgroundColor: "#1d1464",
-                      color: "white",
-                      zIndex: 0,
-                    },
-                    showTitle: false,
-                  }}
-                  data={data}
-                  actions={[
-                    (rowData) => {
-                      return {
-                        icon: () => (
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              className="teacher-menu-dropdown"
-                              varient="link"
-                            >
-                              <FontAwesomeIcon
-                                icon={faEllipsisV}
-                                size="sm"
-                                color="#397ad4"
-                              />
-                            </Dropdown.Toggle>
-                            {colId === rowData.id ? (
-                              <Dropdown.Menu
-                                right
-                                className="menu-dropdown-status py-0"
-                              >
-                                <Dropdown.Item className="status-list">
-                                  <Link
-                                    to={{
-                                      pathname: `/upcoming/schedule/${colId}`,
-                                      state: {
-                                        rowData,
-                                      },
-                                    }}
-                                    className="collapse-text-style"
-                                  >
-                                    Upcoming Schedule
-                                  </Link>
-                                </Dropdown.Item>
-                                <hr />
-                                <Dropdown.Item className="status-list">
-                                  <Link
-                                    to={{
-                                      pathname: `/class/student/list/${rowData.id}`,
-                                      state: {
-                                        rowData,
-                                      },
-                                    }}
-                                    className="collapse-text-style"
-                                  >
-                                    Students List
-                                  </Link>
-                                </Dropdown.Item>
-                              </Dropdown.Menu>
-                            ) : null}
-                          </Dropdown>
-                        ),
-                        onClick: (event, rowData) => {
-                          setColId(rowData.id);
-                          setIsOpen(!isOpen);
-                        },
-                      };
-                    },
-                  ]}
-                  localization={{
-                    body: {
-                      emptyDataSourceMessage:
-                        "Teacher Course List Yet to be Schedule",
-                    },
-                  }}
-                />
-              </ThemeProvider>
-            </div>
+        <div>
+          {/* {isAdmin ? ( */}
+          {/* <div className="d-flex justify-content-center align-items-center py-3">
+            <h5>{`${firstName + " " + lastName}`} Schedule List</h5>
+          </div> */}
+          {/* ) : ( */}
+          <div className="d-flex justify-content-center align-items-center py-3">
+            <h5> Schedule List</h5>
           </div>
+          {/* // )} */}
+          <div className="material-table-responsive">
+            <ThemeProvider theme={tableTheme}>
+              <MaterialTable
+                icons={tableIcons}
+                columns={columns}
+                options={{
+                  actionsColumnIndex: -1,
+                  addRowPosition: "last",
+                  headerStyle: {
+                    fontWeight: "bold",
+                    backgroundColor: "#1d1464",
+                    color: "white",
+                    zIndex: 0,
+                  },
+                  showTitle: false,
+                }}
+                data={data}
+                actions={[
+                  (rowData) => {
+                    return {
+                      icon: () => (
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            className="teacher-menu-dropdown"
+                            varient="link"
+                          >
+                            <FontAwesomeIcon
+                              icon={faEllipsisV}
+                              size="sm"
+                              color="#397ad4"
+                            />
+                          </Dropdown.Toggle>
+                          {colId === rowData.id ? (
+                            <Dropdown.Menu
+                              right
+                              className="menu-dropdown-status py-0"
+                            >
+                              <Dropdown.Item className="status-list">
+                                <Link
+                                  to={{
+                                    pathname: `/upcoming/schedule/${colId}`,
+                                    state: {
+                                      rowData,
+                                    },
+                                  }}
+                                  className="collapse-text-style"
+                                >
+                                  Upcoming Schedule
+                                </Link>
+                              </Dropdown.Item>
+                              <hr />
+                              <Dropdown.Item className="status-list">
+                                <Link
+                                  to={{
+                                    pathname: `/class/student/list/${rowData.id}`,
+                                    state: {
+                                      rowData,
+                                    },
+                                  }}
+                                  className="collapse-text-style"
+                                >
+                                  Students List
+                                </Link>
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          ) : null}
+                        </Dropdown>
+                      ),
+                      onClick: (event, rowData) => {
+                        setColId(rowData.id);
+                        setIsOpen(!isOpen);
+                      },
+                    };
+                  },
+                ]}
+                localization={{
+                  body: {
+                    emptyDataSourceMessage:
+                      "Teacher Course List Yet to be Schedule",
+                  },
+                }}
+              />
+            </ThemeProvider>
+          </div>
+        </div>
         {/* // )} */}
       </Container>
     </div>
