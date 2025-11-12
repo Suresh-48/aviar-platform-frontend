@@ -23,6 +23,11 @@ import "./CSS/Login.css";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [teacherId, setTeacherId] = useState("");
+  const [status, setStatus] = useState("");
+  
+
+
   const navigate = useNavigate();
   const { login } = useContext(AuthContext); // ✅ login from context
 
@@ -76,12 +81,21 @@ const Login = () => {
       if (res.status === 200) {
         const data = res.data.updateToken;
 
+        console.log(data, "data.......")
+
+        setTeacherId(data.teacherId)
+
+        console.log(teacherId,"statusstatusteacherId");
+
         const userData = {
           id: data.id,
           role: data.role,
           token: data.token,
+          firstName: data.firstName,
+          lastName: data.lastName,
           studentId: data.studentId,
           teacherId: data.teacherId,
+          status:status
         };
 
         login(userData); // ✅ Save to context + localStorage
@@ -106,6 +120,33 @@ const Login = () => {
       toast.error(message);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (teacherId) {
+      fetchAllData();
+    }
+  }, [])
+
+  const fetchAllData = async () => {
+    try {
+      setIsLoading(true);
+
+      // Fetch teacher status
+      const teacherRes = await Api.get(`api/v1/teacher/${teacherId}`);
+      const teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
+      setStatus(teacherStatus);
+
+      // Fetch dashboard & upcoming schedule data
+      await Promise.all([
+        getTeacherCourseCount(teacherIdFromStorage),
+        TeacherUpcomingScheduleData(teacherIdFromStorage),
+      ]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
