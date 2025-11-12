@@ -63,6 +63,7 @@ const navigate = useNavigate();
               onClick={() => {
                 setStudentId(rowData.id);
                 setshow(true);
+                console.log("rowData.id", rowData.id); 
               }}
             >
               {`${rowData.firstName} ${rowData.lastName}`}
