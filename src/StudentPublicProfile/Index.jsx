@@ -10,7 +10,7 @@ import Avatar from "react-avatar";
 // import Api from "../../Api";
 
 // style
-import "../../Css/StudentDetails.css";
+// import "../../Css/StudentDetails.css";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
