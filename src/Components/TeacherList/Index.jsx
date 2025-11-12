@@ -414,14 +414,13 @@ const navigate = useNavigate();
                           />
                         ),
                         tooltip: "View Teacher Available Time",
-                        onClick: (event, rowData) => {
-                          history.push({
-                            pathname: "/teacher/not-available",
-                            state: {
-                              rowData: rowData,
-                            },
-                          });
-                        },
+                     onClick: (event, rowData) => {
+  navigate("/teacher/not-available", {
+    state: {
+      rowData: rowData,
+    },
+  });
+},
                       },
                       (rowData) => {
                         return {
@@ -455,28 +454,24 @@ const navigate = useNavigate();
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: `/teacher/edit/${colId}`,
-                                      }}
-                                      className="collapse-text-style"
-                                    >
-                                      Edit Teacher Details
-                                    </Link>
+                                 <Link
+  to={`/admin/teacher/edit/${colId}`}
+  className="collapse-text-style"
+>
+  Edit Teacher Details
+</Link>
+
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: `/teacher/schedule/${colId}`,
-                                        state: {
-                                          rowData,
-                                        },
-                                      }}
-                                      className="collapse-text-style"
-                                    >
-                                      View course List
-                                    </Link>
+                                  <Link
+  to={`/teacher/schedule/${colId}`}
+  state={{ rowData }}
+  className="collapse-text-style"
+>
+  View Course List
+</Link>
+
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
@@ -490,16 +485,15 @@ const navigate = useNavigate();
                                   </Dropdown.Item>{" "}
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: "/teacher/payments",
-                                        state: rowData.id,
-                                      }}
-                                      onClick={() => teacherPayment(rowData.id)}
-                                      className="collapse-text-style"
-                                    >
-                                      Teacher Payment
-                                    </Link>
+                                   <Link
+  to="/teacher/payments"
+  state={{ teacherId: rowData.id }}
+  onClick={() => teacherPayment(rowData.id)}
+  className="collapse-text-style"
+>
+  Teacher Payment
+</Link>
+
                                   </Dropdown.Item>
                                 </Dropdown.Menu>
                               ) : null}
@@ -643,9 +637,9 @@ const navigate = useNavigate();
                   return (
                     <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3">
-                        <LabelComponent notify={true}>
+                        <label notify={true}>
                           Enter Payment Amount
-                        </LabelComponent>
+                        </label>
 
                         <Form.Control
                           name="pay"

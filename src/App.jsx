@@ -63,7 +63,8 @@ import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
 // import AdminUpcomingScheduleList from "./Components/AdminStudentUpcomingSchedule/Index.jsx";
 import AdminUpcomingScheduleList from "./Components/AdminUpcomingScheduleList/Index.jsx";
 import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.jsx";
-
+import EditTeacher from "./Components/EditTeacher/Index.jsx";
+import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
   // const [open, setOpen] = useState(false);
@@ -149,6 +150,8 @@ const App = () => {
             {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
+            <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
+            <Route path="set/password" element={<TeacherResetPassword/>}/>
             {/* <Route path="upcoming/schedule/list/:id" element={<AdminStudentUpcomingScheduleList/>}/> */}
           </Route>
           {/* Teacher Routes */}
@@ -167,7 +170,7 @@ const App = () => {
             <Route index element={<Navigate to="/teacher/dashboard" />} />
             <Route path="menu" element={<Menu />} />
             <Route path="dashboard" element={<Dashboard />}/>
-            <Route path="schedule" element={<TeacherCourseList />} />
+            <Route path="schedule/:id" element={<TeacherCourseList />} />
             <Route path="profile" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="review/quiz" element={<TeacherQuizReview />} />
