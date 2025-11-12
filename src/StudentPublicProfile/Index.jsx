@@ -7,7 +7,7 @@ import Avatar from "react-avatar";
 // import Loader from "../core/Loader";
 // import Loader from "../../Components/Core/Loader";
 // Api
-// import Api from "../../Api";
+import Api from "../Api";
 
 // style
 // import "../../Css/StudentDetails.css";
@@ -27,13 +27,6 @@ function StudentPublicProfile(props) {
     getDashboardDetails();
   }, []);
 
-  logout
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear(history.push("/kharpi"));
-      window.location.reload();
-    }, 2000);
-  };
 
   const userDetails = () => {
     
