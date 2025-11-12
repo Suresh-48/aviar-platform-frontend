@@ -73,7 +73,24 @@ const CoursesCreation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'align': [] }],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
 
+const quillFormats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list', 'bullet',
+  'align',
+  'link', 'image'
+];
   useEffect(() => {
     getCategory();
   }, []);
@@ -378,7 +395,14 @@ const CoursesCreation = () => {
                             onChange={(content) => {
                               setFieldValue("descriptionValue", content);
                             }}
+                               modules={quillModules}
+    formats={quillFormats}
+     style={{ height: "100px", marginBottom: "50px" }}
+     
                           />
+                           {/* {(!descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === "") && (
+    <p className="error text-danger">Description Is Required</p>
+  )} */}
                           {/* </div> */}
                           <ErrorMessage
                             name="descriptionValue"

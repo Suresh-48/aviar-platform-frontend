@@ -1,31 +1,32 @@
-import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment-timezone";
 
-// Material Table Icons
-import AddBox from "@material-ui/icons/AddBox";
-import Edit from "@material-ui/icons/Edit";
+// Material Table - using @material-table/core
+import MaterialTable from "@material-table/core";
+import AddBox from "@mui/icons-material/AddBox";
+import Edit from "@mui/icons-material/Edit";
 
 // Component
 import Loader from "../core/Loader";
 import CourseSideMenu from "../CourseSideMenu";
-import  tableIcons  from "../Core/TableIcons";
+import tableIcons from "../core/TableIcons.jsx";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 const tableTheme = createTheme({
-  overrides: {
+  components: {
     MuiTableRow: {
-      root: {
-        "&:hover": {
-          cursor: "pointer",
-          backgroundColor: "rgba(224, 224, 224, 1) !important",
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            cursor: "pointer",
+            backgroundColor: "rgba(224, 224, 224, 1) !important",
+          },
         },
       },
     },
@@ -36,14 +37,24 @@ function CourseSchedule(props) {
   const [data, setData] = useState([]);
   const [courseDetail, setCourseDetail] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [courseId, setcourseId] = useState(props?.location?.state?.courseId);
+  const [courseId, setCourseId] = useState(props?.location?.state?.courseId);
   const navigate = useNavigate();
+
+  // For React Router v6 compatibility
+  React.useEffect(() => {
+    // Try to get courseId from different possible sources
+    const locationState = props?.location?.state?.courseId || props?.state?.courseId;
+    if (!courseId && locationState) {
+      setCourseId(locationState);
+    }
+  }, [props?.location?.state?.courseId, props?.state?.courseId]);
 
   // Column Heading
   const columns = [
     {
       title: "S.No",
       render: (rowData) => rowData?.tableData?.id + 1,
+      cellStyle: { width: 80 },
     },
     {
       title: "Weekly On",
@@ -58,10 +69,12 @@ function CourseSchedule(props) {
     {
       title: "Start Time",
       field: "startTime",
+      cellStyle: { width: 120 },
     },
     {
       title: "End Time",
       field: "endTime",
+      cellStyle: { width: 120 },
     },
     {
       title: "Maximum Enroll Count",
@@ -76,111 +89,131 @@ function CourseSchedule(props) {
               rowData?.teacherId?.firstName + " " + rowData?.teacherId?.lastName
             }`
           : "Not Scheduled",
+      cellStyle: { width: 200 },
     },
   ];
 
   // Log out
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear(history.push("/kharpi"));
-//       window.location.reload();
-//     }, 2000);
-//   };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      navigate("/kharpi");
+      window.location.reload();
+    }, 2000);
+  };
 
   // Get course schedule
-//   const courseSchedule = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get("/api/v1/courseSchedule/course/list", {
-//       params: {
-//         courseId: courseId,
-//         userId: userId,
-//       },
-//     })
-//       .then((res) => {
-//         const list = res.data.courseList;
-//         setData(list);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const courseSchedule = () => {
+    const userId = localStorage.getItem("userId");
+    if (!courseId) {
+      setIsLoading(false);
+      return;
+    }
+
+    Api.get("/api/v1/courseSchedule/course/list", {
+      params: {
+        courseId: courseId,
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        const list = res.data.courseList;
+        setData(list);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+        setIsLoading(false);
+      });
+  };
 
   // Get course detail
-//   const getCourseDetail = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get(`api/v1/course/${courseId}`, { userId: userId })
-//       .then((response) => {
-//         const courseDetail = response.data.data;
-//         setCourseDetail(courseDetail);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getCourseDetail = () => {
+    const userId = localStorage.getItem("userId");
+    if (!courseId) return;
+
+    Api.get(`api/v1/course/${courseId}`, { 
+      headers: { userId: userId } 
+    })
+      .then((response) => {
+        const courseDetail = response.data.data;
+        setCourseDetail(courseDetail);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
   useEffect(() => {
-    // courseSchedule();
-    // getCourseDetail();
-  }, []);
+    if (courseId) {
+      courseSchedule();
+      getCourseDetail();
+    } else {
+      setIsLoading(false);
+    }
+  }, [courseId]);
 
   // Delete Course Schedule
-//   const deleteCourseSchedule = (data, reload) => {
-//     const date = Date.now();
-//     const cTime = moment(date).tz("America/Chicago").format("LT");
-//     const cDate = moment(date).tz("America/Chicago").format("ll");
-//     const userId = localStorage.getItem("userId");
+  const deleteCourseSchedule = (data, reload) => {
+    const date = Date.now();
+    const cTime = moment(date).tz("America/Chicago").format("LT");
+    const cDate = moment(date).tz("America/Chicago").format("ll");
+    const userId = localStorage.getItem("userId");
 
-//     Api.delete(`api/v1/courseSchedule/`, {
-//       params: {
-//         scheduleId: data.id,
-//         courseId: courseId,
-//         currentDate: cDate,
-//         currentTime: cTime,
-//         userId: userId,
-//       },
-//     })
-//       .then((res) => {
-//         courseSchedule();
-//         reload();
-//       })
-//       .catch((error) => {
-//         if (error.response && error.response.status >= 400) {
-//           let errorMessage;
-//           const errorRequest = error.response.request;
-//           if (errorRequest && errorRequest.response) {
-//             errorMessage = JSON.parse(errorRequest.response).message;
-//             reload();
-//           }
-//           reload();
-//           toast.error(error.response.data.message);
-//         }
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+    Api.delete(`api/v1/courseSchedule/`, {
+      params: {
+        scheduleId: data.id,
+        courseId: courseId,
+        currentDate: cDate,
+        currentTime: cTime,
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        courseSchedule();
+        reload();
+        toast.success("Schedule deleted successfully");
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          reload();
+          toast.error(error.response.data.message || "Failed to delete schedule");
+        }
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   return (
     <Container className="mt-1">
       <CourseSideMenu courseId={courseId} />
-      <div className=" row">
+      <div className="row">
         <ThemeProvider theme={tableTheme}>
-          {/* {isLoading ? (
+          {isLoading ? (
             <Loader />
-          ) : ( */}
+          ) : (
             <div className="edit-course-lesson-style mb-3">
               <div className="mt-2 py-3">
                 <h4>Schedules</h4>
+                {courseDetail?.name && (
+                  <h6 className="text-muted">Course: {courseDetail.name}</h6>
+                )}
               </div>
               <div className="material-table-responsive">
                 <MaterialTable
@@ -195,12 +228,11 @@ function CourseSchedule(props) {
                       tooltip: "Add Schedule",
                       isFreeAction: true,
                       onClick: (event, rowData) => {
-                        navigate(
-                          "/admin/course/schedule/add",{
-                        //   state: {
-                            // courseId: courseId,
-                            // courseName: courseDetail?.name,
-                        //   },
+                        navigate("/admin/course/schedule/add", {
+                          state: {
+                            courseID: courseID,
+                            courseName: courseDetail?.name,
+                          },
                         });
                       },
                     },
@@ -208,7 +240,9 @@ function CourseSchedule(props) {
                       icon: () => <Edit style={{ color: "#1458e0" }} />,
                       tooltip: "Edit Schedule",
                       onClick: (event, rowData) => {
-                        navigate("/admin/course/schedule/update", rowData);
+                        navigate("/course/schedule/update", { 
+                          state: rowData 
+                        });
                       },
                     },
                   ]}
@@ -220,23 +254,35 @@ function CourseSchedule(props) {
                   }}
                   localization={{
                     body: {
-                      emptyDataSourceMessage: "Schedule Yet to be Created!.",
+                      emptyDataSourceMessage: "No schedules found. Click the + button to add a new schedule.",
+                    },
+                    toolbar: {
+                      searchTooltip: "Search",
+                      searchPlaceholder: "Search schedules...",
                     },
                   }}
                   options={{
                     actionsColumnIndex: -1,
-                    addRowPosition: "last",
+                    addRowPosition: "first",
                     headerStyle: {
                       fontWeight: "bold",
                       backgroundColor: "#1d1464",
                       color: "white",
                       zIndex: 0,
                     },
+                    pageSize: 10,
+                    pageSizeOptions: [5, 10, 20],
+                    padding: "dense",
+                    sorting: true,
+                    search: true,
+                    filtering: false,
+                    showTitle: true,
+                    draggable: false,
                   }}
                 />
               </div>
             </div>
-        {/* //   )} */}
+          )}
         </ThemeProvider>
       </div>
     </Container>

@@ -1,36 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { NavLink,useParams } from "react-router-dom";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { FormControl, Form, Container, Modal, Col, Row } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
-// import { Editor } from "react-draft-wysiwyg";
-// import { EditorState } from "draft-js";
-// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import { convertToRaw, convertFromRaw } from "draft-js";
-import "react-quill"
-import "react-quill/dist/quill.snow.css";
-import "react-quill/dist/quill.bubble.css";
-import axios from "axios";
 import ReactQuill from "react-quill";
-// Api
+import "react-quill/dist/quill.snow.css";
+
+// Api - you'll need to create this or adjust the path
 import Api from "../../Api";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-//css
-import "../../CSS/CourseCreation.css";
+//css - you'll need to create this or adjust the path
+// import "../../css/CourseCreation.scss";
 
-// Component
+// Components - you'll need to create these or adjust the paths
 import Loader from "../core/Loader";
-import CourseSideMenu from "../CourseSideMenu/Index.jsx";
-import Label from "../Core/Label";
-import { customStyles } from "../Core/Selector";
-// import { Api } from "@mui/icons-material";
+import CourseSideMenu from "../CourseSideMenu";
+import Label from "../../components/core/Label";
+import { customStyles } from "../core/Selector";
 
 // Validation
 const SignInSchema = Yup.object().shape({
@@ -41,8 +33,27 @@ const SignInSchema = Yup.object().shape({
   duration: Yup.object().required("Duration is Required").nullable(),
 });
 
+// React Quill modules configuration
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'align': [] }],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
+
+const quillFormats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list', 'bullet',
+  'align',
+  'link', 'image'
+];
+
 const EditCourses = (props) => {
-  const { courseID } = useParams();
   const [courseId, setCourseId] = useState(props?.match?.params?.id);
   const [aliasName, setAliasName] = useState(props?.location?.aliasName);
   const [category, setCategory] = useState("");
@@ -59,80 +70,57 @@ const EditCourses = (props) => {
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [duration, setDuration] = useState("");
-  const [courseName, setCourseName] = useState("");
-  const [submitType, setSubmitType] = useState("");
   const [durationValue, setDurationValue] = useState("");
   const [imageType, setImageType] = useState("image");
-  // const [description, setDescription] = useState(EditorState.createEmpty());
+  const [description, setDescription] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
 
+  // For React Router v6 compatibility
+  const params = new URLSearchParams(window.location.search);
+  const pathSegments = window.location.pathname.split('/');
+  const idFromUrl = pathSegments[pathSegments.length - 1];
+
+  // Use the ID from URL if no props provided (React Router v6)
+  React.useEffect(() => {
+    if (!courseId && idFromUrl && idFromUrl !== 'edit') {
+      setCourseId(idFromUrl);
+    }
+  }, [courseId, idFromUrl]);
+
   //logout
-  // const logout = () => {
-  //   setTimeout(() => {
-  //     localStorage.clear(props.history.push("/kharpi"));
-  //     window.location.reload();
-  //   }, 2000);
-  // };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      // For React Router v6, you might need to use useNavigate hook
+      if (props.history) {
+        props.history.push("/kharpi");
+      } else {
+        window.location.href = "/kharpi";
+      }
+      window.location.reload();
+    }, 2000);
+  };
 
   // Get Course Data
-  console.log("courseID1234567", courseID);
   const getCourseData = () => {
     const userId = localStorage.getItem("userId");
-   
-    Api.get(`api/v1/course/${courseID}`, { headers: { userId: userId } })
+    if (!courseId) return;
+
+    Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
       .then((response) => {
-         setCourseName(response.data.data.name);
-                 setDescriptionValue(response.data.data.description);
-           const categoryData = response.data.data.category;
-
-             const categoryOption = {
-      // value: categoryData,
-      label: categoryData.name,
-    };
-    
-        setCategory(categoryOption);           
-    // setCategoryId(categoryData);         
-    // setFieldValue("category", categoryData);
-
-      const typeData = response.data.data.submitType; // e.g., "draft" or "published"
-
- 
-    const typeOption = {
-      value: typeData,
-      label: typeData.charAt(0).toUpperCase() + typeData.slice(1),
-    };
-   
-    setSubmitType(typeOption); 
-    setType(typeOption); 
-    // setFieldValue(typeOption); 
-  
-
-           const durationData = response.data.data.duration; // e.g., "6 months"
-
-
-    const durationOption = {
-      value: durationData,
-      label: durationData,
-    };
-
- 
-    setDuration(durationOption);
-
-    setFieldValue("duration", durationOption.value);
-    
-
-
-        // setCategory(response.data.data.category.name)
-          
-       
-       
-     
         const data = response.data.data;
-        const contentState = convertFromRaw(JSON.parse(data.description));
-        const editorState = EditorState.createWithContent(contentState);
-        const editedText = convertToRaw(editorState.getCurrentContent());
+        let descriptionContent = "";
+
+        try {
+          const draftContent = JSON.parse(data.description);
+          descriptionContent = draftContent.blocks?.map(block => block.text).join('\n') || data.description;
+        } catch (e) {
+
+          descriptionContent = data.description || "";
+        }
+
         setCourseData(data);
-        // setCategory({ value: data?.category?._id, label: data?.category?.name });
+        setCategory({ value: data?.category?._id, label: data?.category?.name });
         setType({ value: data.submitType, label: data.submitType });
         setIsFuture(data.isFuture);
         setCategoryId(data?.category?._id);
@@ -141,8 +129,8 @@ const EditCourses = (props) => {
         setDuration({ value: data.duration, label: data.duration });
         setDurationValue(data.duration);
         setIsLoading(false);
-        setDescription(editorState);
-        setDescriptionValue(editedText.blocks[0].text);
+        setDescription(descriptionContent);
+        setDescriptionValue(descriptionContent);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -153,34 +141,29 @@ const EditCourses = (props) => {
       });
   };
 
-  // const getCourseData = () => {
-  //     const userId = localStorage.getItem("userId");  
-  //     console.log("course id");
-  //     Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
-  //   .then((response) => {
-  //         const data = response;
-  //         console.log("course data", data);
-  //   })
-  // }
-  const onChangeDescription = (setFieldValue, e) => {
-    const editedText = convertToRaw(e.getCurrentContent());
-    setDescriptionValue(editedText.blocks[0].text);
+  const onChangeDescription = (value) => {
+    setDescription(value);
+    setDescriptionValue(value);
   };
 
   useEffect(() => {
     getCategory();
-    getCourseData();
-  }, []);
+    if (courseId) {
+      getCourseData();
+    }
+  }, [courseId]);
 
   // Get category
   const getCategory = () => {
     const userId = localStorage.getItem("userId");
-    Api.get("/api/v1/category/", { headers: { userId: userId } })
+    Api.get("api/v1/category", {
+      headers: {
+        userId: userId,
+      },
+    })
       .then((res) => {
-        const option = res.data.data;
-        console.log("category option", option);
+        const option = res.data.data.data;
         setOptions(option);
-        setIsLoading(false);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -191,34 +174,22 @@ const EditCourses = (props) => {
       });
   };
 
-  // const getCategory = () => {
-  //     const userId = localStorage.getItem("userId");
-  //     Api.get("api/v1/category", {
-  //       headers: { userId: userId },
-  //     }   
-  //     )
-  //     .then((res) => {
-
-  //         const option = res.data.data;
-  //          console.log("category data", option);
-  //         setOptions(option);
-  //       }
-  //     )
-  //   }
   const handleModal = () => {
     setShow(!show);
   };
 
   // Submit form
   const submitForm = (values) => {
-    const convertedData = JSON.stringify(convertToRaw(description.getCurrentContent()));
+    // With react-quill, we can send the HTML content directly
+    const descriptionContent = description;
     const userId = localStorage.getItem("userId");
     setIsSubmit(true);
+
     Api.patch("api/v1/course/" + courseId, {
       id: courseId,
       category: categoryId,
       name: values.courseName,
-      description: convertedData,
+      description: descriptionContent, // Send the HTML content directly
       type: typeId,
       isFuture: isFuture,
       duration: durationValue,
@@ -270,6 +241,7 @@ const EditCourses = (props) => {
               userId: userId,
             })
               .then((res) => {
+                console.log("res", res);
                 toast.success("Updated");
                 setIsSubmit(false);
               })
@@ -306,41 +278,25 @@ const EditCourses = (props) => {
 
   // Create Category
   const createCategory = () => {
-    setIsSubmit(true);
     const userId = localStorage.getItem("userId");
-
-    Api.post("api/v1/category/", {
+    setIsSubmit(true);
+    Api.post("api/v1/category", {
       name: selectCategory,
-      createdBy: userId,
       userId: userId,
     })
       .then((response) => {
         const status = response.status;
         const data = response.data.data;
-        const categoryImage = categoryImagePreview;
         if (status === 201) {
-          if (categoryImage) {
-            const categoryId = response.data.data.createCategory.id;
-            Api.patch("api/v1/category/image/upload", {
-              categoryId: categoryId,
-              image: categoryImagePreview,
-              userId: userId,
-            }).then((res) => {
-              getCategory();
-              setIsSubmit(false);
-            });
-          } else {
-            history.goBack();
-            setIsSubmit(false);
-          }
           setCategory({
-            id: data?.createCategory?.id,
-            label: data?.createCategory?.name,
+            id: data.createCategory.id,
+            label: data.createCategory.name,
           });
-          setCategoryId(data?.createCategory?.id);
+          setCategoryId(data.createCategory.id);
           setSelectCategory("");
           handleModal();
           getCategory();
+          getCourseData();
           setIsSubmit(false);
         } else {
           toast.error(response.data.message);
@@ -393,183 +349,183 @@ const EditCourses = (props) => {
     <Container className="mt-1">
       <CourseSideMenu courseId={courseId} aliasName={aliasName} />
       <div className="row edit-course-lesson-style mt-4 mx-0">
-        {/* {isLoading ? (
-          <Loader /> */}
-        {/* ) : ( */}
-        <div>
-          <div className="mt-3 mt-1">
-            <h4>Edit Course </h4>
-          </div>
-          <div className="col-sm-12">
-            <Formik
-              enableReinitialize={true}
-              initialValues={{
-                category: category,
-                courseName: courseData.name,
-                description: "",
-                descriptionValue: descriptionValue,
-              submitType: submitType,
-                duration: duration,
-                courseImage: imagePreview,
-              }}
-              validationSchema={SignInSchema}
-              onSubmit={(values) => submitForm(values)}
-            >
-              {(formik) => {
-                const { values, handleChange, handleSubmit, handleBlur, isValid, setFieldValue } = formik;
-                return (
-                  <Row>
-                    <Form onSubmit={handleSubmit}>
-                      <Row>
-                        <Col md={7}>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Category</Label>
-                            <Select
-                              value={category}
-                              styles={customStyles}
-                              placeholder="Select Category"
-                              name="category"
-                              onChange={(e) => {
-                                if (e.value === "create new") {
-                                  handleModal();
-                                } else {
-                                  setFieldValue("category", e);
-                                  setCategory(e);
-                                  setCategoryId(e.value);
-                                }
-                              }}
-                              options={[
-                                {
-                                  value: "create new",
-                                  label: "Create New Category",
-                                },
-                                {
-                                  options: options?.map((list) => ({
-                                    value: list.id,
-                                    label: list.name,
-                                  })),
-                                },
-                              ]}
-                            />
-                         
-                            <ErrorMessage
-                              name="category"
-                              component="span"
-                              className="error text-danger error-message"
-                            />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Course Name</Label>
-                            <FormControl
-                              type="type"
-                              name="courseName"
-                              id="courseName"
-                              placeholder="Enter Course Name"
-                              value={courseName}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-styles"
-                            />
-                            <ErrorMessage
-                              name="courseName"
-                              component="span"
-                              className="error text-danger error-message"
-                            />
-                          </Form.Group>
-                          <div className="mb-3">
-                            <Label notify={true}>Description</Label>
-                            {/* <div className="description"> */}
-                            <ReactQuill
-                              theme="snow"
-                              value={values.descriptionValue}
-                              onChange={(content) => {
-                                setFieldValue("descriptionValue", content);
-                              }}
-                            />
-                            {/* </div> */}
-                            <ErrorMessage
-                              name="descriptionValue"
-                              component="span"
-                              className="error text-danger"
-                            />
-                          </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div>
+            <div className="mt-3 mt-1">
+              <h4>Edit Course </h4>
+            </div>
+            <div className="col-sm-12">
+              <Formik
+                enableReinitialize={true}
+                initialValues={{
+                  category: category,
+                  courseName: courseData.name || "",
+                  description: description,
+                  descriptionValue: descriptionValue,
+                  type: type?.value || "",
+                  duration: duration,
+                  courseImage: imagePreview,
+                }}
+                validationSchema={SignInSchema}
+                onSubmit={(values) => submitForm(values)}
+              >
+                {(formik) => {
+                  const { values, handleChange, handleSubmit, handleBlur, isValid, setFieldValue } = formik;
+                  return (
+                    <Row>
+                      <Form onSubmit={handleSubmit}>
+                        <Row>
+                          <Col xs={12} sm={12} md={7}>
+                            <Form.Group className="form-row mb-3">
+                              <Label notify={true}>Category</Label>
 
+                              <Select
+                                styles={customStyles}
+                                value={values.category}
+                                placeholder="Select Category"
+                                name="category"
+                                isOptionDisabled={(options) => options.isdisabled}
+                                onChange={(e) => {
+                                  if (e.value === "create new") {
+                                    setShow(!show);
+                                    getCategory();
+                                    getCourseData();
+                                  } else {
+                                    setFieldValue("category", e);
+                                    setCategory(e);
+                                    setCategoryId(e.value);
+                                    getCategory();
+                                    getCourseData();
+                                  }
+                                }}
+                                options={[
+                                  {
+                                    value: "create new",
+                                    label: "Create New Category",
+                                    isdisabled: true,
+                                  },
+                                  {
+                                    options: options?.map((list) => ({
+                                      value: list.id,
+                                      label: list.name,
+                                      isdisabled: true,
+                                    })),
+                                  },
+                                ]}
+                              />
+                              <ErrorMessage
+                                name="category"
+                                component="span"
+                                className="error text-danger error-message"
+                              />
+                            </Form.Group>
+                            <Form.Group className="form-row mb-3" controlId="courseName">
+                              <Label notify={true}>Course Name</Label>
+                              <FormControl
+                                type="type"
+                                name="courseName"
+                                id="courseName"
+                                placeholder="Enter Course Name"
+                                value={values.courseName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="form-styles"
+                              />
+                              <ErrorMessage
+                                name="courseName"
+                                component="span"
+                                className="error text-danger error-message"
+                              />
+                            </Form.Group>
+                            <div className="mb-3">
+                              <Label notify={true}>Description</Label>
+                              <ReactQuill
+                                theme="snow"
+                                value={description}
+                                onChange={onChangeDescription}
+                                modules={quillModules}
+                                formats={quillFormats}
+                                style={{ height: "200px", marginBottom: "50px" }}
+                              />
+                              {(!descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === "") && (
+                                <p className="error text-danger">Description Is Required</p>
+                              )}
+                            </div>
 
-                          <div className="row mb-3">
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group
-                                className="form-row"
-                                style={{ marginRight: 20, width: "100%" }}
-                              >
-                                <Label notify={true}>Status</Label>
-                                <br />
-                                <Select
-                                  value={submitType}
-                                  styles={customStyles}
-                                  placeholder="Select Status"
-                                  onChange={(e) => {
-                                    setFieldValue("type", e);
-                                    setType(e.value);
-                                  }}
-                                  
-                                  options={[{ value: "Draft", label: "Draft" }]}
-                                />
-                                <ErrorMessage
-                                  name="type"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row">
-                                <Label notify={true}>Duration</Label>
-                                <Select
-                                  name="duration"
-                                  styles={customStyles}
-                                  placeholder="Select Duration"
-                                  value={values.duration}
-                                  onChange={(e) => {
-                                    setFieldValue("duration", e);
-                                    setDuration(e.value);
-                                  }}
-                                  options={[
-                                    {
-                                      value: "1 ",
-                                      label: "1 Hour",
-                                    },
-                                  ]}
-                                />
-                                <ErrorMessage
-                                  name="duration"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </div>
-                          <div>
-                            <Col
-                              xs={12}
-                              sm={12}
-                              md={12}
-                              className="d-flex justify-content-start align-items-center"
-                            >
-                              <Form.Group className="form-row">
-                                <Form.Check
-                                  className="checkbox-style mt-0"
-                                  type="checkbox"
-                                  label="Display In Landing Page"
-                                  checked={isFuture}
-                                  onChange={(e) => {
-                                    setIsFuture(!isFuture);
-                                  }}
-                                />
-                              </Form.Group>
-                            </Col>
-                          </div>
-                        </Col>
-                        {/* <Col xs={12} sm={12} md={5}>
+                            <div className="row mb-3">
+                              <Col xs={12} sm={6} md={6}>
+                                <Form.Group className="form-row" style={{ marginRight: 20, width: "100%" }}>
+                                  <Label notify={true}>Status</Label>
+                                  <br />
+                                  <FormControl
+                                    value={values.type}
+                                    styles={customStyles}
+                                    placeholder="Select Status"
+                                    name="type"
+                                    onChange={handleChange}
+                                    disabled
+                                  />
+                                  <ErrorMessage
+                                    name="type"
+                                    component="span"
+                                    className="error text-danger error-message"
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col xs={12} sm={6} md={6}>
+                                <Form.Group className="form-row">
+                                  <Label notify={true}>Durations</Label>
+                                  <Select
+                                    name="duration"
+                                    styles={customStyles}
+                                    value={values.duration}
+                                    onChange={(e) => {
+                                      setFieldValue("duration", e);
+                                      setDuration(e.value);
+                                    }}
+                                    options={[
+                                      {
+                                        value: "1 hour",
+                                        label: "1 hour",
+                                      },
+                                      // Add more duration options as needed
+                                      {
+                                        value: "2 hours",
+                                        label: "2 hours",
+                                      },
+                                      {
+                                        value: "3 hours",
+                                        label: "3 hours",
+                                      },
+                                      {
+                                        value: "4 hours",
+                                        label: "4 hours",
+                                      },
+                                    ]}
+                                  />
+                                  <ErrorMessage name="duration" component="span" className="error text-danger" />
+                                </Form.Group>
+                              </Col>
+                            </div>
+                            <div>
+                              <Col className="d-flex justify-content-start align-items-center">
+                                <Form.Group className="form-row">
+                                  <Form.Check
+                                    className="checkbox-style mt-0"
+                                    type="checkbox"
+                                    label="Display In Landing Page"
+                                    checked={isFuture}
+                                    onChange={(e) => {
+                                      setIsFuture(!isFuture);
+                                    }}
+                                  />
+                                </Form.Group>
+                              </Col>
+                            </div>
+                          </Col>
+                          {/* <Col xs={12} sm={12} md={5}>
                             <Row>
                               <div className="d-flex justify-content-center  ">
                                 <label className="file-upload">
@@ -638,80 +594,78 @@ const EditCourses = (props) => {
                               </div>
                             </Row>
                           </Col> */}
-                        <Row className=" mb-4 mt-3">
-                          <Col className="d-flex justify-content-end ">
-                            <button
-                              type="submit"
-                              disabled={!isValid || isSubmit || descriptionValue === ""}
-                              variant="contained"
-                              className={`${!isValid || isSubmit || descriptionValue === ""
-                                  ? "save-changes-disable font-weight-bold py-2 px-3"
-                                  : "save-changes-active font-weight-bold py-2 px-3"
-                                }`}
-                            >
-                              SAVE CHANGES
-                            </button>
-                          </Col>
+                          <Row className=" mb-4 mt-3">
+                            <Col className="d-flex justify-content-end ">
+                              <button
+                                type="submit"
+                                disabled={!isValid || isSubmit || !descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === ""}
+                                variant="contained"
+                                className={`${!isValid || isSubmit || !descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === ""
+                                    ? "save-changes-disable font-weight-bold py-2 px-3"
+                                    : "save-changes-active font-weight-bold py-2 px-3"
+                                  }`}
+                              >
+                                SAVE CHANGES
+                              </button>
+                            </Col>
+                          </Row>
                         </Row>
-                      </Row>
-                    </Form>
-                  </Row>
-                );
-              }}
-            </Formik>
-            <Modal show={show} centered onHide={handleModal}>
-              <Modal.Body id="contained-modal-title-vcenter">
-                <div className="container py-3">
-                  <div className="row flex-direction-row">
-                    <h3 className=" d-flex justify-content-center align-self-center ">Create Course Category</h3>
-                  </div>
-                  <div className="mt-3">
-                    <Row>
-                      <Form className="category-form-style">
-                        <Form.Group className="form-row mb-3" style={{ width: "100%" }}>
-                          <Label notify={true}>Category Name</Label>
-                          <FormControl
-                            type="text"
-                            name="selectCategory"
-                            id="selectCategory"
-                            placeholder="Enter Category Name"
-                            value={selectCategory}
-                            onChange={(e) => setSelectCategory(e.target.value)}
-                            className="form-styles"
-                          />
-                        </Form.Group>
                       </Form>
                     </Row>
+                  );
+                }}
+              </Formik>
+              <Modal show={show} centered onHide={handleModal}>
+                <Modal.Body id="contained-modal-title-vcenter">
+                  <div className="container py-3">
+                    <div className="row flex-direction-row">
+                      <h3 className=" d-flex justify-content-center align-self-center ">Create Course Category</h3>
+                    </div>
+                    <div className="mt-3">
+                      <Row>
+                        <Form className="category-form-style">
+                          <Form.Group className="form-row mb-3" style={{ width: "100%" }}>
+                            <Label notify={true}>Category Name</Label>
+                            <FormControl
+                              type="text"
+                              name="selectCategory"
+                              id="selectCategory"
+                              placeholder="Enter Category Name"
+                              value={selectCategory}
+                              onChange={(e) => setSelectCategory(e.target.value)}
+                              className="form-styles"
+                            />
+                          </Form.Group>
+                        </Form>
+                      </Row>
+                    </div>
+                    <Row className="mb-3 mt-3">
+                      <Col className="d-flex justify-content-start ">
+                        <button
+                          disabled={!selectCategory}
+                          onClick={() => {
+                            createCategory();
+                          }}
+                          className={`${!selectCategory
+                              ? "create-disable font-weight-bold py-2 px-3"
+                              : "create-active font-weight-bold py-2 px-3"
+                            }`}
+                        >
+                          CREATE
+                        </button>
+                      </Col>
+                      <Col className="d-flex justify-content-end ">
+                        <button onClick={handleModal} className="cancel font-weight-bold py-2 px-3">
+                          CANCEL
+                        </button>
+                      </Col>
+                    </Row>
                   </div>
-                  <Row className="mb-3 mt-3">
-                    <Col>
-                      <Button
-                        variant="contained"
-                        onClick={() => createCategory()}
-                        disabled={!selectCategory}
-                        style={{
-                          backgroundColor: !selectCategory ? "gray" : "#1d1464",
-                          color: "#fff",
-                          borderRadius: "4px",
-                        }}
-                        className="create-category-button-style"
-                      >
-                        CREATE
-                      </Button>
-
-                    </Col>
-                    <Col className="d-flex justify-content-end ">
-                      <button onClick={handleModal} className="cancel font-weight-bold py-2 px-3">
-                        CANCEL
-                      </button>
-                    </Col>
-                  </Row>
-                </div>
-              </Modal.Body>
-            </Modal>
+                </Modal.Body>
+              </Modal>
+            </div>
           </div>
-        </div>
-        {/* )} */}
+        )}
       </div>
     </Container>
   );

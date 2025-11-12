@@ -153,7 +153,7 @@ const handleGoBack = () => {
                 lessonActualAmount: "",
                 lessonDiscountAmount: "",
                 // description: "",
-                // descriptionValue: "",
+                 descriptionValue: "",
               }}
               validationSchema={createLessonSchema}
               onSubmit={(values) => submitForm(values)}
