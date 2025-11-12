@@ -6,16 +6,18 @@ import "../../CSS/CourseMenu.css";
 import { useNavigate } from "react-router-dom";
 
 const CourseSideMenu = (props) => {
+     const { id } = useParams();
   const { courseID } = useParams();
   const [courseId, setcourseId] = useState(props.courseID);
-  const [lessonId, setlessonId] = useState(props.lessonId);
+  const [lessonId] = useState(id);
   //   const history = useHistory();
-  console.log("courseId in side menu", courseID);
+  console.log("Lesson 123", id);
+  console.log("CourseID 123", courseID);
   // console.log("lessonId in side menu", lessonId);
   const navigate = useNavigate();
   return (
     <div className="d-flex justify-content-center">
-      {courseID && lessonId ? (
+      {courseID && id ? (
         <Row className="sidenav">
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
@@ -49,7 +51,7 @@ const CourseSideMenu = (props) => {
                 pathname: "/admin/homework/create",
                 state: {
                   lessonId: lessonId,
-                  courseId: courseId,
+                  courseID: courseID,
                 },
               }}
 

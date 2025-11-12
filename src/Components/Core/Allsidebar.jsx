@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate,useParams } from "react-router-dom";
 import { Tooltip } from "@mui/material";
 import Avatar from "react-avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,6 +34,7 @@ import "../../CSS/Global.css";
 import HeaderNavbar from "./HeaderNavbar";
 
 const Allsidebar = ({ sidebar }) => {
+     const { id } = useParams();
   const [open, setOpen] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

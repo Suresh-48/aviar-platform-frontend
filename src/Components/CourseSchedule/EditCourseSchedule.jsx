@@ -76,75 +76,75 @@ const EditCourseSchedule = (props) => {
   }, []);
 
   // Log out
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear(props.history.push("/kharpi"));
-//       window.location.reload();
-//     }, 2000);
-//   };
+  const logout = () => {
+    setTimeout(() => {
+      // localStorage.clear(props.history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
 
   //get course schedule data
   const getCourseScheduleData = () => {
     const userId = localStorage.getItem("userId");
-    // Api.get(`/api/v1/courseSchedule/get/schedule`, {
-    //   params: {
-    //     courseScheduleId: courseScheduleId,
-    //     userId: userId,
-    //   },
-    // })
-    //   .then((res) => {
-    //     const data = res.data.scheduleOne;
-    //     const dateFormat = moment(data.startTime, ["LT"]).format("LLLL");
-    //     setDetails(data);
-    //     setStartTime(dateFormat);
-    //     setTimeZone(data.timeZone);
-    //     setIsLoading(false);
-    //     setWeekly(data.weeklyOn);
-    //     setWeeklyId(data.weeklyOn);
-    //     setStartDate(data.startDate);
-    //     setTeacherNameValue(data?.teacherId?._id);
-    //     setTeacherName(
-    //       data?.teacherId?._id
-    //         ? {
-    //             value: data?.teacherId?._id,
-    //             label: (
-    //               <div className="d-flex justify-content-start align-items-center">
-    //                 <Avatar
-    //                   round
-    //                   size="38"
-    //                   className="d-flex justify-content-center"
-    //                 >
-    //                   <p className="dropdown-option mb-0">
-    //                     {data?.teacherId?.firstName.substring(0, 1)}
-    //                     {data?.teacherId?.middleName
-    //                       ? data?.teacherId?.middleName.substring(0, 1)
-    //                       : data?.teacherId?.lastName.substring(0, 1)}
-    //                   </p>
-    //                 </Avatar>
-    //                 <div className="dropdown-names">
-    //                   {`${
-    //                     data?.teacherId?.firstName +
-    //                     " " +
-    //                     data?.teacherId?.middleName +
-    //                     " " +
-    //                     data?.teacherId?.lastName +
-    //                     " "
-    //                   }`}
-    //                 </div>
-    //               </div>
-    //             ),
-    //           }
-    //         : ""
-    //     );
-    //     setTeacherId(data?.teacherId?._id ? data?.teacherId?._id : null);
-    //   })
-    //   .catch((error) => {
-    //     const errorStatus = error?.response?.status;
-    //     if (errorStatus === 401) {
-    //       logout();
-    //       toast.error("Session Timeout");
-    //     }
-    //   });
+    Api.get(`/api/v1/courseSchedule/get/schedule`, {
+      params: {
+        courseScheduleId: courseScheduleId,
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        const data = res.data.scheduleOne;
+        const dateFormat = moment(data.startTime, ["LT"]).format("LLLL");
+        setDetails(data);
+        setStartTime(dateFormat);
+        setTimeZone(data.timeZone);
+        setIsLoading(false);
+        setWeekly(data.weeklyOn);
+        setWeeklyId(data.weeklyOn);
+        setStartDate(data.startDate);
+        setTeacherNameValue(data?.teacherId?._id);
+        setTeacherName(
+          data?.teacherId?._id
+            ? {
+                value: data?.teacherId?._id,
+                label: (
+                  <div className="d-flex justify-content-start align-items-center">
+                    <Avatar
+                      round
+                      size="38"
+                      className="d-flex justify-content-center"
+                    >
+                      <p className="dropdown-option mb-0">
+                        {data?.teacherId?.firstName.substring(0, 1)}
+                        {data?.teacherId?.middleName
+                          ? data?.teacherId?.middleName.substring(0, 1)
+                          : data?.teacherId?.lastName.substring(0, 1)}
+                      </p>
+                    </Avatar>
+                    <div className="dropdown-names">
+                      {`${
+                        data?.teacherId?.firstName +
+                        " " +
+                        data?.teacherId?.middleName +
+                        " " +
+                        data?.teacherId?.lastName +
+                        " "
+                      }`}
+                    </div>
+                  </div>
+                ),
+              }
+            : ""
+        );
+        setTeacherId(data?.teacherId?._id ? data?.teacherId?._id : null);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
   };
 
   // End Time
@@ -184,50 +184,50 @@ const EditCourseSchedule = (props) => {
     const startTimeFormat = moment(values.startTime, "LLLL").format("LT");
     const dateValue = moment(startDate).format("ll");
     const userId = localStorage.getItem("userId");
-    // Api.patch(`/api/v1/courseSchedule/${courseScheduleId}`, {
-    //   courseId: details.courseId,
-    //   weeklyOn: weekly,
-    //   startTime: startTimeFormat,
-    //   endTime: values.endTime,
-    //   timeZone: values.timeZone,
-    //   totalStudentEnrolled: values.enrollstudent,
-    //   zoomId: values.zoomLink,
-    //   zoomPassword: values.zoomPassword,
-    //   startDate: dateValue,
-    //   teacherName: teacherNameValue,
-    //   teacherId: teacherId,
-    //   userId: userId,
-    // })
-    //   .then((response) => {
-    //     const status = response.status;
-    //     if (status === 201) {
-    //       setIsSubmit(false);
-    //       props.history.goBack();
-    //       toast.success(response.data.message);
+    Api.patch(`/api/v1/courseSchedule/${courseScheduleId}`, {
+      courseId: details.courseId,
+      weeklyOn: weekly,
+      startTime: startTimeFormat,
+      endTime: values.endTime,
+      // timeZone: values.timeZone,
+      totalStudentEnrolled: values.enrollstudent,
+      // zoomId: values.zoomLink,
+      // zoomPassword: values.zoomPassword,
+      startDate: dateValue,
+      teacherName: teacherNameValue,
+      teacherId: teacherId,
+      userId: userId,
+    })
+      .then((response) => {
+        const status = response.status;
+        if (status === 201) {
+          setIsSubmit(false);
+          props.history.goBack();
+          toast.success(response.data.message);
 
-    //       Api.post("api/v1/teacherUpcomingSchedule", {
-    //         courseScheduleId: courseScheduleId,
-    //         teacherId: teacherId,
-    //         userId: userId,
-    //       });
-    //     } else {
-    //       toast.error(response.data.message);
-    //       setIsSubmit(false);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     if (error.response && error.response.status >= 400) {
-    //       let errorMessage;
-    //       const errorRequest = error.response.request;
-    //       if (errorRequest && errorRequest.response) {
-    //         errorMessage = JSON.parse(errorRequest.response).message;
-    //       }
-    //       toast.error(error.response.data.message);
-    //       setIsSubmit(false);
-    //     }
+          Api.post("api/v1/teacherUpcomingSchedule", {
+            courseScheduleId: courseScheduleId,
+            teacherId: teacherId,
+            userId: userId,
+          });
+        } else {
+          toast.error(response.data.message);
+          setIsSubmit(false);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+          setIsSubmit(false);
+        }
 
-    //     setIsSubmit(false);
-    //   });
+        setIsSubmit(false);
+      });
   };
 
   return (

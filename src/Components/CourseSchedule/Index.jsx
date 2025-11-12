@@ -1,19 +1,19 @@
+import MaterialTable from "@material-table/core";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment-timezone";
 
-// Material Table - using @material-table/core
-import MaterialTable from "@material-table/core";
+// Material Table Icons
 import AddBox from "@mui/icons-material/AddBox";
 import Edit from "@mui/icons-material/Edit";
 
 // Component
 import Loader from "../core/Loader";
 import CourseSideMenu from "../CourseSideMenu";
-import tableIcons from "../core/TableIcons.jsx";
+import tableIcons  from "../core/TableIcons.jsx";
 
 // Api
 import Api from "../../Api";
@@ -33,21 +33,15 @@ const tableTheme = createTheme({
   },
 });
 
-function CourseSchedule(props) {
+function CourseSchedule() {
   const [data, setData] = useState([]);
   const [courseDetail, setCourseDetail] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [courseId, setCourseId] = useState(props?.location?.state?.courseId);
+  const location = useLocation();
   const navigate = useNavigate();
-
-  // For React Router v6 compatibility
-  React.useEffect(() => {
-    // Try to get courseId from different possible sources
-    const locationState = props?.location?.state?.courseId || props?.state?.courseId;
-    if (!courseId && locationState) {
-      setCourseId(locationState);
-    }
-  }, [props?.location?.state?.courseId, props?.state?.courseId]);
+  
+  // Get courseId from location state
+  const [courseId, setCourseId] = useState(location.state?.courseId);
 
   // Column Heading
   const columns = [
@@ -188,6 +182,7 @@ function CourseSchedule(props) {
           const errorRequest = error.response.request;
           if (errorRequest && errorRequest.response) {
             errorMessage = JSON.parse(errorRequest.response).message;
+            reload();
           }
           reload();
           toast.error(error.response.data.message || "Failed to delete schedule");
@@ -230,7 +225,7 @@ function CourseSchedule(props) {
                       onClick: (event, rowData) => {
                         navigate("/admin/course/schedule/add", {
                           state: {
-                            courseID: courseID,
+                            courseId: courseId,
                             courseName: courseDetail?.name,
                           },
                         });
