@@ -62,6 +62,7 @@ import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
 import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
 import AdminUpcomingScheduleList from "./Components/AdminUpcomingScheduleList/Index.jsx"
 import AdminStudentUpcomingScheduleList from "./Components/AdminStudentUpcomingSchedule/Index.jsx";
+import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.jsx";
 
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
@@ -127,6 +128,7 @@ const App = () => {
             }
           >
             <Route index element={<Navigate to="/admin/dashboard" />} />
+            <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
@@ -139,6 +141,8 @@ const App = () => {
             <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
             <Route path="students/list" element={<StudentList />} /> 
             <Route path="course/list" element={<CourseList />} />
+            {/* <Route path="application/details" element={<DisplayTeacherApplication />} /> */}
+            <Route path="application/details" element={<DisplayTeacherApplication />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
             <Route path="upcoming/schedule/student/list/:id" element={<AdminUpcomingScheduleList/>} />

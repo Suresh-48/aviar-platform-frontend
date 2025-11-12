@@ -12,6 +12,8 @@ import {
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 // import { convertFromRaw } from "quill-js";
 // import Quill from "quill-js";
 
@@ -57,6 +59,7 @@ function TeacherList(props) {
   const [payment, setPayment] = useState("");
   const [teacherId, setTeacherId] = useState("");
   const userId = localStorage.getItem("userId");
+const navigate = useNavigate();
 
   //logout
   const logout = () => {
@@ -145,16 +148,12 @@ function TeacherList(props) {
     {
       title: "Name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: "/teacher/profile/view",
-            state: {
-              teacherId: rowData.id,
-            },
-          }}
-        >
-          {rowData.firstName + " " + rowData.lastName}
+     <Link
+  className="linkColor"
+  to="/admin/teacher/profile/view"
+  state={{ teacherId: rowData.id }}
+>
+      {rowData.firstName + " " + rowData.lastName + " "}
         </Link>
       ),
     },
@@ -175,19 +174,23 @@ function TeacherList(props) {
       cellStyle: { color: "#375474" },
       render: (rowData) => (
         <Link
-          className="linkColor"
-          to={{
-            pathname: "/teacher/application",
-            state: {
-              teacherId: rowData.id,
-            },
-          }}
+              className="linkColor"
+              to="/admin/application/details"
+              state={{ teacherId: rowData.id }}
         >
-          View
-        </Link>
+
+           View
+      </Link>
+
       ),
     },
   ];
+//   <Link
+//   className="linkColor"
+//   to={`/admin/application/details/${rowData.id}`}
+// >
+//   View
+// </Link>
   const approvedDatacolumn = [
     {
       title: "S.No",

@@ -11,14 +11,16 @@ import Loader from "../core/Loader";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import Api from "../../Api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DisplayTeacherApplication = (props) => {
+
+  const { teacherId } = useParams();
 
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [education, setEducation] = useState([]);
   const [experience, setExperience] = useState([]);
   const [profile, setProfile] = useState([]);
@@ -33,45 +35,37 @@ const DisplayTeacherApplication = (props) => {
     }, 2000);
   };
 
-  useEffect(() => {
-    const teacherId = localStorage.getItem("teacherId");
+useEffect(() => {
+    const storedTeacherId = localStorage.getItem("teacherId");
+    const idToUse = teacherId || storedTeacherId;
     const userId = localStorage.getItem("userId");
 
-    Api.get(`api/v1/teacherApplication/${teacherId}`, {
-      headers: { userId: userId },
+    Api.get(`api/v1/teacherApplication/${idToUse}`, {
+      headers: { userId },
     })
       .then((response) => {
         const data = response?.data?.getTeacherApplication;
-        setStatus(data?.status);
-        if (data === null) {
-          setisLoading(false);
-          // logout();
-          // history.push("/teacher/application/form");
-          // navigate("menu");
+        if (!data) {
           navigate("/teacher/menu");
-
-        } else {
-          const firstName = data.teacherId.firstName;
-          const lastName = data.teacherId.lastName;
-          const educationData = data.education;
-          const experienceData = data.experience;
-          const profileData = data.profile;
-          setEducation(educationData);
-          setExperience(experienceData);
-          setProfile(profileData);
-          setFirstName(firstName);
-          setLastName(lastName);
-          setisLoading(false);
+          return;
         }
+
+        setStatus(data.status);
+        setFirstName(data.teacherId.firstName);
+        setLastName(data.teacherId.lastName);
+        setEducation(data.education || []);
+        setExperience(data.experience || []);
+        setProfile(data.profile || []);
+        setIsLoading(false);
       })
       .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
+        console.error(error);
+        if (error?.response?.status === 401) {
           toast.error("Session Timeout");
+          logout();
         }
       });
-  }, []);
+  }, [teacherId, navigate]);
 
   return (
     <div className="mx-2">
