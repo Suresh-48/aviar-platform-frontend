@@ -367,5 +367,5 @@ const EditStudentDetails = (props) => {
     </Container>
   );
 };
-
+}
 export default EditStudentDetails;
