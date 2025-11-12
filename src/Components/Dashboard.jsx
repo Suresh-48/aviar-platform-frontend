@@ -11,13 +11,14 @@ function Dashboard() {
 
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
+    console.log(storedRole)
     const userId = localStorage.getItem("userId");
 
     // ✅ Redirect to login if not authenticated
-    if (!storedRole || !userId) {
-      navigate("/login");
-      return;
-    }
+    // if (!storedRole || !userId) {
+    //   navigate("/login");
+    //   return;
+    // }
 
     setRole(storedRole);
   }, [navigate]);
@@ -36,7 +37,7 @@ function Dashboard() {
   }
 
   // Optional: fallback UI while role is being loaded
-  return <div>Loading...</div>;
+  return <div>Loading....</div>;
 }
 
 export default Dashboard;

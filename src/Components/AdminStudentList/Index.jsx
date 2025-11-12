@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // import tableIcons  from "../Core/TableIcons";
-import tableIcons  from "../Core/TableIcons";
+import tableIcons from "../Core/TableIcons";
 // Use the appropriate props from the imported components
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
@@ -28,10 +28,24 @@ function AdminStudentsList(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [show, setshow] = useState(false);
+  const [role, setRole] = useState("");
   const [studentId, setStudentId] = useState("");
-//   const history = useHistory();
-const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+  //   const history = useHistory();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    console.log(storedRole, "......stiredROled")
+
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : null;
+    const userId = user?.id;
+
+    console.log(userId, "userId......")
+
+    setRole(userId);
+  }, [navigate]);
+
 
   const tableTheme = createTheme({
     overrides: {
@@ -58,6 +72,7 @@ const navigate = useNavigate();
       headerStyle: { textAlign: "center" },
       render: (rowData) => (
         <div className="linkColor">
+          {rowData}
           <u>
             <text
               onClick={() => {
@@ -87,23 +102,25 @@ const navigate = useNavigate();
 
   // Log out
   const logout = () => {
-     setTimeout(() => {
-       localStorage.clear(history.push("/kharpi"));
-       window.location.reload();
-     }, 2000);
+    setTimeout(() => {
+      localStorage.clear(navigate("/login"));
+      window.location.reload();
+    }, 2000);
   };
 
   const getAdminStudentsList = () => {
-    Api.get("api/v1/student", { headers: { userId: userId } })
+    Api.get("api/v1/student", { headers: { userId: role } })
       .then((response) => {
         const data = response?.data?.data?.data;
+        console.log(data, "datal......")
         setData(data);
         setIsLoading(false);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
+        console.log(errorStatus,"errorStatus")
         if (errorStatus === 401) {
-          logout();
+          // logout();
           toast.error("Session Timeout");
         }
       });
@@ -120,69 +137,69 @@ const navigate = useNavigate();
   return (
     <div>
       {/* {isLoading ? ( */}
-        {/* <Loader /> */}
+      {/* <Loader /> */}
       {/* ) : ( */}
-        <Container>
-          <Row>
-            <h3>Students</h3>
-          </Row>
-          <div className="material-table-responsive">
-            <ThemeProvider theme={tableTheme}>
-              <MaterialTable
-                columns={columns}
-                data={data}
-                style={{ marginBottom: "10px" }}
-                icons={tableIcons}
-                options={{
-                  showTitle: false,
-                  headerStyle: {
-                    backgroundColor: "#1d1464",
-                    color: "white",
-                    zIndex: 0,
-                    fontWeight: "bold",
-                    minWidth: "150px",
+      <Container>
+        <Row>
+          <h3>Students</h3>
+        </Row>
+        <div className="material-table-responsive">
+          <ThemeProvider theme={tableTheme}>
+            <MaterialTable
+              columns={columns}
+              data={data}
+              style={{ marginBottom: "10px" }}
+              icons={tableIcons}
+              options={{
+                showTitle: false,
+                headerStyle: {
+                  backgroundColor: "#1d1464",
+                  color: "white",
+                  zIndex: 0,
+                  fontWeight: "bold",
+                  minWidth: "150px",
+                },
+                actionsColumnIndex: -1,
+                addRowPosition: "last",
+              }}
+              localization={{
+                body: {
+                  emptyDataSourceMessage: "No Students List",
+                },
+              }}
+              actions={[
+                {
+                  icon: () => (
+                    <p
+                      className="enroll-style"
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        marginBottom: 0,
+                        color: "#375474",
+                        textAlign: "left",
+                      }}
+                    >
+                      View Schedule
+                    </p>
+                    // <FontAwesomeIcon icon={faEye} size="sm" color="#375474" />
+                  ),
+                  onClick: (event, rowData) => {
+                    navigate({
+                      pathname: `/admin/upcoming/schedule/list/${rowData.id}`,
+                      state: {
+                        firstName: rowData.firstName,
+                        lastName: rowData.lastName,
+                      },
+                    });
                   },
-                  actionsColumnIndex: -1,
-                  addRowPosition: "last",
-                }}
-                localization={{
-                  body: {
-                    emptyDataSourceMessage: "No Students List",
-                  },
-                }}
-                actions={[
-                  {
-                    icon: () => (
-                      <p
-                        className="enroll-style"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: "bold",
-                          marginBottom: 0,
-                          color: "#375474",
-                          textAlign: "left",
-                        }}
-                      >
-                        View Schedule
-                      </p>
-                      // <FontAwesomeIcon icon={faEye} size="sm" color="#375474" />
-                    ),
-                    onClick: (event, rowData) => {
-                      navigate({
-                        pathname: `/admin/upcoming/schedule/list/${rowData.id}`,
-                        state: {
-                          firstName: rowData.firstName,
-                          lastName: rowData.lastName,
-                        },
-                      });
-                    },
-                    tooltip: "View Upcoming Course Schedule",
-                  },
-                ]}
-              />
-            </ThemeProvider>
-          </div>
-        </Container>
+                  tooltip: "View Upcoming Course Schedule",
+                },
+              ]}
+            />
+          </ThemeProvider>
+        </div>
+      </Container>
       {/* )} */}
       <Modal show={show} onHide={() => handleModal()} dialogClassName="popup-container-Style">
         <Modal.Header closeButton className="popup-header-close-style" />

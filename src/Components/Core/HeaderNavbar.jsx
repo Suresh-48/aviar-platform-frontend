@@ -15,6 +15,19 @@ const HeaderNavbar = () => {
   const [lastName, setLastName] = useState("Doe");
   const [image, setImage] = useState("");
 
+   useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const parsed = JSON.parse(userData);
+      // console.log(parsed, "parsed user data...");
+      setFirstName(parsed.firstName || "");
+      setLastName(parsed.lastName || "");  // adjust key name as needed
+    } else {
+      console.log("No user found in localStorage");
+    }
+  }, []); 
+
+
   const logout = () => {
     localStorage.clear();
     toast.success("Logged out successfully!");
