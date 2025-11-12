@@ -35,6 +35,9 @@ const Allsidebar = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const userRole = localStorage.getItem("role");
   const teacherId = localStorage.getItem("teacherId");
+  const user = localStorage.getItem('user');
+  const parsed = JSON.parse(user);
+  console.log(parsed,"parseduser")
 
   const logout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
