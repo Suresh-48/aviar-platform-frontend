@@ -78,7 +78,6 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
-
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -106,7 +105,6 @@ const App = () => {
             <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
             <Route path="allcourselist" element={<AllCourseList />} />
             <Route path="list" element={<List />} />
-         
             <Route path="quiz" element={<Quiz />} />
             <Route path="homework" element={<Homework />} />
             <Route path="transcript" element={<Transcript />} />
@@ -131,19 +129,19 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
-            <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
+            <Route path="course/lesson/edit/:courseID" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
-            <Route path = "upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList/>}/>
-            <Route path="course/edit/1" element ={<EditCourses/>}/>
-            <Route path="course/lesson" element={<CourseLesson/>}/>
-            <Route path="course/schedule" element={<CourseSchedule/>}/>
+            <Route path ="upcoming/schedule/list" element={<UpcomingTeacherScheduleList/>}/>
+            <Route path="course/edit/:courseID" element ={<EditCourses/>}/>
+            <Route path="course/lesson/:courseID" element={<CourseLesson/>}/>
+            <Route path="course/schedule/:courseID" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
             <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
             <Route path="students/list" element={<StudentList />} /> 
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            <Route path="course/detail" element={<CourseDetail/>}/>
+            <Route path="course/detail/:id" element={<CourseDetail/>}/>
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>

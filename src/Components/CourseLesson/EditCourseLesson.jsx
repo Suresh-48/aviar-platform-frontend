@@ -95,6 +95,8 @@ const handleGoBack = () => {
         lessonId={lessonId}
         courseId={courseId ? courseId : courseID}
       />
+      {console.log("courseId in edit lesson", courseID)}
+      {console.log("lessonId in edit lesson", lessonId)}
       <h5 className="text-center "> Edit Lesson Detail</h5>
       <br/>
       
@@ -110,7 +112,7 @@ const handleGoBack = () => {
                 lessonName: "",
                 lessonActualAmount: "",
                 lessonDiscountAmount: "",
-                // description: "",
+                //  description: "",
                 // descriptionValue: "",
               }}
               validationSchema={createLessonSchema}

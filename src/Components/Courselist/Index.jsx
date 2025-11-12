@@ -16,6 +16,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/CourseList.css";
+import Api from "../../Api";
+
+// Fix for global variable issue
+if (typeof global === 'undefined') {
+  window.global = window;
+}
 
 const theme = createTheme({
   palette: {
@@ -40,6 +46,7 @@ const CourseList = () => {
   const [archive, setArchive] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
+  const [courseID, setCourseID] = useState("");
   const [cardId, setCardId] = useState("");
   const [publishCurrentPage, setPublishCurrentPage] = useState(0);
   const [draftCurrentPage, setDraftCurrentPage] = useState(0);
@@ -47,23 +54,173 @@ const CourseList = () => {
   const [postsPerPage] = useState(9);
   const [isLoading, setIsLoading] = useState(false);
   const [lessonShow, setLessonShow] = useState(false);
+  const [lessonLength, setLessonLength] = useState(0);
+  const [lessonHomeworkLength, setLessonHomeworkLength] = useState(0);
+  const [lessonQuizLength, setLessonQuizLength] = useState(0);
+  const [courseScheduleLength, setCourseScheduleLength] = useState(0);
+  const [schedule, setSchedule] = useState(false);
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
-  // Dummy data for demonstration
+  // Fix: Define missing state variables
+  const [lessonHomeworkComplete, setLessonHomeworkComplete] = useState(false);
+  const [lessonQuizComplete, setLessonQuizComplete] = useState(false);
+
   useEffect(() => {
-    setPublish([
-      { id: 1, name: "Published Course 1", description: "Description 1", imageUrl: null },
-      { id: 2, name: "Published Course 2", description: "Description 2", imageUrl: null },
-    ]);
-    setDraft([
-      { id: 3, name: "Draft Course 1", description: "Description 3", imageUrl: null },
-      { id: 4, name: "Draft Course 2", description: "Description 4", imageUrl: null },
-    ]);
-    setArchive([
-      { id: 5, name: "Archived Course 1", description: "Description 5", imageUrl: null },
-      { id: 6, name: "Archived Course 2", description: "Description 6", imageUrl: null },
-    ]);
+    getPublishCourse();
+    getDraftCourse();
+    getArchiveCourse();
   }, []);
+
+  const getCourseQuizHomework = (id) => {
+    const userId = localStorage.getItem("userId");
+    Api.get("/api/v1/courseLesson/check/list", {
+      params: {
+        courseId: id,
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        const data = res?.data?.data;
+        setLessonLength(data?.lessonLength || 0);
+        setLessonHomeworkLength(data?.lessonHomeWorkLength || 0);
+        setLessonQuizLength(data?.lessonQuizLength || 0);
+        setCourseScheduleLength(data?.courseScheduleLength || 0);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          // logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const changeCourseType = (type) => {
+    const userId = localStorage.getItem("userId");
+    if (type === "Publish") {
+      if (lessonLength > 0) {
+        if (lessonLength === lessonHomeworkLength && lessonLength === lessonQuizLength) {
+          if (courseScheduleLength > 0) {
+            Api.patch("api/v1/course/type", {
+              courseId: cardId,
+              type: type,
+              userId: userId,
+            })
+              .then((response) => {
+                getPublishCourse();
+                getDraftCourse();
+                getArchiveCourse();
+                setOpen(false);
+                toast.success("Course published successfully!");
+              })
+              .catch((error) => {
+                if (error.response && error.response.status >= 400) {
+                  let errorMessage;
+                  const errorRequest = error.response.request;
+                  if (errorRequest && errorRequest.response) {
+                    errorMessage = JSON.parse(errorRequest.response).message;
+                  }
+                  setOpen(false);
+                  toast.error(error.response.data.message);
+                }
+                const errorStatus = error?.response?.status;
+                if (errorStatus === 401) {
+                  // logout();
+                  toast.error("Session Timeout");
+                }
+              });
+          } else {
+            setLessonShow(true);
+            setSchedule(true);
+          }
+        } else {
+          setLessonShow(true);
+          setShow(true);
+        }
+      } else {
+        setLessonShow(true);
+      }
+    } else {
+      Api.patch("api/v1/course/type", {
+        courseId: cardId,
+        type: type,
+        userId: userId,
+      })
+        .then((response) => {
+          getPublishCourse();
+          getDraftCourse();
+          getArchiveCourse();
+          setOpen(false);
+          toast.success(`Course moved to ${type} successfully!`);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status >= 400) {
+            let errorMessage;
+            const errorRequest = error.response.request;
+            if (errorRequest && errorRequest.response) {
+              errorMessage = JSON.parse(errorRequest.response).message;
+            }
+            setOpen(false);
+            toast.error(error.response.data.message);
+          }
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            // logout();
+            toast.error("Session Timeout");
+          }
+        });
+    }
+  };
+
+  const getDraftCourse = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("api/v1/course/Draft", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res.data.data.data;
+        setDraft(data || []);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          // logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const getArchiveCourse = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("api/v1/course/archive", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res.data.data.data;
+        setArchive(data || []);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          // logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const getPublishCourse = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("api/v1/course/publish", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res?.data?.data?.data;
+        setPublish(data || []);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          // logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   const handlePublishPageClick = (data) => {
     setPublishCurrentPage(data.selected);
@@ -77,6 +234,19 @@ const CourseList = () => {
     setArchiveCurrentPage(data.selected);
   };
 
+  // Fix: Close dropdown when clicking elsewhere
+  const handleDropdownToggle = (courseId) => {
+    if (cardId === courseId && open) {
+      setOpen(false);
+      setCardId("");
+    } else {
+      setOpen(true);
+      setCardId(courseId);
+      setCourseID(courseId)
+    }
+  };
+
+  console.log("courseID9751", courseID);
   const publishLastPage = (publishCurrentPage + 1) * postsPerPage;
   const publishFirstPage = publishLastPage - postsPerPage;
   const publishCourses = publish.slice(publishFirstPage, publishLastPage);
@@ -97,7 +267,6 @@ const CourseList = () => {
             <h3 className="course-title">Courses</h3>
             <div className="mt-2">
               <Button
-                // className="create-button-style py-1 Kharpi-save-btn"
                 variant="primary"
                 onClick={() => navigate("/admin/course/add")}
               >
@@ -111,7 +280,10 @@ const CourseList = () => {
             <Tabs
               value={value}
               indicatorColor="primary"
-              onChange={(event, newValue) => setValue(newValue)}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+                setOpen(false); // Close dropdown when switching tabs
+              }}
               variant="fullWidth"
               aria-label="full width tabs example"
             >
@@ -180,45 +352,58 @@ const CourseList = () => {
                                 icon={faEllipsisV}
                                 size="lg"
                                 color={"white"}
-                                onClick={() => {
-                                  setOpen(!open);
-                                  setCardId(course.id);
-                                }}
+                                onClick={() => handleDropdownToggle(course.id)}
                                 className="font-awesome-point"
                               />
-                              {cardId === course.id && (
+                              {cardId === course.id && open && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={"/admin/course/detail"}
+                                      to={`/admin/course/detail/${course.id}`}
                                       className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
                                     >
                                       View
                                     </NavLink>
                                     <hr />
-                                    <NavLink
-                                      to={"/admin/course/edit/1"}
+                                    {/* <NavLink
+                                       to={`/admin/course/edit/${courseID}`}
                                       className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
                                     >
                                       Edit
+                                    </NavLink> */}
+                                    <NavLink
+                                      to="/admin/course/edit"
+                                      state={{ courseID }}
+                                      className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
+                                    >
+                                    
+                                      Edit
                                     </NavLink>
+
                                     <hr />
-                                    <NavLink 
+                                    <NavLink
                                       to="#"
                                       className="navigate-edit-text-NavLink"
-                                      // onClick={() => setLessonShow(true)}
+                                      onClick={() => {
+                                        changeCourseType("Archive");
+                                        setOpen(false);
+                                      }}
                                     >
                                       Archive
                                     </NavLink>
-                                     <hr />
+                                    <hr />
                                     <NavLink
-                                        to="#"
-                                        className="navigate-edit-text-NavLink"
-                                        // onClick={() =>
-                                        //   changeCourseType("Draft")
-                                        // }
-                                        >
-                                        Draft
+                                      to="#"
+                                      className="navigate-edit-text-NavLink"
+                                      onClick={() => {
+                                        changeCourseType("Draft");
+                                        setOpen(false);
+                                      }}
+                                    >
+                                      Draft
                                     </NavLink>
                                   </div>
                                 </Collapse>
@@ -238,7 +423,6 @@ const CourseList = () => {
                               <Col xs={12} sm={12} md={5}>
                                 <div className="footer-price-style">
                                   <p className="discount-amount-text">₹ 0</p>
-                                  {/* <p className="actual-amount-text mt-3">$ 0</p> */}
                                 </div>
                               </Col>
                             </div>
@@ -259,11 +443,11 @@ const CourseList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         pageClassName={"page-item"}
-                        pageNavLinkClassName={"page-NavLink"}
+                        pageLinkClassName={"page-link"}
                         previousClassName={"page-item"}
-                        previousNavLinkClassName={"page-NavLink"}
+                        previousLinkClassName={"page-link"}
                         nextClassName={"page-item"}
-                        nextNavLinkClassName={"page-NavLink"}
+                        nextLinkClassName={"page-link"}
                       />
                     </div>
                   </Row>
@@ -296,40 +480,61 @@ const CourseList = () => {
                                 size="lg"
                                 color={"white"}
                                 onClick={() => {
-                                  setOpen(!open);
-                                  setCardId(course.id);
+                                  handleDropdownToggle(course.id);
+                                  getCourseQuizHomework(course?.id);
                                 }}
                                 className="font-awesome-point"
                               />
-                              {cardId === course.id && (
+                              {cardId === course.id && open && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={`/course/detail/${course.id}`}
+                                      to={`/admin/course/detail/${course.id}`}
                                       className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
                                     >
                                       View
                                     </NavLink>
                                     <hr />
-                                    <NavLink
-                                      to={`/course/edit/${course.id}`}
+                                       <NavLink
+                                        to={`/admin/course/edit/${courseID}`}
+                                      state={{ courseID }}
                                       className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
                                     >
+                                         {console.log("courseID in courselist", courseID)}
                                       Edit
                                     </NavLink>
-                                    <hr />
-                                     <NavLink 
-                                      to="#"
+                                 
+                                    {/* <NavLink
+
+                                      to={`/admin/course/edit/${courseID}`}
                                       className="navigate-edit-text-NavLink"
-                                      onClick={() => setLessonShow(true)}
+                                      onClick={() => setOpen(false)}
                                     >
-                                      Archive
-                                    </NavLink>
-                                         <hr />
+                                      
+                                      Edit
+                                    </NavLink> */}
+                                    <hr />
                                     <NavLink
                                       to="#"
                                       className="navigate-edit-text-NavLink"
-                                      onClick={() => setLessonShow(true)}
+                                      onClick={() => {
+                                        changeCourseType("Archive");
+                                        setOpen(false);
+                                      }}
+                                    >
+
+                                      Archive
+                                    </NavLink>
+                                    <hr />
+                                    <NavLink
+                                      to="#"
+                                      className="navigate-edit-text-NavLink"
+                                      onClick={() => {
+                                        changeCourseType("Publish");
+                                        setOpen(false);
+                                      }}
                                     >
                                       Publish
                                     </NavLink>
@@ -351,7 +556,6 @@ const CourseList = () => {
                               <Col xs={12} sm={12} md={5}>
                                 <div className="footer-price-style">
                                   <p className="discount-amount-text">₹ 0</p>
-                                  <p className="actual-amount-text mt-3">₹ 0</p>
                                 </div>
                               </Col>
                             </div>
@@ -372,11 +576,11 @@ const CourseList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         pageClassName={"page-item"}
-                        pageNavLinkClassName={"page-NavLink"}
+                        pageLinkClassName={"page-link"}
                         previousClassName={"page-item"}
-                        previousNavLinkClassName={"page-NavLink"}
+                        previousLinkClassName={"page-link"}
                         nextClassName={"page-item"}
-                        nextNavLinkClassName={"page-NavLink"}
+                        nextLinkClassName={"page-link"}
                       />
                     </div>
                   </Row>
@@ -408,25 +612,24 @@ const CourseList = () => {
                                 icon={faEllipsisV}
                                 size="lg"
                                 color={"white"}
-                                onClick={() => {
-                                  setOpen(!open);
-                                  setCardId(course.id);
-                                }}
+                                onClick={() => handleDropdownToggle(course.id)}
                                 className="font-awesome-point"
                               />
-                              {cardId === course.id && (
+                              {cardId === course.id && open && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={`/course/detail/${course.id}`}
+                                      to={`/admin/course/detail/${course.id}`}
                                       className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
                                     >
                                       View
                                     </NavLink>
                                     <hr />
                                     <NavLink
-                                      to={`/course/edit/${course.id}`}
+                                      to={`/admin/course/edit/${course.id}`}
                                       className="navigate-edit-text-NavLink"
+                                      onClick={() => setOpen(false)}
                                     >
                                       Edit
                                     </NavLink>
@@ -434,7 +637,10 @@ const CourseList = () => {
                                     <NavLink
                                       to="#"
                                       className="navigate-edit-text-NavLink"
-                                      onClick={() => setLessonShow(true)}
+                                      onClick={() => {
+                                        changeCourseType("Publish");
+                                        setOpen(false);
+                                      }}
                                     >
                                       Publish
                                     </NavLink>
@@ -456,7 +662,6 @@ const CourseList = () => {
                               <Col xs={12} sm={12} md={5}>
                                 <div className="footer-price-style">
                                   <p className="discount-amount-text">₹ 0</p>
-                                  <p className="actual-amount-text mt-3">₹ 0</p>
                                 </div>
                               </Col>
                             </div>
@@ -477,11 +682,11 @@ const CourseList = () => {
                         containerClassName={"pagination"}
                         activeClassName={"active"}
                         pageClassName={"page-item"}
-                        pageNavLinkClassName={"page-NavLink"}
+                        pageLinkClassName={"page-link"}
                         previousClassName={"page-item"}
-                        previousNavLinkClassName={"page-NavLink"}
+                        previousLinkClassName={"page-link"}
                         nextClassName={"page-item"}
-                        nextNavLinkClassName={"page-NavLink"}
+                        nextLinkClassName={"page-link"}
                       />
                     </div>
                   </Row>
@@ -495,13 +700,13 @@ const CourseList = () => {
           </div>
         </div>
 
-        <Modal show={lessonShow} centered style={{ left: "2px" }}>
+        <Modal show={lessonShow} centered onHide={() => setLessonShow(false)}>
           <Row className="border-bottom-color m-0 py-3">
-            <h5 className="filter-head-cls">Unable to Publish !</h5>
+            <h5 className="filter-head-cls">Unable to Publish!</h5>
           </Row>
           <p className="px-5 pt-5 pb-4">
             Quiz and Homework are missing in some lesson. Please create quiz and
-            homework in the lesson, Before publishing the course.
+            homework in the lesson, before publishing the course.
           </p>
           <div className="d-flex justify-content-center">
             <Modal.Footer>

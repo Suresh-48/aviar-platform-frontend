@@ -616,7 +616,7 @@ useEffect(() => {
               }}
 
               options={{
-                showTitle: false,
+            
                 headerStyle: {
                   fontWeight: "bold",
                   backgroundColor: "#1d1464",
@@ -625,7 +625,6 @@ useEffect(() => {
                   zIndex: 0,
 
                 },
-                showTitle: false,
                 search: false,
                 toolbar: false,
               }}

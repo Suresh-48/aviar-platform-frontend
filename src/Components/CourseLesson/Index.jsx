@@ -237,7 +237,7 @@ const handleCancel=()=>{
                       tooltip: "Add Lesson",
                       isFreeAction: true,
                       onClick: () => {
-                        navigate("/admin/course/lesson/add", {
+                        navigate(`/admin/course/lesson/edit/${rowData.id}`, {
                           state: {
                             courseId: courseId,
                             courseName: courseDetail?.name,

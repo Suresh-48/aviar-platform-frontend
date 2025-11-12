@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 // Style
 import "../../CSS/CourseMenu.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CourseSideMenu = (props) => {
-  const [courseId, setcourseId] = useState(props.courseId);
+  const { courseID } = useParams();
+  const [courseId, setcourseId] = useState(props.courseID);
   const [lessonId, setlessonId] = useState(props.lessonId);
-//   const history = useHistory();
-console.log("courseId in side menu", courseId);
-console.log("lessonId in side menu", lessonId);
- const navigate = useNavigate();
+  //   const history = useHistory();
+  console.log("courseId in side menu", courseID);
+  // console.log("lessonId in side menu", lessonId);
+  const navigate = useNavigate();
   return (
     <div className="d-flex justify-content-center">
-      {courseId && lessonId ? (
+      {courseID && lessonId ? (
         <Row className="sidenav">
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
               exact
-              to={{
-                pathname: `/course/lesson/edit/${lessonId}`,
-                state: { lessonId: lessonId, courseId: courseId },
-              }}
+              to={`/course/lesson/edit/${lessonId}`
+                // state: { lessonId: lessonId, courseId: courseId },
+              }
               activeClassName="main-nav-active"
             >
               Edit Lesson
@@ -31,13 +31,12 @@ console.log("lessonId in side menu", lessonId);
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
               exact
-              to={{
-                pathname: `/quiz/create`,
-                state: {
-                  lessonId: lessonId,
-                  courseId: courseId,
-                },
-              }}
+              to={`/quiz/create`
+                // state: {
+                //   lessonId: lessonId,
+                //   courseId: courseId,
+                // },
+              }
               activeClassName="main-nav-active"
             >
               Quiz
@@ -53,36 +52,44 @@ console.log("lessonId in side menu", lessonId);
                   courseId: courseId,
                 },
               }}
+
               activeClassName="main-nav-active"
             >
               Home Work
             </NavLink>
+
           </Col>
 
         </Row>
       ) : (
         <Row className="sidenav">
-          
-                  {console.log("lessonId", lessonId, "courseId", courseId)}
+
+          {console.log("lessonId", lessonId, "courseId", courseID)}
           <Col xs={12} sm={4} className="nav-border-style px-0">
-            <NavLink
+            {/* <NavLink
               exact
-              to={{
-                pathname: "/admin/course/edit/1",
+              to=
+                // pathname: "/admin/course/edit/:id",
                 // state: { courseId: courseId },
-              }}
+                 {`/admin/course/edit/${courseId}`}
               activeClassName="main-nav-active"
             >
               Edit
-            </NavLink>
+            </NavLink> */}
+        <NavLink
+    to={`/admin/course/edit/${courseID}`}
+  // state={{ courseID: courseID }} // 👈 send courseID as state
+  className="navigate-edit-text-NavLink"
+  onClick={() => setOpen(false)}
+>
+  Edit
+</NavLink>
           </Col>
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
               exact
-              to={{
-                pathname: "/admin/course/lesson",
-                state: { courseId: courseId },
-              }}
+             to={`/admin/course/lesson/${courseID}`}
+          //  state={{ courseID: courseID }}
               activeClassName="main-nav-active"
             >
               Lesson
@@ -91,17 +98,15 @@ console.log("lessonId in side menu", lessonId);
           <Col xs={12} sm={4} className="px-0">
             <NavLink
               exact
-              to={{
-                pathname: "/admin/course/schedule",
-                state: { courseId: courseId },
-              }}
+                      to={`/admin/course/schedule/${courseID}`}
+          //  state={{ courseID: courseID }}
               activeClassName="main-nav-active"
             >
               Schedule
             </NavLink>
           </Col>
         </Row>
-       )} 
+      )}
     </div>
   );
 };

@@ -179,7 +179,7 @@ const routes = [
 //   component: EditCourses,
 // },
 {
-  path:"/admin/course/edit/1",
+  path:"/admin/course/edit",
   exact:true,
   name:EditCourses,
 },
