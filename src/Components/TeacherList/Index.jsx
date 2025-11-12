@@ -443,17 +443,15 @@ const navigate = useNavigate();
                                   className="menu-dropdown-status py-0"
                                 >
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: "/teacher/profile/view",
-                                        state: {
-                                          teacherId: colId,
-                                        },
-                                      }}
-                                      className="collapse-text-style "
-                                    >
-                                      View As Public Page
-                                    </Link>
+                                   <Link
+  to="/admin/teacher/profile/view"
+  state={{ teacherId: colId }}
+  className="collapse-text-style"
+>
+  View As Public Page
+</Link>
+
+                                    
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
