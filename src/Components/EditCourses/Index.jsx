@@ -1,44 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { FormControl, Form, Container, Modal, Col, Row } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
-// import { Editor } from "react-draft-wysiwyg";
-// import { EditorState } from "draft-js";
-// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import { convertToRaw, convertFromRaw } from "draft-js";
-import "react-quill"
-import "react-quill/dist/quill.snow.css";
-import "react-quill/dist/quill.bubble.css";
-import axios from "axios";
 import ReactQuill from "react-quill";
-// Api
+import "react-quill/dist/quill.snow.css";
+
+// Api - you'll need to create this or adjust the path
 import Api from "../../Api";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-//css
-import "../../CSS/CourseCreation.css";
+//css - you'll need to create this or adjust the path
+// import "../../css/CourseCreation.scss";
 
-// Component
+// Components - you'll need to create these or adjust the paths
 import Loader from "../core/Loader";
-import CourseSideMenu from "../CourseSideMenu/Index.jsx";
-import Label from "../Core/Label";
-import { customStyles } from "../Core/Selector";
-// import { Api } from "@mui/icons-material";
+import CourseSideMenu from "../CourseSideMenu";
+import Label from "../../components/core/Label";
+import { customStyles } from "../core/Selector";
 
 // Validation
 const SignInSchema = Yup.object().shape({
   type: Yup.string().required("Type Name Is Required"),
   category: Yup.object().required("Category Name Is Required"),
   courseName: Yup.string().required("Course Name Is Required"),
-  courseImage: Yup.mixed().required("Image Is Required"),
+  // courseImage: Yup.mixed().required("Image Is Required"),
   duration: Yup.object().required("Duration is Required").nullable(),
 });
+
+// React Quill modules configuration
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'align': [] }],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
+
+const quillFormats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list', 'bullet',
+  'align',
+  'link', 'image'
+];
 
 const EditCourses = (props) => {
   const [courseId, setCourseId] = useState(props?.match?.params?.id);
@@ -59,241 +72,249 @@ const EditCourses = (props) => {
   const [duration, setDuration] = useState("");
   const [durationValue, setDurationValue] = useState("");
   const [imageType, setImageType] = useState("image");
-  // const [description, setDescription] = useState(EditorState.createEmpty());
+  const [description, setDescription] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
 
+  // For React Router v6 compatibility
+  const params = new URLSearchParams(window.location.search);
+  const pathSegments = window.location.pathname.split('/');
+  const idFromUrl = pathSegments[pathSegments.length - 1];
+
+  // Use the ID from URL if no props provided (React Router v6)
+  React.useEffect(() => {
+    if (!courseId && idFromUrl && idFromUrl !== 'edit') {
+      setCourseId(idFromUrl);
+    }
+  }, [courseId, idFromUrl]);
+
   //logout
-  // const logout = () => {
-  //   setTimeout(() => {
-  //     localStorage.clear(props.history.push("/kharpi"));
-  //     window.location.reload();
-  //   }, 2000);
-  // };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      // For React Router v6, you might need to use useNavigate hook
+      if (props.history) {
+        props.history.push("/kharpi");
+      } else {
+        window.location.href = "/kharpi";
+      }
+      window.location.reload();
+    }, 2000);
+  };
 
   // Get Course Data
-  // const getCourseData = () => {
-  //   const userId = localStorage.getItem("userId");
-  //   console.log("course id");
-  //   Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
-  //     .then((response) => {
-  //       console.log(response,"response1234");
-  //       const data = response.data.data;
-  //       const contentState = convertFromRaw(JSON.parse(data.description));
-  //       const editorState = EditorState.createWithContent(contentState);
-  //       const editedText = convertToRaw(editorState.getCurrentContent());
-  //       setCourseData(data);
-  //       setCategory({ value: data?.category?._id, label: data?.category?.name });
-  //       setType({ value: data.submitType, label: data.submitType });
-  //       setIsFuture(data.isFuture);
-  //       setCategoryId(data?.category?._id);
-  //       setImagePreview(data.imageUrl);
-  //       setTypeId(data.submitType);
-  //       setDuration({ value: data.duration, label: data.duration });
-  //       setDurationValue(data.duration);
-  //       setIsLoading(false);
-  //       setDescription(editorState);
-  //       setDescriptionValue(editedText.blocks[0].text);
-  //     })
-  //     .catch((error) => {
-  //       const errorStatus = error?.response?.status;
-  //       if (errorStatus === 401) {
-  //         logout();
-  //         toast.error("Session Timeout");
-  //       }
-  //     });
-  // };
-const getCourseData = () => {
-    const userId = localStorage.getItem("userId");  
-    console.log("course id");
+  const getCourseData = () => {
+    const userId = localStorage.getItem("userId");
+    if (!courseId) return;
+
     Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
-  .then((response) => {
-        const data = response;
-        console.log("course data", data);
-  })
-}
-  const onChangeDescription = (setFieldValue, e) => {
-    const editedText = convertToRaw(e.getCurrentContent());
-    setDescriptionValue(editedText.blocks[0].text);
+      .then((response) => {
+        const data = response.data.data;
+        let descriptionContent = "";
+
+        try {
+          const draftContent = JSON.parse(data.description);
+          descriptionContent = draftContent.blocks?.map(block => block.text).join('\n') || data.description;
+        } catch (e) {
+
+          descriptionContent = data.description || "";
+        }
+
+        setCourseData(data);
+        setCategory({ value: data?.category?._id, label: data?.category?.name });
+        setType({ value: data.submitType, label: data.submitType });
+        setIsFuture(data.isFuture);
+        setCategoryId(data?.category?._id);
+        setImagePreview(data.imageUrl);
+        setTypeId(data.submitType);
+        setDuration({ value: data.duration, label: data.duration });
+        setDurationValue(data.duration);
+        setIsLoading(false);
+        setDescription(descriptionContent);
+        setDescriptionValue(descriptionContent);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const onChangeDescription = (value) => {
+    setDescription(value);
+    setDescriptionValue(value);
   };
 
   useEffect(() => {
-     getCategory();
-    getCourseData();
-  }, []);
+    getCategory();
+    if (courseId) {
+      getCourseData();
+    }
+  }, [courseId]);
 
   // Get category
-//   const getCategory = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get("api/v1/category", {
-//       headers: {
-//         userId: userId,
-//       },
-//     })
-//       .then((res) => {
-//         const option = res.data.data.data;
-//         setOptions(option);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
-
-const getCategory = () => {
+  const getCategory = () => {
     const userId = localStorage.getItem("userId");
-    Api.get("hapi/v1/category", {
-      headers: { userId: userId },
-    }   
-    )
-    .then((res) => {
-     
-        const option = res.data.data;
-         console.log("category data", option);
+    Api.get("api/v1/category", {
+      headers: {
+        userId: userId,
+      },
+    })
+      .then((res) => {
+        const option = res.data.data.data;
         setOptions(option);
-      }
-    )
-  }
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
   const handleModal = () => {
     setShow(!show);
   };
 
   // Submit form
-//   const submitForm = (values) => {
-//     const convertedData = JSON.stringify(convertToRaw(description.getCurrentContent()));
-//     const userId = localStorage.getItem("userId");
-//     setIsSubmit(true);
-//     Api.patch("api/v1/course/" + courseId, {
-//       id: courseId,
-//       category: categoryId,
-//       name: values.courseName,
-//       description: convertedData,
-//       type: typeId,
-//       isFuture: isFuture,
-//       duration: durationValue,
-//       userId: userId,
-//     })
-//       .then((response) => {
-//         const status = response.status;
-//         const image = imagePreview;
+  const submitForm = (values) => {
+    // With react-quill, we can send the HTML content directly
+    const descriptionContent = description;
+    const userId = localStorage.getItem("userId");
+    setIsSubmit(true);
 
-//         if (status === 201) {
-//           if (image) {
-//             if (image === courseData.imageUrl) {
-//               Api.patch("api/v1/course/image/update/" + courseId, {
-//                 imageUrl: image,
-//                 userId: userId,
-//               })
-//                 .then((res) => {
-//                   toast.success("Updated");
-//                   setIsSubmit(false);
-//                 })
-//                 .catch((error) => {
-//                   const errorStatus = error?.response?.status;
-//                   if (errorStatus === 401) {
-//                     logout();
-//                     toast.error("Session Timeout");
-//                   }
-//                 });
-//             } else {
-//               Api.patch("api/v1/course/image/upload", {
-//                 courseId: courseId,
-//                 image: imagePreview,
-//                 userId: userId,
-//               })
-//                 .then((res) => {
-//                   toast.success("Updated");
-//                   setIsSubmit(false);
-//                 })
-//                 .catch((error) => {
-//                   const errorStatus = error?.response?.status;
-//                   if (errorStatus === 401) {
-//                     logout();
-//                     toast.error("Session Timeout");
-//                   }
-//                 });
-//             }
-//           } else {
-//             Api.patch("api/v1/course/image/update/" + courseId, {
-//               imageUrl: null,
-//               userId: userId,
-//             })
-//               .then((res) => {
-//                 toast.success("Updated");
-//                 setIsSubmit(false);
-//               })
-//               .catch((error) => {
-//                 const errorStatus = error?.response?.status;
-//                 if (errorStatus === 401) {
-//                   logout();
-//                   toast.error("Session Timeout");
-//                 }
-//               });
-//           }
-//         } else {
-//           setIsSubmit(false);
-//           toast.error(response.data.message);
-//         }
-//       })
-//       .catch((error) => {
-//         if (error.response && error.response.status >= 400) {
-//           let errorMessage;
-//           const errorRequest = error.response.request;
-//           if (errorRequest && errorRequest.response) {
-//             errorMessage = JSON.parse(errorRequest.response).message;
-//           }
-//           toast.error(error.response.data.message);
-//           setIsSubmit(false);
-//         }
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+    Api.patch("api/v1/course/" + courseId, {
+      id: courseId,
+      category: categoryId,
+      name: values.courseName,
+      description: descriptionContent, // Send the HTML content directly
+      type: typeId,
+      isFuture: isFuture,
+      duration: durationValue,
+      userId: userId,
+    })
+      .then((response) => {
+        const status = response.status;
+        const image = imagePreview;
+
+        if (status === 201) {
+          if (image) {
+            if (image === courseData.imageUrl) {
+              Api.patch("api/v1/course/image/update/" + courseId, {
+                imageUrl: image,
+                userId: userId,
+              })
+                .then((res) => {
+                  toast.success("Updated");
+                  setIsSubmit(false);
+                })
+                .catch((error) => {
+                  const errorStatus = error?.response?.status;
+                  if (errorStatus === 401) {
+                    logout();
+                    toast.error("Session Timeout");
+                  }
+                });
+            } else {
+              Api.patch("api/v1/course/image/upload", {
+                courseId: courseId,
+                image: imagePreview,
+                userId: userId,
+              })
+                .then((res) => {
+                  toast.success("Updated");
+                  setIsSubmit(false);
+                })
+                .catch((error) => {
+                  const errorStatus = error?.response?.status;
+                  if (errorStatus === 401) {
+                    logout();
+                    toast.error("Session Timeout");
+                  }
+                });
+            }
+          } else {
+            Api.patch("api/v1/course/image/update/" + courseId, {
+              imageUrl: null,
+              userId: userId,
+            })
+              .then((res) => {
+                console.log("res", res);
+                toast.success("Updated");
+                setIsSubmit(false);
+              })
+              .catch((error) => {
+                const errorStatus = error?.response?.status;
+                if (errorStatus === 401) {
+                  logout();
+                  toast.error("Session Timeout");
+                }
+              });
+          }
+        } else {
+          setIsSubmit(false);
+          toast.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+          setIsSubmit(false);
+        }
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   // Create Category
-//   const createCategory = () => {
-//     const userId = localStorage.getItem("userId");
-//     setIsSubmit(true);
-//     Api.post("api/v1/category", {
-//       name: selectCategory,
-//       userId: userId,
-//     })
-//       .then((response) => {
-//         const status = response.status;
-//         const data = response.data.data;
-//         if (status === 201) {
-//           setCategory({
-//             id: data.createCategory.id,
-//             label: data.createCategory.name,
-//           });
-//           setCategoryId(data.createCategory.id);
-//           setSelectCategory("");
-//           handleModal();
-//           getCategory();
-//           getCourseData();
-//           setIsSubmit(false);
-//         } else {
-//           toast.error(response.data.message);
-//           setIsSubmit(false);
-//         }
-//       })
-//       .catch((error) => {
-//         if (error.response && error.response.status >= 400) {
-//           let errorMessage;
-//           const errorRequest = error.response.request;
-//           if (errorRequest && errorRequest.response) {
-//             errorMessage = JSON.parse(errorRequest.response).message;
-//           }
-//           toast.error(error.response.data.message);
-//           setIsSubmit(false);
-//         }
-//       });
-//   };
+  const createCategory = () => {
+    const userId = localStorage.getItem("userId");
+    setIsSubmit(true);
+    Api.post("api/v1/category", {
+      name: selectCategory,
+      userId: userId,
+    })
+      .then((response) => {
+        const status = response.status;
+        const data = response.data.data;
+        if (status === 201) {
+          setCategory({
+            id: data.createCategory.id,
+            label: data.createCategory.name,
+          });
+          setCategoryId(data.createCategory.id);
+          setSelectCategory("");
+          handleModal();
+          getCategory();
+          getCourseData();
+          setIsSubmit(false);
+        } else {
+          toast.error(response.data.message);
+          setIsSubmit(false);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+          setIsSubmit(false);
+        }
+      });
+  };
 
   // Select Image
   const selectFile = async (event, { setFieldValue }) => {
@@ -328,9 +349,9 @@ const getCategory = () => {
     <Container className="mt-1">
       <CourseSideMenu courseId={courseId} aliasName={aliasName} />
       <div className="row edit-course-lesson-style mt-4 mx-0">
-        {/* {isLoading ? (
-          <Loader /> */}
-        {/* ) : ( */}
+        {isLoading ? (
+          <Loader />
+        ) : (
           <div>
             <div className="mt-3 mt-1">
               <h4>Edit Course </h4>
@@ -340,10 +361,10 @@ const getCategory = () => {
                 enableReinitialize={true}
                 initialValues={{
                   category: category,
-                  courseName: courseData.name,
-                  description: "",
+                  courseName: courseData.name || "",
+                  description: description,
                   descriptionValue: descriptionValue,
-                  type: type.value,
+                  type: type?.value || "",
                   duration: duration,
                   courseImage: imagePreview,
                 }}
@@ -365,7 +386,7 @@ const getCategory = () => {
                                 value={values.category}
                                 placeholder="Select Category"
                                 name="category"
-                                isOptionDisabled={(options) => options.isdisabled} // disable an option
+                                isOptionDisabled={(options) => options.isdisabled}
                                 onChange={(e) => {
                                   if (e.value === "create new") {
                                     setShow(!show);
@@ -420,20 +441,17 @@ const getCategory = () => {
                             </Form.Group>
                             <div className="mb-3">
                               <Label notify={true}>Description</Label>
-                              {/* <div className="description"> */}
-                                <ReactQuill
-                                  spellCheck
-                                  // editorState={description}
-                                  // onEditorStateChange={(e) => {
-                                  //   setDescription(e);
-                                  //   onChangeDescription(setFieldValue, e);
-                                  // }}
-                                  toolbar={{
-                                    options: ["inline", "list", "textAlign"],
-                                  }}
-                                />
-                              {/* </div> */}
-                              {descriptionValue === "" && <p className="error text-danger">Description Is Required</p>}
+                              <ReactQuill
+                                theme="snow"
+                                value={description}
+                                onChange={onChangeDescription}
+                                modules={quillModules}
+                                formats={quillFormats}
+                                style={{ height: "200px", marginBottom: "50px" }}
+                              />
+                              {(!descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === "") && (
+                                <p className="error text-danger">Description Is Required</p>
+                              )}
                             </div>
 
                             <div className="row mb-3">
@@ -472,6 +490,19 @@ const getCategory = () => {
                                         value: "1 hour",
                                         label: "1 hour",
                                       },
+                                      // Add more duration options as needed
+                                      {
+                                        value: "2 hours",
+                                        label: "2 hours",
+                                      },
+                                      {
+                                        value: "3 hours",
+                                        label: "3 hours",
+                                      },
+                                      {
+                                        value: "4 hours",
+                                        label: "4 hours",
+                                      },
                                     ]}
                                   />
                                   <ErrorMessage name="duration" component="span" className="error text-danger" />
@@ -494,7 +525,7 @@ const getCategory = () => {
                               </Col>
                             </div>
                           </Col>
-                          <Col xs={12} sm={12} md={5}>
+                          {/* <Col xs={12} sm={12} md={5}>
                             <Row>
                               <div className="d-flex justify-content-center  ">
                                 <label className="file-upload">
@@ -562,18 +593,17 @@ const getCategory = () => {
                                 )}
                               </div>
                             </Row>
-                          </Col>
+                          </Col> */}
                           <Row className=" mb-4 mt-3">
                             <Col className="d-flex justify-content-end ">
                               <button
                                 type="submit"
-                                disabled={!isValid || isSubmit || descriptionValue === ""}
+                                disabled={!isValid || isSubmit || !descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === ""}
                                 variant="contained"
-                                className={`${
-                                  !isValid || isSubmit || descriptionValue === ""
+                                className={`${!isValid || isSubmit || !descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === ""
                                     ? "save-changes-disable font-weight-bold py-2 px-3"
                                     : "save-changes-active font-weight-bold py-2 px-3"
-                                }`}
+                                  }`}
                               >
                                 SAVE CHANGES
                               </button>
@@ -616,11 +646,10 @@ const getCategory = () => {
                           onClick={() => {
                             createCategory();
                           }}
-                          className={`${
-                            !selectCategory
+                          className={`${!selectCategory
                               ? "create-disable font-weight-bold py-2 px-3"
                               : "create-active font-weight-bold py-2 px-3"
-                          }`}
+                            }`}
                         >
                           CREATE
                         </button>
@@ -636,7 +665,7 @@ const getCategory = () => {
               </Modal>
             </div>
           </div>
-        {/* )} */}
+        )}
       </div>
     </Container>
   );

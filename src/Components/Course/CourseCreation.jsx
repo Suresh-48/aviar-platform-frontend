@@ -22,9 +22,13 @@ import "react-quill/dist/quill.bubble.css";
 // import { convertToRaw } from "draft-js";
 // import Quill from "quill";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+
+// Api
 import Api from "../../Api";
+
+// Styles
 import "../CSS/CourseCreation.css";
+
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -45,23 +49,18 @@ import { customStyles } from "../Core/Selector";
 const SignInSchema = Yup.object().shape({
   category: Yup.object().required("Category Name Is Required"),
   courseName: Yup.string().required("Course Name Is Required"),
-  description: Yup.string().required("Description Is Required"),
+  descriptionValue: Yup.string().required("Description Is Required"),
   // courseImage: Yup.mixed().required("Image Is Required"),
   duration: Yup.object().required("Duration is Required").nullable(),
 });
-
 
 const CoursesCreation = () => {
   const [category, setCategory] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [type, setType] = useState("");
-  const[courseName,setCourseName]=useState("");
   const [typeId, setTypeId] = useState("Draft");
   const [options, setOptions] = useState([]);
-  const [overall, setOverall] = useState({});
-  const [createCourse, setCreateCourse] = useState([]);
   const [show, setShow] = useState(false);
-  const [courseId, setCourseId] = useState();
   const [selectCategory, setSelectCategory] = useState("");
   const [date, setDate] = useState("");
   const [isFuture, setIsFuture] = useState(false);
@@ -74,7 +73,27 @@ const CoursesCreation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'align': [] }],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
 
+const quillFormats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'list', 'bullet',
+  'align',
+  'link', 'image'
+];
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   // Description on change
   const onChangeDescription = ({ setFieldValue }, e) => {
@@ -83,22 +102,23 @@ const CoursesCreation = () => {
   };
 
   // Get Course Category
-  // const getCategory = () => {
-  //   const userId = localStorage.getItem("userId");
-  //   Api.get("/api/v1/category/", { headers: { userId: userId } })
-  //     .then((res) => {
-  //       const option = res.data.data.data;
-  //       setOptions(option);
-  //       setIsLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       const errorStatus = error?.response?.status;
-  //       if (errorStatus === 401) {
-  //         logout();
-  //         toast.error("Session Timeout");
-  //       }
-  //     });
-  // };
+  const getCategory = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("/api/v1/category/", { headers: { userId: userId } })
+      .then((res) => {
+        const option = res.data.data;
+        console.log("category option", option);
+        setOptions(option);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   const handleModal = () => {
     setShow(!show);
@@ -107,63 +127,67 @@ const CoursesCreation = () => {
   };
 
   // Form submit
-  // const submitForm = (values) => {
-  //   const userId = localStorage.getItem("userId");
-  //   const convertedData = JSON.stringify(
-  //     convertToRaw(description.getCurrentContent())
-  //   );
-  //   setIsSubmit(true);
-  //   Api.post("api/v1/course", {
-  //     category: categoryId,
-  //     name: values.courseName,
-  //     description: convertedData,
-  //     type: typeId,
-  //     isFuture: isFuture,
-  //     duration: duration,
-  //     userId: userId,
-  //   })
-  //     .then((response) => {
-  //       const status = response.status;
-  //       const image = imagePreview;
-  //       if (status === 201) {
-  //         if (image) {
-  //           const courseId = response.data.data.createData.id;
-  //           Api.patch("api/v1/course/image/upload", {
-  //             courseId: courseId,
-  //             image: imagePreview,
-  //             userId: userId,
-  //           }).then((res) => {
-  //             history.goBack();
-  //             setIsSubmit(false);
-  //           });
-  //         } else {
-  //           history.goBack();
-  //           setIsSubmit(false);
-  //         }
-  //         toast.success(response?.data?.message);
-  //       } else {
-  //         toast.error(response.data.message);
-  //         setIsSubmit(false);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       if (error.response && error.response.status >= 400) {
-  //         let errorMessage;
-  //         const errorRequest = error.response.request;
-  //         if (errorRequest && errorRequest.response) {
-  //           errorMessage = JSON.parse(errorRequest.response).message;
-  //         }
-  //         toast.error(error.response.data.message);
-  //         setIsSubmit(false);
-  //       }
-  //       const errorStatus = error?.response?.status;
-  //       if (errorStatus === 401) {
-  //         logout();
-  //         toast.error("Session Timeout");
-  //       }
-  //       setIsSubmit(false);
-  //     });
-  // };
+  const submitForm = (values) => {
+    const userId = localStorage.getItem("userId");
+
+    const convertedData = values.descriptionValue;
+    setIsSubmit(true);
+    Api.post("api/v1/course", {
+      category: categoryId,
+      name: values.courseName,
+      description: convertedData,
+      type: typeId,
+      isFuture: isFuture,
+      duration: duration,
+      userId: userId,
+    })
+      .then((response) => {
+        console.log("response2568",response);
+        const status = response.status;
+        const image = imagePreview;
+
+        if (status === 201) {
+          if (image) {
+            console.log("if....")
+            const courseId = response.data.data.createData.id;
+            Api.patch("api/v1/course/image/upload", {
+              courseId: courseId,
+              image: imagePreview,
+              userId: userId,
+            }).then((res) => {
+              history.goBack();
+              setIsSubmit(false);
+            });
+          } else {
+
+            navigate(-1);
+            history.goBack();
+            setIsSubmit(false);
+          }
+          toast.success(response?.data?.message);
+        } else {
+          toast.error(response.data.message);
+          setIsSubmit(false);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+          setIsSubmit(false);
+        }
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+        setIsSubmit(false);
+      });
+  };
 
   // Log out
   const logout = () => {
@@ -174,60 +198,60 @@ const CoursesCreation = () => {
   };
 
   // Create Category
-  // const createCategory = () => {
-  //   setIsSubmit(true);
-  //   const userId = localStorage.getItem("userId");
-  // }
-  //   Api.post("api/v1/category/", {
-  //     name: selectCategory,
-  //     createdBy: userId,
-  //     userId: userId,
-  //   })
-  //     .then((response) => {
-  //       const status = response.status;
-  //       const data = response.data.data;
-  //       const categoryImage = categoryImagePreview;
-  //       if (status === 201) {
-  //         if (categoryImage) {
-  //           const categoryId = response.data.data.createCategory.id;
-  //           Api.patch("api/v1/category/image/upload", {
-  //             categoryId: categoryId,
-  //             image: categoryImagePreview,
-  //             userId: userId,
-  //           }).then((res) => {
-  //             getCategory();
-  //             setIsSubmit(false);
-  //           });
-  //         } else {
-  //           history.goBack();
-  //           setIsSubmit(false);
-  //         }
-  //         setCategory({
-  //           id: data?.createCategory?.id,
-  //           label: data?.createCategory?.name,
-  //         });
-  //         setCategoryId(data?.createCategory?.id);
-  //         setSelectCategory("");
-  //         handleModal();
-  //         getCategory();
-  //         setIsSubmit(false);
-  //       } else {
-  //         toast.error(response.data.message);
-  //         setIsSubmit(false);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       if (error.response && error.response.status >= 400) {
-  //         let errorMessage;
-  //         const errorRequest = error.response.request;
-  //         if (errorRequest && errorRequest.response) {
-  //           errorMessage = JSON.parse(errorRequest.response).message;
-  //         }
-  //         toast.error(error.response.data.message);
-  //         setIsSubmit(false);
-  //       }
-  //     });
-  // };
+  const createCategory = () => {
+    setIsSubmit(true);
+    const userId = localStorage.getItem("userId");
+
+    Api.post("api/v1/category/", {
+      name: selectCategory,
+      createdBy: userId,
+      userId: userId,
+    })
+      .then((response) => {
+        const status = response.status;
+        const data = response.data.data;
+        const categoryImage = categoryImagePreview;
+        if (status === 201) {
+          if (categoryImage) {
+            const categoryId = response.data.data.createCategory.id;
+            Api.patch("api/v1/category/image/upload", {
+              categoryId: categoryId,
+              image: categoryImagePreview,
+              userId: userId,
+            }).then((res) => {
+              getCategory();
+              setIsSubmit(false);
+            });
+          } else {
+            history.goBack();
+            setIsSubmit(false);
+          }
+          setCategory({
+            id: data?.createCategory?.id,
+            label: data?.createCategory?.name,
+          });
+          setCategoryId(data?.createCategory?.id);
+          setSelectCategory("");
+          handleModal();
+          getCategory();
+          setIsSubmit(false);
+        } else {
+          toast.error(response.data.message);
+          setIsSubmit(false);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+          setIsSubmit(false);
+        }
+      });
+  };
 
   // Select Image from file
   // const selectFile = async (event, { setFieldValue }) => {
@@ -260,9 +284,7 @@ const CoursesCreation = () => {
   //     };
   //   });
   // };
-  useEffect(() => {
-    getCourseData();
-  }, []);
+
   const closePreview = (setFieldValue) => {
     setImagePreview(undefined);
     setFieldValue("courseImage", "");
@@ -271,210 +293,30 @@ const CoursesCreation = () => {
   const categoryImageClosePReview = () => {
     setCategoryImagePreview(undefined);
   };
-  const getCourseData = () => {
-    const userId = localStorage.getItem("userId");
-    Api.get(`api/v1/course/${courseId}`, { headers: { userId: userId } })
-      .then((res) => {
-        const data = res.data.data;
-        setCourseActualAmount(data?.actualAmount);
-        setCourseDiscountAmount(data?.discountAmount);
-        getLessonData(data?.discountAmount);
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-      });
-  };
- const getLessonData = (discountAmount) => {
-    const userId = localStorage.getItem("userId");
-
-    const disAmount = courseDiscountAmount? courseDiscountAmount :discountAmount;
-    Api.get("api/v1/courseLesson/details", {
-      params: {
-        courseId: courseId,
-        userId: userId,
-      },
-    })
-      .then((res) => {
-        const total = res.data.lessonTotal;
-        setOverAllLessonTotal(total);
-        if (total > disAmount) {
-          toast.error("Over All Lesson Amount exceed than course Amount");
-          setIsSubmit(true);
-        }
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-      });
-  };
-
-
-  const submitForm = (values) => {
-        const userId = localStorage.getItem("userId");
-    
-    // const actualAmount = parseInt(values.lessonActualAmount);
-    // const discountAmount = parseInt(values.lessonDiscountAmount);
-    // if (discountAmount > actualAmount) {
-    //   toast.error("Lesson Discount Amount Should Be Lesser Than Actual Amount ");
-    // } else {
-    //   Api.post("api/v1/courseLesson/", {
-    //     courseId: courseId,
-    //     lessonNumber: values.lessonNumber,
-    //     lessonName: values.lessonName,
-    //     lessonActualAmount: actualAmount,
-    //     lessonDiscountAmount: discountAmount,
-    //     // zoomId: zoomLink,
-    //     // zoomPassword: zoomPassword,
-    //     // description: convertedData,
-    //     duration: duration,
-    //     userId: userId,
-    //   })
-    //     .then((response) => {
-    //       console.log("response877",response)
-    //       const status = response.status;
-    //       if (status === 201) {
-    //         setIsSubmit(false);
-    //         props.history.goBack();
-    //       } else {
-    //         toast.error(response.data.message);
-    //         setIsSubmit(false);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       if (error.response && error.response.status >= 400) {
-    //         let errorMessage;
-    //         const errorRequest = error.response.request;
-    //         if (errorRequest && errorRequest.response) {
-    //           errorMessage = JSON.parse(errorRequest.response).message;
-    //         }
-    //         toast.error(error.response.data.message);
-    //         setIsSubmit(false);
-    //       }
-    //       const errorStatus = error?.response?.status;
-    //       if (errorStatus === 401) {
-    //         logout();
-    //         toast.error("Session Timeout");
-    //       }
-    //       setIsSubmit(false);
-    //     });
-    // }   
-    Api.post("api/v1/courseLesson/",{
-      // courseId:courseId,
-       userId: userId,
-            lessonNumber: values.lessonNumber,
-        lessonName: values.lessonName,
-         lessonActualAmount:values.actualAmount,
-        lessonDiscountAmount:values.discountAmount,
-          description: convertedData,
-            duration: duration,
-        userId: userId,
-    }).then((response)=>{
-      console.log("response877",response)
-    })
-    setOverall(values)
-    createCourseCategory();
-    console.log("values", values?.courseName)
-    setCourseName(values?.courseName)
-  }
-
-  const createCategory = () => {
-    const userId = localStorage.getItem("userId");
-    console.log("userid......", userId)
-    Api.post("api/v1/category", {
-      name: selectCategory,
-      createdBy: userId,
-      userId: userId,
-    })
-      .then((response) => {
-        console.log("response123", response.data.data.createCategory.name);
-        // setCreateCourse(response.data.data.createCategory.name);
-        const newCategory = response.data.data.createCategory;
-
-        setOptions(prevOptions => [
-          ...prevOptions,
-          {
-            id: newCategory.id,
-            name: newCategory.name,
-          },
-        ]);
-        setCreateCourse(newCategory.name);
-        setShow(false)
-      })
-  }
-
-  const getCategoryList = () => {
-    const userId = localStorage.getItem("userId");
-    Api.get("api/v1/category/list", {
-      params: {
-        // name: categoryName,
-        createdBy: userId,
-        userId: userId,
-      }
-    })
-      .then((response) => {
-        //  console.log("category list", response.data.data);
-        setOptions(response.data.data);
-      })
-
-  }
-  const createCourseCategory = () => {
-    const userId = localStorage.getItem("userId");
-    console.log("overall")
-    Api.post("api/v1/course", {
-      category: categoryId,
-      name: overall.courseName,
-      description: overall.description,
-      type: typeId,
-      userId: userId,
-      isFuture: isFuture,
-      duration: duration,
-    })
-
-      .then((response) => {
-        console.log("Course create", response.data.data.exist[0].id);
-         const courseID = response.data.data.exist[0].id;
-         console.log("courseID",courseID)
-      })
-  }
-
-
-  useEffect(() => {
-    getCategoryList();
-  }, [options])
 
   return (
     <Container>
+
       <div className="row">
         <div className="d-flex justify-content-center align-items-center mt-1">
           <FontAwesomeIcon icon={faBookOpen} size="3x" color="#1d1464" />
         </div>
         <div className="d-flex justify-content-center align-items-center mt-1">
-          <h2>Course Creation</h2>
+          <h2>Course  Creation</h2>
         </div>
         <div className="col-sm-12">
           <Formik
             enableReinitialize={true}
             initialValues={{
-               lessonNumber: "",
-                lessonName: "",
-                lessonActualAmount: "",
-                lessonDiscountAmount: "",
               category: category,
               courseName: "",
-              description: "",
-              // descriptionValue: "",
+              // description: "",
+              descriptionValue: "",
               type: { value: "Quill", label: "Quill" },
-              // courseImage: "",
+              courseImage: "",
               duration: { value: "1", label: "1 Hour" },
             }}
-            // validationSchema={SignInSchema}
+            validationSchema={SignInSchema}
             onSubmit={(values) => submitForm(values)}
           >
             {(formik) => {
@@ -508,14 +350,17 @@ const CoursesCreation = () => {
                               }
                             }}
                             options={[
-                              { value: "create new", label: "Create New Category" },
-                              ...(options?.map((list) => ({
-                                value: list.id,
-                                label: list.name,
-                              })) || []),
+                              {
+                                value: "create new",
+                                label: "Create New Category",
+                              },
+                              {
+                                options: options?.map((list) => ({
+                                  value: list.id,
+                                  label: list.name,
+                                })),
+                              },
                             ]}
-
-
                           />
                           <ErrorMessage
                             name="category"
@@ -541,62 +386,32 @@ const CoursesCreation = () => {
                             className="error text-danger error-message"
                           />
                         </Form.Group>
-                        {/* <div className="mb-3">
+                        <div className="mb-3">
                           <Label notify={true}>Description</Label>
-                            <ReactQuill
-                              spellCheck
-                              name="descriptionValue"
-                              editorState={description}
-                              onEditorStateChange={(e) => {
-                                setDescription(e);
-                                onChangeDescription({ setFieldValue }, e);
-                              }}
-                              toolbar={{
-                                options: ["inline", "list", "textAlign"],
-                              }}
-                            />
+                          {/* <div className="description"> */}
+                          <ReactQuill
+                            theme="snow"
+                            value={values.descriptionValue}
+                            onChange={(content) => {
+                              setFieldValue("descriptionValue", content);
+                            }}
+                               modules={quillModules}
+    formats={quillFormats}
+     style={{ height: "100px", marginBottom: "50px" }}
+     
+                          />
+                           {/* {(!descriptionValue || descriptionValue === "<p><br></p>" || descriptionValue.trim() === "") && (
+    <p className="error text-danger">Description Is Required</p>
+  )} */}
+                          {/* </div> */}
                           <ErrorMessage
                             name="descriptionValue"
                             component="span"
                             className="error text-danger"
                           />
-                        </div> */}
-                        <div className="mb-3">
-                          <Label notify={true}>Description</Label>
-                          <ReactQuill
-                            theme="snow"
-                            spellCheck
-                            name="description"
-                            value={values.description}
-                            // onChange={setDescription}
-                            onChange={(value) => {
-                              setFieldValue("description", value);
-                              setDescription(value);
-                            }}
-
-
-                            // onChange={(e) => {
-                            //     setFieldValue("description",e);
-                            //   setDescription(e.toolbar);
-
-                            //   // onChangeDescription({ setFieldValue }, e);
-                            // }}
-                            modules={{
-                              toolbar: [
-                                [{ header: [1, 2, false] }],
-                                ["bold", "italic", "underline"],
-                                [{ list: "ordered" }, { list: "bullet" }],
-                                [{ align: [] }],
-                                ["clean"],
-                              ],
-                            }}
-                          />
-                          <ErrorMessage
-                            name="description"
-                            component="span"
-                            className="error text-danger"
-                          />
                         </div>
+
+
                         <div className="row mb-3">
                           <Col xs={12} sm={6} md={6}>
                             <Form.Group
@@ -673,90 +488,90 @@ const CoursesCreation = () => {
                       <Col md={5}>
                         <Row>
                           {/* <Row className="d-flex justify-content-center flex-direction-row ">
-                            <Label className="file-upload" notify={true}>
-                              <input
-                                type="file"
-                                name="courseImage"
-                                accept="image/*"
-                                className="fileToUpload"
-                                id="fileToUpload"
-                                onChange={(e) => {
-                                  selectFile(e, { setFieldValue });
-                                }}
-                              />
-                              {imagePreview ? "Change File" : "Choose File"}
-                            </Label>
-                          </Row> */}
-                          <div>
-                            {imagePreview ? (
-                              <div>
-                                <div className="d-flex justify-content-center mt-4">
-                                  <img
-                                    className="image-preview-size"
-                                    src={imagePreview}
-                                    alt=""
-                                  />
+                              <Label className="file-upload" notify={true}>
+                                <input
+                                  type="file"
+                                  name="courseImage"
+                                  accept="image/*"
+                                  className="fileToUpload"
+                                  id="fileToUpload"
+                                  onChange={(e) => {
+                                    selectFile(e, { setFieldValue });
+                                  }}
+                                />
+                                {imagePreview ? "Change File" : "Choose File"}
+                              </Label>
+                            </Row> */}
+                          {/* <div>
+                              {imagePreview ? (
+                                <div>
+                                  <div className="d-flex justify-content-center mt-4">
+                                    <img
+                                      className="image-preview-size"
+                                      src={imagePreview}
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div className="d-flex justify-content-center align-items-center mt-3 ">
+                                    {imageType !== "image" ? (
+                                      <p className="d-flex justify-content-center error text-danger fs-6">
+                                        Please Select A Image File
+                                      </p>
+                                    ) : (
+                                      <p
+                                        style={{
+                                          color: "red",
+                                          fontWeight: "400",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => {
+                                          closePreview(setFieldValue);
+                                        }}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={faTrashAlt}
+                                          size="sm"
+                                          color="#bf1000"
+                                          className="delete-icon"
+                                        />
+                                        Remove Image
+                                      </p>
+                                    )}
+                                  </div>
                                 </div>
-                                <div className="d-flex justify-content-center align-items-center mt-3 ">
-                                  {imageType !== "image" ? (
-                                    <p className="d-flex justify-content-center error text-danger fs-6">
-                                      Please Select A Image File
-                                    </p>
-                                  ) : (
-                                    <p
-                                      style={{
-                                        color: "red",
-                                        fontWeight: "400",
-                                        cursor: "pointer",
-                                      }}
-                                      onClick={() => {
-                                        closePreview(setFieldValue);
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faTrashAlt}
-                                        size="sm"
-                                        color="#bf1000"
-                                        className="delete-icon"
-                                      />
-                                      Remove Image
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            ) : (
-                              <Row className="d-flex justify-content-center">
-                                <Row>
-                                  <img
-                                    className="image-preview-size"
-                                    src="https://thumbs.dreamstime.com/b/arrow-upload-icon-logo-design-template-117344870.jpg"
-                                    alt=""
-                                  />
+                              ) : (
+                                <Row className="d-flex justify-content-center">
+                                  <Row>
+                                    <img
+                                      className="image-preview-size"
+                                      src="https://thumbs.dreamstime.com/b/arrow-upload-icon-logo-design-template-117344870.jpg"
+                                      alt=""
+                                    />
+                                  </Row>
+                                  <Row>
+                                    <ErrorMessage
+                                      className="d-flex justify-content-center error text-danger fs-6"
+                                      name="courseImage"
+                                      component="span"
+                                    />
+                                  </Row>
                                 </Row>
-                                <Row>
-                                  <ErrorMessage
-                                    className="d-flex justify-content-center error text-danger fs-6"
-                                    name="courseImage"
-                                    component="span"
-                                  />
-                                </Row>
-                              </Row>
-                            )}
-                          </div>
+                              )}
+                            </div> */}
                         </Row>
                       </Col>
                       <Row className="d-flex justify-content-end align-items-center mb-4  ">
                         <Button
                           type="submit"
-                          // disabled={!isValid || isSubmit}
+                          disabled={!isValid || isSubmit}
                           style={{ width: "30%" }}
                           variant="contained"
                           className={`${!isValid || isSubmit
-                            ? "create-disable"
-                            : "create-active"
+                              ? "create-disable"
+                              : "create-active"
                             }`}
                         >
-                          CREATEw
+                          CREATE
                         </Button>
                       </Row>
                     </Row>
@@ -792,19 +607,19 @@ const CoursesCreation = () => {
                     </Form>
                   </Row>
                   {/* <Row>
-                    <Form className="category-form-style"> */}
-                  {/* <Form.Group
-                        className="form-row mb-1"
-                        style={{ width: "100%" }}
-                      >
-                        <Label notify={true}>Select Category Image</Label>
-                      </Form.Group> */}
-                  {/* <Form.Group
+                      <Form className="category-form-style">
+                        <Form.Group
+                          className="form-row mb-1"
+                          style={{ width: "100%" }}
+                        >
+                          <Label notify={true}>Select Category Image</Label>
+                        </Form.Group>
+                        <Form.Group
                           className="form-row "
                           style={{ width: "100%", marginBottom: "30px" }}
-                        > */}
-                  {/* <label className="file-upload"> */}
-                  {/* <input
+                        >
+                          <label className="file-upload">
+                            <input
                               type="file"
                               name="courseImage"
                               accept="image/*"
@@ -813,17 +628,16 @@ const CoursesCreation = () => {
                               onChange={(e) => {
                                 selectCategoryFile(e);
                               }}
-                            /> */}
-                  {/* {categoryImagePreview
+                            />
+                            {categoryImagePreview
                               ? "Change Image"
-                              : "Upload Image"} */}
-                  {/* </label> */}
-                  {/* </Form.Group> */}
-                  {/* </Form>
-                  </Row> */}
-                  {/* <Row>
-
-                      <div>
+                              : "Upload Image"}
+                          </label>
+                        </Form.Group>
+                      </Form>
+                    </Row> */}
+                  <Row>
+                    {/* <div>
                         {categoryImagePreview ? (
                           <div>
                             <div className="d-flex justify-content-center mt-4">
@@ -871,8 +685,8 @@ const CoursesCreation = () => {
                             </Row>
                           </Row>
                         )}
-                      </div>
-                    </Row> */}
+                      </div> */}
+                  </Row>
                 </div>
                 <div className="mt-3 mb-3">
                   <Row>

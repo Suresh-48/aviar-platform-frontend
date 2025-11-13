@@ -415,7 +415,7 @@ const navigate = useNavigate();
                         ),
                         tooltip: "View Teacher Available Time",
                      onClick: (event, rowData) => {
-  navigate("/teacher/not-available", {
+  navigate("/admin/teacher/not-available", {
     state: {
       rowData: rowData,
     },
