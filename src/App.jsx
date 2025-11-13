@@ -33,7 +33,7 @@ import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import Updatestudentdetail from "./Components/Editstudentdetail/Updatestudentdetail";
 import UpcomingSchedule1 from "./Components/Studentupcomingschedule/Upcomingschedule1";
 import List from "./Components/Favouritecourse/List";
-import Quiz from "./Components/ListOfQuiz/Quiz.jsx";
+import Quiz from "./Components/ListOfQuiz/Quiz";
 import Homework from "./Components/Homework/Homework";
 import Transcript from "./Components/Studenttranscript/Transcript";
 import ActiveCourses from "./Components/ActiveEnroleCourses/ActiveCourses";
@@ -68,31 +68,43 @@ import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.js
 import EditTeacher from "./Components/EditTeacher/Index.jsx";
 import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 import CalendarView from "./Components/CalendarView/Index.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <ToastContainer autoClose={5000} hideProgressBar pauseOnHover={false} toastClassName="toastRequestSuccess" bodyClassName="toastBody" closeButton={false} />
-      <ChatBotConversation/>
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar
+        pauseOnHover={false}
+        toastClassName="toastRequestSuccess"
+        bodyClassName="toastBody"
+        closeButton={false}
+      />
+      <ChatBotConversation />
+
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
+          {/* 🌍 Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
           <Route path="/login" element={<Login />} />
-          <Route path="/about-us" element={<AboutUs/>}/>
-          <Route path="/navbar" element={<NavbarLoginBefore/>}/>
-          <Route path="/help" element={<Help/>}/>
-          <Route path='/password/change' element={<SubmitPassword/>}/>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/navbar" element={<NavbarLoginBefore />} />
+          <Route path="/forget/password" element={<ResetPassword />} />
+          <Route path="/password/change" element={<SubmitPassword />} />
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
           {/* Student Routes */}
-          <Route
+           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>       
+             <Route
             path="/student"
             element={
               <PublicLayout open={open} onClick={() => setOpen(!open)}>
@@ -114,8 +126,11 @@ const App = () => {
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
           </Route>
+          </Route>
+ 
 
           {/* Admin Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route
             path="/admin"
             element={
@@ -152,9 +167,11 @@ const App = () => {
             <Route path="set/password" element={<TeacherResetPassword/>}/>
             <Route path="teacher/not-available" element={<CalendarView/>}/>
           </Route>
+          </Route>
 
           {/* Teacher Routes */}
-          <Route
+             <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+                      <Route
             path="/teacher"
             element={
               <PublicLayout open={open} onClick={() => setOpen(!open)}>
@@ -178,9 +195,12 @@ const App = () => {
             <Route path="experience" element={<Experience />} />
             <Route path="online/profile" element={<OnlineProfile />} />
           </Route>
+          </Route>
+ 
         </Routes>
       </BrowserRouter>
     </div>
   );
 };
+
 export default App;

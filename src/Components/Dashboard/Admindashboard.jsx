@@ -3,76 +3,102 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 import './css/Admindashboard.css';
 
 // components/AdminDashboard.js
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import Api from '../../Api';
+import { useNavigate } from 'react-router-dom';
 
 
 const AdminDashboard = () => {
+
+  const navigate = useNavigate()
+
+
   const [activeTab, setActiveTab] = useState('overview');
   const [teachers, setTeachers] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+
+  const [adminDashboard, setAdminDashboard] = useState([]);
+  const [approveData, setApprovedData] = useState([]);
+  const [pendingData, setPendingData] = useState([]);
+  const [studentData, setStudentData] = useState([]); 
+
+
   const [students, setStudents] = useState([]);
   const [payments, setPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [loading, setLoading] = useState(true);
 
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const userId = user?.id;
+
+  console.log("User ID:", userId);
+
+  // console.log(userId, " userId")
+
   // Mock data - replace with actual API calls
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      
+      getAdminDashboard();
+      getTeacherPendingListData();
+      getTeacherApprovedListData();
+      getAllStudentList();
+
       // Simulate API call
       setTimeout(() => {
         const mockTeachers = [
-          { 
-            id: 1, 
-            name: 'Dr. John Smith', 
-            email: 'john.smith@email.com', 
-            status: 'approved', 
-            subject: 'MERN Stack', 
+          {
+            id: 1,
+            name: 'Dr. John Smith',
+            email: 'john.smith@email.com',
+            status: 'approved',
+            subject: 'MERN Stack',
             joinDate: '2024-01-15',
             phone: '+1 (555) 123-4567',
             experience: '5 years',
             rating: 4.8
           },
-          { 
-            id: 2, 
-            name: 'Prof. Sarah Johnson', 
-            email: 'sarah.j@email.com', 
-            status: 'pending', 
-            subject: 'MERN Stack', 
+          {
+            id: 2,
+            name: 'Prof. Sarah Johnson',
+            email: 'sarah.j@email.com',
+            status: 'pending',
+            subject: 'MERN Stack',
             joinDate: '2024-02-01',
             phone: '+1 (555) 234-5678',
             experience: '3 years',
             rating: 4.5
           },
-          { 
-            id: 3, 
-            name: 'Mike Wilson', 
-            email: 'mike.wilson@email.com', 
-            status: 'approved', 
-            subject: 'MERN Stack', 
+          {
+            id: 3,
+            name: 'Mike Wilson',
+            email: 'mike.wilson@email.com',
+            status: 'approved',
+            subject: 'MERN Stack',
             joinDate: '2024-01-20',
             phone: '+1 (555) 345-6789',
             experience: '7 years',
             rating: 4.9
           },
-          { 
-            id: 4, 
-            name: 'Emily Davis', 
-            email: 'emily.davis@email.com', 
-            status: 'pending', 
-            subject: 'MERN Stack', 
+          {
+            id: 4,
+            name: 'Emily Davis',
+            email: 'emily.davis@email.com',
+            status: 'pending',
+            subject: 'MERN Stack',
             joinDate: '2024-02-10',
             phone: '+1 (555) 456-7890',
             experience: '2 years',
             rating: 4.3
           },
-          { 
-            id: 5, 
-            name: 'Robert Brown', 
-            email: 'robert.b@email.com', 
-            status: 'approved', 
-            subject: 'MERN Stack', 
+          {
+            id: 5,
+            name: 'Robert Brown',
+            email: 'robert.b@email.com',
+            status: 'approved',
+            subject: 'MERN Stack',
             joinDate: '2024-01-25',
             phone: '+1 (555) 567-8901',
             experience: '6 years',
@@ -81,38 +107,38 @@ const AdminDashboard = () => {
         ];
 
         const mockStudents = [
-          { 
-            id: 1, 
-            name: 'Alice Brown', 
-            email: 'alice.b@student.com', 
-            grade: '10th Grade', 
+          {
+            id: 1,
+            name: 'Alice Brown',
+            email: 'alice.b@student.com',
+            grade: '10th Grade',
             joinDate: '2024-01-10',
             phone: '+1 (555) 678-9012',
             courses: ['MERN Stack']
           },
-          { 
-            id: 2, 
-            name: 'Bob Miller', 
-            email: 'bob.m@student.com', 
-            grade: '11th Grade', 
+          {
+            id: 2,
+            name: 'Bob Miller',
+            email: 'bob.m@student.com',
+            grade: '11th Grade',
             joinDate: '2024-01-12',
             phone: '+1 (555) 789-0123',
-          courses: ['MERN Stack']
+            courses: ['MERN Stack']
           },
-          { 
-            id: 3, 
-            name: 'Carol White', 
-            email: 'carol.w@student.com', 
-            grade: '9th Grade', 
+          {
+            id: 3,
+            name: 'Carol White',
+            email: 'carol.w@student.com',
+            grade: '9th Grade',
             joinDate: '2024-01-18',
             phone: '+1 (555) 890-1234',
-           courses: ['MERN Stack']
+            courses: ['MERN Stack']
           },
-          { 
-            id: 4, 
-            name: 'David Wilson', 
-            email: 'david.w@student.com', 
-            grade: '12th Grade', 
+          {
+            id: 4,
+            name: 'David Wilson',
+            email: 'david.w@student.com',
+            grade: '12th Grade',
             joinDate: '2024-01-22',
             phone: '+1 (555) 901-2345',
             courses: ['MERN Stack']
@@ -120,42 +146,42 @@ const AdminDashboard = () => {
         ];
 
         const mockPayments = [
-          { 
-            id: 1, 
-            teacherName: 'John Smith', 
+          {
+            id: 1,
+            teacherName: 'John Smith',
             teacherId: 1,
-            amount: 1500, 
-            date: '2024-02-01', 
+            amount: 1500,
+            date: '2024-02-01',
             status: 'completed',
             method: 'Bank Transfer',
             transactionId: 'TXN001'
           },
-          { 
-            id: 2, 
-            teacherName: 'Mike Wilson', 
+          {
+            id: 2,
+            teacherName: 'Mike Wilson',
             teacherId: 3,
-            amount: 1200, 
-            date: '2024-02-01', 
+            amount: 1200,
+            date: '2024-02-01',
             status: 'completed',
             method: 'PayPal',
             transactionId: 'TXN002'
           },
-          { 
-            id: 3, 
-            teacherName: 'Sarah Johnson', 
+          {
+            id: 3,
+            teacherName: 'Sarah Johnson',
             teacherId: 2,
-            amount: 1000, 
-            date: '2024-02-15', 
+            amount: 1000,
+            date: '2024-02-15',
             status: 'pending',
             method: 'Bank Transfer',
             transactionId: 'TXN003'
           },
-          { 
-            id: 4, 
-            teacherName: 'Robert Brown', 
+          {
+            id: 4,
+            teacherName: 'Robert Brown',
             teacherId: 5,
-            amount: 1800, 
-            date: '2024-02-10', 
+            amount: 1800,
+            date: '2024-02-10',
             status: 'completed',
             method: 'Stripe',
             transactionId: 'TXN004'
@@ -172,24 +198,74 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
+  //Admin Details for Teachers and Student and Course Count 
+  const getAdminDashboard = () => {
+    Api.get("api/v1/dashboard/admin/", { headers: { userId: userId } }).then((response) => {
+      const data = response.data.data;
+      console.log(data, "......dtaa")
+      setAdminDashboard(data);
+      setisLoading(false);
+    });
+  };
+
+
+
+  // Log out
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
+
+  //get approved teacher list
+  const getTeacherApprovedListData = () => {
+    Api.get("api/v1/teacher/list").then((response) => {
+      const approvedData = response.data.teacherList;
+      setApprovedData(approvedData);
+      setisLoading(false);
+    });
+  };
+
+
+  // get pending teacher list
+  const getTeacherPendingListData = () => {
+    Api.get("api/v1/teacher/pending/list", { headers: { userId: userId } }).then((response) => {
+      const pendingData = response.data.PendingList;
+      setPendingData(pendingData);
+      setisLoading(false);
+    });
+  };
+
+
+  const getAllStudentList = () => {
+    Api.get("api/v1/student", { headers: { userId: userId } })
+      .then((response) => { 
+      const student = response.data.data.data;
+      console.log(student,"student")
+      setStudentData(student);
+      setisLoading(false);
+    });
+  };
+
   // Filtered data
-  const approvedTeachers = teachers.filter(teacher => teacher.status === 'approved');
+  const approvedTeachers = approveData.filter(teacher => teacher.status === 'Approved');
   const pendingTeachers = teachers.filter(teacher => teacher.status === 'pending');
   const totalAmount = payments.filter(p => p.status === 'completed').reduce((sum, payment) => sum + payment.amount, 0);
   const pendingAmount = payments.filter(p => p.status === 'pending').reduce((sum, payment) => sum + payment.amount, 0);
 
-  const filteredTeachers = teachers.filter(teacher => {
-    const matchesSearch = teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         teacher.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         teacher.subject.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredTeachers = approvedTeachers.filter(teacher => {
+    const matchesSearch = teacher?.firstName?.toLowerCase()?.includes(searchTerm.toLowerCase()) ||
+      teacher?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      teacher?.subject?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || teacher.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
-  const filteredStudents = students.filter(student =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.grade.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredStudents = studentData.filter(student =>
+    student?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    student?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    student?.grade?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const filteredPayments = payments.filter(payment =>
@@ -199,7 +275,7 @@ const AdminDashboard = () => {
 
   // Actions
   const approveTeacher = (teacherId) => {
-    setTeachers(teachers.map(teacher => 
+    setTeachers(teachers.map(teacher =>
       teacher.id === teacherId ? { ...teacher, status: 'approved' } : teacher
     ));
   };
@@ -213,7 +289,7 @@ const AdminDashboard = () => {
   };
 
   const completePayment = (paymentId) => {
-    setPayments(payments.map(payment => 
+    setPayments(payments.map(payment =>
       payment.id === paymentId ? { ...payment, status: 'completed' } : payment
     ));
   };
@@ -232,8 +308,8 @@ const AdminDashboard = () => {
         />
       </div>
       {activeTab === 'teachers' && (
-        <select 
-          value={statusFilter} 
+        <select
+          value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="filter-select"
         >
@@ -243,8 +319,8 @@ const AdminDashboard = () => {
         </select>
       )}
       {activeTab === 'payments' && (
-        <select 
-          value={statusFilter} 
+        <select
+          value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="filter-select"
         >
@@ -260,38 +336,38 @@ const AdminDashboard = () => {
   const renderOverview = () => (
     <div className="overview">
       <div className="stats-grid">
-        <div className="stat-card primary">
+        <div className="stat-card primary" onClick={() => navigate("/admin/teacher/list")}>
           <div className="stat-icon">👨‍🏫</div>
           <div className="stat-info">
             <h3>Total Teachers</h3>
-            <div className="stat-number">{teachers.length}</div>
+            <div className="stat-number">{adminDashboard.totalTeacher}</div>
           </div>
         </div>
-        
-        <div className="stat-card success">
-          <div className="stat-icon">✅</div>
-          <div className="stat-info">
-            <h3>Approved Teachers</h3>
-            <div className="stat-number">{approvedTeachers.length}</div>
-          </div>
-        </div>
-        
-        <div className="stat-card warning">
+
+        {/* <div className="stat-card warning">
           <div className="stat-icon">⏳</div>
           <div className="stat-info">
             <h3>Pending Teachers</h3>
             <div className="stat-number">{pendingTeachers.length}</div>
-          </div>
-        </div>
-        
-        <div className="stat-card info">
+          </div> 
+        </div> */}
+
+        <div className="stat-card info" onClick={() => navigate("/admin/students/list")}>
           <div className="stat-icon">👨‍🎓</div>
           <div className="stat-info">
             <h3>Total Students</h3>
-            <div className="stat-number">{students.length}</div>
+            <div className="stat-number">{adminDashboard.totalStudent}</div>
           </div>
         </div>
         
+        <div className="stat-card revenue" onClick={() => navigate("/admin/course/list")}>
+          <div className="stat-icon">📚</div>
+          <div className="stat-info">
+            <h3>Total Courses</h3>
+            <div className="stat-number">{adminDashboard?.totalCourse}</div>
+          </div>
+        </div>
+
         <div className="stat-card revenue">
           <div className="stat-icon">💰</div>
           <div className="stat-info">
@@ -299,38 +375,50 @@ const AdminDashboard = () => {
             <div className="stat-number">${totalAmount}</div>
           </div>
         </div>
-        
-        <div className="stat-card pending-revenue">
+
+        {/* <div className="stat-card pending-revenue">
           <div className="stat-icon">💳</div>
           <div className="stat-info">
             <h3>Pending Amount</h3>
             <div className="stat-number">${pendingAmount}</div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="recent-activity">
-        <div className="activity-section">
-          <h3>Recent Teacher Applications</h3>
-          <div className="activity-list">
-            {pendingTeachers.slice(0, 3).map(teacher => (
-              <div key={teacher.id} className="activity-item">
-                <div className="activity-avatar">👨‍🏫</div>
-                <div className="activity-content">
-                  <p><strong>{teacher.name}</strong> applied for {teacher.subject}</p>
-                  <span className="activity-time">{teacher.joinDate}</span>
-                </div>
-                <div className="activity-actions">
-                  <button className="btn btn-sm btn-success" onClick={() => approveTeacher(teacher.id)}>
-                    Approve
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="activity-section">
+
+
+        {/* <div className="activity-section">
+          <h3>Recent Teacher Applications</h3>
+          {pendingData.length > 0 ?
+            <div className="activity-list">
+              {pendingData?.slice(0, 3)?.map(teacher => (
+                <div key={teacher.id} className="activity-item">
+                  <div className="activity-avatar">👨‍🏫</div>
+                  <div className="activity-content">
+                    <p><strong>{teacher.name}</strong> applied for {teacher.subject}</p>
+                    <span className="activity-time">{teacher.joinDate}</span>
+                  </div>
+                  <div className="activity-actions">
+                    <button className="btn btn-sm btn-success" onClick={() => approveTeacher(teacher.id)}>
+                      Approve
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            : <><p style={{
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+              textAlign:'center',
+              marginTop:40
+            }}> Nothing to Show! </p></>}
+        </div> */}
+
+
+        {/* <div className="activity-section">
           <h3>Recent Payments</h3>
           <div className="activity-list">
             {payments.slice(0, 3).map(payment => (
@@ -344,7 +432,7 @@ const AdminDashboard = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -353,9 +441,9 @@ const AdminDashboard = () => {
   const renderTeachers = () => (
     <div className="teachers-section">
       <SearchAndFilter />
-      
+
       <div className="section">
-        <h3>Pending Teachers ({pendingTeachers.length})</h3>
+        <h3>Pending Teachers ({pendingData.length})</h3>
         <div className="table-container">
           <table>
             <thead>
@@ -368,6 +456,7 @@ const AdminDashboard = () => {
                 <th>Actions</th>
               </tr>
             </thead>
+            {pendingData.length > 0 ? 
             <tbody>
               {filteredTeachers.filter(t => t.status === 'pending').map(teacher => (
                 <tr key={teacher.id}>
@@ -399,6 +488,15 @@ const AdminDashboard = () => {
                 </tr>
               ))}
             </tbody>
+            :
+            <><p style={{
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+              textAlign:'center',
+              marginTop:40
+            }}> Nothing to Show! </p></>}
+
           </table>
         </div>
       </div>
@@ -412,36 +510,37 @@ const AdminDashboard = () => {
                 <th>Teacher</th>
                 <th>Contact</th>
                 <th>Subject</th>
-                <th>Rating</th>
-                <th>Experience</th>
-                <th>Join Date</th>
+                {/* <th>Rating</th> */}
+                {/* <th>Experience</th> */}
+                {/* <th>Join Date</th> */}
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredTeachers.filter(t => t.status === 'approved').map(teacher => (
+              {filteredTeachers.filter(t => t.status === 'Approved').map(teacher => (
                 <tr key={teacher.id}>
                   <td>
+                    {console.log(teacher,"teacher....")}
                     <div className="user-info">
                       <div className="user-avatar">👨‍🏫</div>
                       <div>
-                        <div className="user-name">{teacher.name}</div>
+                        <div className="user-name">{teacher.firstName}</div>
                         <div className="user-email">{teacher.email}</div>
                       </div>
                     </div>
                   </td>
                   <td>{teacher.phone}</td>
                   <td>
-                    <span className="subject-badge">{teacher.subject}</span>
+                    <span className="subject-badge">{teacher.speciality}</span>
                   </td>
-                  <td>
+                  {/* <td>
                     <div className="rating">
                       <span className="rating-stars">⭐</span>
                       {teacher.rating}
                     </div>
-                  </td>
-                  <td>{teacher.experience}</td>
-                  <td>{teacher.joinDate}</td>
+                  </td> */}
+                  {/* <td>{teacher.experience}</td> */}
+                  {/* <td>{teacher.joinDate}</td> */}
                   <td>
                     <button className="btn btn-danger btn-sm" onClick={() => rejectTeacher(teacher.id)}>
                       Remove
@@ -460,9 +559,9 @@ const AdminDashboard = () => {
   const renderStudents = () => (
     <div className="students-section">
       <SearchAndFilter />
-      
+
       <div className="section">
-        <h3>All Students ({students.length})</h3>
+        <h3>All Students ({studentData.length})</h3>
         <div className="table-container">
           <table>
             <thead>
@@ -482,21 +581,21 @@ const AdminDashboard = () => {
                     <div className="user-info">
                       <div className="user-avatar">👨‍🎓</div>
                       <div>
-                        <div className="user-name">{student.name}</div>
+                        <div className="user-name">{student.firstName} {student.lastName}</div>
                         <div className="user-email">{student.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td>{student.phone}</td>
+                  <td>{student.phone || "-"}</td>
                   <td>
                     <span className="grade-badge">{student.grade}</span>
                   </td>
                   <td>
-                    <div className="courses-list">
+                    {/* <div className="courses-list">
                       {student.courses.map((course, index) => (
                         <span key={index} className="course-tag">{course}</span>
                       ))}
-                    </div>
+                    </div> */}
                   </td>
                   <td>{student.joinDate}</td>
                   <td>
@@ -517,7 +616,7 @@ const AdminDashboard = () => {
   const renderPayments = () => (
     <div className="payments-section">
       <SearchAndFilter />
-      
+
       <div className="section">
         <h3>Payment History</h3>
         <div className="payment-stats">
@@ -530,7 +629,7 @@ const AdminDashboard = () => {
             <span className="stat-value">${pendingAmount}</span>
           </div>
         </div>
-        
+
         <div className="table-container">
           <table>
             <thead>
@@ -603,25 +702,25 @@ const AdminDashboard = () => {
       </header>
 
       <nav className="dashboard-nav">
-        <button 
+        <button
           className={`nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
           📊 Overview
         </button>
-        <button 
+        <button
           className={`nav-btn ${activeTab === 'teachers' ? 'active' : ''}`}
           onClick={() => setActiveTab('teachers')}
         >
           👨‍🏫 Teachers
         </button>
-        <button 
+        <button
           className={`nav-btn ${activeTab === 'students' ? 'active' : ''}`}
           onClick={() => setActiveTab('students')}
         >
           👨‍🎓 Students
         </button>
-        <button 
+        <button
           className={`nav-btn ${activeTab === 'payments' ? 'active' : ''}`}
           onClick={() => setActiveTab('payments')}
         >

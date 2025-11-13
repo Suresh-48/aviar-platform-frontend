@@ -18,8 +18,13 @@ const Form = () => {
   const [value, setValue] = useContext(FormContext);
   const [teacherId, setTeacherId] = useState("");
   const [show, setShow] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const userId = localStorage.getItem("userId");
+  const user = localStorage.getItem('user');
+  const parsed = JSON.parse(user);
+  console.log(parsed,"parsed......")
+  const userId = parsed.id;
+
 
   const sections = [
     { title: "Education", onClick: () => setCurrentPage(1) },
@@ -38,6 +43,7 @@ const Form = () => {
     const teacherId = localStorage.getItem("teacherId");
     if (!teacherId) return;
     setTeacherId(teacherId);
+
 
     Api.get(`api/v1/teacherApplication/${teacherId}`, {
       headers: { userId },
@@ -61,6 +67,11 @@ const Form = () => {
       });
   }, []);
 
+
+ 
+
+
+
   const handleModal = () => setShow(!show);
 
   const handleConfirm = () => setShow(true);
@@ -81,7 +92,7 @@ const Form = () => {
         if (response.status === 201) {
           toast.success("Updated Successfully");
           // window.location.href = "/teacher/application/details";
-          navigate("/teacher/application/details")
+          navigate("/teacher/dashboard")
         }
       })
       .catch((error) => {
