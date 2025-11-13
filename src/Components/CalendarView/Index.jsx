@@ -19,13 +19,18 @@ import { toast } from "react-toastify";
 const localizer = momentLocalizer(moment);
 
 function CalendarView(props) {
-  const [teacherId, setteacherId] = useState(props?.location?.state?.rowData?.id);
+      const location = useLocation();
+//   const [teacherId, setteacherId] = useState(props?.location?.state?.rowData?.id);
   const [schedule, setschedule] = useState([]);
   const [isLoading, setisLoading] = useState(true);
-  const [firstName, setfirstName] = useState(props?.location?.state?.rowData?.firstName);
-  const [lastName, setlastName] = useState(props?.location?.state?.rowData?.lastName);
+//   const [firstName, setfirstName] = useState(props?.location?.state?.rowData?.firstName);
+//   const [lastName, setlastName] = useState(props?.location?.state?.rowData?.lastName);
   const userId = localStorage.getItem("userId");
-  console.log("props", location);
+   const rowData = location.state?.rowData;
+  const firstName = rowData?.firstName || "";
+  const lastName = rowData?.lastName || "";
+  const teacherId = rowData?.id || "";
+
 
   // Log out
   
