@@ -68,7 +68,7 @@ import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.js
 import EditTeacher from "./Components/EditTeacher/Index.jsx";
 import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 import CalendarView from "./Components/CalendarView/Index.jsx";
-import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+// import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -93,7 +93,7 @@ const App = () => {
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
           {/* Student Routes */}
-           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>       
+           {/* <Route element={<ProtectedRoute allowedRoles={["student"]} />}>        */}
              <Route
             path="/student"
             element={
@@ -116,11 +116,11 @@ const App = () => {
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
           </Route>
-          </Route>
+          {/* </Route> */}
  
 
           {/* Admin Routes */}
-            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            {/* <Route element={<ProtectedRoute allowedRoles={["admin"]} />}> */}
           <Route
             path="/admin"
             element={
@@ -156,11 +156,11 @@ const App = () => {
             <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
             <Route path="set/password" element={<TeacherResetPassword/>}/>
             <Route path="teacher/not-available" element={<CalendarView/>}/>
-          </Route>
+          {/* </Route> */}
           </Route>
 
           {/* Teacher Routes */}
-             <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+             {/* <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}> */}
                       <Route
             path="/teacher"
             element={
@@ -185,7 +185,7 @@ const App = () => {
             <Route path="experience" element={<Experience />} />
             <Route path="online/profile" element={<OnlineProfile />} />
           </Route>
-          </Route>
+          {/* </Route> */}
  
         </Routes>
       </BrowserRouter>
