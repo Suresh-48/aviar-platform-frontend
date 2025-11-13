@@ -65,6 +65,7 @@ import AdminUpcomingScheduleList from "./Components/AdminUpcomingScheduleList/In
 import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.jsx";
 import EditTeacher from "./Components/EditTeacher/Index.jsx";
 import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
+import CalendarView from "./Components/CalendarView/Index.jsx";
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
   // const [open, setOpen] = useState(false);
@@ -152,6 +153,7 @@ const App = () => {
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
             <Route path="set/password" element={<TeacherResetPassword/>}/>
+            <Route path="teacher/not-available" element={<CalendarView/>}/>
             {/* <Route path="upcoming/schedule/list/:id" element={<AdminStudentUpcomingScheduleList/>}/> */}
           </Route>
           {/* Teacher Routes */}
