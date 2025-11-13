@@ -32,7 +32,6 @@ import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import Updatestudentdetail from "./Components/Editstudentdetail/Updatestudentdetail";
 import UpcomingSchedule1 from "./Components/Studentupcomingschedule/Upcomingschedule1";
-import AllCourseList from "./Components/CourseList/AllCourseList";
 import List from "./Components/Favouritecourse/List";
 import Quiz from "./Components/ListOfQuiz/Quiz";
 import Homework from "./Components/Homework/Homework";
