@@ -130,6 +130,8 @@ function TeacherDashboard() {
 
   if (isLoading) return <Loading />;
 
+  console.log(status,"status")
+
   if (status === "Pending") return <DisplayTeacherApplication />;
 
   return (

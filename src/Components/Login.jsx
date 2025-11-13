@@ -1,208 +1,349 @@
-import React, { useState } from "react";
-import { Col, Container, Row, Form, InputGroup, Card, Button, Modal } from "react-bootstrap";
-import { Formik, ErrorMessage, Field } from "formik";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  Container,
+  Card,
+  Button,
+  InputGroup,
+  Modal,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import './CSS/Login.css';
 import axios from "axios";
-import Navbar from "./Navbar";
 import { toast } from "react-toastify";
-
-import NavbarLoginBefore from "./PublicLayout/navbar";
-import aviar from "./Images/aviar.png";
-// import curveImg from "./curveImg.png";
-// import aviarImag from "./aviarImg.png.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import { faEye, faEyeSlash, faLocationDot, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext"; // ✅ import context
+import "./CSS/Login.css";
+import Api from "../Api";
+
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [teacherId, setTeacherId] = useState("");
+  const [status1, setStatus1] = useState(null);
+  
+
 
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); 
 
-  const initialValues = {
-    email: "",
-    password: "",
-  };
-  const validationSchema = Yup.object({
-    email: Yup.string().required("Enter your email"),
-    password: Yup.string()
-      .matches(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
-        "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
-      )
-      .min(8, "Password Required Minimum 8 Characters")
-      .required("Password Is Required"),
-  });
-  const onSubmit = (values) => {
+  // 🔁 Auto redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
 
-    axios.post(`http://localhost:3000/api/v1/user/login`, {
-      email: values.email,
-      password: values.password,
-
-    }).then((response) => {
-
-      console.log("response", response.data.updateToken.role);
-      let userRole = "";
-
-      if (values.email.includes("student")) {
-        userRole = "student";
-      } else if (values.email.includes("teacher")) {
-        userRole = "teacher";
-      } else {
-        userRole = "admin";
+    if (token && role) {
+      switch (role) {
+        case "admin":
+          navigate("/admin/dashboard", { replace: true });
+          break;
+        case "teacher":
+          navigate("/teacher/dashboard", { replace: true });
+          break;
+        case "student":
+          navigate("/student/dashboard", { replace: true });
+          break;
+        default:
+          navigate("/");
       }
-      if (response.status === 200) {
+    }
+  }, [navigate]);
 
-        localStorage.setItem("token", response.data.updateToken.token);
-        localStorage.setItem("role", response.data.updateToken.role);
-        localStorage.setItem("userId", response.data.updateToken.id)
-        localStorage.setItem("studentId", response.data.updateToken.studentId);
-        localStorage.setItem("teacherId", response.data.updateToken.teacherId);
+  // ✏️ Form initial values
+  const initialValues = { email: "", password: "" };
 
-        toast.success(response.data);
-        if (userRole === "admin") {
-          navigate("/admin/dashboard");
-        } else if (userRole === "teacher") {
-          navigate("/teacher/dashboard");
-        } else if (userRole === "student") {
-          navigate("/student/dashboard");
-        } else {
-          navigate("/login"); // fallback
+  // ✅ Validation schema
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Minimum 8 characters")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
+        "Weak password"
+      )
+      .required("Password is required"),
+  });
+
+  // 🔐 Handle submit
+  const onSubmit = async (values, { setSubmitting }) => {
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/api/v1/user/login",
+      values
+    );
+
+    if (res.status === 200) {
+      const data = res.data.updateToken;
+      console.log(data, "data.......");
+
+      let teacherStatus = null;
+
+      // 🧠 If role is teacher, fetch their status before continuing
+      if (data.role === "teacher" && data.teacherId) {
+        try {
+          const teacherRes = await Api.get(`api/v1/teacher/${data.teacherId}`);
+          teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
+          console.log(teacherStatus, "teacherStatus from API during login");
+        } catch (err) {
+          console.error("Error fetching teacher status:", err);
         }
       }
-    }).catch((error) => {
-      if (error.status === 400) {
-        console.log("error.....", error.response.data.message);
-        toast.error(error.response.data.message);
+
+      const userData = {
+        id: data.id,
+        role: data.role,
+        token: data.token,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        studentId: data.studentId,
+        teacherId: data.teacherId,
+        teacherStatus: teacherStatus, 
+      };
+
+      // student id 
+      // teacher id
+      // userId 
+
+      // ✅ Store user data (with teacherStatus)
+      login(userData);
+      toast.success("Login successful!");
+
+      // ✅ Navigate based on role
+      switch (data.role) {
+        case "admin":
+          navigate("/admin/dashboard");
+          break;
+        case "teacher":
+          navigate("/teacher/dashboard");
+          break;
+        case "student":
+          navigate("/student/dashboard");
+          break;
+        default:
+          navigate("/");
       }
+    }
+  } catch (error) {
+    const message = error.response?.data?.message || "Login failed!";
+    toast.error(message);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
-    })
-  };
-  // const togglePasswordVisibility = () => {
-  //   setPasswordVisible(!passwordVisible);
+
+
+
+
+  // useEffect(() => {
+  //   if (teacherId) {
+  //     fetchAllData();
+  //   }
+  // }, [teacherId])
+
+  // const fetchAllData = async () => {
+  //   try {
+  //     setIsLoading(true);
+
+  //     // Fetch teacher status
+  //     const teacherRes = await Api.get(`api/v1/teacher/${teacherId}`);
+  //     const teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
+  //     console.log(teacherStatus,"teacherStatus from api")
+  //     setStatus1(teacherStatus);
+
+  //     // Fetch dashboard & upcoming schedule data
+  //     // await Promise.all([
+  //       // getTeacherCourseCount(teacherIdFromStorage),
+  //       // TeacherUpcomingScheduleData(teacherIdFromStorage),
+  //     // ]);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
   // };
-  const tooglePasswordVisibility = () => {
-    setPasswordShown(!passwordShown);
-  };
-  //   const root = ReactDOM.createRoot(document.getElementById('root'));
-  // root.render(
-  //   <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
-  //     <React.StrictMode>
-  //       <GoogleAccount />
-  //     </React.StrictMode>
-  //   </GoogleOAuthProvider>
-  // );
+
+  console.log(teacherId,"teacher id in login page");
+  console.log(status1,"teacher status in login page");
+
+
   return (
-    <div className="Login-container">
+    <div className="login-page">
+      <Navbar />
 
-      <div className="Aviarlogo">
-        <Navbar/>
-        {/* <NavbarLoginBefore /> */}
-        {/* <div className="text-center">
-          <img src={aviarImag} alt=" " />
-        </div>
-     
-        <div className="curveImg">
-          <img src={curveImg} alt=" " />
-        </div> */}
-      </div>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {({ handleSubmit }) => (
-          <>
-            <Container>
-              <Card className="p-5 bg-light rounded shadow col-5 mx-auto mt-5 mb-5">
-                <Form onSubmit={handleSubmit}>
-                  <h4 className="d-flex justify-content-center mb-2" style={{ fontFamily: "none", fontWeight: "bold" }}>
-                    Login
-                  </h4>
-                  <div className="pt-3">
-                    <form-control></form-control>
-                  </div>
-                  <hr className="or-divider my-4" />
-                  <label> Email </label>
-                  <span className="text-danger">*</span>
-                  <Field name="email" type="text" placeholder="Email Address" className="form-control" />
-                  <ErrorMessage name="email" component="span" className="error text-danger error-message" />
-                  <br />
-                  <label> Password </label>
-                  <span className="text-danger">*</span>
+      <Container className="d-flex justify-content-center align-items-center min-vh-100">
+        <Card className="p-5 bg-light shadow-lg rounded col-12 col-md-6 col-lg-4">
+          <h3 className="text-center fw-bold mb-4 text-primary">Login</h3>
+
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {({ handleSubmit, isSubmitting }) => (
+              <Form onSubmit={handleSubmit} style={{ marginTop: 50 }}>
+                {/* Email */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Email Address</Form.Label>
+                  <Field
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    placeholder="Enter your email"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-danger small"
+                  />
+                </Form.Group>
+
+                {/* Password */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Password</Form.Label>
                   <InputGroup>
-                    <InputGroup.Text style={{ width: "100%", padding: "1px", background: "white" }}>
-                      <Field
-                        name="password"
-                        type={passwordShown ? "text" : "password"}
-                        placeholder="Enter your password"
-                        className="form-control"
-                        style={{ border: "none", background: "inherit" }}
+                    <Field
+                      type={passwordVisible ? "text" : "password"}
+                      name="password"
+                      className="form-control"
+                      placeholder="Enter your password"
+                    />
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() => setPasswordVisible(!passwordVisible)}
+                    >
+                      <FontAwesomeIcon
+                        icon={passwordVisible ? faEyeSlash : faEye}
                       />
-                      <div>
-                        <FontAwesomeIcon
-                          icon={passwordShown ? faEye : faEyeSlash}
-                          onClick={tooglePasswordVisibility}
-                          size="1x"
-                        />
-                      </div>
-                    </InputGroup.Text>
+                    </Button>
                   </InputGroup>
-                  <ErrorMessage className="text-danger" name="password" component="div" />
-                  <br />
-                  <Button type="submit" className="btn btn-primary p-1 col-12" variant="container">
-                    Login
-                  </Button>
-                  <br />
-                  <br />
-                  <div className="float-end text-primary">
-                    <Link to='/forget/password/'>Forget password ?</Link>
-                  </div>
-                  <hr className="or-divider my-5" />
-                  <div className="d-flex flex-direction-row text-center">
-                    <text className="login-button">
-                      Don't have an account?
-                      <a className="login-button sign-up-button ms-1" onClick={() => setVisible(true)}>
-                        Sign Up
-                      </a>
-                    </text>
-                  </div>
-                </Form>
-              </Card>
-            </Container>
-            <div>
-             <Footer/>
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-danger small"
+                  />
+                </Form.Group>
+
+                {/* Submit */}
+                <Button
+                  type="submit"
+                  className="col-12 mt-3"
+                  variant="primary"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Logging in..." : "Login"}
+                </Button>
+
+                <div className="text-end mt-2">
+                  <Link to="/forget/password" className="text-primary">
+                    Forgot password?
+                  </Link>
+                </div>
+
+                <hr className="my-4" />
+
+                <div className="text-center">
+                  <p>
+                    Don’t have an account?{" "}
+                    <Button
+                      variant="link"
+                      className="p-0 text-decoration-none fw-semibold"
+                      onClick={() => setShowModal(true)}
+                    >
+                      Sign up
+                    </Button>
+                  </p>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </Card>
+      </Container>
+
+      <Footer />
+
+      {/* ✨ Signup Modal */}
+      <Modal show={showModal} size="md" centered onHide={() => setShowModal(false)}>
+        <Card className="border-0 shadow-lg rounded-4">
+          <Modal.Header
+            className="border-0 d-flex justify-content-center pt-4"
+            closeButton
+          >
+            <Modal.Title className="fw-bold fs-4 text-primary">
+              Choose Your Role
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body className="px-4 pb-4">
+            <div className="d-flex flex-column gap-3 mt-3">
+              {/* <Link
+                to="/parent/signup"
+                className="signup-option d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none"
+              >
+                <div className="icon-circle bg-primary text-white">
+                  <i className="fa-solid fa-user-group"></i>
+                </div>
+                <div>
+                  <h6 className="mb-0 fw-bold text-dark">Signup as Parent</h6>
+                  <small className="text-muted">
+                    Manage your child’s learning journey
+                  </small>
+                </div>
+              </Link> */}
+
+              <Link
+                to="/student/signup"
+                className="signup-option d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none"
+              >
+                <div className="icon-circle bg-success text-white">
+                  <i className="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                  <h6 className="mb-0 fw-bold text-dark">Signup as Student</h6>
+                  <small className="text-muted">
+                    Start learning and track progress
+                  </small>
+                </div>
+              </Link>
+
+              <Link
+                to="/teacher/signup"
+                className="signup-option d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none"
+              >
+                <div className="icon-circle bg-warning text-white">
+                  <i className="fa-solid fa-chalkboard-teacher"></i>
+                </div>
+                <div>
+                  <h6 className="mb-0 fw-bold text-dark">Signup as Teacher</h6>
+                  <small className="text-muted">
+                    Share knowledge and manage classes
+                  </small>
+                </div>
+              </Link>
             </div>
-          </>
+          </Modal.Body>
 
-
-        )}
-      </Formik>
-      {/* Sign Up Modal */}
-      <Modal show={visible} onHide={() => setVisible(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title className="text-center">Sign Up</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <NavLink exact to="/Student/signup" activeClassName="main-nav-active-style">
-
-            {/* <Link to ='Studentsignup'> */}
-            <h4 className="signup" >Signup as Student</h4>
-            {/* </Link> */}
-          </NavLink>
-          <Link to='/teacher/signup'>
-            <h4 className="signup">Signup as Teacher</h4>
-          </Link>
-          <Button variant="secondary" onClick={() => setShow(false)}>
-            Cancel
-          </Button>
-        </Modal.Body>
+          <Modal.Footer className="border-0 pb-4">
+            <Button
+              variant="outline-secondary"
+              className="rounded-pill w-100 fw-semibold"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Card>
       </Modal>
     </div>
   );
 };
+
 export default Login;
