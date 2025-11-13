@@ -23,6 +23,7 @@ import tableIcons from "../Core/TableIcons";
 function CourseLesson() {
   const { id } = useParams();
   const { courseID } = useParams();
+  console.log("courseID...2w...",courseID)
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -52,8 +53,7 @@ function CourseLesson() {
   }
 
   // Column Heading
-  console.log("courseID from URL:", courseID);
-  console.log("courseId from state:", courseId);
+
 
   const columns = [
 {
@@ -287,17 +287,18 @@ function CourseLesson() {
                         icon: () => <FontAwesomeIcon icon={faPen} style={{ color: "#03358c" }} size="sm" />,
                         tooltip: 'Edit',
                         onClick: (event, rowData) => {
-                          console.log("Editing lesson:", rowData);
+                          console.log("Editing lesson:", rowData.courseId._id);
+                          console.log("edit lession course id...",courseID)
                           navigate(`/admin/course/lesson/edit/${rowData.id}`, {
                             state: {
                               lessonId: rowData.id,
                               lessonData: rowData,
-                              courseID: courseID, // Use courseId
+                              courseID: rowData?.courseId?._id, // Use courseId
                             }
                           });
                         },
                       },
-                      console.log("courseID ijk",courseID),
+                     
                       {
                         icon: () => <FontAwesomeIcon icon={faTrash} style={{ color: "#03358c" }} size="sm" />,
                         tooltip: 'Delete',

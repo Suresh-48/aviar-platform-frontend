@@ -79,6 +79,7 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
+          {/* <Route path= "course/lesson/edit/:id" element ={<EditCourseLesson/>}/> */}
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -103,6 +104,7 @@ const App = () => {
             <Route index element={<Navigate to="/student/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="update/detail" element={<Updatestudentdetail />} />
+            
             <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
             <Route path="allcourselist" element={<AllCourseList />} />
             <Route path="list" element={<List />} />
