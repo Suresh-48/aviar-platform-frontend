@@ -61,7 +61,7 @@ const Allsidebar = ({ open, setOpen }) => {
       className="sidebar-container"
       style={{
         width: sidebarWidth,
-        background: "#1a1d24",
+        backgroundColor: " #1d1464",
         color: "#fff",
         transition: "width 0.3s ease",
       }}
