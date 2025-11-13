@@ -31,7 +31,7 @@ const Login = () => {
 
 
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // ✅ login from context
+  const { login } = useContext(AuthContext); 
 
   // 🔁 Auto redirect if already logged in
   useEffect(() => {
@@ -105,8 +105,12 @@ const Login = () => {
         lastName: data.lastName,
         studentId: data.studentId,
         teacherId: data.teacherId,
-        teacherStatus: teacherStatus, // ✅ now correctly filled
+        teacherStatus: teacherStatus, 
       };
+
+      // student id 
+      // teacher id
+      // userId 
 
       // ✅ Store user data (with teacherStatus)
       login(userData);

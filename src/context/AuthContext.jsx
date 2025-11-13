@@ -25,8 +25,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(data));
     localStorage.setItem("role", data.role);
     localStorage.setItem("token", data.token);
+    localStorage.setItem("userId", data.id);
+
     if (data.studentId) localStorage.setItem("studentId", data.studentId);
     if (data.teacherId) localStorage.setItem("teacherId", data.teacherId);
+    
 
     setUser(data);
   };
