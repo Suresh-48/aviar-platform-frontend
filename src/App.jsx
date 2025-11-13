@@ -12,7 +12,7 @@ import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
 import CoursesCreation from "./Components/Course/CourseCreation.jsx";
-// import QuizIntegration from "./Components/QuizIntegration/QuizIntegration.jsx";
+ import QuizIntegration from "./Components/QuizIntegration/QuizIntegration.jsx";
 import ResetPassword from "./Components/ResetPassword/Password.jsx";
 import SubmitPassword from './Components/SubmitPassword/Index.jsx'
 import Studentsignup from './Components/studentsignup.jsx';
@@ -79,7 +79,7 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
-          {/* <Route path= "course/lesson/edit/:id" element ={<EditCourseLesson/>}/> */}
+
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -103,8 +103,7 @@ const App = () => {
           >
             <Route index element={<Navigate to="/student/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="update/detail" element={<Updatestudentdetail />} />
-            
+            <Route path="update/detail" element={<Updatestudentdetail />} /> 
             <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
             <Route path="allcourselist" element={<AllCourseList />} />
             <Route path="list" element={<List />} />
@@ -132,11 +131,12 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
+            
             <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path ="upcoming/schedule/list" element={<UpcomingTeacherScheduleList/>}/>
             <Route path="course/edit/:courseID" element ={<EditCourses/>}/>
-            {/* <Route path ="quiz/create/:courseID" element={<QuizIntegration/>}/> */}
+            <Route path ="quiz/create/:id" element={<QuizIntegration/>}/> 
             <Route path="course/lesson/:courseID" element={<CourseLesson/>}/>
             <Route path="course/schedule/:courseID" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>

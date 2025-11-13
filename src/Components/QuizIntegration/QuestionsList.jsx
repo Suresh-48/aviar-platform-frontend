@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import { Form, Row, Col } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Icons
@@ -17,7 +17,7 @@ import Api from "../../Api";
 import Loader from "../core/Loader";
 
 const QuestionsList = (props) => {
-  const history = useHistory();
+  // const history = useHistory();
   const [lessonId, setlessonId] = useState(props?.lessonId);
   const [questionsList, setquestionsList] = useState([]);
   const [isLoading, setisLoading] = useState(true);
@@ -27,7 +27,7 @@ const QuestionsList = (props) => {
   //logout
   const logout = () => {
     setTimeout(() => {
-      localStorage.clear(history.push("/kharpi"));
+      // localStorage.clear(history.push("/kharpi"));
       window.location.reload();
     }, 2000);
   };

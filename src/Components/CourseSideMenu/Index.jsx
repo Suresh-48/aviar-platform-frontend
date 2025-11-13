@@ -8,108 +8,103 @@ import { useNavigate } from "react-router-dom";
 const CourseSideMenu = (props) => {
   const { id } = useParams();
   let { courseID } = useParams();
-
   const location = useLocation();
-
-
   const { lessonData } = location.state || {};
-
-
-
   courseID = courseID || lessonData?.courseId?._id;
   const [lessonId] = useState(id);
-  //   const history = useHistory();
-
-
   const navigate = useNavigate();
+
+  console.log("id ...", id);
+  console.log("lesson Id ", lessonId);
+
+  // Check if we're on a lesson-related page
+  const isLessonPage = !!id;
+
   return (
     <div className="d-flex justify-content-center">
-      {courseID && id ? (
+      {isLessonPage ? (
+        // LESSON PAGE TABS
         <Row className="sidenav">
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
-              exact
-              to={`course/lesson/edit/${lessonId}`
-                // state: { lessonId: lessonId, courseId: courseId },
+              to={ `/admin/course/lesson/edit/${lessonId}`}
+                state={{ 
+                  lessonId: lessonId, 
+                  courseID: courseID,
+                  disableSidebar: true 
+                }
               }
-              activeClassName="main-nav-active"
+              className={({ isActive }) => 
+                `nav-link-custom ${isActive ? 'main-nav-active' : ''}`
+              }
+              end
             >
               Edit Lesson
             </NavLink>
           </Col>
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
-              exact
-              to={`/admin/quiz/create`
-                // state: {
-                //   lessonId: lessonId,
-                //   courseId: courseId,
-                // },
+              to= {`/admin/quiz/create/${lessonId}`}
+              state={{
+                lessonId: lessonId,
+                courseID: courseID,
+              }}
+              className={({ isActive }) => 
+                `nav-link-custom ${isActive ? 'main-nav-active' : ''}`
               }
-              activeClassName="main-nav-active"
+              end
             >
               Quiz
             </NavLink>
           </Col>
           <Col xs={12} sm={4} className="px-0">
             <NavLink
-              exact
-              to={{
-                pathname: "/admin/homework/create",
-                state: {
-                  lessonId: lessonId,
-                  courseID: courseID,
-                },
+              to="/admin/homework/create"
+              state={{
+                lessonId: lessonId,
+                courseID: courseID,
               }}
-
-              activeClassName="main-nav-active"
+              className={({ isActive }) => 
+                `nav-link-custom ${isActive ? 'main-nav-active' : ''}`
+              }
+              end
             >
               Home Work
             </NavLink>
-
           </Col>
-
         </Row>
       ) : (
+        // COURSE PAGE TABS
         <Row className="sidenav">
-
-
           <Col xs={12} sm={4} className="nav-border-style px-0">
-            {/* <NavLink
-              exact
-              to=
-                // pathname: "/admin/course/edit/:id",
-                // state: { courseId: courseId },
-                 {`/admin/course/edit/${courseId}`}
-              activeClassName="main-nav-active"
-            >
-              Edit
-            </NavLink> */}
             <NavLink
               to={`/admin/course/edit/${courseID}`}
-              // state={{ courseID: courseID }} // 👈 send courseID as state
-              className="navigate-edit-text-NavLink"
-              onClick={() => setOpen(false)}
+              className={({ isActive }) => 
+                `nav-link-custom ${isActive ? 'main-nav-active' : ''}`
+              }
+              end
             >
               Edit
             </NavLink>
           </Col>
           <Col xs={12} sm={4} className="nav-border-style px-0">
             <NavLink
-              exact
               to={`/admin/course/lesson/${courseID}`}
-              //  state={{ courseID: courseID }}
-              activeClassName="main-nav-active"
+              className={({ isActive }) => 
+                `nav-link-custom ${isActive ? 'main-nav-active' : ''}`
+              }
+              end
             >
               Lesson
             </NavLink>
           </Col>
           <Col xs={12} sm={4} className="px-0">
             <NavLink
-              exact
               to={`/admin/course/schedule/${courseID}`}
-              //  state={{ courseID: courseID }}
-              activeClassName="main-nav-active"
+              className={({ isActive }) => 
+                `nav-link-custom ${isActive ? 'main-nav-active' : ''}`
+              }
+              end
             >
               Schedule
             </NavLink>
@@ -119,4 +114,5 @@ const CourseSideMenu = (props) => {
     </div>
   );
 };
+
 export default CourseSideMenu;

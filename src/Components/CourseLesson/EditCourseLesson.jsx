@@ -74,7 +74,7 @@ const EditCourseLessons = () => {
   
   // Get data from navigation state
   const [courseID, setCourseID] = useState(location.state?.courseID);
-  const [courseName, setCourseName] = useState(location.state?.courseName);
+  const [courseName, setCourseName] = useState(location.state?.lessonData?.courseId?.name);
   const [lesson, setLesson] = useState({});
   const [duration, setDuration] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
@@ -82,8 +82,8 @@ const EditCourseLessons = () => {
   const [description, setDescription] = useState("");
   const [quizListLength, setQuizListLength] = useState("");
   const [homeworkListLength, setHomeworkListLength] = useState("");
-
-  console.log("lesson id....",lessonId)
+  const [courseDetail, setCourseDetail] = useState({});
+  console.log("lesson id....",courseName)
   useEffect(() => {
     if (lessonId) {
       getLessonDetail();
@@ -106,6 +106,7 @@ const EditCourseLessons = () => {
     const userId = localStorage.getItem("userId");
     Api.get(`api/v1/courseLesson/${lessonId}`, { headers: { userId: userId } })
       .then((res) => {
+            console.log("course Name..",res)
         const data = res.data.data.getOne;
         
         // Handle description - if it's stored as Draft.js content, convert it
@@ -144,11 +145,13 @@ const EditCourseLessons = () => {
       },
     })
       .then((res) => {
+       
         const data = res.data.quizData;
         const quizData = data.length;
         setQuizListLength(quizData);
       })
       .catch((error) => {
+      
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
           logout();
@@ -166,6 +169,7 @@ const EditCourseLessons = () => {
       },
     })
       .then((res) => {
+         
         const data = res.data.homeworkData;
         const homeworkData = data.length;
         setHomeworkListLength(homeworkData);
@@ -198,6 +202,7 @@ const EditCourseLessons = () => {
     }
 
     setIsSubmit(true);
+    console.log("@@@@bhbj")
     Api.patch(`api/v1/courselesson/${lessonId}`, {
       courseId: courseID,
       lessonNumber: values.lessonNumber,
@@ -209,6 +214,7 @@ const EditCourseLessons = () => {
       userId: userId,
     })
       .then((response) => {
+      
         const status = response.status;
         if (status === 200 || status === 201) {
           setIsSubmit(false);
@@ -265,7 +271,7 @@ const EditCourseLessons = () => {
           <Row>
             <Col lg={12} md={12} sm={12}>
               <div className="mt-2 mb-4">
-                <h4>{courseName || "Edit Lesson"}</h4>
+                <h4>{courseName|| "Edit Lesson"}</h4>
               </div>
               <Formik
                 enableReinitialize={true}
