@@ -19,12 +19,14 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { AuthContext } from "../context/AuthContext"; // ✅ import context
 import "./CSS/Login.css";
+import Api from "../Api";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [teacherId, setTeacherId] = useState("");
-  const [status, setStatus] = useState("");
+  const [status1, setStatus1] = useState(null);
   
 
 
@@ -72,83 +74,102 @@ const Login = () => {
 
   // 🔐 Handle submit
   const onSubmit = async (values, { setSubmitting }) => {
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/user/login",
-        values
-      );
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/api/v1/user/login",
+      values
+    );
 
-      if (res.status === 200) {
-        const data = res.data.updateToken;
+    if (res.status === 200) {
+      const data = res.data.updateToken;
+      console.log(data, "data.......");
 
-        console.log(data, "data.......")
+      let teacherStatus = null;
 
-        setTeacherId(data.teacherId)
-
-        console.log(teacherId,"statusstatusteacherId");
-
-        const userData = {
-          id: data.id,
-          role: data.role,
-          token: data.token,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          studentId: data.studentId,
-          teacherId: data.teacherId,
-          status:status
-        };
-
-        login(userData); // ✅ Save to context + localStorage
-        toast.success("Login successful!");
-
-        switch (data.role) {
-          case "admin":
-            navigate("/admin/dashboard");
-            break;
-          case "teacher":
-            navigate("/teacher/dashboard");
-            break;
-          case "student":
-            navigate("/student/dashboard");
-            break;
-          default:
-            navigate("/");
+      // 🧠 If role is teacher, fetch their status before continuing
+      if (data.role === "teacher" && data.teacherId) {
+        try {
+          const teacherRes = await Api.get(`api/v1/teacher/${data.teacherId}`);
+          teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
+          console.log(teacherStatus, "teacherStatus from API during login");
+        } catch (err) {
+          console.error("Error fetching teacher status:", err);
         }
       }
-    } catch (error) {
-      const message = error.response?.data?.message || "Login failed!";
-      toast.error(message);
-    } finally {
-      setSubmitting(false);
+
+      const userData = {
+        id: data.id,
+        role: data.role,
+        token: data.token,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        studentId: data.studentId,
+        teacherId: data.teacherId,
+        teacherStatus: teacherStatus, // ✅ now correctly filled
+      };
+
+      // ✅ Store user data (with teacherStatus)
+      login(userData);
+      toast.success("Login successful!");
+
+      // ✅ Navigate based on role
+      switch (data.role) {
+        case "admin":
+          navigate("/admin/dashboard");
+          break;
+        case "teacher":
+          navigate("/teacher/dashboard");
+          break;
+        case "student":
+          navigate("/student/dashboard");
+          break;
+        default:
+          navigate("/");
+      }
     }
-  };
+  } catch (error) {
+    const message = error.response?.data?.message || "Login failed!";
+    toast.error(message);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
-  useEffect(() => {
-    if (teacherId) {
-      fetchAllData();
-    }
-  }, [])
 
-  const fetchAllData = async () => {
-    try {
-      setIsLoading(true);
 
-      // Fetch teacher status
-      const teacherRes = await Api.get(`api/v1/teacher/${teacherId}`);
-      const teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
-      setStatus(teacherStatus);
 
-      // Fetch dashboard & upcoming schedule data
-      await Promise.all([
-        getTeacherCourseCount(teacherIdFromStorage),
-        TeacherUpcomingScheduleData(teacherIdFromStorage),
-      ]);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
+  // useEffect(() => {
+  //   if (teacherId) {
+  //     fetchAllData();
+  //   }
+  // }, [teacherId])
+
+  // const fetchAllData = async () => {
+  //   try {
+  //     setIsLoading(true);
+
+  //     // Fetch teacher status
+  //     const teacherRes = await Api.get(`api/v1/teacher/${teacherId}`);
+  //     const teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
+  //     console.log(teacherStatus,"teacherStatus from api")
+  //     setStatus1(teacherStatus);
+
+  //     // Fetch dashboard & upcoming schedule data
+  //     // await Promise.all([
+  //       // getTeacherCourseCount(teacherIdFromStorage),
+  //       // TeacherUpcomingScheduleData(teacherIdFromStorage),
+  //     // ]);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  console.log(teacherId,"teacher id in login page");
+  console.log(status1,"teacher status in login page");
+
 
   return (
     <div className="login-page">

@@ -46,6 +46,7 @@ import ForumSelect from "./Components/Forum/Forumdetail";
 import TeacherPayment from "./Components/TeacherPayment/TeacherPayment";
 import DisplayTeacherApplication from "./Components/TeacherApplication/DisplayAplication";
 import WizardForm from "./Components/TeacherApplication/WizardForm";
+import WizardForm1 from "./Components/TeacherApplication/ApplicationForTeacher/WizardForm";
 import Education from "./Components/TeacherApplication/Education";
 import Experience from "./Components/TeacherApplication/Experience";
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile";
@@ -142,7 +143,7 @@ const App = () => {
             >
               <Route index element={<Navigate to="/teacher/dashboard" />} />
               <Route path="dashboard" element={<TeacherDashboard />} />
-              <Route path="menu" element={<WizardForm />} />
+              <Route path="menu" element={<WizardForm1 />} />
               <Route path="schedule/:id" element={<TeacherCourseList />} />
               <Route path="profile/:id" element={<TeacherProfile />} />
               <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />

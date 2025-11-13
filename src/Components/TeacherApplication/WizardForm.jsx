@@ -18,13 +18,13 @@ const Form = () => {
   const [value, setValue] = useContext(FormContext);
   const [teacherId, setTeacherId] = useState("");
   const [show, setShow] = useState(false);
-  const [status, setStatus] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const user = localStorage.getItem('user');
   const parsed = JSON.parse(user);
-  // console.log(parsed,"parsed......")
+  console.log(parsed,"parsed......")
   const userId = parsed.id;
+
 
   const sections = [
     { title: "Education", onClick: () => setCurrentPage(1) },
@@ -92,7 +92,7 @@ const Form = () => {
         if (response.status === 201) {
           toast.success("Updated Successfully");
           // window.location.href = "/teacher/application/details";
-          navigate("/teacher/application/details")
+          navigate("/teacher/dashboard")
         }
       })
       .catch((error) => {

@@ -36,8 +36,12 @@ const Allsidebar = ({ open, setOpen }) => {
   const userRole = localStorage.getItem("role");
   const teacherId = localStorage.getItem("teacherId");
   const user = localStorage.getItem('user');
+  // const [status, setStatus] = useState("");
   const parsed = JSON.parse(user);
-  console.log(parsed,"parseduser")
+  console.log(parsed, "parseduser")
+
+  const userStatus = parsed.teacherStatus;
+
 
   const logout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
@@ -69,7 +73,7 @@ const Allsidebar = ({ open, setOpen }) => {
           icon={open ? faChevronLeft : faBars}
           className="toggle-icon"
           style={{
-            marginLeft:'10px'
+            marginLeft: '10px'
           }}
           onClick={() => setOpen(!open)}
         />
@@ -103,7 +107,7 @@ const Allsidebar = ({ open, setOpen }) => {
         )}
 
         {/* TEACHER MENU */}
-        {userRole === "teacher" && (
+        {userRole === "teacher" && userStatus === "Approved" ?
           <>
             <SidebarLink to="/teacher/dashboard" icon={faChalkboardUser} open={open} label="Dashboard" />
             <SidebarLink to={`/teacher/profile/${teacherId}`} icon={faIdCard} open={open} label="My Profile" />
@@ -116,7 +120,11 @@ const Allsidebar = ({ open, setOpen }) => {
             <SidebarLink to="/teacher/payments" icon={faMoneyCheckDollar} open={open} label="Payments" />
             <SidebarButton onClick={logout} icon={faPowerOff} open={open} label="Logout" />
           </>
-        )}
+          :
+          <>
+            { userRole === "teacher" && userStatus === "Pending" && <SidebarLink to="/teacher/dashboard" icon={faChalkboardUser} open={open} label="Dashboard" />}
+          </>
+        }
 
         {/* ADMIN MENU */}
         {userRole === "admin" && (
@@ -155,7 +163,7 @@ const SidebarLink = ({ to, icon, label, open }) => (
 const SidebarButton = ({ onClick, icon, label, open }) => (
   <button className="sidebar-link logout" onClick={onClick} title={!open ? label : ""}>
     <FontAwesomeIcon color="black" icon={icon} className="sidebar-icon" />
-    {open && <span style={{color:'black'}}>{label}</span>}
+    {open && <span style={{ color: 'black' }}>{label}</span>}
   </button>
 );
 
