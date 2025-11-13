@@ -63,6 +63,8 @@ import Experience from"./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
 import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
 import WizardForm from "./Components/TeacherApplication/WizardForm.jsx"
+
+import WizardForm2 from "./Components/TeacherApplication/ApplicationForTeacher/WizardForm.jsx"
 import AdminUpcomingScheduleList from "./Components/AdminUpcomingScheduleList/Index.jsx";
 import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.jsx";
 import EditTeacher from "./Components/EditTeacher/Index.jsx";
@@ -180,7 +182,7 @@ const App = () => {
             }
           >
             <Route index element={<Navigate to="/teacher/dashboard" />} />
-            <Route path="menu" element={<WizardForm />} />
+            <Route path="menu" element={<WizardForm2 />} />
             <Route path="dashboard" element={<TeacherDashboard />}/>
             <Route path="schedule/:id" element={<TeacherCourseList />} />
             <Route path="profile/:id" element={<TeacherProfile />} />

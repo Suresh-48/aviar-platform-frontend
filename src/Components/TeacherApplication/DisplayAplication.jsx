@@ -80,6 +80,8 @@ const DisplayTeacherApplication = (props) => {
       {/* ) : ( */}
       <div>
 
+        {console.log("status... :",status)}
+
         {status === "Rejected" ? (
           <Row>
             <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
@@ -88,7 +90,7 @@ const DisplayTeacherApplication = (props) => {
               </p>
             </Col>
           </Row>
-        ) : status === "Pending" ? (
+        ) : status === "Pending" || status === "Review"? (
           <Row>
             <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
               <p className="d-flex justify-content-center mt-1">
@@ -97,7 +99,7 @@ const DisplayTeacherApplication = (props) => {
               </p>
             </Col>
           </Row>
-        ): <><h5>Welcome {firstName} {lastName} 🎉</h5></>}
+        ) : <><h5>Welcome {firstName} {lastName} 🎉</h5></>}
 
         <hr />
 
@@ -167,8 +169,12 @@ const DisplayTeacherApplication = (props) => {
                       </ListItem>
                       <ListItem>
                         <ListItemText
-                          secondary={index.state ? index.state : "-"}
-                        ></ListItemText>
+                          secondary={
+                            typeof index.state === "object"
+                              ? index.state?.value || index.state?.label || "-"
+                              : index.state || "-"
+                          }
+                        />
                       </ListItem>
                     </Col>
                     <Col>
@@ -177,8 +183,12 @@ const DisplayTeacherApplication = (props) => {
                       </ListItem>
                       <ListItem>
                         <ListItemText
-                          secondary={index.city ? index.city : "-"}
-                        ></ListItemText>
+                          secondary={
+                            typeof index.city === "object"
+                              ? index.city?.value || index.city?.label || "-"
+                              : index.city || "-"
+                          }
+                        />
                       </ListItem>
                     </Col>
                     <Col>
@@ -188,11 +198,12 @@ const DisplayTeacherApplication = (props) => {
                       <ListItem>
                         <ListItemText
                           secondary={
-                            typeof index.country.value === "object"
-                              ? index.country.value || "-"
+                            typeof index.country === "object"
+                              ? index.country?.value || index.country?.label || "-"
                               : index.country || "-"
                           }
-                        ></ListItemText>
+                        />
+
                       </ListItem>
                     </Col>
                   </Row>
