@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import { Row, Col } from "react-bootstrap";
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import moment from "moment";
-import { Tab, Tabs } from "@material-ui/core";
-// import { Link, useHistory } from "react-router-dom";
-import "../../CSS/TeacherList.css";
+import { Tab, Tabs } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import "../../css/TeacherList.css";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Component
-import  tableIcons  from "../Core/TableIcons";
-// import Loader from "../../components/core/Loader";
-// import CourseDetail from "../Courses/CourseDetail";
+import tableIcons from "../core/TableIcons";
+import Loader from "../../components/core/Loader";
 import { toast } from "react-toastify";
 
 function ListOfQuiz() {
@@ -25,16 +23,18 @@ function ListOfQuiz() {
   const [isLoading, setIsloading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-//   const history = useHistory();
+  const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
   const tableTheme = createTheme({
-    overrides: {
+    components: {
       MuiTableRow: {
-        root: {
-          "&:hover": {
-            cursor: "pointer",
-            backgroundColor: "rgba(224, 224, 224, 1) !important",
+        styleOverrides: {
+          root: {
+            "&:hover": {
+              cursor: "pointer",
+              backgroundColor: "rgba(224, 224, 224, 1) !important",
+            },
           },
         },
       },
@@ -79,58 +79,59 @@ function ListOfQuiz() {
     // Log out
     const logout = () => {
       setTimeout(() => {
-        localStorage.clear(history.push("/kharpi"));
+        localStorage.clear();
+        navigate("/kharpi");
         window.location.reload();
       }, 2000);
     };
   };
 
-//   const getCompletedData = () => {
-//     const studentId = localStorage.getItem("studentId");
-//     Api.get("api/v1/quizSchedule/student/quiz/completed", {
-//       params: {
-//         studentId: studentId,
-//       },
-//     }).then((response) => {
-//       const completedData = response.data.pendingReviewList;
-//       completedData.sort(function compare(a, b) {
-//         var dateA = new Date(a?.scheduleLesson?.lessonDate);
-//         var dateB = new Date(b?.scheduleLesson?.lessonDate);
-//         return dateA - dateB;
-//       });
-//       setCompletedData(completedData);
-//       setIsloading(false);
-//     });
-//   };
+  const getCompletedData = () => {
+    const studentId = localStorage.getItem("studentId");
+    Api.get("api/v1/quizSchedule/student/quiz/completed", {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const completedData = response.data.pendingReviewList;
+      completedData.sort(function compare(a, b) {
+        var dateA = new Date(a?.scheduleLesson?.lessonDate);
+        var dateB = new Date(b?.scheduleLesson?.lessonDate);
+        return dateA - dateB;
+      });
+      setCompletedData(completedData);
+      setIsloading(false);
+    });
+  };
 
-//   const getPreviewData = () => {
-//     const studentId = localStorage.getItem("studentId");
-//     Api.get("api/v1/quizSchedule/student/quiz/review", {
-//       params: {
-//         studentId: studentId,
-//       },
-//     }).then((response) => {
-//       const previewData = response.data.pendingReviewList;
-//       previewData.sort(function compare(a, b) {
-//         var dateA = new Date(a?.scheduleLesson?.lessonDate);
-//         var dateB = new Date(b?.scheduleLesson?.lessonDate);
-//         return dateA - dateB;
-//       });
-//       setPreviewData(previewData);
-//       setIsloading(false);
-//     });
-//   };
+  const getPreviewData = () => {
+    const studentId = localStorage.getItem("studentId");
+    Api.get("api/v1/quizSchedule/student/quiz/review", {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const previewData = response.data.pendingReviewList;
+      previewData.sort(function compare(a, b) {
+        var dateA = new Date(a?.scheduleLesson?.lessonDate);
+        var dateB = new Date(b?.scheduleLesson?.lessonDate);
+        return dateA - dateB;
+      });
+      setPreviewData(previewData);
+      setIsloading(false);
+    });
+  };
 
-//   useEffect(() => {
-    // const currentDate = moment().tz("America/Chicago").format();
-    // const date = moment(currentDate).tz("America/Chicago").format("L");
-    // var time = moment(currentDate).tz("America/Chicago").format("HH:mm");
-//     getPreviewData();
-//     getCompletedData();
-//     getPendingData();
-//     setCurrentDate(date);
-//     setCurrentTime(time);
-//   }, []);
+  useEffect(() => {
+    const currentDate = moment().tz("America/Chicago").format();
+    const date = moment(currentDate).tz("America/Chicago").format("L");
+    var time = moment(currentDate).tz("America/Chicago").format("HH:mm");
+    getPreviewData();
+    getCompletedData();
+    getPendingData();
+    setCurrentDate(date);
+    setCurrentTime(time);
+  }, []);
 
   // Column Heading
   const columns = [
@@ -153,10 +154,8 @@ function ListOfQuiz() {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
+          to={`/course/detail/${rowData.courseId?.aliasName}`}
+          state={{ courseId: rowData.id }}
         >
           {rowData.courseId.name}
         </Link>
@@ -174,8 +173,9 @@ function ListOfQuiz() {
 
   return (
     <div className="mb-3">
-      
-        
+      {isLoading ? (
+        <Loader />
+      ) : (
         <div>
           <Tabs
             style={{ width: "100%" }}
@@ -227,8 +227,8 @@ function ListOfQuiz() {
                   </Col>
                 </Row>
               }
+              value={2}
             />
-            value={2}
           </Tabs>
           <hr />
           {value === 0 ? (
@@ -239,7 +239,7 @@ function ListOfQuiz() {
               <div className="material-table-responsive">
                 <ThemeProvider theme={tableTheme}>
                   <MaterialTable
-                    icons= {tableIcons}
+                    icons={tableIcons}
                     data={pendingData}
                     options={{
                       actionsColumnIndex: -1,
@@ -291,7 +291,7 @@ function ListOfQuiz() {
                               rowData?.scheduleLesson?.lessonEndTime <
                                 currentTime)
                           ) {
-                            history.push("/quiz", rowData);
+                            navigate("/quiz", { state: rowData });
                           }
                         },
                       }),
@@ -343,7 +343,7 @@ function ListOfQuiz() {
                             ),
                             tooltip: "Preview",
                             onClick: (event, rowData) => {
-                              history.push("/quiz/preview", rowData);
+                              navigate("/quiz/preview", { state: rowData });
                             },
                           }),
                         ]}
@@ -359,7 +359,7 @@ function ListOfQuiz() {
                   <div className="material-table-responsive">
                     <ThemeProvider theme={tableTheme}>
                       <MaterialTable
-                        icons= {tableIcons}
+                        icons={tableIcons}
                         data={previewData}
                         options={{
                           actionsColumnIndex: -1,
@@ -392,7 +392,7 @@ function ListOfQuiz() {
                             ),
                             tooltip: "View Result",
                             onClick: (event, rowData) => {
-                              history.push("/quiz/preview", rowData);
+                              navigate("/quiz/preview", { state: rowData });
                             },
                           }),
                         ]}
@@ -404,7 +404,7 @@ function ListOfQuiz() {
             </div>
           )}
         </div>
-    
+      )}
     </div>
   );
 }

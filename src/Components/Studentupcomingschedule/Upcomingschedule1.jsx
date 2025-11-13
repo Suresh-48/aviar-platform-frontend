@@ -1,40 +1,36 @@
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Container, Modal, Row, Col } from "react-bootstrap";
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
-// import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Link, useNavigate } from "react-router-dom";
+import { Container, Modal, Row, Col, Button } from "react-bootstrap";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { Tab, Tabs } from "@material-ui/core";
-import { useNavigate } from 'react-router-dom';
-
-// import Button from "@restart/ui/esm/Button";
-// import { useHistory } from "react-router-dom";
+import { Tab, Tabs } from "@mui/material";
 
 // Component
-// import Loader from "../core/Loader";
-import  tableIcons  from "../Core/TableIcons";
-// import { ROLES_PARENT, ROLES_STUDENT } from "../../constants/roles";
+import Loader from "../core/Loader";
+import tableIcons from "../core/TableIcons";
+import { ROLES_STUDENT } from "../../Constants/Role";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 //icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
-import '../Dashboard/UpcomingSchedule.css';
+import "../../css/UpcomingSchedule.css";
 
 const tableTheme = createTheme({
-  overrides: {
+  components: {
     MuiTableRow: {
-      root: {
-        "&:hover": {
-          cursor: "pointer",
-          backgroundColor: "rgba(224, 224, 224, 1) !important",
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            cursor: "pointer",
+            backgroundColor: "rgba(224, 224, 224, 1) !important",
+          },
         },
       },
     },
@@ -53,15 +49,13 @@ function UpcomingSchedule(props) {
   const [DateAndTime, setDateAndTime] = useState("");
   const [value, setValue] = useState(0);
   const [completeData, setcompeleteData] = useState([]);
-  // const history = useHistory();
+  const navigate = useNavigate();
   const [studentId, setstudentId] = useState("");
-  const [parentId, setparentId] = useState("");
   const [studentCourseScheduleId, setStudentCourseScheduleId] = useState("");
   const [sessionEndModal, setSessionEndModal] = useState(false);
   const [zoomStartTimeGet, setZoomStartTimeGet] = useState("");
-  const navigate = useNavigate();
 
-  // Column Heading
+  // Column Heading for Student
   const studentColumns = [
     {
       title: "S.No",
@@ -85,130 +79,8 @@ function UpcomingSchedule(props) {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
-      ),
-    },
-    {
-      title: "Lesson Name",
-      field: "courseLessonId.lessonName",
-    },
-    {
-      title: (
-        <div>
-          <p className="mb-0">Durations</p>
-          <p className="mb-0">(in Hours)</p>
-        </div>
-      ),
-      render: (rowData) => `${rowData?.courseId.duration}`,
-    },
-  ];
-
-  const parentColumns = [
-    {
-      title: "S.No",
-      width: "10%",
-      render: (rowData) => `${rowData?.tableData?.id + 1}`,
-    },
-    {
-      title: "First Name",
-      field: "studentId.firstName",
-    },
-    {
-      title: "Last Name",
-      field: "studentId.lastName",
-    },
-    {
-      title: "Age",
-      field: "studentId.age",
-    },
-    {
-      title: "Date",
-      field: "lessonDate",
-    },
-    {
-      title: "Schedule Time1",
-      render: (rowData) => (
-        <div>
-          <p>{rowData.courseScheduleId.startTime}</p>
-          <p>{rowData.courseScheduleId.endTime}</p>
-        </div>
-      ),
-    },
-    {
-      title: "Course Name",
-      render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
-      ),
-    },
-    {
-      title: "Lesson Name",
-      field: "courseLessonId.lessonName",
-    },
-    {
-      title: (
-        <div>
-          <p className="mb-0">Durations</p>
-          <p className="mb-0">(in Hours)</p>
-        </div>
-      ),
-      render: (rowData) => `${rowData?.courseId.duration}`,
-    },
-  ];
-
-  const completeParentColumns = [
-    {
-      title: "S.No",
-      width: "10%",
-      render: (rowData) => `${rowData?.tableData?.id + 1}`,
-    },
-    {
-      title: "First Name",
-      field: "studentId.firstName",
-    },
-    {
-      title: "Last Name",
-      field: "studentId.lastName",
-    },
-    {
-      title: "Age",
-      field: "studentId.age",
-    },
-    {
-      title: "Date",
-      field: "lessonDate",
-    },
-    {
-      title: "Schedule Time",
-      render: (rowData) => (
-        <div>
-          <p>{rowData.courseScheduleId.startTime}</p>
-          <p>{rowData.courseScheduleId.endTime}</p>
-        </div>
-      ),
-    },
-    {
-      title: "Course Name",
-      render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
+          to={`/course/detail/${rowData.courseId?.aliasName}`}
+          state={{ courseId: rowData.id }}
         >
           {rowData.courseId.name}
         </Link>
@@ -253,10 +125,8 @@ function UpcomingSchedule(props) {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData?.courseId?.aliasName}`,
-            state: { courseId: rowData?.id },
-          }}
+          to={`/course/detail/${rowData?.courseId?.aliasName}`}
+          state={{ courseId: rowData?.id }}
         >
           {rowData?.courseId?.name}
         </Link>
@@ -285,155 +155,113 @@ function UpcomingSchedule(props) {
     setshowAlert(false);
   }
 
-  // const isParent = role === ROLES_PARENT;
-  // const isStudent = role === ROLES_STUDENT;
+  const isStudent = role === ROLES_STUDENT;
 
-  // useEffect(() => {
-  //   const role = localStorage.getItem("role");
-  //   // const isParent = role === ROLES_PARENT;
-  //   setrole(role);
-  //   // isParent ? ParentUpcomingScheduleData() : StudentUpcomingScheduleData();
-  //   // isParent ? ParentCompletelist() : StudentCompletelist();
-  //   // const currentDate = moment().tz("America/Chicago").format();
-  //   // const date = moment(currentDate).tz("America/Chicago").format("ll");
-  //   //var lessTime = moment(currentDate).tz("America/Chicago").format("HH:mm");
-  //   // const lessTime = moment(currentDate).tz("Asia/Kolkata").format("HH:mm");
-  //   // setCurrentDate(date);
-  //   setLessTime(lessTime);
-  // }, []);
-
-  // Get Parent Upcoming Schedule
-  // const ParentUpcomingScheduleData = () => {
-  //   const parentId = localStorage.getItem("parentId");
-  //   Api.get("api/v1/upcomingcourse/parent/list", {
-  //     params: {
-  //       parentId: parentId,
-  //     },
-  //   }).then((response) => {
-  //     const dataValues = response.data.upcomingList;
-  //     dataValues.sort(function compare(a, b) {
-  //       var dateA = new Date(a.lessonDate);
-  //       var dateB = new Date(b.lessonDate);
-  //       return dateA - dateB;
-  //     });
-  //     setData(dataValues);
-  //     setparentId(parentId);
-  //     setisLoading(false);
-  //   });
-  // };
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    setrole(role);
+    StudentUpcomingScheduleData();
+    StudentCompletelist();
+    const currentDate = moment().tz("America/Chicago").format();
+    const date = moment(currentDate).tz("America/Chicago").format("ll");
+    const lessTime = moment(currentDate).tz("Asia/Kolkata").format("HH:mm");
+    setCurrentDate(date);
+    setLessTime(lessTime);
+  }, []);
 
   // Get Student Upcoming Schedule
-  // const StudentUpcomingScheduleData = () => {
-  //   const studentId = localStorage.getItem("studentId");
-  //   Api.get("api/v1/upcomingcourse/student/list", {
-  //     params: {
-  //       studentId: studentId,
-  //     },
-  //   }).then((response) => {
-  //     const dataValues = response.data.upcomingList;
-  //     dataValues.sort(function compare(a, b) {
-  //       var dateA = new Date(a.lessonDate);
-  //       var dateB = new Date(b.lessonDate);
-  //       return dateA - dateB;
-  //     });
-  //     setData(dataValues);
-  //     const orginalTime = response.data.upcomingList;
-  //     orginalTime.forEach(function (list) {
-  //       const time = moment(list.courseScheduleId.startTime, "LT").subtract(15, "minutes").format("HH:mm");
-  //       list.courseScheduleId["zoomTime"] = time;
-  //     });
-  //     setstudentId(studentId);
-  //     setisLoading(false);
-  //   });
-  // };
+  const StudentUpcomingScheduleData = () => {
+    const studentId = localStorage.getItem("studentId");
+    Api.get("api/v1/upcomingcourse/student/list", {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const dataValues = response.data.upcomingList;
+      dataValues.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setData(dataValues);
+      const orginalTime = response.data.upcomingList;
+      orginalTime.forEach(function (list) {
+        const time = moment(list.courseScheduleId.startTime, "LT").subtract(15, "minutes").format("HH:mm");
+        list.courseScheduleId["zoomTime"] = time;
+      });
+      setstudentId(studentId);
+      setisLoading(false);
+    });
+  };
 
   //get student complete list
-  // const StudentCompletelist = () => {
-  //   const studentId = localStorage.getItem("studentId");
-  //   Api.get("api/v1/upcomingcourse/student/complete/list", {
-  //     params: {
-  //       studentId: studentId,
-  //     },
-  //   }).then((response) => {
-  //     const completeData = response.data.upcomingList;
-  //     completeData.sort(function compare(a, b) {
-  //       var dateA = new Date(a.lessonDate);
-  //       var dateB = new Date(b.lessonDate);
-  //       return dateA - dateB;
-  //     });
-  //     setcompeleteData(completeData);
-  //     setisLoading(false);
-  //   }); //logout
-  //   // const logout = () => {
-  //   //   localStorage.clear(history.push("/kharpi"));
-  //   //   window.location.reload();
-  //   // };
-  // };
-
-  // //get parent complete list
-  // const ParentCompletelist = () => {
-  //   const parentId = localStorage.getItem("parentId");
-  //   Api.get("api/v1/upcomingcourse/parent/complete/list", {
-  //     params: {
-  //       parentId: parentId,
-  //     },
-  //   }).then((response) => {
-  //     const completeData = response.data.upcomingList;
-  //     completeData.sort(function compare(a, b) {
-  //       var dateA = new Date(a.lessonDate);
-  //       var dateB = new Date(b.lessonDate);
-  //       return dateA - dateB;
-  //     });
-  //     setcompeleteData(completeData);
-  //     setisLoading(false);
-  //   });
-  // };
+  const StudentCompletelist = () => {
+    const studentId = localStorage.getItem("studentId");
+    Api.get("api/v1/upcomingcourse/student/complete/list", {
+      params: {
+        studentId: studentId,
+      },
+    }).then((response) => {
+      const completeData = response.data.upcomingList;
+      completeData.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setcompeleteData(completeData);
+      setisLoading(false);
+    });
+  };
 
   // Log out
-  // const logout = () => {
-  //   localStorage.clear(history.push("/kharpi"));
-  //   window.location.reload();
-  // };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      navigate("/kharpi");
+      window.location.reload();
+    }, 2000);
+  };
 
-  // const zoomTiming = (e) => {
-  //   // const studentId = localStorage.getItem("studentId");
-  //   const newDate = new Date();
-  //   const sessionTiming = newDate.toLocaleTimeString();
-  //   Api.patch("/api/v1/upcomingcourse/student/zoom/timing", {
-  //     studentCourseScheduleId: studentCourseScheduleId,
-  //     zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
-  //     zoomEndTime: e === "close" ? sessionTiming : "",
-  //     studentId: studentId,
-  //   }).then((res) => {
-  //     const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
-  //     setZoomStartTimeGet(ZoomstartTime);
-  //   });
-  // };
+  const zoomTiming = (e) => {
+    const studentId = localStorage.getItem("studentId");
+    const newDate = new Date();
+    const sessionTiming = newDate.toLocaleTimeString();
+    Api.patch("/api/v1/upcomingcourse/student/zoom/timing", {
+      studentCourseScheduleId: studentCourseScheduleId,
+      zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
+      zoomEndTime: e === "close" ? sessionTiming : "",
+      studentId: studentId,
+    }).then((res) => {
+      const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
+      setZoomStartTimeGet(ZoomstartTime);
+    });
+  };
 
-  // const showModal = () => {
-  //   setSessionEndModal(false);
-  //   setTimeout(() => {
-  //     setSessionEndModal(true);
-  //   }, 2000);
-  // };
+  const showModal = () => {
+    setSessionEndModal(false);
+    setTimeout(() => {
+      setSessionEndModal(true);
+    }, 2000);
+  };
 
   return (
     <div>
       <Container className="mb-3">
-        {/* {isLoading ? ( */}
-          {/* <Loader /> */}
-        {/* ) : ( */}
+        {isLoading ? (
+          <Loader />
+        ) : (
           <div>
             <div className="d-flex justify-content-end mt-3">
               <FontAwesomeIcon
                 icon={faCalendarDay}
-                color="#397ad4"
                 style={{ cursor: "pointer", fontSize: 30, color: "#375474" }}
-                // onClick={() => {
-                // pathname:not-available/time
-                
-                // }}
-                 onClick={() => navigate('/teacher/not-available/time')} 
+                onClick={() => {
+                  navigate("/calendar/view/upcoming/schedule", {
+                    state: {
+                      studentId: studentId,
+                    },
+                  });
+                }}
               />
             </div>
             <Tabs
@@ -484,51 +312,40 @@ function UpcomingSchedule(props) {
                           backgroundColor: "#1d1464",
                           color: "white",
                           zIndex: 0,
-                          hover: {
-                            "&:hover": {
-                              backgroundColor: "green !important",
-                            },
-                          },
                         },
                         showTitle: false,
                       }}
-                      columns={completeParentColumns}
-                      // actions={rowData=>({icon:()=>([{<p>John</p>,tooltip:delete}}]))}
-                      // columns={isParent ? parentColumns : studentColumns}
-                      // actions={
-                      //   isStudent
-                      //     ? [
-                      //         (rowData) => ({
-                      //           icon: () => (
-                      //             <p
-                      //               className={`${
-                      //                 rowData.lessonDate === CurrentDate &&
-                      //                 rowData.courseScheduleId.zoomTime <= lessTime
-                      //                   ? "zoom-view-style"
-                      //                   : "zoom-view-disable-style"
-                      //               }`}
-                      //             >
-                      //               Join
-                      //             </p>
-                      //           ),
-                      //           tooltip: "Zoom Link",
-                      //           onClick: (event, rowData) => {
-                      //             setStudentCourseScheduleId(rowData.id);
-                      //             if (
-                      //               rowData.lessonDate === CurrentDate &&
-                      //               rowData.courseScheduleId.zoomTime <= lessTime
-                      //             ) {
-                      //               setshow(true);
-                      //               setZoomLink(rowData.courseLessonId);
-                      //             } else {
-                      //               setshowAlert(true);
-                      //               setDateAndTime(rowData);
-                      //             }
-                      //           },
-                      //         }),
-                      //       ]
-                      //     : null
-                      // }
+                      columns={studentColumns}
+                      actions={[
+                        (rowData) => ({
+                          icon: () => (
+                            <p
+                              className={`${
+                                rowData.lessonDate === CurrentDate &&
+                                rowData.courseScheduleId.zoomTime <= lessTime
+                                  ? "zoom-view-style"
+                                  : "zoom-view-disable-style"
+                              }`}
+                            >
+                              Join
+                            </p>
+                          ),
+                          tooltip: "Zoom Link",
+                          onClick: (event, rowData) => {
+                            setStudentCourseScheduleId(rowData.id);
+                            if (
+                              rowData.lessonDate === CurrentDate &&
+                              rowData.courseScheduleId.zoomTime <= lessTime
+                            ) {
+                              setshow(true);
+                              setZoomLink(rowData.courseLessonId);
+                            } else {
+                              setshowAlert(true);
+                              setDateAndTime(rowData);
+                            }
+                          },
+                        }),
+                      ]}
                       localization={{
                         body: {
                           emptyDataSourceMessage: "No Upcoming Schedule",
@@ -537,82 +354,80 @@ function UpcomingSchedule(props) {
                     />
                   </ThemeProvider>
                 </div>
-                {/* {isStudent ? ( */}
-                  <div>
-                    <Modal show={show} centered backdrop="static">
-                      <Modal.Header className="border-bottom-0 pb-0" />
-                      <Modal.Body id="contained-modal-title-vcenter" className="zoom-modal-popup pt-0">
-                        <div className="align-items-center zoom-content">
-                          <h4 className="mt-2">Are you sure to start the Zoom class...!</h4>
-                          <div className="d-flex mt-4 ">
-                            <button
-                              variant="contained"
-                              className="zoom-start-btn mx-2 Kharpi-save-btn"
-                              rel="noopener noreferrer"
-                              target="_blank"
-                              onClick={() => {
-                                zoomTiming("open");
-                                setshow(false);
-                                showModal();
-                                window.open(`${ZoomLink?.zoomId}+${ZoomLink?.zoomPassword}`, "_blank");
-                              }}
-                            >
-                              YES
-                            </button>
-                            <button className="zoom-cancel-btn mx-2 Kharpi-cancel-btn" onClick={() => handleModal()}>
-                              NO
-                            </button>
-                          </div>
-                        </div>
-                      </Modal.Body>
-                    </Modal>
-                    <Modal show={sessionEndModal} centered backdrop="static">
-                      <Modal.Header className="border-bottom-0 pb-0" />
-                      <Modal.Body id="contained-modal-title-vcenter" className="zoom-modal-popup pt-0">
-                        <div className="align-items-center zoom-content">
-                          <h4 className="mt-2">Session has ended...!</h4>
-                          <button
+                <div>
+                  <Modal show={show} centered backdrop="static">
+                    <Modal.Header className="border-bottom-0 pb-0" />
+                    <Modal.Body id="contained-modal-title-vcenter" className="zoom-modal-popup pt-0">
+                      <div className="align-items-center zoom-content">
+                        <h4 className="mt-2">Are you sure to start the Zoom class...!</h4>
+                        <div className="d-flex mt-4 ">
+                          <Button
                             variant="contained"
-                            className="zoom-start-btn mx-2 mt-4 "
+                            className="zoom-start-btn mx-2 Kharpi-save-btn"
+                            rel="noopener noreferrer"
+                            target="_blank"
                             onClick={() => {
-                              zoomTiming("close");
-                              setSessionEndModal(false);
+                              zoomTiming("open");
+                              setshow(false);
+                              showModal();
+                              window.open(`${ZoomLink?.zoomId}+${ZoomLink?.zoomPassword}`, "_blank");
                             }}
                           >
-                            OK
-                          </button>
+                            YES
+                          </Button>
+                          <Button className="zoom-cancel-btn mx-2 Kharpi-cancel-btn" onClick={() => handleModal()}>
+                            NO
+                          </Button>
                         </div>
-                      </Modal.Body>
-                    </Modal>
-                    <Modal show={showAlert} centered className="modal-main-content" onHide={() => closeShow()}>
-                      <Modal.Body id="contained-modal-title-vcenter">
-                        <div className="delete-content my-4">
-                          <div className="mb-2">
-                            <h5 className="d-flex justify-content-center align-items-center">Notification</h5>
-                            <p className="d-flex justify-content-center">
-                              {`${
-                                "Zoom Link Activate Before 15 Minutes" +
-                                " " +
-                                "(" +
-                                " " +
-                                DateAndTime.lessonDate +
-                                " " +
-                                ")"
-                              }`}
-                            </p>
-                          </div>
-                          <Row>
-                            <Col>
-                              <button className="delete-cancel Kharpi-save-btn" onClick={() => closeShow()}>
-                                OK
-                              </button>
-                            </Col>
-                          </Row>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                  <Modal show={sessionEndModal} centered backdrop="static">
+                    <Modal.Header className="border-bottom-0 pb-0" />
+                    <Modal.Body id="contained-modal-title-vcenter" className="zoom-modal-popup pt-0">
+                      <div className="align-items-center zoom-content">
+                        <h4 className="mt-2">Session has ended...!</h4>
+                        <Button
+                          variant="contained"
+                          className="zoom-start-btn mx-2 mt-4 "
+                          onClick={() => {
+                            zoomTiming("close");
+                            setSessionEndModal(false);
+                          }}
+                        >
+                          OK
+                        </Button>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                  <Modal show={showAlert} centered className="modal-main-content" onHide={() => closeShow()}>
+                    <Modal.Body id="contained-modal-title-vcenter">
+                      <div className="delete-content my-4">
+                        <div className="mb-2">
+                          <h5 className="d-flex justify-content-center align-items-center">Notification</h5>
+                          <p className="d-flex justify-content-center">
+                            {`${
+                              "Zoom Link Activate Before 15 Minutes" +
+                              " " +
+                              "(" +
+                              " " +
+                              DateAndTime.lessonDate +
+                              " " +
+                              ")"
+                            }`}
+                          </p>
                         </div>
-                      </Modal.Body>
-                    </Modal>
-                  </div>
-                {/* ) : null} */}
+                        <Row>
+                          <Col>
+                            <Button className="delete-cancel Kharpi-save-btn" onClick={() => closeShow()}>
+                              OK
+                            </Button>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                </div>
               </div>
             ) : (
               <div>
@@ -622,7 +437,7 @@ function UpcomingSchedule(props) {
                     <MaterialTable
                       icons={tableIcons}
                       data={completeData}
-                      // columns={isParent ? completeParentColumns : completeStudentColumns}
+                      columns={completeStudentColumns}
                       options={{
                         actionsColumnIndex: -1,
                         addRowPosition: "last",
@@ -634,7 +449,6 @@ function UpcomingSchedule(props) {
                         },
                         showTitle: false,
                       }}
-                      columns={ completeStudentColumns}
                       localization={{
                         body: {
                           emptyDataSourceMessage: "No Completed Schedule ",
@@ -646,7 +460,7 @@ function UpcomingSchedule(props) {
               </div>
             )}
           </div>
-        {/* // )} */}
+        )}
       </Container>
     </div>
   );
