@@ -68,6 +68,7 @@ import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.js
 import EditTeacher from "./Components/EditTeacher/Index.jsx";
 import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 import CalendarView from "./Components/CalendarView/Index.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -92,7 +93,8 @@ const App = () => {
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
           {/* Student Routes */}
-          <Route
+           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>       
+             <Route
             path="/student"
             element={
               <PublicLayout open={open} onClick={() => setOpen(!open)}>
@@ -114,8 +116,11 @@ const App = () => {
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
           </Route>
+          </Route>
+ 
 
           {/* Admin Routes */}
+            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route
             path="/admin"
             element={
@@ -152,9 +157,11 @@ const App = () => {
             <Route path="set/password" element={<TeacherResetPassword/>}/>
             <Route path="teacher/not-available" element={<CalendarView/>}/>
           </Route>
+          </Route>
 
           {/* Teacher Routes */}
-          <Route
+             <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+                      <Route
             path="/teacher"
             element={
               <PublicLayout open={open} onClick={() => setOpen(!open)}>
@@ -178,6 +185,8 @@ const App = () => {
             <Route path="experience" element={<Experience />} />
             <Route path="online/profile" element={<OnlineProfile />} />
           </Route>
+          </Route>
+ 
         </Routes>
       </BrowserRouter>
     </div>
