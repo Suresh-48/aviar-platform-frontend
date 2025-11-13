@@ -2,9 +2,8 @@ import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 // Component
 import { useNavigate } from "react-router-dom";
-
 // import tableIcons  from "../Core/TableIcons";
-import tableIcons from "../Core/TableIcons";
+import tableIcons  from "../Core/TableIcons";
 // Use the appropriate props from the imported components
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
@@ -12,41 +11,22 @@ import { createTheme } from "@mui/material";
 // import { createTheme } from "@material-ui/core/styles";
 import { Container, Row, Modal } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
-
 //css
 import "../../CSS/AdminStudentsList.css";
-
 // Api
 import Api from "../../Api";
-
 // Loader
 // import Loader from "../../Components/Core/Loader";
 import StudentPublicProfile from "../../StudentPublicProfile";
 import { toast } from "react-toastify";
-
 function AdminStudentsList(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [show, setshow] = useState(false);
-  const [role, setRole] = useState("");
   const [studentId, setStudentId] = useState("");
-  //   const history = useHistory();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    console.log(storedRole, "......stiredROled")
-
-    const storedUser = localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : null;
-    const userId = user?.id;
-
-    console.log(userId, "userId......")
-
-    setRole(userId);
-  }, [navigate]);
-
-
+//   const history = useHistory();
+const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
   const tableTheme = createTheme({
     overrides: {
       MuiTableRow: {
@@ -59,7 +39,6 @@ function AdminStudentsList(props) {
       },
     },
   });
-
   const columns = [
     {
       title: "S.No",
@@ -72,12 +51,12 @@ function AdminStudentsList(props) {
       headerStyle: { textAlign: "center" },
       render: (rowData) => (
         <div className="linkColor">
-          {rowData}
           <u>
             <text
               onClick={() => {
                 setStudentId(rowData.id);
                 setshow(true);
+                console.log("rowData.id", rowData.id);
               }}
             >
               {`${rowData.firstName} ${rowData.lastName}`}
@@ -99,107 +78,110 @@ function AdminStudentsList(props) {
       headerStyle: { textAlign: "center" },
     },
   ];
-
   // Log out
   const logout = () => {
-    setTimeout(() => {
-      localStorage.clear(navigate("/login"));
-      window.location.reload();
-    }, 2000);
+     setTimeout(() => {
+       localStorage.clear(history.push("/kharpi"));
+       window.location.reload();
+     }, 2000);
   };
-
   const getAdminStudentsList = () => {
-    Api.get("api/v1/student", { headers: { userId: role } })
+    Api.get("api/v1/student", { headers: { userId: userId } })
       .then((response) => {
         const data = response?.data?.data?.data;
-        console.log(data, "datal......")
         setData(data);
         setIsLoading(false);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
-        console.log(errorStatus,"errorStatus")
         if (errorStatus === 401) {
-          // logout();
+          logout();
           toast.error("Session Timeout");
         }
       });
   };
-
   const handleModal = () => {
     setshow(false);
   };
-
   useEffect(() => {
     getAdminStudentsList();
   }, []);
-
   return (
     <div>
       {/* {isLoading ? ( */}
-      {/* <Loader /> */}
+        {/* <Loader /> */}
       {/* ) : ( */}
-      <Container>
-        <Row>
-          <h3>Students</h3>
-        </Row>
-        <div className="material-table-responsive">
-          <ThemeProvider theme={tableTheme}>
-            <MaterialTable
-              columns={columns}
-              data={data}
-              style={{ marginBottom: "10px" }}
-              icons={tableIcons}
-              options={{
-                showTitle: false,
-                headerStyle: {
-                  backgroundColor: "#1d1464",
-                  color: "white",
-                  zIndex: 0,
-                  fontWeight: "bold",
-                  minWidth: "150px",
-                },
-                actionsColumnIndex: -1,
-                addRowPosition: "last",
-              }}
-              localization={{
-                body: {
-                  emptyDataSourceMessage: "No Students List",
-                },
-              }}
-              actions={[
-                {
-                  icon: () => (
-                    <p
-                      className="enroll-style"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: "bold",
-                        marginBottom: 0,
-                        color: "#375474",
-                        textAlign: "left",
-                      }}
-                    >
-                      View Schedule
-                    </p>
-                    // <FontAwesomeIcon icon={faEye} size="sm" color="#375474" />
-                  ),
-                  onClick: (event, rowData) => {
-                    navigate({
-                      pathname: `/admin/upcoming/schedule/list/${rowData.id}`,
-                      state: {
-                        firstName: rowData.firstName,
-                        lastName: rowData.lastName,
-                      },
-                    });
+        <Container>
+          <Row>
+            <h3>Students</h3>
+          </Row>
+          <div className="material-table-responsive">
+            <ThemeProvider theme={tableTheme}>
+              <MaterialTable
+                columns={columns}
+                data={data}
+                style={{ marginBottom: "10px" }}
+                icons={tableIcons}
+                options={{
+                  showTitle: false,
+                  headerStyle: {
+                    backgroundColor: "#1D1464",
+                    color: "white",
+                    zIndex: 0,
+                    fontWeight: "bold",
+                    minWidth: "150px",
                   },
-                  tooltip: "View Upcoming Course Schedule",
-                },
-              ]}
-            />
-          </ThemeProvider>
-        </div>
-      </Container>
+                  actionsColumnIndex: -1,
+                  addRowPosition: "last",
+                }}
+                localization={{
+                  body: {
+                    emptyDataSourceMessage: "No Students List",
+                  },
+                }}
+                actions={[
+                  {
+                    icon: () => (
+                      <p
+                        className="enroll-style"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: "bold",
+                          marginBottom: 0,
+                          color: "#375474",
+                          textAlign: "left",
+                        }}
+                      >
+                        View Schedule
+                      </p>
+                      // <FontAwesomeIcon icon={faEye} size="sm" color="#375474" />
+                    ),
+                    // onClick: (event, rowData) => {
+                    //   console.log("rowData",rowData?.firstName);
+                    //   navigate({
+                    //     pathname: `/admin/upcoming/schedule/student/list/${rowData.id}`,
+                    //     state: {
+                    //       firstName: rowData.firstName,
+                    //       lastName: rowData.lastName,
+                    //     },
+                    //   });
+                    // },
+                    onClick: (event, rowData) => {
+  console.log("rowData", rowData?.firstName);
+  navigate(`/admin/upcoming/schedule/student/list/${rowData.id}`, {
+    state: {
+      firstName: rowData.firstName,
+      lastName: rowData.lastName,
+    },
+  });
+},
+                    tooltip: "View Upcoming Course Schedule",
+                  },
+                ]}
+              />
+            </ThemeProvider>
+          </div>
+        </Container>
       {/* )} */}
       <Modal show={show} onHide={() => handleModal()} dialogClassName="popup-container-Style">
         <Modal.Header closeButton className="popup-header-close-style" />
@@ -210,5 +192,4 @@ function AdminStudentsList(props) {
     </div>
   );
 }
-
 export default AdminStudentsList;

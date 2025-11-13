@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import MaterialTable from "material-table";
-import  tableIcons  from "../Core/TableIcons";
+import tableIcons from "../core/TableIcons";
 import Button from "@mui/material/Button";
-// import Api from "../../Api";
+import Api from "../../Api";
 import { Modal, Row, Col } from "react-bootstrap";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
-// import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { TEACHER_ACCOUNT_CURRENCY } from "../../constants/roles";
+
+  import { TEACHER_ACCOUNT_CURRENCY } from "../../Constants/Role";
 
 function TeacherPayment(props) {
   const [data, setData] = useState();
@@ -25,7 +25,6 @@ function TeacherPayment(props) {
   const [paymentModal, setPaymentModal] = useState(false);
   const [paymentId, setPaymentId] = useState();
   const userId = localStorage.getItem("userId");
-//   const history = useHistory();
   const [customerId, setCustomerId] = useState();
 
   //logout
@@ -49,27 +48,27 @@ function TeacherPayment(props) {
     },
   });
 
-//   const getTeacherAllPayments = () => {
-//     const localTeacherId = localStorage.getItem("teacherId");
-//     const teacherId = adminTeacherId ? adminTeacherId : localTeacherId;
-//     Api.get(`/api/v1/teacher/teacher/payment/${teacherId}`, {
-//       headers: { userId: userId },
-//     })
-//       .then((res) => {
-//         setData(res?.data?.teacherPaymentList);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getTeacherAllPayments = () => {
+    const localTeacherId = localStorage.getItem("teacherId");
+    const teacherId = adminTeacherId ? adminTeacherId : localTeacherId;
+    Api.get(`/api/v1/teacher/teacher/payment/${teacherId}`, {
+      headers: { userId: userId },
+    })
+      .then((res) => {
+        setData(res?.data?.teacherPaymentList);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   useEffect(() => {
-//     getTeacherAllPayments();
-//   }, []);
+  useEffect(() => {
+    getTeacherAllPayments();
+  }, []);
 
   const role = localStorage.getItem("role");
 
@@ -167,7 +166,7 @@ function TeacherPayment(props) {
               className="teacher-payment-color"
               onClick={() => PaymentForTeacher(rowData)}
             >
-              {/* Pay Now ${rowData.teacherPayableAmount} */}
+              Pay Now ${rowData.teacherPayableAmount}
             </button>
           </Row>
         ),
