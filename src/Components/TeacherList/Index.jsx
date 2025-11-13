@@ -464,13 +464,16 @@ const navigate = useNavigate();
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
+                                    {console.log("rowData", rowData)}
+                                    {console.log("colId", colId)}
                                   <Link
-  to={`/teacher/schedule/${colId}`}
+  to={`/admin/teacher/schedule/${colId}`}
   state={{ rowData }}
   className="collapse-text-style"
 >
   View Course List
 </Link>
+
 
                                   </Dropdown.Item>
                                   <hr />
