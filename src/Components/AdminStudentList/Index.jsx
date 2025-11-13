@@ -2,7 +2,6 @@ import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 // Component
 import { useNavigate } from "react-router-dom";
-
 // import tableIcons  from "../Core/TableIcons";
 import tableIcons  from "../Core/TableIcons";
 // Use the appropriate props from the imported components
@@ -12,18 +11,14 @@ import { createTheme } from "@mui/material";
 // import { createTheme } from "@material-ui/core/styles";
 import { Container, Row, Modal } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
-
 //css
 import "../../CSS/AdminStudentsList.css";
-
 // Api
 import Api from "../../Api";
-
 // Loader
 // import Loader from "../../Components/Core/Loader";
 import StudentPublicProfile from "../../StudentPublicProfile";
 import { toast } from "react-toastify";
-
 function AdminStudentsList(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -32,7 +27,6 @@ function AdminStudentsList(props) {
 //   const history = useHistory();
 const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
-
   const tableTheme = createTheme({
     overrides: {
       MuiTableRow: {
@@ -45,7 +39,6 @@ const navigate = useNavigate();
       },
     },
   });
-
   const columns = [
     {
       title: "S.No",
@@ -63,7 +56,7 @@ const navigate = useNavigate();
               onClick={() => {
                 setStudentId(rowData.id);
                 setshow(true);
-                console.log("rowData.id", rowData.id); 
+                console.log("rowData.id", rowData.id);
               }}
             >
               {`${rowData.firstName} ${rowData.lastName}`}
@@ -85,7 +78,6 @@ const navigate = useNavigate();
       headerStyle: { textAlign: "center" },
     },
   ];
-
   // Log out
   const logout = () => {
      setTimeout(() => {
@@ -93,7 +85,6 @@ const navigate = useNavigate();
        window.location.reload();
      }, 2000);
   };
-
   const getAdminStudentsList = () => {
     Api.get("api/v1/student", { headers: { userId: userId } })
       .then((response) => {
@@ -109,15 +100,12 @@ const navigate = useNavigate();
         }
       });
   };
-
   const handleModal = () => {
     setshow(false);
   };
-
   useEffect(() => {
     getAdminStudentsList();
   }, []);
-
   return (
     <div>
       {/* {isLoading ? ( */}
@@ -137,7 +125,7 @@ const navigate = useNavigate();
                 options={{
                   showTitle: false,
                   headerStyle: {
-                    backgroundColor: "#1d1464",
+                    backgroundColor: "#1D1464",
                     color: "white",
                     zIndex: 0,
                     fontWeight: "bold",
@@ -187,7 +175,6 @@ const navigate = useNavigate();
     },
   });
 },
-
                     tooltip: "View Upcoming Course Schedule",
                   },
                 ]}
@@ -205,5 +192,4 @@ const navigate = useNavigate();
     </div>
   );
 }
-
 export default AdminStudentsList;

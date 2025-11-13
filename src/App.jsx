@@ -32,8 +32,9 @@ import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
 import Updatestudentdetail from "./Components/Editstudentdetail/Updatestudentdetail";
 import UpcomingSchedule1 from "./Components/Studentupcomingschedule/Upcomingschedule1";
+import AllCourseList from "./Components/CourseList/AllCourseList";
 import List from "./Components/Favouritecourse/List";
-import Quiz from "./Components/ListOfQuiz/Quiz.jsx";
+import Quiz from "./Components/ListOfQuiz/Quiz";
 import Homework from "./Components/Homework/Homework";
 import Transcript from "./Components/Studenttranscript/Transcript";
 import ActiveCourses from "./Components/ActiveEnroleCourses/ActiveCourses";
@@ -74,21 +75,31 @@ const App = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <ToastContainer autoClose={5000} hideProgressBar pauseOnHover={false} toastClassName="toastRequestSuccess" bodyClassName="toastBody" closeButton={false} />
-      <ChatBotConversation/>
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar
+        pauseOnHover={false}
+        toastClassName="toastRequestSuccess"
+        bodyClassName="toastBody"
+        closeButton={false}
+      />
+      <ChatBotConversation />
+
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
+          {/* 🌍 Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
           <Route path="/login" element={<Login />} />
-          <Route path="/about-us" element={<AboutUs/>}/>
-          <Route path="/navbar" element={<NavbarLoginBefore/>}/>
-          <Route path="/help" element={<Help/>}/>
-          <Route path='/password/change' element={<SubmitPassword/>}/>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/navbar" element={<NavbarLoginBefore />} />
+          <Route path="/forget/password" element={<ResetPassword />} />
+          <Route path="/password/change" element={<SubmitPassword />} />
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
@@ -192,4 +203,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;

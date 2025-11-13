@@ -1,46 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Allsidebar from "../Core/Allsidebar"      // Your existing sidebar component
+import Allsidebar from "../Core/Allsidebar";
 import HeaderNavbar from "../Core/HeaderNavbar";
 import PublicFooter from "../PublicLayout/PublicFooter";
-import ChatBotConversation from "../ChatBotConversation/ChatBotConversation";
 
-const PublicLayout = ({ open, onClick }) => {
- 
+const PublicLayout = () => {
+  const [open, setOpen] = useState(true);
+
   return (
-    <div>
-    <div>
-    {/* <HeaderNavbar/> */}
-    </div>
-    <div>
-      {/* Fixed Sidebar */}
-      <Allsidebar  />
+    <div style={{ display: "flex", minHeight: "100vh", background: "#f8f9fa" }}>
+      {/* Sidebar */}
+      <Allsidebar open={open} setOpen={setOpen} />
 
-      {/* Main Content */}
+      {/* Main Section */}
       <div
         style={{
-          bottom:"-100px",
-          marginLeft: open ? "250px" : "60px",
+          marginLeft: open ? "250px" : "70px",
           transition: "margin-left 0.3s ease",
-          padding: "20px",
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
         }}
       >
-        <Outlet /> 
-      
+        {/* Header */}
+        <HeaderNavbar />
+
+        {/* Main Content */}
+        <div style={{ flex: 1, padding: "20px" }}>
+          <Outlet />
+        </div>
+
+        {/* Footer */}
+        <footer
+          style={{
+            // padding: "10px",
+            // background: "#1a1d24",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          <PublicFooter />
+        </footer>
       </div>
-  
     </div>
- 
-<div>
- <footer className="Publicfooter" style={{marginTop:"800px"}}>
-      <PublicFooter/>
-      </footer>
-      </div>
-    </div>
-  
   );
 };
 
 export default PublicLayout;
-
-
