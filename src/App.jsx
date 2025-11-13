@@ -18,14 +18,13 @@ import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import Course from "./Components/Course.jsx";
 import Trainers from "./Components/Trainers.jsx";
-import CourseDetail from "./Components/Course/CourseDetail.jsx";
+// import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
 import StudentList from "./Components/AdminStudentList/Index.jsx";
 import CourseList from "./Components/Courselist/Index.jsx";
 import Allsidebar from './Components/Core/Allsidebar.jsx';
-import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 import TeacherList from "./Components/TeacherList/Index.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
 import AdminPaymentList from "./Components/AdminPaymentList/Index.jsx";
@@ -60,8 +59,13 @@ import Menu from "./Components/TeacherApplication/Menu.jsx";
 import Education from "./Components/TeacherApplication/Education.jsx";
 import Experience from"./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
-import WizardForm from "./Components/TeacherApplication/WizardForm.jsx"
-
+import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
+// import AdminUpcomingScheduleList from "./Components/AdminStudentUpcomingSchedule/Index.jsx";
+import AdminUpcomingScheduleList from "./Components/AdminUpcomingScheduleList/Index.jsx";
+import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.jsx";
+import EditTeacher from "./Components/EditTeacher/Index.jsx";
+import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
+import CalendarView from "./Components/CalendarView/Index.jsx";
 // import CreateCourseLessons from "./Components/CourseLesson/CreateCourseLesson.jsx";
 const App = () => {
   // const [open, setOpen] = useState(false);
@@ -77,7 +81,6 @@ const App = () => {
           <Route path="/forget/password" element={<ResetPassword />} />
           <Route path="/course/search" element={<Course/>} />
           <Route path="/trainers" element={<Trainers/>} />
-
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           {/* <Route path="not-available/time" element={<TeacherAvailable />} /> */}
           <Route path="/login" element={<Login />} />
@@ -127,23 +130,31 @@ const App = () => {
             }
           >
             <Route index element={<Navigate to="/admin/dashboard" />} />
+            <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
-            <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+            <Route path = "upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList/>}/>
             <Route path="course/edit/1" element ={<EditCourses/>}/>
             <Route path="course/lesson" element={<CourseLesson/>}/>
             <Route path="course/schedule" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
             <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
-            <Route path="students/list" element={<StudentList />} />
+            <Route path="students/list" element={<StudentList />} /> 
             <Route path="course/list" element={<CourseList />} />
+            {/* <Route path="application/details" element={<DisplayTeacherApplication />} /> */}
+            <Route path="application/details" element={<DisplayTeacherApplication />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            <Route path="course/detail" element={<CourseDetail/>}/>
+            <Route path="upcoming/schedule/student/list/:id" element={<AdminUpcomingScheduleList/>} />
+            {/* <Route path="course/detail" element={<CourseDetail/>}/> */}
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
+            <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
+            <Route path="set/password" element={<TeacherResetPassword/>}/>
+            <Route path="teacher/not-available" element={<CalendarView/>}/>
+            {/* <Route path="upcoming/schedule/list/:id" element={<AdminStudentUpcomingScheduleList/>}/> */}
           </Route>
           {/* Teacher Routes */}
           <Route
@@ -159,11 +170,10 @@ const App = () => {
           >
             
             <Route index element={<Navigate to="/teacher/dashboard" />} />
-            {/* <Route path="menu" element={<Menu />} /> */}
-            <Route path="menu" element={<WizardForm />} />
-            <Route path="dashboard" element={<TeacherDashboard />}/>
+            <Route path="menu" element={<Menu />} />
+            <Route path="dashboard" element={<Dashboard />}/>
             <Route path="schedule/:id" element={<TeacherCourseList />} />
-            <Route path="profile/:id" element={<TeacherProfile />} />
+            <Route path="profile" element={<TeacherProfile />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="review/quiz" element={<TeacherQuizReview />} />
             <Route path="homework/review" element={<TeacherHomeworkReview />} />

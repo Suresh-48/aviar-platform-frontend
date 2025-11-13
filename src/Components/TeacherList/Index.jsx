@@ -12,6 +12,8 @@ import {
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 // import { convertFromRaw } from "quill-js";
 // import Quill from "quill-js";
 
@@ -29,7 +31,7 @@ import { Formik, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Loader
 // import Loader from "../../components/core/Loader";
@@ -57,6 +59,7 @@ function TeacherList(props) {
   const [payment, setPayment] = useState("");
   const [teacherId, setTeacherId] = useState("");
   const userId = localStorage.getItem("userId");
+const navigate = useNavigate();
 
   //logout
   const logout = () => {
@@ -145,16 +148,12 @@ function TeacherList(props) {
     {
       title: "Name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: "/teacher/profile/view",
-            state: {
-              teacherId: rowData.id,
-            },
-          }}
-        >
-          {rowData.firstName + " " + rowData.lastName}
+     <Link
+  className="linkColor"
+  to="/admin/teacher/profile/view"
+  state={{ teacherId: rowData.id }}
+>
+      {rowData.firstName + " " + rowData.lastName + " "}
         </Link>
       ),
     },
@@ -175,19 +174,23 @@ function TeacherList(props) {
       cellStyle: { color: "#375474" },
       render: (rowData) => (
         <Link
-          className="linkColor"
-          to={{
-            pathname: "/teacher/application",
-            state: {
-              teacherId: rowData.id,
-            },
-          }}
+              className="linkColor"
+              to="/admin/application/details"
+              state={{ teacherId: rowData.id }}
         >
-          View
-        </Link>
+
+           View
+      </Link>
+
       ),
     },
   ];
+//   <Link
+//   className="linkColor"
+//   to={`/admin/application/details/${rowData.id}`}
+// >
+//   View
+// </Link>
   const approvedDatacolumn = [
     {
       title: "S.No",
@@ -254,89 +257,89 @@ function TeacherList(props) {
     },
   ];
 
-//   const getTeacherListData = () => {
-//     Api.get("api/v1/teacher", { headers: { userId: userId } })
-//       .then((response) => {
-//         const data = response.data.data.data;
-//         setData(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getTeacherListData = () => {
+    Api.get("api/v1/teacher", { headers: { userId: userId } })
+      .then((response) => {
+        const data = response.data.data.data;
+        setData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   //get approved teacher list
-  // const getTeacherApprovedListData = () => {
-  //   Api.get("api/v1/teacher/list").then((response) => {
-  //     const approvedData = response?.data?.teacherList;
-  //     setPayment(approvedData[0]?.teacherSessionAmount);
-  //     setApprovedData(approvedData);
-  //     setIsLoading(false);
-  //   });
-  // };
+  const getTeacherApprovedListData = () => {
+    Api.get("api/v1/teacher/list").then((response) => {
+      const approvedData = response?.data?.teacherList;
+      setPayment(approvedData[0]?.teacherSessionAmount);
+      setApprovedData(approvedData);
+      setIsLoading(false);
+    });
+  };
 
-//   useEffect(() => {
-//     getTeacherListData();
-//     getTeacherApprovedListData();
-//   }, []);
+  useEffect(() => {
+    getTeacherListData();
+    getTeacherApprovedListData();
+  }, []);
 
   //change publish and draft course type
-  // const changeTeacherType = (status) => {
-  //   Api.post("api/v1/teacher/status/", {
-  //     teacherId: colId,
-  //     status: status,
-  //     userId: userId,
-  //   })
-  //     .then((response) => {
-  //       if (response.status === 201) {
-  //         getTeacherListData();
-  //         getTeacherApprovedListData();
-  //       } else {
-  //         toast.error(response.data.message);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       const errorStatus = error?.response?.status;
-  //       if (errorStatus === 401) {
-  //         logout();
-  //         toast.error("Session Timeout");
-  //       }
-  //     });
+  const changeTeacherType = (status) => {
+    Api.post("api/v1/teacher/status/", {
+      teacherId: colId,
+      status: status,
+      userId: userId,
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          getTeacherListData();
+          getTeacherApprovedListData();
+        } else {
+          toast.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
 
-  //   if (status === "Pending") {
-  //     const status = "Review";
-  //     Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-  //       status: status,
-  //       userId: userId,
-  //     })
-  //       .then((response) => {})
-  //       .catch((error) => {
-  //         const errorStatus = error?.response?.status;
-  //         if (errorStatus === 401) {
-  //           logout();
-  //           toast.error("Session Timeout");
-  //         }
-  //       });
-  //   } else {
-  //     Api.patch(`api/v1/teacherApplication/status/${colId}`, {
-  //       status: status,
-  //       userId: userId,
-  //     })
-  //       .then((response) => {})
-  //       .catch((error) => {
-  //         const errorStatus = error?.response?.status;
-  //         if (errorStatus === 401) {
-  //           logout();
-  //           toast.error("Session Timeout");
-  //         }
-  //       });
-  //   }
-  // };
+    if (status === "Pending") {
+      const status = "Review";
+      Api.patch(`api/v1/teacherApplication/status/${colId}`, {
+        status: status,
+        userId: userId,
+      })
+        .then((response) => {})
+        .catch((error) => {
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            logout();
+            toast.error("Session Timeout");
+          }
+        });
+    } else {
+      Api.patch(`api/v1/teacherApplication/status/${colId}`, {
+        status: status,
+        userId: userId,
+      })
+        .then((response) => {})
+        .catch((error) => {
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            logout();
+            toast.error("Session Timeout");
+          }
+        });
+    }
+  };
   const signin = Yup.object().shape({
     pay: Yup.string().required("Payment Is Required"),
   });
@@ -411,14 +414,13 @@ function TeacherList(props) {
                           />
                         ),
                         tooltip: "View Teacher Available Time",
-                        onClick: (event, rowData) => {
-                          history.push({
-                            pathname: "/teacher/not-available",
-                            state: {
-                              rowData: rowData,
-                            },
-                          });
-                        },
+                     onClick: (event, rowData) => {
+  navigate("/admin/teacher/not-available", {
+    state: {
+      rowData: rowData,
+    },
+  });
+},
                       },
                       (rowData) => {
                         return {
@@ -440,42 +442,36 @@ function TeacherList(props) {
                                   className="menu-dropdown-status py-0"
                                 >
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: "/teacher/profile/view",
-                                        state: {
-                                          teacherId: colId,
-                                        },
-                                      }}
-                                      className="collapse-text-style "
-                                    >
-                                      View As Public Page
-                                    </Link>
+                                   <Link
+  to="/admin/teacher/profile/view"
+  state={{ teacherId: colId }}
+  className="collapse-text-style"
+>
+  View As Public Page
+</Link>
+
+                                    
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: `/teacher/edit/${colId}`,
-                                      }}
-                                      className="collapse-text-style"
-                                    >
-                                      Edit Teacher Details
-                                    </Link>
+                                 <Link
+  to={`/admin/teacher/edit/${colId}`}
+  className="collapse-text-style"
+>
+  Edit Teacher Details
+</Link>
+
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: `/teacher/schedule/${colId}`,
-                                        state: {
-                                          rowData,
-                                        },
-                                      }}
-                                      className="collapse-text-style"
-                                    >
-                                      View course List
-                                    </Link>
+                                  <Link
+  to={`/teacher/schedule/${colId}`}
+  state={{ rowData }}
+  className="collapse-text-style"
+>
+  View Course List
+</Link>
+
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
@@ -489,16 +485,15 @@ function TeacherList(props) {
                                   </Dropdown.Item>{" "}
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: "/teacher/payments",
-                                        state: rowData.id,
-                                      }}
-                                      onClick={() => teacherPayment(rowData.id)}
-                                      className="collapse-text-style"
-                                    >
-                                      Teacher Payment
-                                    </Link>
+                                   <Link
+  to="/teacher/payments"
+  state={{ teacherId: rowData.id }}
+  onClick={() => teacherPayment(rowData.id)}
+  className="collapse-text-style"
+>
+  Teacher Payment
+</Link>
+
                                   </Dropdown.Item>
                                 </Dropdown.Menu>
                               ) : null}
@@ -642,9 +637,9 @@ function TeacherList(props) {
                   return (
                     <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3">
-                        <LabelComponent notify={true}>
+                        <label notify={true}>
                           Enter Payment Amount
-                        </LabelComponent>
+                        </label>
 
                         <Form.Control
                           name="pay"
