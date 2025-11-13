@@ -168,6 +168,7 @@ const App = () => {
             <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
             <Route path="set/password" element={<TeacherResetPassword/>}/>
             <Route path="teacher/not-available" element={<CalendarView/>}/>
+            <Route path="teacher/schedule/:id" element={<TeacherCourseList />} />
           </Route>
           </Route>
 
