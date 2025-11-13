@@ -12,6 +12,8 @@ import {
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 // import { convertFromRaw } from "quill-js";
 // import Quill from "quill-js";
 
@@ -57,6 +59,7 @@ function TeacherList(props) {
   const [payment, setPayment] = useState("");
   const [teacherId, setTeacherId] = useState("");
   const userId = localStorage.getItem("userId");
+const navigate = useNavigate();
 
   //logout
   const logout = () => {
@@ -145,16 +148,12 @@ function TeacherList(props) {
     {
       title: "Name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: "/teacher/profile/view",
-            state: {
-              teacherId: rowData.id,
-            },
-          }}
-        >
-          {rowData.firstName + " " + rowData.lastName}
+     <Link
+  className="linkColor"
+  to="/admin/teacher/profile/view"
+  state={{ teacherId: rowData.id }}
+>
+      {rowData.firstName + " " + rowData.lastName + " "}
         </Link>
       ),
     },
@@ -175,19 +174,23 @@ function TeacherList(props) {
       cellStyle: { color: "#375474" },
       render: (rowData) => (
         <Link
-          className="linkColor"
-          to={{
-            pathname: "/teacher/application",
-            state: {
-              teacherId: rowData.id,
-            },
-          }}
+              className="linkColor"
+              to="/admin/application/details"
+              state={{ teacherId: rowData.id }}
         >
-          View
-        </Link>
+
+           View
+      </Link>
+
       ),
     },
   ];
+//   <Link
+//   className="linkColor"
+//   to={`/admin/application/details/${rowData.id}`}
+// >
+//   View
+// </Link>
   const approvedDatacolumn = [
     {
       title: "S.No",
@@ -411,14 +414,13 @@ function TeacherList(props) {
                           />
                         ),
                         tooltip: "View Teacher Available Time",
-                        onClick: (event, rowData) => {
-                          history.push({
-                            pathname: "/teacher/not-available",
-                            state: {
-                              rowData: rowData,
-                            },
-                          });
-                        },
+                     onClick: (event, rowData) => {
+  navigate("/admin/teacher/not-available", {
+    state: {
+      rowData: rowData,
+    },
+  });
+},
                       },
                       (rowData) => {
                         return {
@@ -440,42 +442,36 @@ function TeacherList(props) {
                                   className="menu-dropdown-status py-0"
                                 >
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: "/teacher/profile/view",
-                                        state: {
-                                          teacherId: colId,
-                                        },
-                                      }}
-                                      className="collapse-text-style "
-                                    >
-                                      View As Public Page
-                                    </Link>
+                                   <Link
+  to="/admin/teacher/profile/view"
+  state={{ teacherId: colId }}
+  className="collapse-text-style"
+>
+  View As Public Page
+</Link>
+
+                                    
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: `/teacher/edit/${colId}`,
-                                      }}
-                                      className="collapse-text-style"
-                                    >
-                                      Edit Teacher Details
-                                    </Link>
+                                 <Link
+  to={`/admin/teacher/edit/${colId}`}
+  className="collapse-text-style"
+>
+  Edit Teacher Details
+</Link>
+
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: `/teacher/schedule/${colId}`,
-                                        state: {
-                                          rowData,
-                                        },
-                                      }}
-                                      className="collapse-text-style"
-                                    >
-                                      View course List
-                                    </Link>
+                                  <Link
+  to={`/teacher/schedule/${colId}`}
+  state={{ rowData }}
+  className="collapse-text-style"
+>
+  View Course List
+</Link>
+
                                   </Dropdown.Item>
                                   <hr />
                                   <Dropdown.Item className="status-list">
@@ -489,16 +485,15 @@ function TeacherList(props) {
                                   </Dropdown.Item>{" "}
                                   <hr />
                                   <Dropdown.Item className="status-list">
-                                    <Link
-                                      to={{
-                                        pathname: "/teacher/payments",
-                                        state: rowData.id,
-                                      }}
-                                      onClick={() => teacherPayment(rowData.id)}
-                                      className="collapse-text-style"
-                                    >
-                                      Teacher Payment
-                                    </Link>
+                                   <Link
+  to="/teacher/payments"
+  state={{ teacherId: rowData.id }}
+  onClick={() => teacherPayment(rowData.id)}
+  className="collapse-text-style"
+>
+  Teacher Payment
+</Link>
+
                                   </Dropdown.Item>
                                 </Dropdown.Menu>
                               ) : null}
@@ -642,9 +637,9 @@ function TeacherList(props) {
                   return (
                     <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3">
-                        <LabelComponent notify={true}>
+                        <label notify={true}>
                           Enter Payment Amount
-                        </LabelComponent>
+                        </label>
 
                         <Form.Control
                           name="pay"
