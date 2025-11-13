@@ -1,113 +1,129 @@
-/* QuizIntegration.css */
-
-.main {
-  background: #f8f9fa;
-  min-height: calc(100vh - 100px);
-}
-
-.lesson-info {
-  padding: 8px 0;
-}
-
-.quiz-header-section {
-  padding: 10px 0;
-}
-
-.question-tab {
+.textbox-style {
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 6px;
-  padding: 12px 8px;
-  border: 1px solid #dee2e6;
-  background: white;
-  font-weight: 500;
-  font-size: 14px;
-  min-height: 45px;
+  font-weight: bold;
+  margin-bottom: 10px;
   display: flex;
-  align-items: center;
+    justify-content: center;
+    align-items: center;
+
+}
+.input-style {
+  display: flex;
   justify-content: center;
-  text-align: center;
+  flex-direction: column;
+}
+.options {
+  padding: 0px 20px !important;
+}
+.options .MuiButtonBase-root {
+  align-items: flex-start !important;
+}
+.options .radio-options {
+  margin-top: 18px !important;
+}
+.option-list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 40px !important;
+}
+.option-list .css-vqmohf-MuiButtonBase-root-MuiRadio-root{
+    padding: 0px !important;
 }
 
-.question-tab:hover {
-  background-color: #e9ecef;
-  border-color: #007bff;
+.option-list p{
+    width:80%;
+    color: #a6a4a4;
+}
+.css-68u1dt-MuiInputBase-root-MuiInput-root:before {
+  border: none !important;
+}
+// .radio-style .form-control  {
+//   border: none !important;
+//   outline: none !important;
+//   overflow: hidden;
+//   border-bottom: 1px solid #ced4da !important;
+// }
+// .radio-style textarea:focus{
+//     border: none !important;
+//     outline: none !important;
+//     overflow: hidden;
+//     border-bottom: 1px solid #ced4da !important;
+//     -webkit-box-shadow: none;
+//     -moz-box-shadow: none;
+//     box-shadow: none;
+//   }
+
+// hide boder for question no
+.css-ghsjzk-MuiInputBase-root-MuiInput-root.Mui-disabled:before {
+  border-bottom-style: unset !important;
+}
+.css-ghsjzk-MuiInputBase-root-MuiInput-root:before {
+  border-bottom: unset !important;
 }
 
-.question-tab.active {
-  background-color: #007bff;
-  color: white;
-  border-color: #0056b3;
+.edit-delete-question{
+    font-size: 20px !important;
+    cursor: pointer;
 }
-
-.content-area {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-height: 400px;
-  padding: 20px;
+.question-type{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #d5d6d7;
+  height: auto;
 }
-
-/* Card enhancements */
-.card {
-  border: none;
-  border-radius: 8px;
-}
-
-.card-title {
-  color: #1c1364;
-  font-weight: 600;
-}
-
-/* Divider line */
-.border-2 {
-  border-width: 2px !important;
-  border-color: #dee2e6;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .question-tab {
-    font-size: 13px;
-    padding: 10px 6px;
-    min-height: 40px;
-  }
-  
-  .quiz-header-section h4 {
-    font-size: 1.5rem;
-  }
-  
-  .content-area {
-    padding: 15px;
-  }
-}
-
 @media (max-width: 576px) {
-  .question-tab {
-    font-size: 12px;
-    padding: 8px 4px;
-    min-height: 35px;
+  .question-type{
+    border-right: none;
+    display: flex;
+      justify-content: center;
+      align-items: center;
+    border-bottom: 1px solid #d5d6d7;
+    margin-left:auto;
+    margin-right: auto;
+    height: none;
+    padding-top: 10px;
   }
-  
-  .quiz-header-section h4 {
-    font-size: 1.3rem;
+  .question-list{
+   border-bottom: 1px solid #d5d6d7;
+    padding-top: 10px;
   }
-  
-  .content-area {
-    padding: 10px;
+  .end-line{
+    display: none !important;
   }
 }
 
-/* Loading state */
-.loading-container {
+@media (max-width: 768px) {
+  .question-type{
+    border-right: none;
+    border-bottom: 1px solid #d5d6d7;
+    margin-left:auto;
+    margin-right: auto;
+    height: none;
+    padding-top: 10px;
+    display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .question-list{
+    border-bottom: 1px solid #d5d6d7;
+    padding-top: 10px;
+  }
+  .end-line{
+    display: none !important;
+  }
+}
+
+.lesson-name{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
+ 
 }
 
-/* Error state */
-.alert {
-  border-radius: 8px;
-  border: none;
+@media (max-width: 991px) {
+  .lesson-name{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
 }

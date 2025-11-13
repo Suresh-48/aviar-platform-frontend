@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, FormControl, Form } from "react-bootstrap";
 import { Formik, ErrorMessage } from "formik";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
+import moment from "moment";
 import Select from "react-select";
 import TimezonePicker from "react-bootstrap-timezone-picker";
 import * as Yup from "yup";
-import dayjs from "dayjs";
 import { toast } from "react-toastify";
-import axios from 'axios';
-import { customStyles } from "../Core/Selector.js";
-import Api from "../../Api";
-import Label from "../../Components/Core/Label";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import Avatar from "@material-ui/core/Avatar";
+import { LocalizationProvider, TimePicker, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import Avatar from "@mui/material/Avatar";
+
+// Api
+import Api from "../../Api.jsx";
+
+//Component
+import Label from "../../components/core/Label";
+
+// Styles
+import "../../css/CreateCourseSchedule.css";
+
+// Styles
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../core/Loader.jsx";
+import { customStyles } from "../core/Selector.js";
+import { InsertInvitationOutlined } from "@mui/icons-material";
 
 // Validation
 const courseScheduleSchema = Yup.object().shape({
@@ -45,14 +53,14 @@ const options = [
 ];
 
 const CreateCourseSchedule = (props) => {
-  const [startTime, setStartTime] = useState(dayjs()); // Initialize with current time
+  const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [courseName, setCourseName] = useState(props?.location?.state?.courseName);
   const [courseId, setCourseId] = useState(props?.location?.state?.courseId);
   const [weekly, setWeekly] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
-  const [duration, setDuration] = useState(60); // Default duration in minutes
-  const [startDate, setStartDate] = useState(dayjs()); // Initialize with current date
+  const [duration, setDuration] = useState("");
+  const [startDate, setStartDate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [teacherList, setTeacherList] = useState([]);
   const [teacherName, setTeacherName] = useState("");
@@ -61,73 +69,213 @@ const CreateCourseSchedule = (props) => {
   const [speciality, setSpeciality] = useState("");
   const [lessonLength, setLessonLength] = useState([]);
   const [enrollstudent, setEnrollStudent] = useState("");
-  const [today, setToday] = useState(dayjs()); // Initialize with current date
+  const [today, setToday] = useState(new Date());
+
+  // Log out
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      props.history.push("/kharpi");
+      window.location.reload();
+    }, 2000);
+  };
 
   useEffect(() => {
-    // getCourseData();
-    // getApprovedTeacher();
-    // getLessonData();
+    getCourseData();
+    getApprovedTeacher();
+    getLessonData();
   }, []);
-   
-  
-  const submitForm = (values, { setFieldValue }) => {
-    const userId = localStorage.getItem("userId");
-    Api.post("api/v1/courseSchedule/createSchedule",{
-      courseId:courseId,
-      weekly: weekly,
-      startTime: startTime,
-      endTime: endTime,
-      enrollstudent: enrollstudent,
-      timeZone: "India/Tamilnadu",
-      startDate: startDate, 
-      teacherName: teacherNameSelect,
-      userId:userId,
 
+  // Get Course Data
+  const getCourseData = () => {
+    const token = localStorage.getItem("sessionId");
+    Api.get(`api/v1/course/${courseId}`, { headers: { token: token } })
+      .then((res) => {
+        const data = res.data.data;
+        setDuration(data?.duration);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const getLessonData = () => {
+    const token = localStorage.getItem("sessionId");
+    Api.get("api/v1/courseLesson/lessonlist", {
+      params: {
+        courseId: courseId,
+        token: token,
+      },
     })
-    // .then((res)=>{console.log("res",res.data)})
-    const handleStartDateChange = (date, setFieldValue) => {
-      if (date && date.isValid()) {
-        setStartDate(date); // Update local state
-        setFieldValue("startDate", date); // Update Formik's `startDate` field
-        const dayOfWeek = getDayOfWeek(date); // Get the day of the week
-        setWeekly(dayOfWeek); // Update local state
-        setFieldValue("weekly", dayOfWeek); // Update Formik's `weekly` field
-      }
-    };
+      .then((response) => {
+        const lessonList = response.data.lessonList.length;
+        setLessonLength(lessonList);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-    const formattedDate = dayjs(values.startDate).format("LLLL"); // Full date & time
-    const dayOfWeek = dayjs(values.startDate).format("dddd"); // Weekday name
+  // Get Approved Teachers
+  const getApprovedTeacher = () => {
+    const token = localStorage.getItem("sessionId");
+    Api.get(`api/v1/teacher/list`).then((res) => {
+      const data = res.data.teacherList;
+      setTeacherList(data);
+    });
+  };
 
-    setStartDate(formattedDate);
-    setWeekly(dayOfWeek);
-    setFieldValue("weekly", dayOfWeek);
-    console.log("values...",values)
+  //get teacher schedule
+  const checkTeacherSchedule = (e) => {
+    const teacherId = e.value;
+    const startTimeValue = moment(startTime, "LLLL").format("LT");
+    const dateValue = moment(startDate).format("ll");
+    const token = localStorage.getItem("sessionId");
+    Api.get(`/api/v1/courseSchedule/check/teacherSchedule`, {
+      params: {
+        teacherId: teacherId,
+        startDate: dateValue,
+        startTime: startTimeValue,
+        token: token,
+      },
+    })
+      .then((response) => {
+        const status = response.status;
+        if (status === 208) {
+          toast.warning(response.data.message);
+          setIsSubmit(false);
+        }
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  // Submit form
+  const submitForm = (values) => {
+    const token = localStorage.getItem("sessionId");
+    setIsSubmit(true);
+    const startTimeValue = moment(values.startTime, "LLLL").format("LT");
+    const dateValue = moment(startDate).format("ll");
+
+    if (lessonLength === 0) {
+      toast.error("Without creating lesson schedule can't be created");
+      setIsSubmit(false);
+    } else {
+      Api.post("/api/v1/courseSchedule/createSchedule", {
+        courseId: courseId,
+        weeklyOn: weekly,
+        startTime: startTimeValue,
+        timeZone: values.timeZone,
+        endTime: values.endTime,
+        totalStudentEnrolled: values.enrollstudent,
+        startDate: dateValue,
+        teacherName: teacherName,
+        teacherId: teacherId ? teacherId : values.teacherId,
+        speciality: speciality,
+        token: token,
+      })
+        .then((response) => {
+          const status = response.status;
+          if (status === 201) {
+            Api.post("api/v1/teacherUpcomingSchedule", {
+              courseScheduleId: response.data.scheduleDetails.id,
+              teacherId: teacherId,
+              token: token,
+            }).then((res) => {
+              if (res.status === 201) {
+                toast.success("schedule created successfully");
+                setTimeout(() => {
+                  props.history.goBack();
+                }, 1000);
+              }
+            });
+            setIsSubmit(false);
+          } else {
+            toast.error(response.data.message);
+            setIsSubmit(false);
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status >= 400) {
+            let errorMessage;
+            const errorRequest = error.response.request;
+            if (errorRequest && errorRequest.response) {
+              errorMessage = JSON.parse(errorRequest.response).message;
+            }
+            toast.error(error.response.data.message);
+            setIsSubmit(false);
+          }
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            logout();
+            toast.error("Session Timeout");
+          }
+        });
+    }
+  };
+
+  // Set End Time
+  const setEnd = (e, { setFieldValue }) => {
+    var hours = e.getHours() + 1;
+    var minutes = e.getMinutes();
+    hours = hours % 24;
+    var strTime = hours + ":" + minutes;
+    const endTimeValue = moment(strTime, "hh:mm").format("LT");
+    setEndTime(endTimeValue);
+    setFieldValue("endTime", endTimeValue);
+    return strTime;
+  };
+
+  // Date Format
+  const setDateFormat = (e, setFieldValue) => {
+    const startTimeValue = moment(e).format("LLLL");
+    setStartDate(startTimeValue);
+    const dayValue = moment(e).format("dddd");
+    setWeekly(dayValue);
+    setFieldValue("weekly", dayValue);
+    setWeekly(dayValue);
   };
 
   return (
     <div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {/* {isLoading ? (
+        <Loader />
+      ) : ( */}
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Container>
           <Row className="mt-3">
             <Col sm={12}>
               <div className="mb-4">
                 <h4>{courseName}</h4>
-                <br/>
               </div>
-              {/* <h5 className="mb-3 text-center">Course schedule create</h5> */}
+              <h5 className="mb-3 text-center">Course schedule create</h5>
               <Formik
                 enableReinitialize
                 initialValues={{
                   weekly: weekly,
                   startTime: startTime,
-                  // endTime: endTime,
+                  endTime: endTime,
                   enrollstudent: enrollstudent,
-                  timeZone: "India/Tamilnadu",
+                  timeZone: "America/Chicago",
                   startDate: startDate,
                   teacherName: teacherNameSelect,
                 }}
                 validationSchema={courseScheduleSchema}
-                onSubmit={(values, { setFieldValue }) => submitForm(values, { setFieldValue })}
+                onSubmit={(values) => submitForm(values)}
               >
                 {(formik) => {
                   const { values, setFieldValue, handleChange, handleSubmit, handleBlur, isValid } = formik;
@@ -140,31 +288,34 @@ const CreateCourseSchedule = (props) => {
                               <Label notify={true}>Start Date</Label>
                               <br />
                               <DatePicker
-                                variant="standard"
                                 className="start-time-style"
                                 style={{ paddingLeft: 10 }}
                                 minDate={today}
                                 placeholder="Select Start Date"
-                                helperText={""}
-                                InputProps={{
-                                  disableUnderline: true,
+                                slotProps={{
+                                  textField: {
+                                    variant: "standard",
+                                    InputProps: {
+                                      disableUnderline: true,
+                                    },
+                                  },
                                 }}
                                 format="MMM dd yyyy"
-                                value={values.startDate ? dayjs(values.startDate) : dayjs()} // Ensure valid dayjs object
+                                value={values.startDate}
                                 onChange={(e) => {
-                                  if (e && e.isValid()) {
-                                    setFieldValue("startDate", e);
-                                    setStartDate(e);
-                                  }
+                                  setFieldValue("startDate", e);
+                                  setDateFormat(e, setFieldValue);
                                 }}
-                                keyboardIcon={
-                                  <FontAwesomeIcon
-                                    icon={faCalendarDay}
-                                    size="sm"
-                                    color="grey"
-                                    style={{ padding: 0 }}
-                                  />
-                                }
+                                slots={{
+                                  openPickerIcon: () => (
+                                    <FontAwesomeIcon
+                                      icon={faCalendarDay}
+                                      size="sm"
+                                      color="grey"
+                                      style={{ padding: 0 }}
+                                    />
+                                  ),
+                                }}
                               />
                               <ErrorMessage
                                 name="startDate"
@@ -173,7 +324,8 @@ const CreateCourseSchedule = (props) => {
                               />
                             </Form.Group>
                           </Col>
-                          {/* <Col xs={12} sm={6} md={6}>
+                          <Col xs={12} sm={6} md={6}>
+                            {" "}
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>Weekly On</Label>
                               <FormControl
@@ -183,7 +335,7 @@ const CreateCourseSchedule = (props) => {
                                 placeholder="weekly on"
                                 value={weekly}
                                 onChange={(e) => {
-                                  setFieldValue("weekly", e.target.value);
+                                  setFieldValue("weekly", e);
                                 }}
                                 className="form-styles"
                               />
@@ -193,7 +345,7 @@ const CreateCourseSchedule = (props) => {
                                 className="error text-danger error-message"
                               />
                             </Form.Group>
-                          </Col> */}
+                          </Col>
                         </Row>
 
                         <Row>
@@ -202,29 +354,29 @@ const CreateCourseSchedule = (props) => {
                               <Label notify={true}>Start Time</Label>
                               <br />
                               <TimePicker
-                                variant="standard"
                                 className="start-time-style"
                                 style={{ paddingLeft: 10 }}
                                 placeholder="Select Start Time"
-                                helperText={""}
-                                InputProps={{
-                                  disableUnderline: true,
+                                slotProps={{
+                                  textField: {
+                                    variant: "standard",
+                                    InputProps: {
+                                      disableUnderline: true,
+                                    },
+                                  },
                                 }}
-                                value={values.startTime ? dayjs(values.startTime) : dayjs()} // Ensure valid dayjs object
+                                value={values.startTime}
                                 name="startTime"
                                 onChange={(e) => {
-                                  if (e && e.isValid()) {
-                                    setFieldValue("startTime", e);
-                                    setStartTime(e);
-                                    // Calculate endTime based on startTime and duration
-                                    const endTime = dayjs(e).add(duration, 'minutes').format("hh:mm A");
-                                    setEndTime(endTime);
-                                    setFieldValue("endTime", endTime);
-                                  }
+                                  setFieldValue("startTime", e);
+                                  setStartTime(e);
+                                  setEnd(e, { setFieldValue });
                                 }}
-                                keyboardIcon={
-                                  <FontAwesomeIcon icon={faClock} size="sm" color="grey" style={{ padding: 0 }} />
-                                }
+                                slots={{
+                                  openPickerIcon: () => (
+                                    <FontAwesomeIcon icon={faClock} size="sm" color="grey" style={{ padding: 0 }} />
+                                  ),
+                                }}
                               />
                               <ErrorMessage
                                 name="startTime"
@@ -233,7 +385,7 @@ const CreateCourseSchedule = (props) => {
                               />
                             </Form.Group>
                           </Col>
-                          {/* <Col xs={12} sm={6}>
+                          <Col xs={12} sm={6}>
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>End Time</Label>
                               <br />
@@ -246,14 +398,10 @@ const CreateCourseSchedule = (props) => {
                                   backgroundColor: "white",
                                 }}
                                 placeholder="Select End Time"
-                                helperText={""}
                                 InputProps={{
                                   disableUnderline: true,
                                 }}
                                 value={endTime}
-                                keyboardIcon={
-                                  <FontAwesomeIcon icon={faClock} size="sm" color="grey" style={{ padding: 0 }} />
-                                }
                               />
                               <ErrorMessage
                                 name="endTime"
@@ -261,10 +409,11 @@ const CreateCourseSchedule = (props) => {
                                 className="error text-danger error-message"
                               />
                             </Form.Group>
-                          </Col> */}
+                          </Col>
                         </Row>
                         <Row>
                           <Col xs={12} sm={6}>
+                            {" "}
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>Maximum Enroll Count</Label>
                               <FormControl
@@ -303,12 +452,12 @@ const CreateCourseSchedule = (props) => {
                                 component="span"
                                 className="error text-danger error-message"
                               />
-                            </Form.Group>
+                            </Form.Group>{" "}
                           </Col>
                         </Row>
 
                         <Row>
-                          {/* <Col>
+                          <Col>
                             <Form.Group className="form-row mb-3">
                               <Label notify={true}>Teachers</Label>
                               <Select
@@ -322,6 +471,7 @@ const CreateCourseSchedule = (props) => {
                                     setTeacherId(null);
                                   } else {
                                     setFieldValue("teacherName", e.name);
+                                    //checkTeacherSchedule(e);
                                     setTeacherName(e.name);
                                     setTeacherId(e.value);
                                     setSpeciality(e.speciality);
@@ -335,15 +485,35 @@ const CreateCourseSchedule = (props) => {
                                       value: list.id,
                                       label: (
                                         <div>
-                                          <div className="d-flex justify-content-start align-items-center">
-                                            <Avatar src={list.imageUrl} alt="" round={true} />
-                                            <div className="dropdown-names">
-                                              {`${list.firstName} ${list.middleName} ${list.lastName}`}
+                                          {list.imageUrl ? (
+                                            <div className="d-flex justify-content-start align-items-center">
+                                              <Avatar src={list.imageUrl} alt="" />
+                                              <div className="dropdown-names">
+                                                {`${
+                                                  list.firstName + " " + list.middleName + " " + list.lastName + " "
+                                                }`}
+                                              </div>
                                             </div>
-                                          </div>
+                                          ) : (
+                                            <div className="d-flex justify-content-start align-items-center">
+                                              <Avatar className="d-flex justify-content-center">
+                                                <p className="dropdown-option mb-0">
+                                                  {list?.firstName.substring(0, 1)}
+                                                  {list.middleName
+                                                    ? list?.middleName.substring(0, 1)
+                                                    : list?.lastName.substring(0, 1)}
+                                                </p>
+                                              </Avatar>
+                                              <div className="dropdown-names">
+                                                {`${
+                                                  list.firstName + " " + list.middleName + " " + list.lastName + " "
+                                                }`}
+                                              </div>
+                                            </div>
+                                          )}
                                         </div>
                                       ),
-                                      name: `${list.firstName} ${list.middleName} ${list.lastName}`,
+                                      name: ` ${list.firstName} ${list.middleName} ${list.lastName}`,
                                       speciality: `${list.speciality}`,
                                     })),
                                   },
@@ -355,21 +525,26 @@ const CreateCourseSchedule = (props) => {
                                 className="error text-danger error-message"
                               />
                             </Form.Group>
-                          </Col> */}
+                          </Col>
                         </Row>
                         <div style={{ display: "flex", justifyContent: "flex-end" }} className="mb-3 mt-5">
                           <div className="d-flex">
                             <Button
                               className="Kharpi-cancel-btn me-3 px-4 py-3"
-                              // onClick={() => props.history.goBack()}
+                              onClick={() => props.history.goBack()}
                             >
                               Cancel
                             </Button>
+                            {console.log("is valid.....", isValid)}
                             <Button
                               type="submit"
-                              // disabled={!isValid}
+                              disabled={!isValid}
                               variant="contained"
-                              // className={`${!isValid ? "create-disable" : "create-active"}`}
+                              className={`${
+                                !isValid
+                                  ? "create-disable"
+                                  : "create-active"
+                              }`}
                             >
                               CREATE SCHEDULE
                             </Button>
@@ -384,6 +559,7 @@ const CreateCourseSchedule = (props) => {
           </Row>
         </Container>
       </LocalizationProvider>
+      {/* // )} */}
     </div>
   );
 };
