@@ -55,6 +55,55 @@ function ForumComments() {
     return getPlainText(html).length === 0;
   };
 
+  // NEW FUNCTION: Convert Draft.js JSON to plain text
+  const convertDraftToText = (content) => {
+    if (!content) return "";
+    
+    // If it's already a string, return it
+    if (typeof content === 'string') {
+      // Check if it's a JSON string that needs parsing
+      if (content.trim().startsWith('{') || content.trim().startsWith('[')) {
+        try {
+          const parsed = JSON.parse(content);
+          return convertDraftToText(parsed);
+        } catch (e) {
+          return content;
+        }
+      }
+      return content;
+    }
+    
+    // If it's a Draft.js content state object
+    if (typeof content === 'object') {
+      // Handle Draft.js blocks format
+      if (content.blocks && Array.isArray(content.blocks)) {
+        return content.blocks.map(block => block.text).join('\n');
+      }
+      
+      // Handle direct blocks array
+      if (Array.isArray(content) && content[0] && content[0].text) {
+        return content.map(block => block.text).join('\n');
+      }
+      
+      // Handle simple object with text property
+      if (content.text) {
+        return content.text;
+      }
+      
+      // Fallback: stringify the object
+      return JSON.stringify(content);
+    }
+    
+    return String(content);
+  };
+
+  // NEW FUNCTION: Convert Draft.js JSON to HTML
+  const convertDraftToHTML = (content) => {
+    const plainText = convertDraftToText(content);
+    // Convert line breaks to <br> tags for proper HTML display
+    return plainText.replace(/\n/g, '<br>');
+  };
+
   // Logout function
   const logout = () => {
     setTimeout(() => {
@@ -236,7 +285,12 @@ function ForumComments() {
                   <b>
                     {data?.userId?.firstName} {data?.userId?.lastName}
                   </b>
-                  <div dangerouslySetInnerHTML={{ __html: data.question }}></div>
+                  {/* FIX: Use the conversion function for question */}
+                  <div 
+                    dangerouslySetInnerHTML={{ 
+                      __html: convertDraftToHTML(data.question) 
+                    }} 
+                  />
                   <div className="forum-created-at">{data.createdAt}</div>
                 </div>
               </Stack>
@@ -282,7 +336,12 @@ function ForumComments() {
                         )}
                       </div>
 
-                      <div dangerouslySetInnerHTML={{ __html: list.answer }}></div>
+                      {/* FIX: Use the conversion function for answers */}
+                      <div 
+                        dangerouslySetInnerHTML={{ 
+                          __html: convertDraftToHTML(list.answer) 
+                        }} 
+                      />
 
                       <div className="forum-page">
                         <small>{list.createdAt}</small>
