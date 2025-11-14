@@ -69,6 +69,7 @@ import EditTeacher from "./Components/EditTeacher/Index.jsx";
 import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 import CalendarView from "./Components/CalendarView/Index.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import ForumsComments from "./Components/Forum/ForumsComments.jsx";
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -125,6 +126,7 @@ const App = () => {
             <Route path="forum/detail" element={<Forumdetail />} />
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
+            <Route path="forum/conversation" element={<ForumsComments />} />
           </Route>
           </Route>
  

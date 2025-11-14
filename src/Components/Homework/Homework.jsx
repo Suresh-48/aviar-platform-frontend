@@ -6,7 +6,7 @@ import { createTheme } from "@mui/material";
 import moment from "moment";
 import { Tab, Tabs } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 // Api
 import Api from "../../Api";
 
@@ -16,6 +16,7 @@ import Loader from "../../components/core/Loader";
 import { toast } from "react-toastify";
 
 function HomeWorkListTable() {
+    const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [pendingData, setPendingData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
@@ -324,33 +325,34 @@ function HomeWorkListTable() {
                         actions: "HomeWork",
                       },
                     }}
-                    actions={[
-                      (rowData) => ({
-                        icon: () => (
-                          <p
-                            className={`${
-                              rowData?.scheduleLesson?.compareDate < currentDate ||
-                              (rowData?.scheduleLesson?.compareDate === currentDate &&
-                                rowData?.scheduleLesson?.lessonEndTime < currentTime)
-                                ? "zoom-view-style"
-                                : "zoom-view-disable-style"
-                            }`}
-                          >
-                            {rowData?.reviewStatus === "Open" ? "Do your HomeWork" : null}
-                          </p>
-                        ),
-                        tooltip: "HomeWork",
-                        onClick: (event, rowData) => {
-                          if (
-                            rowData?.scheduleLesson?.compareDate < currentDate ||
-                            (rowData?.scheduleLesson?.compareDate === currentDate &&
-                              rowData?.scheduleLesson?.lessonEndTime < currentTime)
-                          ) {
-                            history.push("/homework", rowData);
-                          }
-                        },
-                      }),
-                    ]}
+                 actions={[
+  (rowData) => ({
+    icon: () => (
+      <p
+        className={`${
+          rowData?.scheduleLesson?.compareDate < currentDate ||
+          (rowData?.scheduleLesson?.compareDate === currentDate &&
+            rowData?.scheduleLesson?.lessonEndTime < currentTime)
+            ? "zoom-view-style"
+            : "zoom-view-disable-style"
+        }`}
+      >
+        {rowData?.reviewStatus === "Open" ? "Do your HomeWork" : null}
+      </p>
+    ),
+    tooltip: "HomeWork",
+    onClick: (event, rowData) => {
+      if (
+        rowData?.scheduleLesson?.compareDate < currentDate ||
+        (rowData?.scheduleLesson?.compareDate === currentDate &&
+          rowData?.scheduleLesson?.lessonEndTime < currentTime)
+      ) {
+        navigate("/homework", { state: rowData });
+      }
+    },
+  }),
+]}
+
                   />
                 </ThemeProvider>
               </div>
@@ -387,19 +389,20 @@ function HomeWorkListTable() {
                             actions: "HomeWork",
                           },
                         }}
-                        actions={[
-                          (rowData) => ({
-                            icon: () => (
-                              <p className={"zoom-view-style"}>
-                                {rowData.reviewStatus === "OnReview" ? "Preview your HomeWork" : null}
-                              </p>
-                            ),
-                            tooltip: "Preview",
-                            onClick: (event, rowData) => {
-                              history.push("/homework/preview", rowData);
-                            },
-                          }),
-                        ]}
+                     actions={[
+  (rowData) => ({
+    icon: () => (
+      <p className="zoom-view-style">
+        {rowData.reviewStatus === "OnReview" ? "Preview your HomeWork" : null}
+      </p>
+    ),
+    tooltip: "Preview",
+    onClick: (event, rowData) => {
+      navigate("/homework/preview", { state: rowData });
+    },
+  }),
+]}
+
                       />
                     </ThemeProvider>
                   </div>
@@ -434,19 +437,20 @@ function HomeWorkListTable() {
                             actions: "HomeWork",
                           },
                         }}
-                        actions={[
-                          (rowData) => ({
-                            icon: () => (
-                              <p className={"zoom-view-style"}>
-                                {rowData.reviewStatus === "ReviewCompleted" ? "View Result" : null}
-                              </p>
-                            ),
-                            tooltip: "View Result",
-                            onClick: (event, rowData) => {
-                              history.push("/homework/review/answers", rowData);
-                            },
-                          }),
-                        ]}
+                    actions={[
+  (rowData) => ({
+    icon: () => (
+      <p className="zoom-view-style">
+        {rowData.reviewStatus === "ReviewCompleted" ? "View Result" : null}
+      </p>
+    ),
+    tooltip: "View Result",
+    onClick: (event, rowData) => {
+      navigate("/homework/review/answers", { state: rowData });
+    },
+  }),
+]}
+
                       />
                     </ThemeProvider>
                   </div>
