@@ -151,18 +151,16 @@ const ForumSelect = ({ history }) => {
                 {courseData &&
                   courseData?.map((course, index) => (
                     <Row className="mt-3 mb-3">
-                      <div
-                        className="d-flex flex-direction-row "
-                        style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          history.push({
-                            pathname: `/forum`,
-                            state: {
-                              course: course,
-                            },
-                          })
-                        }
-                      >
+  <div
+    className="d-flex flex-direction-row"
+    style={{ cursor: "pointer" }}
+    onClick={() =>
+      navigate("/student/forum", {
+        state: { course: course }
+      })
+    }
+  >
+
                         <Col xs={3} sm={3} lg={3} md={3}>
                           <img
                             className="forum-image w-100"

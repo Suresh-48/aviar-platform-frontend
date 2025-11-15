@@ -70,7 +70,13 @@ import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 import CalendarView from "./Components/CalendarView/Index.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import ForumsComments from "./Components/Forum/ForumsComments.jsx";
-
+import CalenderViewUpcomingSchedule from "./Components/CalendarViewUpcomingSchedule.jsx"
+import QuizPreview from "./Components/QuizPreview/Index.jsx";
+import Quizs from "./Components/Quiz/Index.jsx";
+import Forum from "./Components/Forums/Index.jsx";
+import StudentHomeWork from "./Components/HomeWork/StudentHomework.jsx";
+import HomeWorkPreview from "./Components/HomeWorkPreview/Index.jsx";
+import HomeWorkReview from "./Components/HomeWorkReview/Index.jsx";
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
@@ -127,6 +133,13 @@ const App = () => {
             <Route path="completecourse" element={<CompleteCourse />} />
             <Route path="course/history" element={<CourseHistory />} />
             <Route path="forum/conversation" element={<ForumsComments />} />
+            <Route path="calendar/view/upcoming/schedule" element={<CalenderViewUpcomingSchedule/>}/>
+            <Route path="quiz/preview" element={<QuizPreview/>}/>
+            <Route path="quiz" element={<Quizs/>}/>
+            <Route path="student/homework" element={<StudentHomeWork/>}/>
+            <Route path="homework/preview" element={<HomeWorkPreview/>}/>
+            <Route path="homework/review" element={<HomeWorkReview/>}/>
+            <Route path="forum" element={<Forum/>}/>
           </Route>
           </Route>
  

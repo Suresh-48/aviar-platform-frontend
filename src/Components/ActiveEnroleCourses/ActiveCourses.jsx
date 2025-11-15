@@ -57,15 +57,14 @@ export default function ActiveEnrollCourseList() {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+     <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
+
       ),
     },
     {
@@ -109,15 +108,14 @@ export default function ActiveEnrollCourseList() {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+    <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
+
       ),
     },
     {

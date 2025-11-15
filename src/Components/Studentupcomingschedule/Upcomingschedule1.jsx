@@ -79,7 +79,7 @@ function UpcomingSchedule(props) {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={`/course/detail/${rowData.courseId?.aliasName}`}
+          to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
           state={{ courseId: rowData.id }}
         >
           {rowData.courseId.name}
@@ -125,7 +125,7 @@ function UpcomingSchedule(props) {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={`/course/detail/${rowData?.courseId?.aliasName}`}
+          to={`/admin/course/detail/${rowData?.courseId?.aliasName}`}
           state={{ courseId: rowData?.id }}
         >
           {rowData?.courseId?.name}
@@ -213,14 +213,7 @@ function UpcomingSchedule(props) {
     });
   };
 
-  // Log out
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear();
-      navigate("/kharpi");
-      window.location.reload();
-    }, 2000);
-  };
+
 
   const zoomTiming = (e) => {
     const studentId = localStorage.getItem("studentId");
@@ -256,7 +249,7 @@ function UpcomingSchedule(props) {
                 icon={faCalendarDay}
                 style={{ cursor: "pointer", fontSize: 30, color: "#375474" }}
                 onClick={() => {
-                  navigate("/calendar/view/upcoming/schedule", {
+                  navigate("/student/calendar/view/upcoming/schedule", {
                     state: {
                       studentId: studentId,
                     },

@@ -154,7 +154,7 @@ function ListOfQuiz() {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={`/course/detail/${rowData.courseId?.aliasName}`}
+          to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
           state={{ courseId: rowData.id }}
         >
           {rowData.courseId.name}
@@ -291,7 +291,7 @@ function ListOfQuiz() {
                               rowData?.scheduleLesson?.lessonEndTime <
                                 currentTime)
                           ) {
-                            navigate("/quiz", { state: rowData });
+                            navigate("/student/quiz/", { state: rowData });
                           }
                         },
                       }),
@@ -343,7 +343,7 @@ function ListOfQuiz() {
                             ),
                             tooltip: "Preview",
                             onClick: (event, rowData) => {
-                              navigate("/quiz/preview", { state: rowData });
+                              navigate("/student/quiz", { state: rowData });
                             },
                           }),
                         ]}
@@ -392,7 +392,7 @@ function ListOfQuiz() {
                             ),
                             tooltip: "View Result",
                             onClick: (event, rowData) => {
-                              navigate("/quiz/preview", { state: rowData });
+                              navigate("/student/quiz/preview", { state: rowData });
                             },
                           }),
                         ]}

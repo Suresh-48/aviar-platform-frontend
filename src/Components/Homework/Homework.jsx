@@ -347,7 +347,7 @@ function HomeWorkListTable() {
         (rowData?.scheduleLesson?.compareDate === currentDate &&
           rowData?.scheduleLesson?.lessonEndTime < currentTime)
       ) {
-        navigate("/homework", { state: rowData });
+        navigate("/student/student/homework", { state: rowData });
       }
     },
   }),
@@ -398,7 +398,7 @@ function HomeWorkListTable() {
     ),
     tooltip: "Preview",
     onClick: (event, rowData) => {
-      navigate("/homework/preview", { state: rowData });
+      navigate("/student/homework/preview", { state: rowData });
     },
   }),
 ]}
@@ -446,7 +446,7 @@ function HomeWorkListTable() {
     ),
     tooltip: "View Result",
     onClick: (event, rowData) => {
-      navigate("/homework/review/answers", { state: rowData });
+      navigate("/student/homework/review", { state: rowData });
     },
   }),
 ]}
