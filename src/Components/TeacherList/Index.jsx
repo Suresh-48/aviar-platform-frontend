@@ -175,8 +175,8 @@ const navigate = useNavigate();
       render: (rowData) => (
         <Link
               className="linkColor"
-              to="/admin/application/details"
-              state={{ teacherId: rowData.id }}
+              to={`/admin/application/details/${rowData.id}`}
+              // state={{ teacherId: rowData.id }}
         >
 
            View

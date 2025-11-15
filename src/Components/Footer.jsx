@@ -1,137 +1,223 @@
-import React from 'react'
-import { Button, Card, Form, InputGroup, Carousel, Container, Row, Col } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import aviar from "./Images/aviar.png";
-import { faYoutube, faFacebook, faTwitter, faInstagram, faMailchimp, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import {
-  faEnvelope,
-  faLocationDot,
-  faMailBulk,
-  faMailReply,
-  faPaperPlane,
-  faPhone,
-  faPhoneFlip,
-} from "@fortawesome/free-solid-svg-icons";
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+
 const Footer = () => {
+  const linkStyle = {
+    textDecoration: "none",
+    color: "#444",
+    fontSize: "15px",
+    transition: "0.2s",
+    display: "inline-block",
+    marginTop: "6px",
+  };
+
+  const hoverColor = (e, color) => {
+    e.target.style.color = color;
+  };
+
   return (
-    <div>
-            <div className="landing-page-footer-background">
-        <Container className="p-4">
-          <Row>
-            <Col className=" mb-3">
-              <div>
-                <img src={aviar} width="30%" height="30" className="d-inline-block align-top mt-3" alt="logo" />
-              </div>
-              <div
-                className="d-flex flex-direction-row mt-2"
-                onClick={() => {
-                  window.open("https://www.google.com/maps/place/AVIAR+Technology+Services/@12.2579188,79.0644428,687m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3bacc1d66f0545e3:0xa3c31606e7dae377!8m2!3d12.2579136!4d79.0670177!16s%2Fg%2F11mv4wd0_r?entry=ttu&g_ep=EgoyMDI1MDExNC4wIKXMDSoASAFQAw%3D%3D", "_blank");
+    <div
+      style={{
+        background: "#9eadffff",
+        paddingTop: "45px",
+        paddingBottom: "25px",
+        borderTop: "1px solid #e2e4f4",
+      }}
+    >
+      <Container className="p-4">
+        <Row>
+
+          {/* LOGO + ADDRESS */}
+          <Col className="mb-3" md={3} sm={6}>
+            <div>
+              <img
+                src={aviar}
+                width="45%"
+                style={{
+                  marginBottom: "15px",
+                  filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.2))",
+                }}
+                alt="logo"
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                marginBottom: "12px",
+              }}
+              onClick={() =>
+                window.open(
+                  "https://www.google.com/maps/place/AVIAR+Technology+Services/",
+                  "_blank"
+                )
+              }
+            >
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                style={{ marginRight: "8px", color: "#3f51b5" }}
+              />
+              <span style={{ fontSize: "15px", color: "#333" }}>
+                Tiruvannamalai, Tamilnadu
+              </span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                style={{ marginRight: "8px", color: "#3f51b5" }}
+              />
+              <a
+                href="mailto:aviartechservices.com"
+                style={{
+                  textDecoration: "none",
+                  color: "#3f51b5",
+                  fontSize: "15px",
                 }}
               >
-                <FontAwesomeIcon icon={faLocationDot} width={"20px"} className="mt-1 me-1 footer-map" color="#3f51b5" />
-                <text className="footer-font footer-map">Tiruvannamalai, </text>
-                <text className="footer-font footer-map">Tamilnadu</text>
-              </div>
-              <div className="d-flex flex-direction-row mt-2">
-                {/* <FontAwesomeIcon icon={faPhone} width={"20px"} className="mt-1 me-1" color="#3f51b5" /> */}
-                <b className="footer-font">
-                </b>
-              </div>
-              <div className="d-flex flex-direction-row mt-2">
-                <FontAwesomeIcon icon={faEnvelope} className="mt-1 me-1" color="#3f51b5" width={"20px"} />{" "}
-                <b className="footer-font">
-                  <a href="mailto:aviartechservices.com" className="footer-text-decoderation linkColor">
-                    avairtechservices.com
-                  </a>
-                </b>
-              </div>
-            </Col>
-            <Col className="mt-2">
-              <div>
-                <b>Explore</b>
-                <br />
-                <b>
-                  <a href="/login" className="footer-font-size">
-                    Courses
-                  </a>
-                </b>
-                <br />
-                <b>
-                  <a href="/trainers" className="footer-font-size">
-                    Trainers
-                  </a>
-                </b>
-                <br />
-                <b>
-                  <a href="/about-us" className="footer-font-size">
-                    About Us
-                  </a>
-                </b>
-                <br />
-                <b>
-                  <a href="/terms-of-use" className="footer-font-size">
-                    Terms of use
-                  </a>
-                </b>
-                <br />
-                <b>
-                  <a href="privacy-policy" className="footer-font-size">
-                    Privacy Policy
-                  </a>
-                </b>
-              </div>
-            </Col>
-            <Col className="mt-2">
-              <div>
-                <b>Account</b> <br />
-                <b>
-                  <a href="/login" className="footer-font-size">
-                    Login
-                  </a>
-                </b>
-              </div>
-            </Col>
-            <Col className="mt-4">
-              <div>
-                <b>Stay Connected</b> <br />
-                <div>
-                  <a href="#facebook" className="footer-font-size d-flex flex-direction-row">
-                    <FontAwesomeIcon className="me-2 mt-1" icon={faFacebook} />
-                    Facebook
-                  </a>
-                </div>
-                <div>
-                  <a href="#instagram" className="footer-font-size d-flex flex-direction-row">
-                    <FontAwesomeIcon className="me-2 mt-1" icon={faInstagram} />
-                    Instagram
-                  </a>
-                </div>
-                <div>
-                  <a href="#twitter" className="footer-font-size d-flex flex-direction-row">
-                    <FontAwesomeIcon className="me-1 mt-1" icon={faTwitter} />
-                    Twitter
-                  </a>
-                </div>
-              </div>
-            </Col>
-          </Row>
-          <hr className="my-2 mb-2" />
-          <div className="text-center copy-rights ">
-            &copy; {new Date().getFullYear()} Kharphi Team 
-            Designed by{" "}
-            <a
-              onClick={() => {
-                window.open("https://aviartechservices.com/");
-              }}
-              className="footer-text-decoderation"
-            >
-              Aviar Technology Services
-            </a>
-          </div>
-        </Container>
-      </div>
-    </div>
-  )
-}
+                aviartechservices.com
+              </a>
+            </div>
+          </Col>
 
-export default Footer
+          {/* EXPLORE */}
+          <Col md={3} sm={6} className="mt-2">
+            <b style={{ fontSize: "18px", color: "#25306f" }}>Explore</b>
+            <br />
+
+            <a
+              href="/login"
+              style={linkStyle}
+              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+              onMouseOut={(e) => hoverColor(e, "#444")}
+            >
+              Courses
+            </a><br />
+
+            <a
+              href="/trainers"
+              style={linkStyle}
+              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+              onMouseOut={(e) => hoverColor(e, "#444")}
+            >
+              Trainers
+            </a><br />
+
+            <a
+              href="/about-us"
+              style={linkStyle}
+              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+              onMouseOut={(e) => hoverColor(e, "#444")}
+            >
+              About Us
+            </a><br />
+
+            <a
+              href="/terms-of-use"
+              style={linkStyle}
+              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+              onMouseOut={(e) => hoverColor(e, "#444")}
+            >
+              Terms of Use
+            </a><br />
+
+            <a
+              href="/privacy-policy"
+              style={linkStyle}
+              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+              onMouseOut={(e) => hoverColor(e, "#444")}
+            >
+              Privacy Policy
+            </a>
+          </Col>
+
+          {/* ACCOUNT */}
+          <Col md={3} sm={6} className="mt-2">
+            <b style={{ fontSize: "18px", color: "#25306f" }}>Account</b>
+            <br />
+            <a
+              href="/login"
+              style={linkStyle}
+              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+              onMouseOut={(e) => hoverColor(e, "#444")}
+            >
+              Login
+            </a>
+          </Col>
+
+          {/* SOCIAL */}
+          <Col md={3} sm={6} className="mt-2">
+            <b style={{ fontSize: "18px", color: "#25306f" }}>Stay Connected</b>
+
+            <div style={{ marginTop: "10px", }}>
+              <a
+                href="#facebook"
+                style={{ ...linkStyle, display: "flex", alignItems: "center" }}
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                <FontAwesomeIcon icon={faFacebook} style={{ marginRight: "8px" }} />
+                Facebook
+              </a>
+
+              <a
+                href="#instagram"
+                style={{ ...linkStyle, display: "flex", alignItems: "center" }}
+                onMouseOver={(e) => hoverColor(e, "#E4405F")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                <FontAwesomeIcon icon={faInstagram} style={{ marginRight: "8px" }} />
+                Instagram
+              </a>
+
+              <a
+                href="#twitter"
+                style={{ ...linkStyle, display: "flex", alignItems: "center" }}
+                onMouseOver={(e) => hoverColor(e, "#1DA1F2")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                <FontAwesomeIcon icon={faTwitter} style={{ marginRight: "8px" }} />
+                Twitter
+              </a>
+            </div>
+          </Col>
+        </Row>
+
+        <hr style={{ marginTop: "25px", marginBottom: "15px" }} />
+
+        <div
+          style={{
+            textAlign: "center",
+            color: "#555",
+            fontSize: "14px",
+          }}
+        >
+          © {new Date().getFullYear()} Kharphi Team | Designed by{" "}
+          <span
+            style={{
+              color: "#3f51b5",
+              cursor: "pointer",
+              textDecoration: "none",
+            }}
+            onClick={() => window.open("https://aviartechservices.com/")}
+          >
+            Aviar Technology Services
+          </span>
+        </div>
+      </Container>
+    </div>
+  );
+};
+
+export default Footer;

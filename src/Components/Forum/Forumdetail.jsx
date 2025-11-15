@@ -7,7 +7,7 @@ import { convertFromRaw } from "react-quill";
 
 // import { stateToHTML } from "draft-js-export-html";
 
-// import Api from "../../Api";
+import Api from "../../Api";
 import Typography from '@mui/material/Typography';
 import "../../CSS/Forum.css";
 // import Loader from "../Core/Loader";
@@ -28,92 +28,92 @@ const ForumSelect = ({ history }) => {
 //     }, 2000);
 //   };
 
-//   const getLatestConversation = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get("api/v1/forum/latest", { headers: { userId: userId } })
-//       .then((response) => {
-//         const data = response?.data?.forumList;
-//         setLatestData(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getLatestConversation = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("api/v1/forum/latest", { headers: { userId: userId } })
+      .then((response) => {
+        const data = response?.data?.forumList;
+        setLatestData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   const getCategory = () => {
-    // const userId = localStorage.getItem("userId");
-    // const studentId = localStorage.getItem("studentId");
-//     Api.get("/api/v1/category/", { headers: { userId: userId } })
-//       .then((res) => {
-//         const data = res.data.data.data;
-//         setCategory(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getCategory = () => {
+    const userId = localStorage.getItem("userId");
+    const studentId = localStorage.getItem("studentId");
+    Api.get("/api/v1/category/", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res.data.data.data;
+        setCategory(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   const courseFilter = (categoryId) => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get("/api/v1/forum/filter", {
-//       params: {
-//         categoryId: categoryId,
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const data = response?.data?.getCourse;
-//         setCourseData(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const courseFilter = (categoryId) => {
+    const userId = localStorage.getItem("userId");
+    Api.get("/api/v1/forum/filter", {
+      params: {
+        categoryId: categoryId,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const data = response?.data?.getCourse;
+        setCourseData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   const convertFromJSONToHTML = (value) => {
-//     try {
-//       return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
-//     } catch (exp) {
-//       return { __html: "Error" };
-//     }
-//   };
+  const convertFromJSONToHTML = (value) => {
+    try {
+      return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
+    } catch (exp) {
+      return { __html: "Error" };
+    }
+  };
 
-//   useEffect(() => {
-//     getCategory();
-//     getLatestConversation();
-//     getAllCources();
-//   }, []);
+  useEffect(() => {
+    getCategory();
+    getLatestConversation();
+    getAllCources();
+  }, []);
 
-//   const getAllCources = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get("/api/v1/course/publish", { headers: { userId: userId } })
-//       .then((res) => {
-//         const data = res?.data?.data?.data;
-//         setCourseData(data);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getAllCources = () => {
+    const userId = localStorage.getItem("userId");
+    Api.get("/api/v1/course/publish", { headers: { userId: userId } })
+      .then((res) => {
+        const data = res?.data?.data?.data;
+        setCourseData(data);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   return (
     <div>
@@ -127,18 +127,18 @@ const ForumSelect = ({ history }) => {
                   placeholder="Select Category"
                   name="category"
                   value={categoryName}
-                //   options={[
-                //     {
-                //       options: category?.map((list) => ({
-                //         value: list?.id,
-                //         label: list?.name,
-                //       })),
-                //     },
-                //   ]}
-                //   onChange={(e) => {
-                //     setCategoryName(e);
-                //     courseFilter(e.value);
-                //   }}
+                  // options={[
+                  //   {
+                  //     options: category?.map((list) => ({
+                  //       value: list?.id,
+                  //       label: list?.name,
+                  //     })),
+                  //   },
+                  // ]}
+                  // onChange={(e) => {
+                  //   setCategoryName(e);
+                  //   courseFilter(e.value);
+                  // }}
                   style={{ backgroundColor: "white" }}
                 />
               </Form.Group>
@@ -172,12 +172,12 @@ const ForumSelect = ({ history }) => {
                         <Col xs={9} sm={9} lg={9} md={9}>
                           <div className="mx-2">
                             <b>{course?.name}</b>
-                            {/* <Typography
+                            <Typography
                               dangerouslySetInnerHTML={convertFromJSONToHTML(
                                 course?.description
                               )}
                               className="forum-text"
-                            ></Typography> */}
+                            ></Typography>
                           </div>
                         </Col>
                       </div>

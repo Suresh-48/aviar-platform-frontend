@@ -38,7 +38,7 @@ const Allsidebar = ({ open, setOpen }) => {
   const user = localStorage.getItem('user');
   // const [status, setStatus] = useState("");
   const parsed = JSON.parse(user);
-  console.log(parsed, "parseduser")
+  // console.log(parsed, "parseduser")
 
   const userStatus = parsed.teacherStatus;
 

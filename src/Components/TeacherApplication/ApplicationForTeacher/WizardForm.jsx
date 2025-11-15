@@ -55,6 +55,7 @@ const Form = () => {
 
   useEffect(() => {
     const teacherId = localStorage.getItem("teacherId");
+    console.log(teacherId,"teacherId")
     Api.get(`api/v1/teacherApplication/${teacherId}`, {
       headers: { userId: userId },
     })
@@ -64,7 +65,7 @@ const Form = () => {
       .catch((error) => {
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
-          logout();
+          // logout();
           toast.error("Session Timeout");
         }
       });
@@ -105,7 +106,7 @@ const Form = () => {
             .catch((error) => {
               const errorStatus = error?.response?.status;
               if (errorStatus === 401) {
-                logout();
+                // logout();
                 toast.error("Session Timeout");
               }
             });
@@ -117,7 +118,7 @@ const Form = () => {
         }
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
-          logout();
+          // logout();
           toast.error("Session Timeout");
         }
       });

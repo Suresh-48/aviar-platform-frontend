@@ -20,6 +20,7 @@ import "../../CSS/UpcomingSchedule.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
+import Api from "../../Api";
 
 const tableTheme = createTheme({
   overrides: {
@@ -97,83 +98,86 @@ function TeacherQuizReview(props) {
     },
   ];
 
-//   useEffect(() => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     setTeacherId(teacherId);
-//     getPendingReviewList(teacherId);
-//     getCompletedReviewList(teacherId);
-//   }, []);
+  useEffect(() => {
+    const teacherId = localStorage.getItem("teacherId");
+    setTeacherId(teacherId);
+    getPendingReviewList(teacherId);
+    getCompletedReviewList(teacherId);
+  }, []);
 
 //   // Get pending Review list
-//   const getPendingReviewList = (teacher) => {
-//     Api.get("api/v1/quizSchedule/review/pending", {
-//       params: {
-//         teacherId: teacher,
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const dataValues = response.data.pendingReviewList;
-//         dataValues.sort(function compare(a, b) {
-//           var dateA = new Date(a.lessonDate);
-//           var dateB = new Date(b.lessonDate);
-//           return dateA - dateB;
-//         });
-//         setData(dataValues);
-//         setisLoading(false);
-//       })
-//       .catch((error) => {
-//         if (error.response && error.response.status >= 400) {
-//           let errorMessage;
-//           const errorRequest = error.response.request;
-//           if (errorRequest && errorRequest.response) {
-//             errorMessage = JSON.parse(errorRequest.response).message;
-//           }
-//           toast.error(error.response.data.message);
-//         }
+  const getPendingReviewList = (teacher) => {
+    Api.get("api/v1/quizSchedule/review/pending", {
+      params: {
+        teacherId: teacher,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const dataValues = response.data.pendingReviewList;
+        console.log(dataValues,"dataValues pending api")
+        dataValues.sort(function compare(a, b) {
+          var dateA = new Date(a.lessonDate);
+          var dateB = new Date(b.lessonDate);
+          return dateA - dateB;
+        });
+        setData(dataValues);
+        setisLoading(false);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+        }
 
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   // Get completed Review list
-//   const getCompletedReviewList = (teacher) => {
-//     Api.get("api/v1/quizSchedule/review/completed", {
-//       params: {
-//         teacherId: teacher,
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const dataValues = response.data.completedReviewList;
-//         dataValues.sort(function compare(a, b) {
-//           var dateA = new Date(a.lessonDate);
-//           var dateB = new Date(b.lessonDate);
-//           return dateA - dateB;
-//         });
-//         setcompeleteData(dataValues);
-//         setisLoading(false);
-//       })
-//       .catch((error) => {
-//         if (error.response && error.response.status >= 400) {
-//           let errorMessage;
-//           const errorRequest = error.response.request;
-//           if (errorRequest && errorRequest.response) {
-//             errorMessage = JSON.parse(errorRequest.response).message;
-//           }
-//           toast.error(error.response.data.message);
-//         }
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getCompletedReviewList = (teacher) => {
+    Api.get("api/v1/quizSchedule/review/completed", {
+      params: {
+        teacherId: teacher,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const dataValues = response.data.completedReviewList;
+
+        console.log(dataValues,"dataValues completed api")
+        dataValues.sort(function compare(a, b) {
+          var dateA = new Date(a.lessonDate);
+          var dateB = new Date(b.lessonDate);
+          return dateA - dateB;
+        });
+        setcompeleteData(dataValues);
+        setisLoading(false);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+        }
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
   return (
     <div>
       <Container>

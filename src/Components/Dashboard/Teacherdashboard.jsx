@@ -130,43 +130,71 @@ function TeacherDashboard() {
 
   if (isLoading) return <Loading />;
 
-  console.log(status,"status")
+  console.log(status, "status")
 
   if (status === "Pending") return <DisplayTeacherApplication />;
 
   return (
     <Container className="mt-4">
       {/* Dashboard Stats */}
+      <Row className="gy-4 mt-2">
+        <Col md={4}>
+          <Card className="dashboard-card shadow-sm border-0 p-3">
+            <div className="d-flex align-items-center justify-content-between">
+              <div>
+                <Card.Title className="mb-1 fw-bold text-secondary">Total Courses</Card.Title>
+                <h3 className="fw-bold text-dark">{data?.totalCourse || 0}</h3>
+                <Link to={`/teacher/schedule/${teacherId}`} className="small-link">
+                  View Details →
+                </Link>
+              </div>
 
-      <Row className="gap-3">
-        <Col md={3}>
-          <Card className="text-center shadow-sm p-3">
-            <Card.Title>Courses</Card.Title>
-            <Card.Text>{data?.totalCourse || 0}</Card.Text>
-            <Link to={`/teacher/schedule/${teacherId}`}>View</Link>
+              <div className="dashboard-icon bg-primary text-white">
+                <i className="bi bi-journal-bookmark"></i>
+              </div>
+            </div>
           </Card>
         </Col>
 
-        <Col md={3}>
-          <Card className="text-center shadow-sm p-3">
-            <Card.Title>Pending Payment</Card.Title>
-            <Card.Text>{data?.pendingPayment || 0}</Card.Text>
-            <Link to="#">View</Link>
+        <Col md={4}>
+          <Card className="dashboard-card shadow-sm border-0 p-3">
+            <div className="d-flex align-items-center justify-content-between">
+              <div>
+                <Card.Title className="mb-1 fw-bold text-secondary">Pending Payment</Card.Title>
+                <h3 className="fw-bold text-warning">{data?.pendingPayment || 0}</h3>
+                <Link to="#" className="small-link">
+                  View Payments →
+                </Link>
+              </div>
+
+              <div className="dashboard-icon bg-warning text-white">
+                <i className="bi bi-clock-history"></i>
+              </div>
+            </div>
           </Card>
         </Col>
 
-        <Col md={3}>
-          <Card className="text-center shadow-sm p-3">
-            <Card.Title>Received Payment</Card.Title>
-            <Card.Text>{data?.receivedPayment || 0}</Card.Text>
-            <Link to="#">View</Link>
+        <Col md={4}>
+          <Card className="dashboard-card shadow-sm border-0 p-3">
+            <div className="d-flex align-items-center justify-content-between">
+              <div>
+                <Card.Title className="mb-1 fw-bold text-secondary">Received Payment</Card.Title>
+                <h3 className="fw-bold text-success">{data?.receivedPayment || 0}</h3>
+                <Link to="#" className="small-link">
+                  View Details →
+                </Link>
+              </div>
+
+              <div className="dashboard-icon bg-success text-white">
+                <i className="bi bi-wallet2"></i>
+              </div>
+            </div>
           </Card>
         </Col>
       </Row>
 
-
       {/* Upcoming Schedule */}
-      <Row style={{ minHeight: "227px", marginTop:150 }}>
+      <Row style={{ minHeight: "227px", marginTop: 150 }}>
         <div>
           <h4>Upcoming Schedule</h4>
         </div>

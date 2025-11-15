@@ -11,9 +11,15 @@ import Loader from "../core/Loader";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import Api from "../../Api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DisplayTeacherApplication = (props) => {
+
+  const { id } = useParams();
+  console.log("TeacherParam Id : ", id)
+  const TeacherParamId = id;
+  const role = localStorage.getItem("role")
+
 
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
@@ -22,6 +28,7 @@ const DisplayTeacherApplication = (props) => {
   const [education, setEducation] = useState([]);
   const [experience, setExperience] = useState([]);
   const [profile, setProfile] = useState([]);
+  const [data, setData] = useState([]);
   const [status, setStatus] = useState("");
   //   const history = useHistory();
 
@@ -37,40 +44,88 @@ const DisplayTeacherApplication = (props) => {
     const teacherId = localStorage.getItem("teacherId");
     const userId = localStorage.getItem("userId");
 
-    Api.get(`api/v1/teacherApplication/${teacherId}`, {
-      headers: { userId: userId },
-    })
-      .then((response) => {
-        const data = response?.data?.getTeacherApplication;
-        setStatus(data?.status);
-        if (data === null) {
-          setisLoading(false);
-          // logout();
-          // history.push("/teacher/application/form");
-          // navigate("menu");
-          navigate("/teacher/menu");
+    console.log("teacherId", teacherId)
 
-        } else {
-          const firstName = data.teacherId.firstName;
-          const lastName = data.teacherId.lastName;
-          const educationData = data.education;
-          const experienceData = data.experience;
-          const profileData = data.profile;
-          setEducation(educationData);
-          setExperience(experienceData);
-          setProfile(profileData);
-          setFirstName(firstName);
-          setLastName(lastName);
-          setisLoading(false);
-        }
+
+    if (teacherId) {
+      Api.get(`api/v1/teacherApplication/${teacherId}`, {
+        headers: { userId: userId },
       })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
-      });
+        .then((response) => {
+          const data = response?.data?.getTeacherApplication;
+          setStatus(data?.status);
+          if (data === null) {
+            setisLoading(false);
+            // logout();
+            // history.push("/teacher/application/form");
+            // navigate("menu");
+            navigate("/teacher/menu");
+
+          } else {
+            const firstName = data.teacherId.firstName;
+            const lastName = data.teacherId.lastName;
+            const educationData = data.education;
+            const experienceData = data.experience;
+            const profileData = data.profile;
+            setEducation(educationData);
+            setExperience(experienceData);
+            setProfile(profileData);
+            setFirstName(firstName);
+            setLastName(lastName);
+            setData(data)
+            setisLoading(false);
+          }
+        })
+        .catch((error) => {
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            logout();
+            toast.error("Session Timeout");
+          }
+        });
+    }
+
+     if (TeacherParamId) {
+      Api.get(`api/v1/teacherApplication/${TeacherParamId}`, {
+        headers: { userId: userId },
+      })
+        .then((response) => {
+          const data = response?.data?.getTeacherApplication;
+          setStatus(data?.status);
+          if (data === null) {
+            setisLoading(false);
+            // logout();
+            // history.push("/teacher/application/form");
+            // navigate("menu");
+            navigate("/teacher/menu");
+
+          } else {
+            const firstName = data.teacherId.firstName;
+            const lastName = data.teacherId.lastName;
+            const educationData = data.education;
+            const experienceData = data.experience;
+            const profileData = data.profile;
+            setEducation(educationData);
+            setExperience(experienceData);
+            setProfile(profileData);
+            setFirstName(firstName);
+            setLastName(lastName);
+            setisLoading(false);
+            console.log(data)
+            setData(data)
+          }
+        })
+        .catch((error) => {
+          const errorStatus = error?.response?.status;
+          if (errorStatus === 401) {
+            logout();
+            toast.error("Session Timeout");
+          }
+        });
+    }
+
+
+
   }, []);
 
   return (
@@ -80,7 +135,7 @@ const DisplayTeacherApplication = (props) => {
       {/* ) : ( */}
       <div>
 
-        {console.log("status... :",status)}
+        {console.log("status... :", status)}
 
         {status === "Rejected" ? (
           <Row>
@@ -90,7 +145,7 @@ const DisplayTeacherApplication = (props) => {
               </p>
             </Col>
           </Row>
-        ) : status === "Pending" || status === "Review"? (
+        ) : status === "Pending" || status === "Review" ? (
           <Row>
             <Col xs={12} style={{ fontSize: 20, color: "#CD5C5C" }}>
               <p className="d-flex justify-content-center mt-1">
@@ -99,7 +154,9 @@ const DisplayTeacherApplication = (props) => {
               </p>
             </Col>
           </Row>
-        ) : <><h5>Welcome {firstName} {lastName} 🎉</h5></>}
+        ) : <>
+              {role != "Admin" || "admin" && <h5>Welcome {firstName} {lastName} 🎉</h5>}
+          </>}
 
         <hr />
 
@@ -126,7 +183,7 @@ const DisplayTeacherApplication = (props) => {
                       <ListItem>
                         <ListItemText
                           secondary={
-                            index.institutionName ? index.institutionName : "-"
+                            index.institution ? index.institution : "-"
                           }
                         ></ListItemText>
                       </ListItem>
@@ -137,7 +194,7 @@ const DisplayTeacherApplication = (props) => {
                       </ListItem>
                       <ListItem>
                         <ListItemText
-                          secondary={index.degree ? index.degree : "-"}
+                          secondary={index.subject ? index.subject : "-"}
                         ></ListItemText>
                       </ListItem>
                     </Col>
@@ -237,8 +294,8 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.workInstitutionName
-                                ? index.workInstitutionName
+                              index.workInstitution
+                                ? index.workInstitution
                                 : "-"
                             }
                           ></ListItemText>
@@ -300,7 +357,7 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.roleStartDate
+                              index.startDate
                                 ? moment(index.startDate).format(
                                   "MMM DD YYYY"
                                 )
@@ -316,7 +373,7 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.roleEndDate
+                              index.endDate
                                 ? moment(index.endDate).format("MMM DD YYYY")
                                 : "-"
                             }
@@ -384,7 +441,7 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.institutionAddressLine1 ? index.institutionAddressLine1 : "-"
+                              index.workAddress1 ? index.workAddress1 : "-"
                             }
                           ></ListItemText>
                         </ListItem>
@@ -399,7 +456,7 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.institutionAddressLine2 ? index.institutionAddressLine2 : "-"
+                              index.workAddress2 ? index.workAddress2 : "-"
                             }
                           ></ListItemText>
                         </ListItem>
@@ -411,7 +468,7 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.state ? index.state : "-"
+                              index.workState ? index.workState : "-"
                             }
                           ></ListItemText>
                         </ListItem>
@@ -427,7 +484,7 @@ const DisplayTeacherApplication = (props) => {
                         </ListItem>
                         <ListItem>
                           <ListItemText
-                            secondary={index.city ? index.city : "-"}
+                            secondary={index.workCity ? index.workCity : "-"}
                           ></ListItemText>
                         </ListItem>
                       </Col>
@@ -438,9 +495,9 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              typeof index.country === "object"
-                                ? index.country.value || "-"
-                                : index.country || "-"
+                              typeof index.workCountry === "object"
+                                ? index.workCountry.value || "-"
+                                : index.workCountry || "-"
                             }
                           ></ListItemText>
                         </ListItem>
@@ -452,7 +509,7 @@ const DisplayTeacherApplication = (props) => {
                         <ListItem>
                           <ListItemText
                             secondary={
-                              index.zipCode ? index.zipCode : "-"
+                              index.workZipCode ? index.workZipCode : "-"
                             }
                           ></ListItemText>
                         </ListItem>

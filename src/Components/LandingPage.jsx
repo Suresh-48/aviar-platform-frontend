@@ -29,8 +29,8 @@ import layer4 from "./Images/Layer4.png";
 import Item from "./Item";
 import ItemOne from "./ItemOne";
 import ItemTwo from "./ItemTwo";
-// import backImg1 from "./Images/backImg1.png";
-// import backImg2 from "./Images/backImg2.png";
+import backImg1 from "./Images/backImg1.png";
+import backImg2 from "./Images/backImg2.png";
 import backImg3 from "./Images/backImg3.png";
 import backImg4 from "./Images/backImg4.png";
 import laptopImg from "./Images/laptopImg.png";
@@ -54,6 +54,7 @@ import {
   faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./Footer";
+import Api from "../Api";
 
 function LandingPage(props) {
 
@@ -83,50 +84,50 @@ function LandingPage(props) {
     </div>
   );
   
-  // const scrollLeft = () => {
-  //   cardRowRef.current.scrollBy({ left: -220, behavior: 'smooth' });
-  // };
-  // const scrollRight = () => {
-  //   cardRowRef.current.scrollBy({ left: 220, behavior: 'smooth' });
-  // };
-  //get publish course data
-  // const getPublishCourse = () => {
-  //   Api.get("api/v1/course/publish").then((res) => {
-  //     const data = res?.data?.data?.data;
-  //     setAllCourseList(data);
-  //   });
-  // };
-  // const getAllCourse = () => {
-  //   Api.get("api/v1/course/").then((res) => {
-  //     const allCourse = res?.data?.data?.data;
-  //     // setAllCourseList(allCourse);
-  //   });
-  // };
-  // const getCategory = () => {
-  //   Api.get("api/v1/category/").then((res) => {
-  //     const categoryDetails = res?.data?.data?.data;
-  //     setCategoryDetails(categoryDetails);
-  //   });
-  // };
-  // const getTeacherList = () => {
-  //   Api.get("api/v1/teacher/publish/list").then((res) => {
-  //     const data = res?.data?.data;
-  //     setTeacher(data);
-  //   });
-  // };
-  // const convertFromJSONToHTML = (value) => {
-  //   try {
-  //     return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
-  //   } catch (exp) {
-  //     return { __html: "Error" };
-  //   }
-  // };
+  const scrollLeft = () => {
+    cardRowRef.current.scrollBy({ left: -220, behavior: 'smooth' });
+  };
+  const scrollRight = () => {
+    cardRowRef.current.scrollBy({ left: 220, behavior: 'smooth' });
+  };
+  // get publish course data
+  const getPublishCourse = () => {
+    Api.get("api/v1/course/publish").then((res) => {
+      const data = res?.data?.data?.data;
+      setAllCourseList(data);
+    });
+  };
+  const getAllCourse = () => {
+    Api.get("api/v1/course/").then((res) => {
+      const allCourse = res?.data?.data?.data;
+      // setAllCourseList(allCourse);
+    });
+  };
+  const getCategory = () => {
+    Api.get("api/v1/category/").then((res) => {
+      const categoryDetails = res?.data?.data?.data;
+      setCategoryDetails(categoryDetails);
+    });
+  };
+  const getTeacherList = () => {
+    Api.get("api/v1/teacher/publish/list").then((res) => {
+      const data = res?.data?.data;
+      setTeacher(data);
+    });
+  };
+  const convertFromJSONToHTML = (value) => {
+    try {
+      return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
+    } catch (exp) {
+      return { __html: "Error" };
+    }
+  };
   const role = localStorage.getItem("role");
   useEffect(() => {
-    // getAllCourse();
-    // getCategory();
-    // getTeacherList();
-    // getPublishCourse();
+    getAllCourse();
+    getCategory();
+    getTeacherList();
+    getPublishCourse();
     localStorage.clear();
   }, []);
   
@@ -244,7 +245,7 @@ function LandingPage(props) {
       </div>
       <div >
       <div>
-      // className="upcomings-div-main"
+      {/* // className="upcomings-div-main" */}
       
        <div className="profile-div-main">
         <div className="profile-div-sub">
