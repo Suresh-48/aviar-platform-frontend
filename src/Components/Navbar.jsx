@@ -22,7 +22,7 @@ const Navbar = () => {
         }, [role, navigate]);
   return (
     
-    <div>
+        <div>
             <div className="curve-shape-main-div">
                 <div className="curve-shape-main-div-sec-value ">
                   <img src={curveImg} alt="" className="curve-shape-main-image" />

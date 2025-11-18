@@ -607,7 +607,7 @@ const CourseDetail = () => {
                     <div>
                       <h4>Course Lessons</h4>
                     </div>
-                    <div className="mb-3">
+                    {role === "student" &&     <div className="mb-3">
                       <Button
                         variant="contained"
                         disabled={!showMultiplePay}
@@ -619,7 +619,8 @@ const CourseDetail = () => {
                       >
                         Pay Now ${lessonPayment || 0}
                       </Button>
-                    </div>
+                    </div>}
+                
                   </div>
                   
                   <div className="material-table-responsive mb-3">
@@ -842,7 +843,7 @@ const ScheduleCard = ({ schedule, role, token, studentId, courseCheckout, curren
         {hasTeacher ? (
           token ? (
             <div>
-              {role === "admin" || role === "teacher" ? (
+              {role === "student" || role === "teacher" ? (
                 <span className="enroll-link-disable text-muted">
                   Enroll
                 </span>
@@ -852,7 +853,7 @@ const ScheduleCard = ({ schedule, role, token, studentId, courseCheckout, curren
                 </span>
               ) : currentDate > schedule.startDate ? (
                 <span className="enroll-link-disable text-muted">
-                  Enrollment Closed
+                  {/* Enrollment Closed */}
                 </span>
               ) : (
                 <Link
