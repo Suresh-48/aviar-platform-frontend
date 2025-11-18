@@ -239,7 +239,7 @@ function CourseSchedule() {
                     onClick: () => {
                       navigate("/admin/course/schedule/add", {
                         state: {
-                          courseId: courseId,
+                           courseID: courseID, 
                           courseName: courseDetail?.name,
                         },
                       });
