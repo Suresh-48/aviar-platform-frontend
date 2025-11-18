@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col } from "react-bootstrap";
-import { useNavigate, useLocation } from "react-router-dom";
-
+import React, { useEffect, useState } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { useNavigate, useLocation } from 'react-router-dom';
 // Style
 import "../../css/QuizIntegration.css";
-
 // Component
-import TextBox from "./TextBox";
-import RadioButton from "./RadioButton";
-import FileUpload from "./FileUpload";
-import CheckBox from "./CheckBox";
-import QuestionsList from "./QuestionsList";
-import QuizImage from "./quizImage.png";
-import CourseSideMenu from "../CourseSideMenu";
-import Loader from "../core/Loader";
-
+import TextBox from './TextBox';
+import CheckBox from './CheckBox';
+import RadioButton from './RadioButton';
+import FileUpload from './FileUpload';
+import QuestionsList from './QuestionsList';
+import HomeWorkImage from './HomeWorkImage.png';
+import CourseSideMenu from '../CourseSideMenu';
+import Loader from '../core/Loader';
 // Api
-import Api from "../../Api";
-import { toast } from "react-toastify";
+import Api from '../../Api';
+import { toast } from 'react-toastify';
 
-const QuizIntegration = () => {
+const HomeWorkIntegration = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  const [courseId, setCourseId] = useState(location.state?.courseId);
-  const [lessonId, setLessonId] = useState(location.state?.lessonId);
+  const [courseId] = useState(location.state?.courseId);
+  const [lessonId] = useState(location.state?.lessonId);
   const [textBox, setTextBox] = useState(false);
   const [radioButton, setRadioButton] = useState(false);
-  const [checkBox, setCheckBox] = useState(false);
   const [fileUpload, setFileUpload] = useState(false);
+  const [checkBox, setCheckBox] = useState(false);
   const [questionList, setQuestionList] = useState(false);
   const [questionListLength, setQuestionListLength] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +33,7 @@ const QuizIntegration = () => {
 
   useEffect(() => {
     if (lessonId) {
-      questionLists();
+      questionListDetails();
       lessonDetails();
     } else {
       setIsLoading(false);
@@ -46,21 +43,21 @@ const QuizIntegration = () => {
   const logout = () => {
     setTimeout(() => {
       localStorage.clear();
-      navigate("/kharpi");
+      // navigate('/kharpi');
       window.location.reload();
     }, 2000);
   };
 
-  const questionLists = () => {
-    const userId = localStorage.getItem("userId");
-    Api.get("api/v1/lessonQuiz/list", {
+  const questionListDetails = () => {
+    const userId = localStorage.getItem('userId');
+    Api.get('api/v1/lessonHomework/list', {
       params: {
         courseLessonId: lessonId,
         userId: userId,
       },
     })
       .then((res) => {
-        const data = res.data.quizData;
+        const data = res.data.homeworkData;
         const questionListLength = data.length;
         setQuestionListLength(questionListLength);
         setIsLoading(false);
@@ -69,14 +66,14 @@ const QuizIntegration = () => {
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
           logout();
-          toast.error("Session Timeout");
+          toast.error('Session Timeout');
         }
         setIsLoading(false);
       });
   };
 
   const lessonDetails = () => {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
     Api.get(`api/v1/courseLesson/get/one/${lessonId}`, { headers: { userId: userId } })
       .then((res) => {
         const lessonData = res.data.lessonList;
@@ -86,7 +83,7 @@ const QuizIntegration = () => {
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
           logout();
-          toast.error("Session Timeout");
+          toast.error('Session Timeout');
         }
       });
   };
@@ -128,11 +125,10 @@ const QuizIntegration = () => {
               </Col>
             </Row>
             <Row className="pb-2 d-flex justify-content-center align-items-center">
-             
-              <Col xs={12} sm={12} md={12} lg={6} className="mt-1">
+              <Col xs={12} sm={12} md={12} lg={6} className="mt-4">
                <div className="d-flex align-items-center mb-2">
-                <img src={QuizImage} alt="Snow" width={"18%"} height={80} />
-                <h6 style={{ color: "#1c1364" }}>Create Questions For Quiz</h6>
+                <img src={HomeWorkImage} alt="Snow" width={'18%'} height={60} />
+                <h6  className="mb-0 ms-3" style={{ color: '#1C1364' }}>Create Questions For Home Work</h6>
                 </div>
               </Col>
               <Col xs={12} sm={12} md={12} lg={6}></Col>
@@ -154,7 +150,7 @@ const QuizIntegration = () => {
               </Col>
               <Col xs={12} sm={12} md={2} className="question-type">
                 <p
-                  className="px-4 textbox-style"
+                  className="px-4 textbox-style text-center"
                   onClick={() => {
                     setCheckBox(false);
                     setTextBox(false);
@@ -168,7 +164,7 @@ const QuizIntegration = () => {
               </Col>
               <Col xs={12} sm={12} md={2} className="question-type">
                 <p
-                  className="px-4 textbox-style"
+                  className="px-4 textbox-style text-center"
                   onClick={() => {
                     setRadioButton(false);
                     setTextBox(false);
@@ -182,7 +178,7 @@ const QuizIntegration = () => {
               </Col>
               <Col xs={12} sm={12} md={2} className="question-type">
                 <p
-                  className="px-4 textbox-style"
+                  className="px-4 textbox-style text-center"
                   onClick={() => {
                     setCheckBox(false);
                     setTextBox(false);
@@ -194,9 +190,9 @@ const QuizIntegration = () => {
                   File Upload
                 </p>
               </Col>
-              <Col xs={12} sm={12} md={4} className="question-list">
+              <Col xs={12} sm={12} md={4} className="question-type">
                 <p
-                  className="px-4 textbox-style"
+                  className="px-4 textbox-style text-center"
                   onClick={() => {
                     setCheckBox(false);
                     setTextBox(false);
@@ -258,4 +254,4 @@ const QuizIntegration = () => {
   );
 };
 
-export default QuizIntegration;
+export default HomeWorkIntegration;

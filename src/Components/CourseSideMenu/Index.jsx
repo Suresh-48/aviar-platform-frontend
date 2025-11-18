@@ -59,7 +59,7 @@ const CourseSideMenu = (props) => {
           </Col>
           <Col xs={12} sm={4} className="px-0">
             <NavLink
-              to="/admin/homework/create"
+              to={`/admin/homework/create/${lessonId}`}
               state={{
                 lessonId: lessonId,
                 courseID: courseID,

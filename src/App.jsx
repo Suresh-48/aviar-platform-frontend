@@ -11,6 +11,7 @@ import ChatBotConversation from "./Components/ChatBotConversation/ChatBotConvers
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
+import EditCourseSchedule from "./Components/CourseSchedule/EditCourseSchedule.jsx";
 import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 import QuizIntegration from "./Components/QuizIntegration/QuizIntegration.jsx";
 import ResetPassword from "./Components/ResetPassword/Password.jsx";
@@ -19,6 +20,7 @@ import Studentsignup from './Components/studentsignup.jsx';
 import Teachersignup from './Components/Teachersignup.jsx';
 import Course from "./Components/Course.jsx";
 import Trainers from "./Components/Trainers.jsx";
+import EditQuizIntegration from "./Components/EditQuizIntegration/index.jsx"
 import CourseDetail from "./Components/Course/CourseDetail.jsx";
 import CourseCategory from './Components/CourseCategory/Index.jsx';
 import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
@@ -69,7 +71,8 @@ import EditTeacher from "./Components/EditTeacher/Index.jsx";
 import TeacherResetPassword from "./Components/TeacherResetPassword/Index.jsx"
 import CalendarView from "./Components/CalendarView/Index.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-
+import HomeWorkIntegration from "./Components/HomeWorkIntegration/index.jsx";
+import EditHomeWorkIntegration from "./Components/EditHomeWorkIntegration"
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
@@ -86,7 +89,7 @@ const App = () => {
 
       <BrowserRouter>
         <Routes>
-          {/* 🌍 Public Routes */}
+
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
@@ -143,20 +146,24 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
+            <Route path ="homework/create/:id" element={<HomeWorkIntegration/>}/>
+            <Route path="homework/edit/:id" element={<EditHomeWorkIntegration/>}/>
             <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
             <Route path="upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList/>}/>
             <Route path="course/edit/:courseID" element={<EditCourses/>}/>
             <Route path="quiz/create/:id" element={<QuizIntegration/>}/> 
+            <Route path ="quiz/edit/:id" element={<EditQuizIntegration/>}/>
             <Route path="course/lesson/:courseID" element={<CourseLesson/>}/>
             <Route path="course/schedule/:courseID" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
+            <Route path="course/schedule/update" element={<EditCourseSchedule/>}/>
             <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
             <Route path="students/list" element={<StudentList />} /> 
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            <Route path="course/detail/:id" element={<CourseDetail/>}/>
+           <Route path="course/detail/:courseID" element={<CourseDetail />} />
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>
