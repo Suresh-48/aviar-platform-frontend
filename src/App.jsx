@@ -11,6 +11,7 @@ import ChatBotConversation from "./Components/ChatBotConversation/ChatBotConvers
 import AdminLogin from './Components/AdminLogin.jsx';
 import Admindashboard from './Components/Dashboard/Admindashboard.jsx';
 import Login from './Components/Login.jsx';
+import EditCourseSchedule from "./Components/CourseSchedule/EditCourseSchedule.jsx";
 import CoursesCreation from "./Components/Course/CourseCreation.jsx";
 import QuizIntegration from "./Components/QuizIntegration/QuizIntegration.jsx";
 import ResetPassword from "./Components/ResetPassword/Password.jsx";
@@ -156,12 +157,13 @@ const App = () => {
             <Route path="course/lesson/:courseID" element={<CourseLesson/>}/>
             <Route path="course/schedule/:courseID" element={<CourseSchedule/>}/>
             <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
+            <Route path="course/schedule/update" element={<EditCourseSchedule/>}/>
             <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
             <Route path="students/list" element={<StudentList />} /> 
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-            <Route path="course/detail/:id" element={<CourseDetail/>}/>
+           <Route path="course/detail/:courseID" element={<CourseDetail />} />
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>

@@ -1,29 +1,19 @@
 import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
-import { Container, Modal, FormControl, Button, Form } from "react-bootstrap";
+import { Container, Modal, FormControl, Button } from "react-bootstrap";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen, faX } from "@fortawesome/free-solid-svg-icons";
-// Material Table Icons
 import AddBox from "@mui/icons-material/AddBox";
-import Edit from "@mui/icons-material/Edit";
 import Label from "../Core/Label";
-
-// Material Table Styles
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
-
-// Component
 import Loader from "../core/Loader";
 import CourseSideMenu from "../CourseSideMenu";
 import tableIcons from "../Core/TableIcons";
 
 function CourseLesson() {
-  const { id } = useParams();
   const { courseID } = useParams();
-  console.log("courseID...2w...",courseID)
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -33,7 +23,6 @@ function CourseLesson() {
   const [editLessonName, setEditLessonName] = useState("");
   const [courseDetail, setCourseDetail] = useState({});
   
-  // FIX: Get courseId from URL params first, then from location state
   const [courseId, setCourseId] = useState(courseID || location.state?.courseId);
   const [isLoading, setIsLoading] = useState(true);
   const [editActualAmount, setEditActualAmount] = useState("");
@@ -52,15 +41,12 @@ function CourseLesson() {
     setDeleteLessons(false);
   }
 
-  // Column Heading
-
-
   const columns = [
-{
-  title: "S.No",
-  width: "5%",
-  field: "tableIndex",
-},
+    {
+      title: "S.No",
+      field:"sNo",
+      width: "5%",
+    },
     {
       title: "Lesson Name",
       field: "lessonName",
@@ -101,7 +87,6 @@ function CourseLesson() {
     },
   ];
 
-  // Fetch Course Lesson List - FIXED
   const getCourseLessonDetail = () => {
     if (!courseId) {
       console.error("No courseId available for fetching lessons");
@@ -109,36 +94,33 @@ function CourseLesson() {
       return;
     }
 
-  Api.get("api/v1/courseLesson/lessonlist", { 
-  params: { 
-    courseId: courseId, // Use the correct courseId
-    userId: userId 
-  } 
-})
-  .then((response) => {
+    Api.get("api/v1/courseLesson/lessonlist", { 
+      params: { 
+        courseId: courseId,
+        userId: userId 
+      } 
+    })
+    .then((response) => {
     console.log("Lesson list response:", response.data.lessonList);
-    const lessonList = response.data.lessonList;
+    const lessonList = response.data.lessonList || [];
     
-    // First sort the lessons by lessonNumber
-    const sortedLessons = lessonList.sort((a, b) => (a.lessonNumber > b.lessonNumber ? 1 : -1));
+
+    const sortedLessons = lessonList.sort((a, b) => (a.lessonNumber > b.lessonNumber ? 1 : -1))
+        .map((lesson, index) => ({
+            ...lesson,
+            sNo: index + 1  
+        }));
     
-    // Then add tableIndex after sorting
-    const lessonsWithIndex = sortedLessons.map((lesson, index) => ({
-      ...lesson,
-      tableIndex: index + 1
-    }));
-    
-    setData(lessonsWithIndex);
+    setData(sortedLessons);
     setIsLoading(false);
-  })
-  .catch((error) => {
-    console.error("Error fetching lessons:", error);
-    setIsLoading(false);
-    toast.error("Failed to fetch lessons");
-  });
+})
+      .catch((error) => {
+        console.error("Error fetching lessons:", error);
+        setIsLoading(false);
+        toast.error("Failed to fetch lessons");
+      });
   }
 
-  // Fetch Course Detail - FIXED
   const getCourseDetail = () => {
     if (!courseId) {
       console.error("No courseId available for fetching course details");
@@ -164,7 +146,6 @@ function CourseLesson() {
   }
 
   useEffect(() => {
-    // Update courseId when URL params change
     if (courseID) {
       setCourseId(courseID);
     }
@@ -206,7 +187,7 @@ function CourseLesson() {
     
     Api.delete(`api/v1/courseLesson/${selectedLesson.id}`, {
       headers: { userId: userId },
-      data: { // FIX: Send data in the body, not as query params for DELETE
+      data: {
         lessonName: deleteLessonName,
       }
     })
@@ -221,40 +202,25 @@ function CourseLesson() {
       });
   };
 
-  // Logout function
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear();
-      navigate("/kharpi");
-      window.location.reload();
-    }, 2000);
-  };
-
-  // Style - FIXED for MUI v6
-  const tableTheme = createTheme({
-    components: {
-      MuiTableRow: {
-        styleOverrides: {
-          root: {
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "rgba(224, 224, 224, 1) !important",
-            },
-            "&:nth-child(even)": {
-              backgroundColor: "#f0f5f5",
-            },
-          },
-        },
-      },
+  const tableOptions = {
+    actionsColumnIndex: -1,
+    addRowPosition: "first",
+    headerStyle: {
+      backgroundColor: "#1d1464",
+      color: "white",
+      fontWeight: "bold",
     },
-  });
+    paging: true,
+    pageSize: 10,
+    emptyRowsWhenPaging: false,
+    pageSizeOptions: [10, 20, 50],
+  };
 
   return (
     <div>
       <Container className="mt-1">
         <CourseSideMenu courseID={courseID} />
         <div className="row edit-course-lesson-style">
-          <ThemeProvider theme={tableTheme}>
             {isLoading ? (
               <Loader />
             ) : (
@@ -266,7 +232,7 @@ function CourseLesson() {
                   <MaterialTable
                     style={{ width: "100%" }}
                     icons={tableIcons}
-                    title={""} // Remove duplicate title
+                    title=""
                     data={data}
                     columns={columns}
                     actions={[
@@ -287,18 +253,15 @@ function CourseLesson() {
                         icon: () => <FontAwesomeIcon icon={faPen} style={{ color: "#03358c" }} size="sm" />,
                         tooltip: 'Edit',
                         onClick: (event, rowData) => {
-                          console.log("Editing lesson:", rowData.courseId._id);
-                          console.log("edit lession course id...",courseID)
                           navigate(`/admin/course/lesson/edit/${rowData.id}`, {
                             state: {
                               lessonId: rowData.id,
                               lessonData: rowData,
-                              courseID: rowData?.courseId?._id, // Use courseId
+                              courseID: rowData?.courseId?._id || courseID,
                             }
                           });
                         },
                       },
-                     
                       {
                         icon: () => <FontAwesomeIcon icon={faTrash} style={{ color: "#03358c" }} size="sm" />,
                         tooltip: 'Delete',
@@ -314,21 +277,11 @@ function CourseLesson() {
                         emptyDataSourceMessage: "No Lessons Are Created",
                       },
                     }}
-                    options={{
-                      actionsColumnIndex: -1,
-                      addRowPosition: "last",
-                      headerStyle: {
-                        backgroundColor: "#1d1464",
-                        color: "white",
-                        fontWeight: "bold",
-                        zIndex: 0,
-                      },
-                    }}
+                    options={tableOptions}
                   />
                 </div>
               </div>
             )}
-          </ThemeProvider>
         </div>
       </Container>
 
@@ -366,18 +319,19 @@ function CourseLesson() {
               />
               <div className="mt-3 mb-3">
                 <Button
-                  variant="contained"
+                  variant="primary"
                   onClick={editLesson}
                   style={{
                     backgroundColor: "gray",
                     color: "#fff",
                     borderRadius: "4px",
+                    border: "none",
                   }}
                 >
                   Update
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="outline-secondary"
                   onClick={handleCancel}
                   style={{
                     marginLeft: "10px",
@@ -403,17 +357,17 @@ function CourseLesson() {
             <div className="mt-3 mb-3">
               <p>Are you sure you want to delete "{deleteLessonName}"?</p>
               <Button
-                variant="contained"
-                color="error"
+                variant="danger"
                 onClick={deleteLessonDetails}
                 style={{
                   borderRadius: "4px",
+                  border: "none",
                 }}
               >
                 Delete
               </Button>
               <Button
-                variant="outlined"
+                variant="outline-secondary"
                 onClick={handleCloseClick}
                 style={{
                   marginLeft: "10px",
