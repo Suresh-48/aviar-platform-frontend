@@ -3,13 +3,12 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Container } from "react-bootstrap";
-import axios from "axios";
-// import Api from "../../Api";
-// import { Link, useHistory } from "react-router-dom";
+import Api from "../../Api";
+import { Link} from "react-router-dom";
 
 // Component
-import  tableIcons  from "../Core/TableIcons";
-// import Loader from "../Core/Loader";
+import tableIcons from "../core/TableIcons";
+import Loader from "../core/Loader";
 import { toast } from "react-toastify";
 
 function StudentTranscript(props) {
@@ -17,7 +16,6 @@ function StudentTranscript(props) {
   const [isLoading, setisLoading] = useState(true);
   const [data, setData] = useState([]);
   const userId = localStorage.getItem("userId");
-//   const history = useHistory();
 
   // Style
   const tableTheme = createTheme({
@@ -33,13 +31,7 @@ function StudentTranscript(props) {
     },
   });
 
-  //logout
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear(history.push("/kharpi"));
-//       window.location.reload();
-//     }, 2000);
-//   };
+
 
   const columns = [
     {
@@ -55,15 +47,14 @@ function StudentTranscript(props) {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+       <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
+
       ),
     },
     {
@@ -81,7 +72,7 @@ function StudentTranscript(props) {
   ];
 
   const getStudentMarks = () => {
-    axios.get(`api/v1/quizSchedule/student/completed/quiz/result`, { 
+    Api.get(`api/v1/quizSchedule/student/completed/quiz/result`, {
       params: {
         studentId: studentId,
         userId: userId,
@@ -107,9 +98,9 @@ function StudentTranscript(props) {
 
   return (
     <div>
-      {/* {isLoading ? ( */}
-        {/* <Loader /> */}
-      {/* ) : ( */}
+      {isLoading ? (
+        <Loader />
+      ) : (
         <Container className="mb-2">
           <div>
             <h4 className="py-3">Student Quiz Marks</h4>
@@ -140,7 +131,7 @@ function StudentTranscript(props) {
             </ThemeProvider>
           </div>
         </Container>
-      {/* )} */}
+      )}
     </div>
   );
 }

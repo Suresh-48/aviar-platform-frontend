@@ -1,34 +1,31 @@
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Container, Modal, Row, Col, Form } from "react-bootstrap";
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
-// import { CopyToClipboard } from "react-copy-to-clipboard";
-// import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { Container, Modal, Row, Col, Form, Button } from "react-bootstrap";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 import moment from "moment";
 import Select from "react-select";
-import Avatar from "@mui/material/Avatar";
-import Button from "react-bootstrap/Button";
-import { Tab, Tabs } from   "@mui/material";
-// import { useHistory } from "react-router-dom";
+import { Avatar } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 
 // Component
-// import Loader from "../core/Loader";
-import tableIcons  from "../Core/TableIcons";
-// import { ROLES_TEACHER } from "../../Constants/Role";
+import Loader from "../core/Loader";
+import tableIcons from "../core/TableIcons";
+import { ROLES_TEACHER } from "../../Constants/Role";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 //icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 // style
-import "../../CSS/UpcomingSchedule.css";
-// import { setDay } from "date-fns";
-import { customStyles } from "../Core/Selector";
+import "../../css/UpcomingSchedule.css";
+import { setDay } from "date-fns";
+import { customStyles } from "../core/Selector";
 
 function UpcomingTeacherScheduleList(props) {
   const [show, setshow] = useState(false);
@@ -49,7 +46,7 @@ function UpcomingTeacherScheduleList(props) {
   const [value, setValue] = useState(0);
   const [isSubmit, setisSubmit] = useState(false);
 
-//   const history = useHistory();
+  const navigate = useNavigate();
   const [teacherScheduleCalendar, setTeacherScheduleCalendar] = useState([]);
   const [teacherScheduleCalendarData, setTeacherScheduleCalendarData] = useState([]);
   const [teacherCourseScheduleId, setTeacherCourseScheduleId] = useState("");
@@ -58,7 +55,6 @@ function UpcomingTeacherScheduleList(props) {
   const [courseId, setCourseId] = useState("");
   const [courseScheduleId, setCourseScheduleId] = useState("");
   const [courseLessonId, setCourseLessonId] = useState("");
-
 
   // Column Heading
   const teacherColumns = [
@@ -83,10 +79,8 @@ function UpcomingTeacherScheduleList(props) {
       title: "Course Name",
       render: (rowData) => (
         <Link
-          to={{
-            pathname: `/course/detail/${rowData?.courseId?.aliasName}`,
-            state: { courseId: rowData?.id },
-          }}
+          to={`/course/detail/${rowData?.courseId?.aliasName}`}
+          state={{ courseId: rowData?.id }}
           className="linkColor"
         >
           {rowData?.courseId?.name}
@@ -102,6 +96,7 @@ function UpcomingTeacherScheduleList(props) {
       render: (rowData) => `${rowData?.courseId?.duration + " hour"}`,
     },
   ];
+
   const adminColumns = [
     {
       title: "S.No",
@@ -120,10 +115,8 @@ function UpcomingTeacherScheduleList(props) {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData?.courseId?.aliasName}`,
-            state: { courseId: rowData?.id },
-          }}
+          to={`/course/detail/${rowData?.courseId?.aliasName}`}
+          state={{ courseId: rowData?.id }}
         >
           {rowData?.courseId?.name}
         </Link>
@@ -155,170 +148,173 @@ function UpcomingTeacherScheduleList(props) {
     setshow(false);
   };
 
-  // const isTeacher = role === ROLES_TEACHER;
+  const isTeacher = role === ROLES_TEACHER;
 
   function closeShow() {
     setshowAlert(false);
   }
 
   useEffect(() => {
-    // const role = localStorage.getItem("role");
-    // setrole(role);
-    // TeacherUpcomingScheduleData();
-    // TeacherCompletedScheduleData();
-    // AdminTeacherUpcomingScheduleData();
-    // const currentDate = moment()
-    //   .tz("America/Chicago")
-    //   .format();
-    // const date = moment(currentDate)
-    //   .tz("America/Chicago")
-    //   .format("ll");
-    // var lessTime = moment(currentDate)
-    //   .tz("America/Chicago")
-    //   .format("HH:mm");
-    // setCurrentDate(date);
-    // setLessTime(lessTime);
-    // getApprovedTeacher();
+    const role = localStorage.getItem("role");
+    setrole(role);
+    TeacherUpcomingScheduleData();
+    TeacherCompletedScheduleData();
+    AdminTeacherUpcomingScheduleData();
+    const currentDate = moment()
+      .tz("America/Chicago")
+      .format();
+    const date = moment(currentDate)
+      .tz("America/Chicago")
+      .format("ll");
+    var lessTime = moment(currentDate)
+      .tz("America/Chicago")
+      .format("HH:mm");
+    setCurrentDate(date);
+    setLessTime(lessTime);
+    getApprovedTeacher();
   }, []);
 
   //logout
-  // const logout = () => {
-  //   setTimeout(() => {
-  //     localStorage.clear(history.push("/kharpi"));
-  //     window.location.reload();
-  //   }, 2000);
-  // };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      navigate("/kharpi");
+      window.location.reload();
+    }, 2000);
+  };
 
   // Get Teacher Upcoming Schedule
-//   const TeacherUpcomingScheduleData = () => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     setTeacherId(teacherId);
-//     Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
-//       params: {
-//         teacherId: teacherId,
-//       },
-//     }).then((response) => {
-//       const teacherUpcomingData = response?.data?.upcomingList;
-//       setTeacherScheduleCalendarData(response?.data?.upcomingCalendarList);
+  const TeacherUpcomingScheduleData = () => {
+    const teacherId = localStorage.getItem("teacherId");
+    setTeacherId(teacherId);
+    Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
+      params: {
+        teacherId: teacherId,
+      },
+    }).then((response) => {
+      const teacherUpcomingData = response?.data?.upcomingList;
+      setTeacherScheduleCalendarData(response?.data?.upcomingCalendarList);
 
-//       teacherUpcomingData?.sort(function compare(a, b) {
-//         var dateA = new Date(a.lessonDate);
-//         var dateB = new Date(b.lessonDate);
-//         return dateA - dateB;
-//       });
-//       setTeacherUpcomingData(teacherUpcomingData);
-//       const orginalTime = response?.data?.upcomingList;
-//       orginalTime.forEach(function(list) {
-//         const time = moment(list?.courseScheduleId?.startTime, "LT")
-//           .subtract(15, "minutes")
-//           .format("HH:mm");
-//         list.courseScheduleId["zoomTime"] = time;
-//       });
-//       setisLoading(false);
-//     });
-//   };
+      teacherUpcomingData?.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setTeacherUpcomingData(teacherUpcomingData);
+      const orginalTime = response?.data?.upcomingList;
+      orginalTime.forEach(function(list) {
+        const time = moment(list?.courseScheduleId?.startTime, "LT")
+          .subtract(15, "minutes")
+          .format("HH:mm");
+        list.courseScheduleId["zoomTime"] = time;
+      });
+      setisLoading(false);
+    });
+  };
 
   // Get Completed Upcoming Schedule
-//   const TeacherCompletedScheduleData = () => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     Api.get("/api/v1/teacherUpcomingSchedule/completed", {
-//       params: {
-//         teacherId: teacherId,
-//       },
-//     }).then((response) => {
-//       const teacherCompletedData = response?.data?.completedList;
-//       teacherCompletedData.sort(function compare(a, b) {
-//         var dateA = new Date(a.lessonDate);
-//         var dateB = new Date(b.lessonDate);
-//         return dateA - dateB;
-//       });
-//       setTeacherCompletedData(teacherCompletedData);
-//       const orginalTime = response?.data?.completedList;
-//       orginalTime.forEach(function(list) {
-//         const time = moment(list?.courseScheduleId?.startTime, "LT")
-//           .subtract(15, "minutes")
-//           .format("HH:mm");
-//         list.courseScheduleId["zoomTime"] = time;
-//       });
-//       setisLoading(false);
-//     });
-//   };
+  const TeacherCompletedScheduleData = () => {
+    const teacherId = localStorage.getItem("teacherId");
+    Api.get("/api/v1/teacherUpcomingSchedule/completed", {
+      params: {
+        teacherId: teacherId,
+      },
+    }).then((response) => {
+      const teacherCompletedData = response?.data?.completedList;
+      teacherCompletedData.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setTeacherCompletedData(teacherCompletedData);
+      const orginalTime = response?.data?.completedList;
+      orginalTime.forEach(function(list) {
+        const time = moment(list?.courseScheduleId?.startTime, "LT")
+          .subtract(15, "minutes")
+          .format("HH:mm");
+        list.courseScheduleId["zoomTime"] = time;
+      });
+      setisLoading(false);
+    });
+  };
 
   // Change Teacher
-//   const submitForm = () => {
-//     setisSubmit(false);
-//     Api.post("api/v1/teacherUpcomingSchedule/update/teacher", {
-//       teacherId: teacherId,
-//       teacherScheduleId: modelValue.id,
-//     })
-//       .then((res) => {
-//         setTeacherName("");
-//         setshow(false);
-//         AdminTeacherUpcomingScheduleData();
-//         toast.success("Updated");
-//       })
-//       .catch((error) => {
-//         if (error.response && error.response.status >= 400) {
-//           let errorMessage;
-//           const errorRequest = error.response.request;
-//           if (errorRequest && errorRequest.response) {
-//             errorMessage = JSON.parse(errorRequest.response).message;
-//           }
-//           toast.error(error.response.data.message);
-//         }
-//       });
-//   };
+  const submitForm = () => {
+    setisSubmit(false);
+    Api.post("api/v1/teacherUpcomingSchedule/update/teacher", {
+      teacherId: teacherId,
+      teacherScheduleId: modelValue.id,
+    })
+      .then((res) => {
+        setTeacherName("");
+        setshow(false);
+        AdminTeacherUpcomingScheduleData();
+        toast.success("Updated");
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+        }
+      });
+  };
 
   // Get Teacher Upcoming Schedule for Admin
-//   const AdminTeacherUpcomingScheduleData = () => {
-//     Api.get("/api/v1/teacherUpcomingSchedule").then((response) => {
-//       const dataValues = response.data.upcomingList;
-//       setTeacherScheduleCalendar(response.data.upcomingCalendarList);
-//       dataValues.sort(function compare(a, b) {
-//         var dateA = new Date(a.lessonDate);
-//         var dateB = new Date(b.lessonDate);
-//         return dateA - dateB;
-//       });
-//       setData(dataValues);
-//       setisLoading(false);
-//     });
-//   };
+  const AdminTeacherUpcomingScheduleData = () => {
+    Api.get("/api/v1/teacherUpcomingSchedule").then((response) => {
+      const dataValues = response.data.upcomingList;
+      setTeacherScheduleCalendar(response.data.upcomingCalendarList);
+      dataValues.sort(function compare(a, b) {
+        var dateA = new Date(a.lessonDate);
+        var dateB = new Date(b.lessonDate);
+        return dateA - dateB;
+      });
+      setData(dataValues);
+      setisLoading(false);
+    });
+  };
 
-//   const getApprovedTeacher = () => {
-//     Api.get(`api/v1/teacher/list`).then((res) => {
-//       const data = res.data.teacherList;
-//       setApprovedTeachers(data);
-//     });
-//   };
+  const getApprovedTeacher = () => {
+    Api.get(`api/v1/teacher/list`).then((res) => {
+      const data = res.data.teacherList;
+      setApprovedTeachers(data);
+    });
+  };
 
-//   const zoomTiming = (e) => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     const newDate = new Date();
-//     const sessionTiming = newDate.toLocaleTimeString();
-//     const date = newDate.toLocaleDateString();
+  const zoomTiming = (e) => {
+    const teacherId = localStorage.getItem("teacherId");
+    const newDate = new Date();
+    const sessionTiming = newDate.toLocaleTimeString();
+    const date = newDate.toLocaleDateString();
 
-//     Api.patch("/api/v1/teacherUpcomingSchedule/zoom/timing", {
-//       teacherUpcomingScheduleId: teacherCourseScheduleId,
-//       zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
-//       zoomEndTime: e === "close" ? sessionTiming : "",
-//       teacherId: teacherId,
-//       date: date,
-//       courseName: courseScheduleId.courseId.aliasName,
-//       lessonName: courseScheduleId.courseLessonId.lessonName,
-//       teacherPayableAmount: courseScheduleId.teacherId.teacherSessionAmount,
-//     }).then((res) => {
-//       const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
-//       setZoomStartTimeGet(ZoomstartTime);
-//     });
-//   };
+    Api.patch("/api/v1/teacherUpcomingSchedule/zoom/timing", {
+      teacherUpcomingScheduleId: teacherCourseScheduleId,
+      zoomStartTime: e === "open" ? sessionTiming : zoomStartTimeGet,
+      zoomEndTime: e === "close" ? sessionTiming : "",
+      teacherId: teacherId,
+      date: date,
+      courseName: courseScheduleId.courseId.aliasName,
+      lessonName: courseScheduleId.courseLessonId.lessonName,
+      teacherPayableAmount: courseScheduleId.teacherId.teacherSessionAmount,
+    }).then((res) => {
+      const ZoomstartTime = res.data.zoomDetails.zoomStartTime;
+      setZoomStartTimeGet(ZoomstartTime);
+    });
+  };
 
   const tableTheme = createTheme({
-    overrides: {
+    components: {
       MuiTableRow: {
-        root: {
-          "&:hover": {
-            cursor: "pointer",
-            backgroundColor: "rgba(224, 224, 224, 1) !important",
+        styleOverrides: {
+          root: {
+            "&:hover": {
+              cursor: "pointer",
+              backgroundColor: "rgba(224, 224, 224, 1) !important",
+            },
           },
         },
       },
@@ -335,27 +331,11 @@ function UpcomingTeacherScheduleList(props) {
   return (
     <div>
       <Container>
-        {/* {isLoading ? ( */}
-          {/* <Loader /> */}
-        {/* ) : ( */}
+        {isLoading ? (
+          <Loader />
+        ) : (
           <div>
-            {/* <div className="d-flex justify-content-end">
-              <FontAwesomeIcon
-                icon={faCalendarDay}
-                color="#397ad4"
-                style={{ cursor: "pointer", fontSize: 30 }}
-                onClick={() => {
-                  history.push({
-                    pathname: "/calendar/view/upcoming/schedule",
-                    state: {
-                      teacherId: teacherId,
-                      teacherSchedule: teacherScheduleCalendarData,
-                    },
-                  });
-                }}
-              />
-            </div> */}
-            {/* {isTeacher ? ( */}
+            {isTeacher ? (
               <div>
                 <Tabs
                   value={value}
@@ -556,7 +536,7 @@ function UpcomingTeacherScheduleList(props) {
                   </div>
                 )}
               </div>
-            {/* ) : ( */}
+            ) : (
               <div>
                 <div className="py-3">
                   <h5>Teachers Upcoming Lessons</h5>
@@ -608,7 +588,7 @@ function UpcomingTeacherScheduleList(props) {
                         <Row>
                           <Form className="category-form-style" onSubmit={() => submitForm()}>
                             <Form.Group className="form-row mb-3" style={{ width: "100%" }}>
-                              <Form.Label notify={true} className="label-top">
+                              <Form.Label className="label-top">
                                 Teachers
                               </Form.Label>
                               <Select
@@ -625,9 +605,9 @@ function UpcomingTeacherScheduleList(props) {
                                       value: list.id,
                                       label: (
                                         <div>
-                                          {/* {list.imageUrl ? ( */}
+                                          {list.imageUrl ? (
                                             <div className="d-flex justify-content-start align-items-center">
-                                              <Avatar src={list.imageUrl} alr="" round={true} />
+                                              <Avatar src={list.imageUrl} alt="" />
                                               <div className="dropdown-names">
                                                 {`${list.firstName +
                                                   " " +
@@ -637,9 +617,9 @@ function UpcomingTeacherScheduleList(props) {
                                                   " "}`}
                                               </div>
                                             </div>
-                                          {/* ) : ( */}
+                                          ) : (
                                             <div className="d-flex justify-content-start align-items-center">
-                                              <Avatar round size="38" className="d-flex justify-content-center">
+                                              <Avatar className="d-flex justify-content-center">
                                                 <p className="dropdown-option mb-0">
                                                   {list?.firstName.substring(0, 1)}
                                                   {list.middleName
@@ -656,7 +636,7 @@ function UpcomingTeacherScheduleList(props) {
                                                   " "}`}
                                               </div>
                                             </div>
-                                          {/* )} */}
+                                          )}
                                         </div>
                                       ),
                                       name: ` ${list.firstName} ${list.middleName} ${list.lastName}`,
@@ -682,11 +662,12 @@ function UpcomingTeacherScheduleList(props) {
                   </Modal.Body>
                 </Modal>
               </div>
-            {/* )} */}
+            )}
           </div>
-        {/* )} */}
+        )}
       </Container>
     </div>
   );
 }
-export default UpcomingTeacherScheduleList; 
+
+export default UpcomingTeacherScheduleList;

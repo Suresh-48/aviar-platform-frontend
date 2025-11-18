@@ -3,26 +3,24 @@ import React, { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-// import { useHistory } from "react-router-dom";
 
 // Styles
-import "../CSS/AdminPaymentList.css";
+import "../../css/AdminPaymentList.css";
 
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Component
-import tableIcons  from "../Core/TableIcons";
+import tableIcons from "../core/TableIcons";
 
 //Loader
-import Loader from "../../Components/Core/Loader";
+import Loader from "../../components/core/Loader";
 import { toast } from "react-toastify";
 
 function AdminPaymentList() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const userId = localStorage.getItem("userId");
-//   
 
   // Column Heading
   const columns = [
@@ -83,41 +81,40 @@ function AdminPaymentList() {
   };
 
   // Get Payment List
-//   const getAdminPaymentList = () => {
-//     Api.get("api/v1/dashboard/admin/billing/detail", {
-//       headers: {
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const data = response.data.data;
-//         setData(data);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getAdminPaymentList = () => {
+    Api.get("api/v1/dashboard/admin/billing/detail", {
+      headers: {
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const data = response.data.data;
+        setData(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   useEffect(() => {
-    // getAdminPaymentList();
+    getAdminPaymentList();
   }, []);
 
   return (
     <div>
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loader />
-      ) : ( */}
+      ) : (
         <Container className="mb-3">
           <Row>
             <h5>Course Payments</h5>
           </Row>
           <div className="material-table-responsive">
-            
             <ThemeProvider theme={tableTheme}>
               <MaterialTable
                 icons={tableIcons}
@@ -128,11 +125,8 @@ function AdminPaymentList() {
                   headerStyle: {
                     fontWeight: "bold",
                     backgroundColor: "#1d1464",
-                    ChevronRight: '&#8250',
-                    
                     color: "white",
                     zIndex: 0,
-                  
                   },
                 }}
                 localization={{
@@ -141,15 +135,10 @@ function AdminPaymentList() {
                   },
                 }}
               />
-                  <span className="chevron-left"></span>
-                
             </ThemeProvider>
-            {/* <p>Chevron Left: &lsaquo;</p> */}
-        
-
           </div>
         </Container>
-      {/* )} */}
+      )}
     </div>
   );
 }

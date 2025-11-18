@@ -5,17 +5,18 @@ import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import moment from "moment";
 import { Tab, Tabs } from "@material-ui/core";
-// import { Link, useHistory } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // Api
-// import Api from "../../Api";
+import Api from "../../Api";
 
 // Component
-import  tableIcons  from "../Core/TableIcons";
-// import Loader from "../../components/core/Loader";
+import tableIcons from "../core/TableIcons";
+import Loader from "../../components/core/Loader";
 import { toast } from "react-toastify";
 
 function HomeWorkListTable() {
+    const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [pendingData, setPendingData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
@@ -23,15 +24,7 @@ function HomeWorkListTable() {
   const [isLoading, setIsloading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  // const history = useHistory();
   const userId = localStorage.getItem("userId");
-
-  const logout = () => {
-    setTimeout(() => {
-      localStorage.clear(history.push("/kharpi"));
-      window.location.reload();
-    }, 2000);
-  };
 
   // Column Heading
   const columns = [
@@ -53,15 +46,14 @@ function HomeWorkListTable() {
       field: "courseId.name",
       cellstyle: { color: "#375474" },
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData?.courseId?.aliasName}`,
-            state: { courseId: rowData?.id },
-          }}
-        >
-          {rowData?.courseId?.name}
-        </Link>
+<Link
+  className="linkColor"
+  to={`/course/detail/${rowData?.courseId?.aliasName}`}
+  state={{ courseId: rowData?.id }}
+>
+  {rowData?.courseId?.name}
+</Link>
+
       ),
     },
     {
@@ -120,82 +112,82 @@ function HomeWorkListTable() {
       });
   };
 
-  // const getCompletedData = () => {
-  //   const studentId = localStorage.getItem("studentId");
-  //   Api.get("api/v1/homeworkSchedule/student/homework/completed", {
-  //     params: {
-  //       studentId: studentId,
-  //       userId:userId
-  //     },
-  //   })
-  //     .then((response) => {
-  //       const completedData = response.data.pendingReviewList;
-  //       completedData.sort(function compare(a, b) {
-  //         var dateA = new Date(a.scheduleLesson.lessonDate);
-  //         var dateB = new Date(b.scheduleLesson.lessonDate);
-  //         return dateA - dateB;
-  //       });
-  //       setCompletedData(completedData);
-  //       setIsloading(false);
-  //     })
-  //     .catch((error) => {
-  //       const errorStatus = error?.response?.status;
-  //       if (errorStatus === 401) {
-  //         logout();
-  //         toast.error("Session Timeout");
-  //       }
-  //     });
-  // };
+  const getCompletedData = () => {
+    const studentId = localStorage.getItem("studentId");
+    Api.get("api/v1/homeworkSchedule/student/homework/completed", {
+      params: {
+        studentId: studentId,
+        userId:userId
+      },
+    })
+      .then((response) => {
+        const completedData = response.data.pendingReviewList;
+        completedData.sort(function compare(a, b) {
+          var dateA = new Date(a.scheduleLesson.lessonDate);
+          var dateB = new Date(b.scheduleLesson.lessonDate);
+          return dateA - dateB;
+        });
+        setCompletedData(completedData);
+        setIsloading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-  // const getPreviewData = () => {
-  //   const studentId = localStorage.getItem("studentId");
-  //   Api.get("api/v1/homeworkSchedule/student/homework/review", {
-  //     params: {
-  //       studentId: studentId,
-  //       userId: userId,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       const previewData = response.data.pendingReviewList;
-  //       previewData.sort(function compare(a, b) {
-  //         var dateA = new Date(a.scheduleLesson.lessonDate);
-  //         var dateB = new Date(b.scheduleLesson.lessonDate);
-  //         return dateA - dateB;
-  //       });
-  //       setPreviewData(previewData);
-  //       setIsloading(false);
-  //     })
-  //     .catch((error) => {
-  //       const errorStatus = error?.response?.status;
-  //       if (errorStatus === 401) {
-  //         logout();
-  //         toast.error("Session Timeout");
-  //       }
-  //     });
-  // };
+  const getPreviewData = () => {
+    const studentId = localStorage.getItem("studentId");
+    Api.get("api/v1/homeworkSchedule/student/homework/review", {
+      params: {
+        studentId: studentId,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const previewData = response.data.pendingReviewList;
+        previewData.sort(function compare(a, b) {
+          var dateA = new Date(a.scheduleLesson.lessonDate);
+          var dateB = new Date(b.scheduleLesson.lessonDate);
+          return dateA - dateB;
+        });
+        setPreviewData(previewData);
+        setIsloading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   useEffect(() => {
     const currentDate = moment()
-      // .tz("America/Chicago")
+      .tz("America/Chicago")
       .format();
     const date = moment(currentDate)
-      // .tz("America/Chicago")
+      .tz("America/Chicago")
       .format("L");
     var time = moment(currentDate)
-      // .tz("America/Chicago")
+      .tz("America/Chicago")
       .format("HH:mm");
-    // getPreviewData();
-    // getCompletedData();
-    // getPendingData();
+    getPreviewData();
+    getCompletedData();
+    getPendingData();
     setCurrentDate(date);
     setCurrentTime(time);
   }, []);
 
   return (
     <div className="mb-3">
-      {/* {isLoading ? ( */}
-        
-      {/* ) : ( */}
+      {isLoading ? (
+        <Loader />
+      ) : (
         <div>
           <Tabs
             value={value}
@@ -333,33 +325,34 @@ function HomeWorkListTable() {
                         actions: "HomeWork",
                       },
                     }}
-                    actions={[
-                      (rowData) => ({
-                        icon: () => (
-                          <p
-                            className={`${
-                              rowData?.scheduleLesson?.compareDate < currentDate ||
-                              (rowData?.scheduleLesson?.compareDate === currentDate &&
-                                rowData?.scheduleLesson?.lessonEndTime < currentTime)
-                                ? "zoom-view-style"
-                                : "zoom-view-disable-style"
-                            }`}
-                          >
-                            {rowData?.reviewStatus === "Open" ? "Do your HomeWork" : null}
-                          </p>
-                        ),
-                        tooltip: "HomeWork",
-                        onClick: (event, rowData) => {
-                          if (
-                            rowData?.scheduleLesson?.compareDate < currentDate ||
-                            (rowData?.scheduleLesson?.compareDate === currentDate &&
-                              rowData?.scheduleLesson?.lessonEndTime < currentTime)
-                          ) {
-                            history.push("/homework", rowData);
-                          }
-                        },
-                      }),
-                    ]}
+                 actions={[
+  (rowData) => ({
+    icon: () => (
+      <p
+        className={`${
+          rowData?.scheduleLesson?.compareDate < currentDate ||
+          (rowData?.scheduleLesson?.compareDate === currentDate &&
+            rowData?.scheduleLesson?.lessonEndTime < currentTime)
+            ? "zoom-view-style"
+            : "zoom-view-disable-style"
+        }`}
+      >
+        {rowData?.reviewStatus === "Open" ? "Do your HomeWork" : null}
+      </p>
+    ),
+    tooltip: "HomeWork",
+    onClick: (event, rowData) => {
+      if (
+        rowData?.scheduleLesson?.compareDate < currentDate ||
+        (rowData?.scheduleLesson?.compareDate === currentDate &&
+          rowData?.scheduleLesson?.lessonEndTime < currentTime)
+      ) {
+        navigate("/student/student/homework", { state: rowData });
+      }
+    },
+  }),
+]}
+
                   />
                 </ThemeProvider>
               </div>
@@ -396,19 +389,20 @@ function HomeWorkListTable() {
                             actions: "HomeWork",
                           },
                         }}
-                        actions={[
-                          (rowData) => ({
-                            icon: () => (
-                              <p className={"zoom-view-style"}>
-                                {rowData.reviewStatus === "OnReview" ? "Preview your HomeWork" : null}
-                              </p>
-                            ),
-                            tooltip: "Preview",
-                            onClick: (event, rowData) => {
-                              history.push("/homework/preview", rowData);
-                            },
-                          }),
-                        ]}
+                     actions={[
+  (rowData) => ({
+    icon: () => (
+      <p className="zoom-view-style">
+        {rowData.reviewStatus === "OnReview" ? "Preview your HomeWork" : null}
+      </p>
+    ),
+    tooltip: "Preview",
+    onClick: (event, rowData) => {
+      navigate("/student/homework/preview", { state: rowData });
+    },
+  }),
+]}
+
                       />
                     </ThemeProvider>
                   </div>
@@ -443,19 +437,20 @@ function HomeWorkListTable() {
                             actions: "HomeWork",
                           },
                         }}
-                        actions={[
-                          (rowData) => ({
-                            icon: () => (
-                              <p className={"zoom-view-style"}>
-                                {rowData.reviewStatus === "ReviewCompleted" ? "View Result" : null}
-                              </p>
-                            ),
-                            tooltip: "View Result",
-                            onClick: (event, rowData) => {
-                              history.push("/homework/review/answers", rowData);
-                            },
-                          }),
-                        ]}
+                    actions={[
+  (rowData) => ({
+    icon: () => (
+      <p className="zoom-view-style">
+        {rowData.reviewStatus === "ReviewCompleted" ? "View Result" : null}
+      </p>
+    ),
+    tooltip: "View Result",
+    onClick: (event, rowData) => {
+      navigate("/student/homework/review", { state: rowData });
+    },
+  }),
+]}
+
                       />
                     </ThemeProvider>
                   </div>
@@ -464,7 +459,7 @@ function HomeWorkListTable() {
             </div>
           )}
         </div>
-      {/* // )} */}
+      )}
     </div>
   );
 }
