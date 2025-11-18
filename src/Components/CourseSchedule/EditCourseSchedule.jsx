@@ -1,91 +1,93 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, FormControl, Form } from "react-bootstrap";
 import { Formik, ErrorMessage } from "formik";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import moment from "moment";
 import Select from "react-select";
 import TimezonePicker from "react-bootstrap-timezone-picker";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import {
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+import { useNavigate, useLocation } from "react-router-dom";
+
+// Date picker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Api
-// import Api from "../../Api.js";
+import Api from "../../Api.jsx";
 
-// Component
-// import Loader from "../Core/Loader";
-import Label from "../../Components/Core/Label";
+// Components
+import Label from "../../components/core/Label";
+import Loader from "../core/Loader.jsx";
 
 // Styles
-import "../../css/CreateCourseSchedule.scss";
+import "../../css/CreateCourseSchedule.css";
 
-// Icon
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faClock } from "@fortawesome/free-solid-svg-icons";
-import { Avatar } from "@material-ui/core";
-import { customStyles } from "../Core/Selector.js";
+// Utils
+import { customStyles } from "../core/Selector.js";
 
-// Validation
+// Validation Schema
 const courseScheduleSchema = Yup.object().shape({
   weekly: Yup.string().required("Day Is Required"),
-
-  enrollstudent: Yup.string()
-    .matches(
-      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{0,4}?[ \\-]*[0-9]{0,4}?$/,
-      "Enter Valid Count"
-    )
+  enrollstudent: Yup.number()
+    .typeError("Must be a number")
+    .positive("Must be positive number")
+    .integer("Must be integer")
+    .min(1, "Must be at least 1")
     .required("Maximum Enroll Count Is Required"),
-
-  startTime: Yup.string().required("Start Time Is Required"),
-
+  startTime: Yup.mixed().required("Start Time Is Required"),
   endTime: Yup.string().required("End Time Is Required"),
-
-  // teacherName: Yup.object().required("Required Field").nullable(),
-
   timeZone: Yup.string().required("Time Zone Is Required"),
+  startDate: Yup.mixed().required("Course Start Date Is Required"),
+  teacherName: Yup.object().required("Teacher Is Required"),
 });
 
-const EditCourseSchedule = (props) => {
-  const [startTime, setStartTime] = useState("");
+const EditCourseSchedule = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // State variables
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [courseName, setCourseName] = useState(
-    props?.location?.state?.courseId?.name
-  );
-  const [courseScheduleId, setCourseScheduleId] = useState(
-    props?.location?.state?.id
-  );
-  const [details, setDetails] = useState([]);
-  const [timeZone, setTimeZone] = useState("");
+  const [courseName, setCourseName] = useState(location?.state?.courseId?.name);
+  const [courseScheduleId, setCourseScheduleId] = useState(location?.state?.id);
+  const [details, setDetails] = useState({});
+  const [timeZone, setTimeZone] = useState("America/Chicago");
   const [weekly, setWeekly] = useState("");
-  const [weeklyId, setWeeklyId] = useState("");
-  const [isSubmit, setIsSubmit] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [startDate, setStartDate] = useState(null);
   const [teacherList, setTeacherList] = useState([]);
-  const [teacherName, setTeacherName] = useState("");
+  const [teacherNameSelect, setTeacherNameSelect] = useState(null);
   const [teacherId, setTeacherId] = useState(null);
-  const [teacherNameValue, setTeacherNameValue] = useState("");
+  const [enrollstudent, setEnrollStudent] = useState("");
+  const [today] = useState(new Date());
 
   useEffect(() => {
-    getCourseScheduleData();
-    getApprovedTeacher();
-  }, []);
+    console.log("Location state:", location.state);
+    if (courseScheduleId) {
+      getCourseScheduleData();
+      getApprovedTeacher();
+    } else {
+      setIsLoading(false);
+      toast.error("Course Schedule ID not found");
+    }
+  }, [courseScheduleId]);
 
-  // Log out
+  // Logout function
   const logout = () => {
     setTimeout(() => {
-      // localStorage.clear(props.history.push("/kharpi"));
+      localStorage.clear();
+      navigate("/kharpi");
       window.location.reload();
     }, 2000);
   };
 
-  //get course schedule data
+  // Get course schedule data
   const getCourseScheduleData = () => {
     const userId = localStorage.getItem("userId");
+    console.log("Getting course schedule data for:", courseScheduleId);
+    
     Api.get(`/api/v1/courseSchedule/get/schedule`, {
       params: {
         courseScheduleId: courseScheduleId,
@@ -93,52 +95,105 @@ const EditCourseSchedule = (props) => {
       },
     })
       .then((res) => {
+        console.log("Course schedule data response:", res.data);
         const data = res.data.scheduleOne;
-        const dateFormat = moment(data.startTime, ["LT"]).format("LLLL");
         setDetails(data);
-        setStartTime(dateFormat);
-        setTimeZone(data.timeZone);
+        
+        // Format dates for date pickers
+        if (data.startDate) {
+          const startDateObj = moment(data.startDate).toDate();
+          setStartDate(startDateObj);
+        }
+        
+        if (data.startTime) {
+          const startTimeObj = moment(data.startTime, "hh:mm A").toDate();
+          setStartTime(startTimeObj);
+        }
+        
+        if (data.endTime) {
+          setEndTime(data.endTime);
+        }
+        
+        setTimeZone(data.timeZone || "America/Chicago");
+        setWeekly(data.weeklyOn || "");
+        setEnrollStudent(data.totalStudentEnrolled || "");
+        
+        // Set teacher data if available
+        if (data?.teacherId) {
+          const teacherOption = {
+            value: data.teacherId._id,
+            label: ` ${data.teacherId.firstName} ${data.teacherId.middleName || ''} ${data.teacherId.lastName}`,
+            name: ` ${data.teacherId.firstName} ${data.teacherId.middleName || ''} ${data.teacherId.lastName}`,
+          };
+          setTeacherNameSelect(teacherOption);
+          setTeacherId(data.teacherId._id);
+        }
+        
         setIsLoading(false);
-        setWeekly(data.weeklyOn);
-        setWeeklyId(data.weeklyOn);
-        setStartDate(data.startDate);
-        setTeacherNameValue(data?.teacherId?._id);
-        setTeacherName(
-          data?.teacherId?._id
-            ? {
-                value: data?.teacherId?._id,
-                label: (
-                  <div className="d-flex justify-content-start align-items-center">
-                    <Avatar
-                      round
-                      size="38"
-                      className="d-flex justify-content-center"
-                    >
-                      <p className="dropdown-option mb-0">
-                        {data?.teacherId?.firstName.substring(0, 1)}
-                        {data?.teacherId?.middleName
-                          ? data?.teacherId?.middleName.substring(0, 1)
-                          : data?.teacherId?.lastName.substring(0, 1)}
-                      </p>
-                    </Avatar>
-                    <div className="dropdown-names">
-                      {`${
-                        data?.teacherId?.firstName +
-                        " " +
-                        data?.teacherId?.middleName +
-                        " " +
-                        data?.teacherId?.lastName +
-                        " "
-                      }`}
-                    </div>
-                  </div>
-                ),
-              }
-            : ""
-        );
-        setTeacherId(data?.teacherId?._id ? data?.teacherId?._id : null);
       })
       .catch((error) => {
+        console.error("Error fetching course schedule data:", error);
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        } else {
+          toast.error("Failed to fetch course schedule details");
+        }
+        setIsLoading(false);
+      });
+  };
+
+  // Get Approved Teachers
+  const getApprovedTeacher = () => {
+    const userId = localStorage.getItem("userId");
+    console.log("Getting teacher list...");
+    
+    Api.get("/api/v1/teacher/list", {
+      headers: { userId: userId }
+    })
+    .then((res) => {
+      console.log("Teacher list response:", res.data);
+      const data = res.data.teacherList || [];
+      setTeacherList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching teachers:", error);
+      toast.error("Failed to fetch teachers list");
+    });
+  };
+
+  // Check teacher schedule availability
+  const checkTeacherSchedule = (e) => {
+    if (!startTime || !startDate) {
+      toast.warning("Please select start date and time first");
+      return;
+    }
+
+    const teacherId = e.value;
+    const startTimeValue = moment(startTime).format("LT");
+    const dateValue = moment(startDate).format("YYYY-MM-DD");
+    const userId = localStorage.getItem("userId");
+
+    console.log("Checking teacher schedule:", { teacherId, startTimeValue, dateValue });
+
+    Api.get("/api/v1/courseSchedule/check/teacherSchedule", {
+      params: {
+        teacherId: teacherId,
+        startDate: dateValue,
+        startTime: startTimeValue,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        console.log("Teacher schedule check response:", response.data);
+        const status = response.status;
+        if (status === 208) {
+          toast.warning(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking teacher schedule:", error);
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
           logout();
@@ -147,468 +202,365 @@ const EditCourseSchedule = (props) => {
       });
   };
 
-  // End Time
-  const handleEndTimeChange = (e, { setFieldValue }) => {
-    var hours = e.getHours() + 1;
-    var minutes = e.getMinutes();
-    hours = hours % 24;
-    var strTime = hours + ":" + minutes;
-    const endTimeValue = moment(strTime, "hh:mm").format("LT");
-    setFieldValue("endTime", endTimeValue);
-    return strTime;
-  };
-
-  // Date Format
-  const handleDateChange = (e, setFieldValue) => {
-    const startTimeValue = moment(e).format("LLLL");
-    setStartDate(startTimeValue);
-    const dayValue = moment(e).format("dddd");
-    setFieldValue("weekly", dayValue);
-    setWeekly(dayValue);
-  };
-
-  // Get Approved Teachers
-//   const getApprovedTeacher = () => {
-//     const userId = localStorage.getItem("userId");
-//     Api.get(`api/v1/teacher/list`).then((res) => {
-//       const data = res.data.teacherList;
-//       setTeacherList(data);
-//       setIsLoading(false);
-//     });
-//   };
-
-  // Submit form
+  // Submit form - Update course schedule
   const submitForm = (values) => {
-    setIsSubmit(true);
-    const { courseScheduleId, startDate } = values;
-    const startTimeFormat = moment(values.startTime, "LLLL").format("LT");
-    const dateValue = moment(startDate).format("ll");
     const userId = localStorage.getItem("userId");
-    Api.patch(`/api/v1/courseSchedule/${courseScheduleId}`, {
+    setIsSubmit(true);
+    
+    if (!startTime || !startDate) {
+      toast.error("Please select start date and time");
+      setIsSubmit(false);
+      return;
+    }
+
+    const startTimeValue = moment(startTime).format("LT");
+    const dateValue = moment(startDate).format("YYYY-MM-DD");
+
+    console.log("Updating schedule with data:", {
+      courseScheduleId,
+      weekly,
+      startTimeValue,
+      timeZone: values.timeZone,
+      endTime,
+      enrollstudent: values.enrollstudent,
+      dateValue,
+      teacherName: teacherNameSelect?.name,
+      teacherId,
+      userId
+    });
+
+    // Update schedule data object
+    const scheduleData = {
       courseId: details.courseId,
       weeklyOn: weekly,
-      startTime: startTimeFormat,
-      endTime: values.endTime,
-      // timeZone: values.timeZone,
-      totalStudentEnrolled: values.enrollstudent,
-      // zoomId: values.zoomLink,
-      // zoomPassword: values.zoomPassword,
+      startTime: startTimeValue,
+      endTime: endTime,
+      totalStudentEnrolled: parseInt(values.enrollstudent),
       startDate: dateValue,
-      teacherName: teacherNameValue,
+      teacherName: teacherNameSelect?.name,
       teacherId: teacherId,
       userId: userId,
-    })
-      .then((response) => {
-        const status = response.status;
-        if (status === 201) {
-          setIsSubmit(false);
-          props.history.goBack();
-          toast.success(response.data.message);
+    };
 
-          Api.post("api/v1/teacherUpcomingSchedule", {
-            courseScheduleId: courseScheduleId,
-            teacherId: teacherId,
-            userId: userId,
-          });
+    console.log("Sending schedule update data:", scheduleData);
+
+    Api.patch(`/api/v1/courseSchedule/${courseScheduleId}`, scheduleData)
+      .then((response) => {
+        console.log("Schedule update response:", response.data);
+        const status = response.status;
+        if (status === 201 || status === 200) {
+          // Update teacher upcoming schedule if teacher changed
+          if (teacherId) {
+            return Api.post("/api/v1/teacherUpcomingSchedule", {
+              courseScheduleId: courseScheduleId,
+              teacherId: teacherId,
+              userId: userId,
+            });
+          } else {
+            return Promise.resolve({ status: 200 });
+          }
         } else {
-          toast.error(response.data.message);
-          setIsSubmit(false);
+          throw new Error(response.data.message || "Failed to update schedule");
         }
       })
-      .catch((error) => {
-        if (error.response && error.response.status >= 400) {
-          let errorMessage;
-          const errorRequest = error.response.request;
-          if (errorRequest && errorRequest.response) {
-            errorMessage = JSON.parse(errorRequest.response).message;
-          }
-          toast.error(error.response.data.message);
-          setIsSubmit(false);
+      .then((res) => {
+        if (res.status === 201 || res.status === 200) {
+          toast.success("Schedule updated successfully");
+          setTimeout(() => {
+            navigate(-1);
+          }, 1000);
         }
-
+        setIsSubmit(false);
+      })
+      .catch((error) => {
+        console.error("Error updating schedule:", error);
+        if (error.response && error.response.data) {
+          toast.error(error.response.data.message || "Failed to update schedule");
+        } else {
+          toast.error("Failed to update schedule. Please try again.");
+        }
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
         setIsSubmit(false);
       });
   };
 
+  // Set End Time based on Start Time
+  const setEndTimeValue = (time) => {
+    if (time) {
+      const endTimeValue = moment(time).add(1, 'hour').format("LT");
+      setEndTime(endTimeValue);
+      return endTimeValue;
+    }
+    return "";
+  };
+
+  // Handle Start Time change
+  const handleStartTimeChange = (time, setFieldValue) => {
+    setStartTime(time);
+    setFieldValue("startTime", time);
+    const endTimeValue = setEndTimeValue(time);
+    setFieldValue("endTime", endTimeValue);
+  };
+
+  // Handle Date change
+  const handleDateChange = (date, setFieldValue) => {
+    setStartDate(date);
+    setFieldValue("startDate", date);
+    const dayValue = moment(date).format("dddd");
+    setWeekly(dayValue);
+    setFieldValue("weekly", dayValue);
+  };
+
+  // Show loader while loading
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div>
-        {/* {isLoading ? (
-          <Loader />
-        ) : ( */}
-          <Container className="edit-course-lesson-style">
-            <Row>
-              <Col lg={12} md={12} sm={12}>
-                <div className="mt-2 mb-4">
-                  <h4>{courseName}</h4>
-                </div>
-                <h5 className="text-center mb-3">Course schedule edit</h5>
-                <Formik
-                  enableReinitialize={true}
-                  initialValues={{
-                    startDate: startDate,
-                    weekly: weekly,
-                    startTime: startTime,
-                    endTime: details.endTime,
-                    timeZone: "America/Chicago",
-                    enrollstudent: details.totalStudentEnrolled,
-                    zoomLink: details.zoomId,
-                    zoomPassword: details.zoomPassword,
-                    teacherName: teacherName !== "" ? teacherName : "",
-                  }}
-                  validationSchema={courseScheduleSchema}
-                  onSubmit={(values) => submitForm(values)}
-                >
-                  {(formik) => {
-                    const {
-                      values,
-                      handleChange,
-                      handleSubmit,
-                      setFieldValue,
-                      handleBlur,
-                      isValid,
-                    } = formik;
-                    return (
-                      <div>
-                        <Form onSubmit={handleSubmit}>
-                          <Row>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label notify={true}>Start Date</Label>
-                                <br />
-                                <KeyboardDatePicker
-                                  variant="standard"
-                                  className="start-time-style"
-                                  style={{ paddingLeft: 10 }}
-                                  placeholder="Select Start Date"
-                                  helperText={""}
-                                  InputProps={{
-                                    disableUnderline: true,
-                                  }}
-                                  format="MMM dd yyyy"
-                                  value={values.startDate}
-                                  minDate={new Date()}
-                                  onChange={(e) => {
-                                    setFieldValue("startDate", e);
-                                    handleDateChange(e, setFieldValue);
-                                  }}
-                                  keyboardIcon={
-                                    <FontAwesomeIcon
-                                      icon={faCalendar}
-                                      size="sm"
-                                      color="grey"
-                                      style={{ padding: 0 }}
-                                    />
-                                  }
-                                />
-                                <ErrorMessage
-                                  name="startDate"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label notify={true}>Weekly On</Label>
-                                <FormControl
-                                  type="text"
-                                  id="weekly"
-                                  placeholder="weekly on"
-                                  value={weekly}
-                                  onChange={(e) => {
-                                    setFieldValue("weekly", e);
-                                  }}
-                                  className="form-styles"
-                                />
-                                <ErrorMessage
-                                  name="weekly"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={12} sm={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label notify={true}>Start Time</Label>
-                                <br />
-                                <KeyboardTimePicker
-                                  variant="standard"
-                                  className="start-time-style"
-                                  style={{ paddingLeft: 10 }}
-                                  placeholder="Select Start Time"
-                                  helperText={""}
-                                  InputProps={{
-                                    disableUnderline: true,
-                                  }}
-                                  value={values.startTime}
-                                  onChange={(e) => {
-                                    setFieldValue("startTime", e);
-                                    handleEndTimeChange(e, { setFieldValue });
-                                  }}
-                                  keyboardIcon={
-                                    <FontAwesomeIcon
-                                      icon={faClock}
-                                      size="sm"
-                                      color="grey"
-                                      style={{ padding: 0 }}
-                                    />
-                                  }
-                                />
-                                <ErrorMessage
-                                  name="startTime"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col xs={12} sm={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label notify={true}>End Time</Label>
-                                <br />
-                                <FormControl
-                                  variant="standard"
-                                  disabled={true}
-                                  className="start-time-style"
-                                  style={{
-                                    paddingLeft: 10,
-                                    backgroundColor: "white",
-                                  }}
-                                  placeholder="Select End Time"
-                                  helperText={""}
-                                  InputProps={{
-                                    disableUnderline: true,
-                                  }}
-                                  value={values.endTime}
-                                  onChange={(time) => {
-                                    setFieldValue("endTime", time);
-                                  }}
-                                  keyboardIcon={
-                                    <FontAwesomeIcon
-                                      icon={faClock}
-                                      size="sm"
-                                      color="grey"
-                                      style={{ padding: 0 }}
-                                    />
-                                  }
-                                />
-                                <ErrorMessage
-                                  name="endTime"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={12} sm={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label notify={true}>
-                                  Maximum Enroll Count
-                                </Label>
-                                <FormControl
-                                  type="type"
-                                  name="enrollstudent"
-                                  id="enrollstudent"
-                                  placeholder="Maximum Student Allowed"
-                                  value={values.enrollstudent}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className="form-styles"
-                                />
-                                <ErrorMessage
-                                  name="enrollstudent"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col xs={12} sm={6}>
-                              {" "}
-                              <Form.Group className="form-row mb-3">
-                                <Label notify={true}>Time Zone</Label>
-                                <br />
-                                <TimezonePicker
-                                  absolute={true}
-                                  value={values.timeZone}
-                                  placeholder="Select timezone..."
-                                  onChange={(e) => setFieldValue("timeZone", e)}
-                                  disabled
-                                />
-                                <ErrorMessage
-                                  name="timeZone"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label>Zoom Link</Label>
-                                <FormControl
-                                  type="type"
-                                  // name="zoomLink"
-                                  id="zoomLink"
-                                  placeholder="Zoom Link"
-                                  value={values.zoomLink}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className="form-styles"
-                                />
-                                <ErrorMessage
-                                  name="zoomLink"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label>Zoom Password</Label>
-                                <FormControl
-                                  type="type"
-                                  // name="zoomPassword"
-                                  id="zoomPassword"
-                                  placeholder="Zoom Password"
-                                  value={values.zoomPassword}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className="form-styles"
-                                />
-                                <ErrorMessage
-                                  name="zoomPassword"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs={12} sm={6} md={6}>
-                              <Form.Group className="form-row mb-3">
-                                <Label>Teachers</Label>
-                                <Select
-                                  value={values.teacherName}
-                                  style={customStyles}
-                                  placeholder="Assign Teachers..."
-                                  onChange={(e) => {
-                                    if (e.label === "None") {
-                                      setFieldValue("teacherName", null);
-                                      setTeacherId(null);
-                                    } else {
-                                      setFieldValue("teacherName", e);
-                                      setTeacherName(e);
-                                      setTeacherNameValue(e.name);
-                                      setTeacherId(e.value);
-                                    }
-                                  }}
-                                  options={[
-                                    { value: null, label: "None" },
-                                    {
-                                      options: teacherList.map((list) => ({
-                                        value: list.id,
-                                        label: (
-                                          <div>
-                                            {list.imageUrl ? (
-                                              <div className="d-flex justify-content-start align-items-center">
-                                                <Avatar
-                                                  src={list.imageUrl}
-                                                  alr=""
-                                                  round={true}
-                                                />
-                                                <div className="dropdown-names">
-                                                  {`${
-                                                    list.firstName +
-                                                    " " +
-                                                    list.middleName +
-                                                    " " +
-                                                    list.lastName +
-                                                    " "
-                                                  }`}
-                                                </div>
-                                              </div>
-                                            ) : (
-                                              <div className="d-flex justify-content-start align-items-center">
-                                                <Avatar
-                                                  round
-                                                  size="38"
-                                                  className="d-flex justify-content-center"
-                                                >
-                                                  <p className="dropdown-option mb-0">
-                                                    {list?.firstName.substring(
-                                                      0,
-                                                      1
-                                                    )}
-                                                    {list.middleName
-                                                      ? list?.middleName.substring(
-                                                          0,
-                                                          1
-                                                        )
-                                                      : list?.lastName.substring(
-                                                          0,
-                                                          1
-                                                        )}
-                                                  </p>
-                                                </Avatar>
-                                                <div className="dropdown-names">
-                                                  {`${
-                                                    list.firstName +
-                                                    " " +
-                                                    list.middleName +
-                                                    " " +
-                                                    list.lastName +
-                                                    " "
-                                                  }`}
-                                                </div>
-                                              </div>
-                                            )}
-                                          </div>
-                                        ),
-                                        name: ` ${list.firstName} ${list.middleName} ${list.lastName}`,
-                                      })),
-                                    },
-                                  ]}
-                                />
-                                <ErrorMessage
-                                  name="teacherName"
-                                  component="span"
-                                  className="error text-danger error-message"
-                                />
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <div className="d-flex justify-content-end my-3">
-                            <Button className="Kharpi-cancel-btn me-3 px-3">
-                              Cancel
-                            </Button>
-                            <Button
-                              type="submit"
-                              disabled={!isValid || isSubmit}
-                              variant="contained"
-                              className={`${
-                                !isValid || isSubmit
-                                  ? "save-changes-disable"
-                                  : "save-changes-active"
-                              }`}
-                            >
-                              SAVE CHANGES
-                            </Button>
-                          </div>
-                        </Form>
+    <Container>
+      <Row className="mt-3">
+        <Col sm={12}>
+          <div className="mb-4">
+            <h4>{courseName || "Edit Course Schedule"}</h4>
+          </div>
+          {/* <h5 className="mb-3 text-center">Edit Course Schedule</h5> */}
+         <br/>
+          <Formik
+            enableReinitialize
+            initialValues={{
+              weekly: weekly,
+              startTime: startTime,
+              endTime: endTime,
+              enrollstudent: enrollstudent,
+              timeZone: timeZone,
+              startDate: startDate,
+              teacherName: teacherNameSelect,
+            }}
+            validationSchema={courseScheduleSchema}
+            onSubmit={(values) => submitForm(values)}
+          >
+            {(formik) => {
+              const { 
+                values, 
+                setFieldValue, 
+                handleChange, 
+                handleSubmit, 
+                handleBlur, 
+                isValid, 
+                dirty 
+              } = formik;
+              
+              return (
+                <div>
+                  <Form onSubmit={handleSubmit}>
+                    {/* Start Date and Weekly On Row */}
+                    <Row>
+                      <Col xs={12} sm={6} md={6}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Start Date</Label>
+                          <br />
+                          <DatePicker
+                            selected={startDate}
+                            onChange={(date) => handleDateChange(date, setFieldValue)}
+                            minDate={today}
+                            placeholderText="Select Start Date"
+                            className="form-control form-styles"
+                            dateFormat="MMM dd, yyyy"
+                            isClearable
+                          />
+                          <ErrorMessage
+                            name="startDate"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col xs={12} sm={6} md={6}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Weekly On</Label>
+                          <FormControl
+                            type="text"
+                            id="weekly"
+                            disabled={true}
+                            placeholder="Weekly on"
+                            value={weekly}
+                            className="form-styles"
+                          />
+                          <ErrorMessage
+                            name="weekly"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                    {/* Start Time and End Time Row */}
+                    <Row>
+                      <Col xs={12} sm={6}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Start Time</Label>
+                          <br />
+                          <DatePicker
+                            selected={startTime}
+                            onChange={(time) => handleStartTimeChange(time, setFieldValue)}
+                            showTimeSelect
+                            showTimeSelectOnly
+                            timeIntervals={15}
+                            timeCaption="Time"
+                            dateFormat="h:mm aa"
+                            className="form-control form-styles"
+                            placeholderText="Select Start Time"
+                            isClearable
+                          />
+                          <ErrorMessage
+                            name="startTime"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>End Time</Label>
+                          <br />
+                          <FormControl
+                            disabled={true}
+                            className="form-styles"
+                            placeholder="End Time"
+                            value={endTime}
+                          />
+                          <ErrorMessage
+                            name="endTime"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                    {/* Enroll Count and Timezone Row */}
+                    <Row>
+                      <Col xs={12} sm={6}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Maximum Enroll Count</Label>
+                          <FormControl
+                            type="number"
+                            name="enrollstudent"
+                            id="enrollstudent"
+                            placeholder="Maximum Student Allowed"
+                            value={enrollstudent}
+                            onChange={(e) => {
+                              setFieldValue("enrollstudent", e.target.value);
+                              setEnrollStudent(e.target.value);
+                            }}
+                            onBlur={handleBlur}
+                            className="form-styles"
+                            min="1"
+                          />
+                          <ErrorMessage
+                            name="enrollstudent"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Time Zone</Label>
+                          <br />
+                          <TimezonePicker
+                            absolute={true}
+                            value={timeZone}
+                            placeholder="Select timezone..."
+                            onChange={(e) => {
+                              setFieldValue("timeZone", e);
+                              setTimeZone(e);
+                            }}
+                          />
+                          <ErrorMessage
+                            name="timeZone"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                    {/* Teachers Selection */}
+                    <Row>
+                      <Col>
+                        <Form.Group className="form-row mb-3">
+                          <Label notify={true}>Teachers</Label>
+                          <Select
+                            value={teacherNameSelect}
+                            name="teacherName"
+                            placeholder="Assign Teachers..."
+                            styles={customStyles}
+                            onChange={(e) => {
+                              if (e && e.value === null) {
+                                setFieldValue("teacherName", null);
+                                setTeacherNameSelect(null);
+                                setTeacherId(null);
+                              } else if (e) {
+                                setFieldValue("teacherName", e);
+                                setTeacherNameSelect(e);
+                                setTeacherId(e.value);
+                                checkTeacherSchedule(e);
+                              }
+                            }}
+                            options={[
+                              { value: null, label: "None" },
+                              ...teacherList.map((list) => ({
+                                value: list.id,
+                                label: ` ${list.firstName} ${list.middleName || ''} ${list.lastName}`,
+                                name: ` ${list.firstName} ${list.middleName || ''} ${list.lastName}`,
+                                speciality: list.speciality || "",
+                              }))
+                            ]}
+                          />
+                          <ErrorMessage
+                            name="teacherName"
+                            component="span"
+                            className="error text-danger error-message"
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                    {/* Action Buttons */}
+                    <div style={{ display: "flex", justifyContent: "flex-end" }} className="mb-3 mt-5">
+                      <div className="d-flex">
+                        <Button
+                          variant="outlined"
+                          className="me-3 px-4 py-2"
+                          onClick={() => navigate(-1)}
+                          disabled={isSubmit}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="submit"
+                          // disabled={!isValid || !dirty || isSubmit}
+                          variant="contained"
+                          className={!isValid || !dirty || isSubmit ? "save-changes-disable" : "save-changes-active"}
+                        >
+                          {isSubmit ? "SAVING..." : "SAVE CHANGES"}
+                        </Button>
                       </div>
-                    );
-                  }}
-                </Formik>
-              </Col>
-            </Row>
-          </Container>
-        {/* // )} */}
-      </div>
-    </MuiPickersUtilsProvider>
+                    </div>
+                  </Form>
+                </div>
+              );
+            }}
+          </Formik>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

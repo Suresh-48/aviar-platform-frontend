@@ -3,14 +3,13 @@ import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import { Form, Row, Col } from "react-bootstrap";
-// import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-
+import '../../css/QuizIntegration.css';
 // Api
 import Api from "../../Api";
 
@@ -18,7 +17,6 @@ import Api from "../../Api";
 import Loader from "../core/Loader";
 
 const QuestionsList = (props) => {
-  // const history = useHistory();
   const navigate = useNavigate();
   const [lessonId, setlessonId] = useState(props?.lessonId);
   const [questionsList, setquestionsList] = useState([]);
@@ -26,27 +24,26 @@ const QuestionsList = (props) => {
   const [count, setCount] = useState(0);
   const userId = localStorage.getItem("userId");
 
-  //logout
-  const logout = () => {
-    setTimeout(() => {
-      // localStorage.clear(history.push("/kharpi"));
-      window.location.reload();
-    }, 2000);
-  };
-
   useEffect(() => {
     questionList();
   }, []);
 
+  const logout = () => {
+    setTimeout(() => {
+      //  localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
+  };
+
   const questionList = () => {
-    Api.get("api/v1/lessonQuiz/list", {
+    Api.get("api/v1/lessonHomework/list", {
       params: {
         courseLessonId: lessonId,
         userId: userId,
       },
     })
       .then((res) => {
-        const data = res.data.quizData;
+        const data = res.data.homeworkData;
         const datacount = data.length;
         setCount(datacount);
         setquestionsList(data);
@@ -62,6 +59,7 @@ const QuestionsList = (props) => {
           toast.error(error.response.data.message);
           this.setState({ isSubmit: false, show: false });
         }
+
         const errorStatus = error?.response?.status;
         if (errorStatus === 401) {
           logout();
@@ -70,9 +68,9 @@ const QuestionsList = (props) => {
       });
   };
 
-  const deleteQuestions = (quizId) => {
+  const deleteQuestions = (homeworkId) => {
     setisLoading(true);
-    Api.delete(`api/v1/lessonQuiz/${quizId}`, { headers: { userId: userId } })
+    Api.delete(`api/v1/lessonHomework/${homeworkId}`, { headers: { userId: userId } })
       .then((response) => {
         toast.success("Deleted");
         questionList();
@@ -112,6 +110,7 @@ const QuestionsList = (props) => {
                     <TextField
                       fullWidth
                       className="mt-4"
+                      multiline
                       name="question"
                       id="standard-basic"
                       value={list.question}
@@ -120,7 +119,7 @@ const QuestionsList = (props) => {
                   </div>
                   {list.type === "text" && (
                     <Form>
-                      <Form.Group className="mb-2 mx-4 my-4">
+                      <Form.Group className="mb-2 mx-4 my-4" controlId="exampleForm.ControlTextarea1">
                         <Form.Control disabled as="textarea" rows={3} />
                       </Form.Group>
                     </Form>
@@ -167,7 +166,7 @@ const QuestionsList = (props) => {
                   )}
                   {list.type === "fileUpload" && (
                     <Form.Group controlId="formFile" className="mb-3 mx-4">
-                      <Form.Control disabled type="file" className="mt-2" />
+                      <Form.Control disabled type="file" />
                     </Form.Group>
                   )}
                 </div>
@@ -176,12 +175,12 @@ const QuestionsList = (props) => {
                 <div className="px-2 mt-4">
                   <FontAwesomeIcon
                     icon={faPen}
-                    color="#0071df"
+                    color="#0071DF"
                     onClick={() => {
-                      navigate(`/admin/quiz/edit/${list.id}`, {
+                      navigate(`/admin/homework/edit/${list.id}`, {
                         state: {
                           type: list.type,
-                          quizId: list.id,
+                          homeworkId: list.id,
                         }
                       });
                     }}
@@ -189,7 +188,7 @@ const QuestionsList = (props) => {
                   />
                   <FontAwesomeIcon
                     icon={faTrash}
-                    color="#c62c2c"
+                    color="#C62C2C"
                     onClick={() => deleteQuestions(list.id)}
                     className="edit-delete-question"
                   />
@@ -206,5 +205,4 @@ const QuestionsList = (props) => {
     </div>
   );
 };
-
 export default QuestionsList;

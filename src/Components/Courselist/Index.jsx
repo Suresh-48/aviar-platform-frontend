@@ -177,6 +177,7 @@ const CourseList = () => {
     const userId = localStorage.getItem("userId");
     Api.get("api/v1/course/Draft", { headers: { userId: userId } })
       .then((res) => {
+      
         const data = res.data.data.data;
         setDraft(data || []);
       })
@@ -358,13 +359,28 @@ const CourseList = () => {
                               {cardId === course.id && open && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
-                                    <NavLink
-                                      to={`/admin/course/detail/${course.id}`}
-                                      className="navigate-edit-text-NavLink"
-                                      onClick={() => setOpen(false)}
-                                    >
-                                      View
-                                    </NavLink>
+   <NavLink
+  to={`/admin/course/detail/${course?.aliasName}`}
+  state={{ 
+    courseID: courseID, 
+    aliasName: course?.aliasName 
+  }}
+  className="navigate-edit-text-NavLink"
+  onClick={(e) => {
+    e.preventDefault();
+    console.log('Course object:', course);
+    console.log('AliasName to pass:', course?.aliasName);
+    console.log('CourseID to pass:', courseID);
+    
+    // Manually navigate to see what's happening
+    if (course?.aliasName) {
+      window.location.href = `/admin/course/detail/${course.aliasName}`;
+    }
+  }}
+>
+  View1
+</NavLink>
+                                    
                                     <hr />
                                     {/* <NavLink
                                        to={`/admin/course/edit/${courseID}`}
@@ -374,7 +390,7 @@ const CourseList = () => {
                                       Edit
                                     </NavLink> */}
                                     <NavLink
-                                      to="/admin/course/edit"
+                                      to={`/admin/course/edit/${courseID}`}
                                       state={{ courseID }}
                                       className="navigate-edit-text-NavLink"
                                       onClick={() => setOpen(false)}
@@ -485,15 +501,18 @@ const CourseList = () => {
                                 }}
                                 className="font-awesome-point"
                               />
+                          
                               {cardId === course.id && open && (
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={`/admin/course/detail/${course.id}`}
+                                                  to={`/admin/course/detail/${course?.aliasName}`}
+                                                                           state={{ courseID: courseID, aliasName: course?.aliasName }}
                                       className="navigate-edit-text-NavLink"
                                       onClick={() => setOpen(false)}
                                     >
                                       View
+                                      
                                     </NavLink>
                                     <hr />
                                        <NavLink
@@ -619,15 +638,18 @@ const CourseList = () => {
                                 <Collapse in={open} className="collapse-show-text-width">
                                   <div className="collapse-style">
                                     <NavLink
-                                      to={`/admin/course/detail/${course.id}`}
+                                                 to={`/admin/course/detail/${course?.aliasName}`}
+                                     state={{ courseID: courseID, aliasName: course?.aliasName }}
                                       className="navigate-edit-text-NavLink"
                                       onClick={() => setOpen(false)}
                                     >
                                       View
                                     </NavLink>
+       
                                     <hr />
                                     <NavLink
-                                      to={`/admin/course/edit/${course.id}`}
+                                       to={`/admin/course/edit/${courseID}`}
+                                          state={{ courseID }}
                                       className="navigate-edit-text-NavLink"
                                       onClick={() => setOpen(false)}
                                     >
