@@ -17,7 +17,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { AuthContext } from "../context/AuthContext"; // ✅ import context
+import { AuthContext } from "../context/AuthContext"; 
 import "./CSS/Login.css";
 import Api from "../Api";
 
@@ -112,11 +112,11 @@ const Login = () => {
       // teacher id
       // userId 
 
-      // ✅ Store user data (with teacherStatus)
+      
       login(userData);
       toast.success("Login successful!");
 
-      // ✅ Navigate based on role
+  
       switch (data.role) {
         case "admin":
           navigate("/admin/dashboard");

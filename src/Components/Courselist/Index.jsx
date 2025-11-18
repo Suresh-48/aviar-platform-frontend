@@ -378,7 +378,7 @@ const CourseList = () => {
     }
   }}
 >
-  View1
+  View
 </NavLink>
                                     
                                     <hr />

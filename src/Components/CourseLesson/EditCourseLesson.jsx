@@ -247,19 +247,19 @@ const EditCourseLessons = () => {
     navigate(-1);
   };
 
-  if (!courseID) {
-    return (
-      <Container>
-        <CourseSideMenu courseID={courseID} />
-        <div className="alert alert-danger mt-3">
-          <h5>Error: Course information not found</h5>
-          <Button onClick={handleGoBack} variant="contained" color="primary">
-            Go Back
-          </Button>
-        </div>
-      </Container>
-    );
-  }
+  // if (!courseID) {
+  //   return (
+  //     <Container>
+  //       <CourseSideMenu courseID={courseID} />
+  //       <div className="alert alert-danger mt-3">
+  //         <h5>Error: Course information fnot found</h5>
+  //         <Button onClick={handleGoBack} variant="contained" color="primary">
+  //           Go Back
+  //         </Button>
+  //       </div>
+  //     </Container>
+  //   );
+  // }
 
   return (
     <Container className="mt-1">
