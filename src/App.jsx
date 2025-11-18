@@ -117,7 +117,7 @@ const App = () => {
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
           {/* Student Routes */}
-           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>       
+           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>      
              <Route
             path="/student"
             element={
@@ -147,6 +147,7 @@ const App = () => {
             <Route path="homework/preview" element={<HomeWorkPreview/>}/>
             <Route path="homework/review" element={<HomeWorkReview/>}/>
             <Route path="forum" element={<Forum/>}/>
+          </Route>
           </Route>
 
 
@@ -229,5 +230,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;
