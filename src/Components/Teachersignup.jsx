@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import{useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   InputGroup,
   Form,
@@ -40,11 +40,13 @@ import "react-quill/dist/quill.bubble.css";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import { responsiveProperty } from "@mui/material/styles/cssUtils";
+import { AuthContext } from "../context/AuthContext";
 // import { customStyles } from "../core/Selector";
 
 const TeacherSignup = () => {
   //   const history = useHistory();
-  const navigate = useNavigate ();
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [details, setDetails] = useState([]);
   const [parentId, setParentId] = useState("");
@@ -117,7 +119,7 @@ const TeacherSignup = () => {
       )
       .oneOf([Yup.ref("password"), null], "Password Did Not Match")
       .required("Confirm Password Is Required"),
-   
+
   });
 
   // const onChangeDescription = ({ setFieldValue }, e) => {
@@ -127,7 +129,7 @@ const TeacherSignup = () => {
 
   const submitForm = (values, { resetForm }) => {
     setIsSubmitting(true);
-    
+
     // console.log("values....", values);
     // console.log("resetForm", resetForm);
 
@@ -146,65 +148,70 @@ const TeacherSignup = () => {
         // specialityDescription: convertedData,
         // skills: skillsData,
       })
-   
-      .then((response) => {
-                // console.log("response",response);
-                // setIsSubmit(false);
-                // const status = response.status;
-                if (response.status === 201) {
-                  toast.success("Teacher created successfully");
-                  console.log("User created successfully!");
-                  navigate("/teacher/menu");
-                  resetForm();
-                // localStorage.setItem("teacherId",teacherId);
-                // localStorage.setItem("token",token);
-                // localStorage.setItem("role",role);
-            
-                
-      
-                } 
-                  // toast.error(response.data.message); // Show error message
-                }
-              )
-          .catch((error) => {
-                // Handle errors properly, checking the response
-                if (error.response && error.response.status === 400) {
-``                    // console.log("error.....", error.response.data.message);
-                 toast.error(error.response.data.message);
-                } else {
-                  // Generic error handling
-                  toast.error("Something went wrong!");
-                }
-                setIsSubmitting(false);
-              });
-          } 
-          const getUsername = (e) => {
-            let username = e.target.value;
-            let laststr = username.substr(username.length - 1);
-        
-            const format = /^[!@#$%^&*()_+\- =[\]{};':"\\|,.<>/?]*$/;
-            if (laststr.match(format)) {
-              let name = username.replace(laststr, " ");
-              setUserName(name);
-            } else {
-              setUserName(username);
-            }
-        
-            axios.get( "http://localhost:3000/api/v1/teacher/check/username", {
-              params: {
-                userName: username,
-              },
-            }).then((response) => {
-              let status = response?.data?.data?.userName;
-              if (username.toLowerCase() === status?.toLowerCase()) {
-                let errMsg = "Username Is Already Exist";
-                setErrorMessage(errMsg);
-              } else {
-                setErrorMessage("");
-              }
-            });
 
-          }; 
+      .then((response) => {
+        // console.log("response",response);
+        // setIsSubmit(false);
+        // const status = response.status;
+        if (response.status === 201) {
+          toast.success("Teacher created successfully");
+          console.log("User created successfully!");
+
+          const token = response?.data?.teacherLogin?.token;
+          const role = response?.data?.teacherLogin?.role;
+          const teacherId = response?.data?.teacherLogin?.teacherId;
+          const id = response?.data?.teacherLogin?.id; // optional if available
+
+          // ✅ Use AuthContext login
+          login({ id, role, token, teacherId });
+
+          // ✅ Redirect after login
+          navigate("/teacher/menu");
+
+          resetForm();
+        }
+        // toast.error(response.data.message); // Show error message
+      }
+      )
+      .catch((error) => {
+        // Handle errors properly, checking the response
+        if (error.response && error.response.status === 400) {
+          ``                    // console.log("error.....", error.response.data.message);
+          toast.error(error.response.data.message);
+        } else {
+          // Generic error handling
+          toast.error("Something went wrong!");
+        }
+        setIsSubmitting(false);
+      });
+  }
+  const getUsername = (e) => {
+    let username = e.target.value;
+    let laststr = username.substr(username.length - 1);
+
+    const format = /^[!@#$%^&*()_+\- =[\]{};':"\\|,.<>/?]*$/;
+    if (laststr.match(format)) {
+      let name = username.replace(laststr, " ");
+      setUserName(name);
+    } else {
+      setUserName(username);
+    }
+
+    axios.get("http://localhost:3000/api/v1/teacher/check/username", {
+      params: {
+        userName: username,
+      },
+    }).then((response) => {
+      let status = response?.data?.data?.userName;
+      if (username.toLowerCase() === status?.toLowerCase()) {
+        let errMsg = "Username Is Already Exist";
+        setErrorMessage(errMsg);
+      } else {
+        setErrorMessage("");
+      }
+    });
+
+  };
   //     .catch((error) => {
   //       const errorValue = error.response.status;
   //       if (errorValue === 400) {
@@ -381,22 +388,22 @@ const TeacherSignup = () => {
                           </Col>
                         </div>
                         <div className="row d-flex justify-content-center">
-                        <Col>
-                            
-                           
-                      <Form.Group className="form-row mb-3">
-                        <span>User Name</span>
-                        <FormControl
-                          type="text"
-                          name="userName"
-                          placeholder="Enter User Name"
-                          value={formik.values.userName}
-                          onChange={(e) => {
-                            formik.handleChange(e);
-                            getUsername(e);
-                          }}
-                          onBlur={formik.handleBlur}
-                        />
+                          <Col>
+
+
+                            <Form.Group className="form-row mb-3">
+                              <span>User Name</span>
+                              <FormControl
+                                type="text"
+                                name="userName"
+                                placeholder="Enter User Name"
+                                value={formik.values.userName}
+                                onChange={(e) => {
+                                  formik.handleChange(e);
+                                  getUsername(e);
+                                }}
+                                onBlur={formik.handleBlur}
+                              />
 
                               <ErrorMessage name="userName" component="span" className="error text-danger" />
 
@@ -459,7 +466,7 @@ const TeacherSignup = () => {
                           <Col xs={12} sm={6}>
                             <Form.Group className="form-row mb-3">
                               {/* <Label>How Did You Hear About Us?</Label> */}
-                              How Did You Hear Aboud Us                              
+                              How Did You Hear Aboud Us
                               <br />
                               <Select
                                 value={formik.values.hearAboutUs}
@@ -469,12 +476,12 @@ const TeacherSignup = () => {
                                 // onChange={(e) => {
                                 //   setFieldValue("hearAboutUs", e);
                                 //   setHearAboutUs(e.value);
-                                  onChange={(e) => {
-                                    formik.handleChange(e);
-                                    setFieldValue("hearAboutUs", e);
+                                onChange={(e) => {
+                                  formik.handleChange(e);
+                                  setFieldValue("hearAboutUs", e);
                                   setHearAbout(formik.e.value);
-                                  }}
-                                  onBlur={formik.handleBlur}
+                                }}
+                                onBlur={formik.handleBlur}
                                 // }}
                                 options={[
                                   {
@@ -646,7 +653,7 @@ const TeacherSignup = () => {
                           >
                             Speciality Description
                             {/* <Label notify={true}>Speciality Description</Label> */}
-                            {/* <br />
+                        {/* <br />
                             <ReactQuill
                               spellCheck
                               name="descriptionValue"
@@ -705,18 +712,17 @@ const TeacherSignup = () => {
                           <Button
                             // onClick={()=> navigate('/Studentsidebar')}
 
-                            className={`${
-                              !isValid || isSubmitting
-                                ? "create-account-disable"
-                                : "create-account-active"
-                            }`}
+                            className={`${!isValid || isSubmitting
+                              ? "create-account-disable"
+                              : "create-account-active"
+                              }`}
                             variant="contained"
                             type="submit"
                             color="btn-primary"
-                            // disabled={!isValid || isSubmit}
+                          // disabled={!isValid || isSubmit}
                           >
                             {" "}
-                          {isSubmitting ?"Submitting...": "Sign Up as Teacher"}
+                            {isSubmitting ? "Submitting..." : "Sign Up as Teacher"}
                           </Button>
                         </div>
                       </Form>

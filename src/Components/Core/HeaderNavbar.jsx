@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  Navbar,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
 import Avatar from "react-avatar";
 import { toast } from "react-toastify";
 import aviar from "../../Images/aviar.png";
@@ -15,18 +8,14 @@ const HeaderNavbar = () => {
   const [lastName, setLastName] = useState("Doe");
   const [image, setImage] = useState("");
 
-   useEffect(() => {
+  useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData) {
       const parsed = JSON.parse(userData);
-      // console.log(parsed, "parsed user data...");
       setFirstName(parsed.firstName || "");
-      setLastName(parsed.lastName || "");  // adjust key name as needed
-    } else {
-      console.log("No user found in localStorage");
+      setLastName(parsed.lastName || "");
     }
-  }, []); 
-
+  }, []);
 
   const logout = () => {
     localStorage.clear();
@@ -37,65 +26,94 @@ const HeaderNavbar = () => {
   };
 
   const confirmLogout = () => {
-    if (window.confirm("Are you sure you want to log out?")) {
-      logout();
-    }
+    if (window.confirm("Are you sure you want to log out?")) logout();
   };
 
   return (
-    <Navbar
-      light
-      expand="md"
+    <nav
       style={{
-        backgroundColor: "#ffffff",
-        padding: "8px 20px",
+        backgroundColor: "#fff",
+        height: "60px",
+        padding: "0 15px",
         borderBottom: "1px solid #e5e5e5",
         display: "flex",
-        justifyContent: "space-between",
         alignItems: "center",
-        height: "60px",
+        justifyContent: "space-between",
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
       }}
-      className="shadow-sm"
     >
       {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <img src={aviar} alt="Logo" width="120" height="35" />
-      </div>
+      <img
+        src={aviar}
+        alt="Logo"
+        style={{
+          width: "110px",
+          maxWidth: "100%",
+          height: "auto",
+        }}
+      />
 
-      {/* User Dropdown */}
-      <UncontrolledDropdown nav inNavbar>
-        <DropdownToggle nav caret style={{ display: "flex", alignItems: "center" }}>
+      {/* Avatar Dropdown */}
+      <div className="dropdown" style={{ position: "relative" }}>
+        <div
+          className="dropdown-toggle"
+          onClick={() => {
+            const menu = document.getElementById("profile-menu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+          }}
+          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+        >
           {image ? (
             <img
               src={image}
               alt="User"
               width="40"
               height="40"
-              style={{
-                borderRadius: "50%",
-                objectFit: "cover",
-                marginRight: "8px",
-              }}
+              style={{ borderRadius: "50%" }}
             />
           ) : (
-            <Avatar
-              name={`${firstName} ${lastName}`}
-              size="40"
-              round={true}
-              color="silver"
-              style={{ marginRight: "8px", cursor: "pointer" }}
-            />
+            <Avatar name={`${firstName} ${lastName}`} size="40" round />
           )}
-        </DropdownToggle>
-        <DropdownMenu end>
-          <DropdownItem header>
+        </div>
+
+        {/* Dropdown Menu */}
+        <div
+          id="profile-menu"
+          style={{
+            display: "none",
+            position: "absolute",
+            right: 0,
+            marginTop: "8px",
+            background: "#fff",
+            borderRadius: "6px",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            padding: "10px",
+            width: "180px",
+          }}
+        >
+          <p style={{ margin: 0, fontSize: "14px", paddingBottom: "8px" }}>
             Signed in as <strong>{firstName} {lastName}</strong>
-          </DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem onClick={confirmLogout}>🚪 Logout</DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    </Navbar>
+          </p>
+          <hr />
+          <button
+            onClick={confirmLogout}
+            style={{
+              width: "100%",
+              border: "none",
+              background: "transparent",
+              textAlign: "left",
+              padding: "6px 0",
+              cursor: "pointer",
+              fontSize: "14px",
+            }}
+          >
+            🚪 Logout
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 };
 

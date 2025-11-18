@@ -56,3 +56,36 @@
     width: 24%;
   }
   
+
+  .dashboard-card {
+  border-radius: 16px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-icon {
+  width: 55px;
+  height: 55px;
+  font-size: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+}
+
+.small-link {
+  font-size: 0.85rem;
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.small-link:hover {
+  text-decoration: underline;
+}
+
+

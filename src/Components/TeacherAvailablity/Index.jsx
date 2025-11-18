@@ -28,6 +28,7 @@ import Loader from "../core/Loader";
 import "../CSS/Calendar.css";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import Api from "../../Api";
 
 const localizer = momentLocalizer(moment);
 
@@ -115,37 +116,38 @@ function TeacherAvailable(props) {
   }
 
   // get Teacher availability list
-//   const getAvailabilityList = () => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     Api.get(`api/v1/teacherAvailability/list`, {
-//       params: {
-//         teacherId: teacherId,
-//         userId: userId,
-//       },
-//     })
-//       .then((response) => {
-//         const scheduleValue = response.data.data.availabilityList;
-//         setschedule(scheduleValue);
-//         for (let i = 0; i < scheduleValue.length; i++) {
-//           scheduleValue[i].start = moment.utc(scheduleValue[i].start).toDate();
-//           scheduleValue[i].end = moment.utc(scheduleValue[i].end).toDate();
-//         }
-//         setisLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getAvailabilityList = () => {
+    const teacherId = localStorage.getItem("teacherId");
+    Api.get(`api/v1/teacherAvailability/list`, {
+      params: {
+        teacherId: teacherId,
+        userId: userId,
+      },
+    })
+      .then((response) => {
+        const scheduleValue = response.data.data.availabilityList;
+        console.log(scheduleValue,"scheduleValue......")
+        setschedule(scheduleValue);
+        for (let i = 0; i < scheduleValue.length; i++) {
+          scheduleValue[i].start = moment.utc(scheduleValue[i].start).toDate();
+          scheduleValue[i].end = moment.utc(scheduleValue[i].end).toDate();
+        }
+        setisLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   useEffect(() => {
-//     const teacherId = localStorage.getItem("teacherId");
-//     setteacherId(teacherId);
-//     getAvailabilityList();
-//   }, []);
+  useEffect(() => {
+    const teacherId = localStorage.getItem("teacherId");
+    setteacherId(teacherId);
+    getAvailabilityList();
+  }, []);
 
   // Conformation Alert
   function alertConformation() {

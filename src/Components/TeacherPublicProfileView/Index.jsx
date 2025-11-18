@@ -12,10 +12,10 @@ import { useLocation } from "react-router-dom";
 const TeacherPublicProfile = (props) => {
   const [teacherDetail, setTeacherDetail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-const location = useLocation();
-const teacherId = location.state?.teacherId;
+  const location = useLocation();
+  const teacherId = location.state?.teacherId;
 
-  
+
 
   useEffect(() => {
     getTeacherDetail();
@@ -80,6 +80,7 @@ const teacherId = location.state?.teacherId;
                 <p className="user-name justify-content-start mt-5 ">
                   {teacherDetail?.firstName + " " + teacherDetail?.lastName}
                 </p>
+                {console.log(teacherDetail,"teacher about.....")}
                 <p variant="secondary" className="teacher-specality">
                   Email: {teacherDetail?.email || "-"}
                 </p>
@@ -100,14 +101,19 @@ const teacherId = location.state?.teacherId;
               />
             </div>
 
-            <div className="mt-4">
-              <p className="aboutUs-label-style">Speciality Description :{teacherDetail?.specialityDescription}</p>
-              <div
-                dangerouslySetInnerHTML={convertFromJSONToHTML(
-                  teacherDetail?.specialityDescription
-                )}
-              />
-            </div>
+           <div className="mt-4">
+  {console.log(teacherDetail, "teacherDetail")}
+
+  <p className="aboutUs-label-style">Speciality Description:</p>
+  <div
+    dangerouslySetInnerHTML={convertFromJSONToHTML(
+      typeof teacherDetail?.specialityDescription === "string"
+        ? JSON.parse(teacherDetail?.specialityDescription)
+        : teacherDetail?.specialityDescription
+    )}
+  />
+</div>
+
           </Col>
         </Row>
       </Container>

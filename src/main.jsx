@@ -46,6 +46,8 @@ import { AuthProvider } from './context/AuthContext.jsx'
 // import Studentsignup from './Components/Studentsignup.jsx'
 // import Teachersignup from './Components/Teachersignup.jsx'
 // import Login from './Components/Login.jsx'
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 createRoot
   (document.getElementById('root')).render(
     <StrictMode>

@@ -61,10 +61,12 @@ import CourseSchedule from "./Components/CourseSchedule/Index.jsx";
 import CreateCourseSchedule from "./Components/CourseSchedule/CreateCourseSchedule.jsx";
 import Menu from "./Components/TeacherApplication/Menu.jsx";
 import Education from "./Components/TeacherApplication/Education.jsx";
-import Experience from"./Components/TeacherApplication/Experience.jsx"
+import Experience from "./Components/TeacherApplication/Experience.jsx"
 import OnlineProfile from "./Components/TeacherApplication/OnlineProfile.jsx";
 import AdminStudentsList from "./Components/AdminStudentList/Index.jsx";
 import WizardForm from "./Components/TeacherApplication/WizardForm.jsx"
+
+import WizardForm2 from "./Components/TeacherApplication/ApplicationForTeacher/WizardForm.jsx"
 import AdminUpcomingScheduleList from "./Components/AdminUpcomingScheduleList/Index.jsx";
 import TeacherPublicProfile from "./Components/TeacherPublicProfileView/Index.jsx";
 import EditTeacher from "./Components/EditTeacher/Index.jsx";
@@ -102,8 +104,8 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/forget/password" element={<ResetPassword />} />
-          <Route path="/course/search" element={<Course/>} />
-          <Route path="/trainers" element={<Trainers/>} />
+          <Route path="/course/search" element={<Course />} />
+          <Route path="/trainers" element={<Trainers />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/about-us" element={<AboutUs />} />
@@ -146,8 +148,7 @@ const App = () => {
             <Route path="homework/review" element={<HomeWorkReview/>}/>
             <Route path="forum" element={<Forum/>}/>
           </Route>
-          </Route>
- 
+
 
           {/* Admin Routes */}
             <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
@@ -196,33 +197,33 @@ const App = () => {
           </Route>
 
           {/* Teacher Routes */}
-             <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
-                      <Route
-            path="/teacher"
-            element={
-              <PublicLayout open={open} onClick={() => setOpen(!open)}>
-                <Outlet />
-              </PublicLayout>
-            }
-          >
-            <Route index element={<Navigate to="/teacher/dashboard" />} />
-            <Route path="menu" element={<WizardForm />} />
-            <Route path="dashboard" element={<TeacherDashboard />}/>
-            <Route path="schedule/:id" element={<TeacherCourseList />} />
-            <Route path="profile/:id" element={<TeacherProfile />} />
-            <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
-            <Route path="review/quiz" element={<TeacherQuizReview />} />
-            <Route path="homework/review" element={<TeacherHomeworkReview />} />
-            <Route path="not-available/time" element={<TeacherAvailable />} />
-            <Route path="forum/details" element={<ForumSelect />} />
-            <Route path="payments" element={<TeacherPayment />} />
-            <Route path="application/details" element={<DisplayTeacherApplication />} />
-            <Route path="education" element={<Education />} />
-            <Route path="experience" element={<Experience />} />
-            <Route path="online/profile" element={<OnlineProfile />} />
+          <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+            <Route
+              path="/teacher"
+              element={
+                <PublicLayout open={open} onClick={() => setOpen(!open)}>
+                  <Outlet />
+                </PublicLayout>
+              }
+            >
+              <Route index element={<Navigate to="/teacher/dashboard" />} />
+              <Route path="menu" element={<WizardForm2 />} />
+              <Route path="dashboard" element={<TeacherDashboard />} />
+              <Route path="schedule/:id" element={<TeacherCourseList />} />
+              <Route path="profile/:id" element={<TeacherProfile />} />
+              <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+              <Route path="review/quiz" element={<TeacherQuizReview />} />
+              <Route path="homework/review" element={<TeacherHomeworkReview />} />
+              <Route path="not-available/time" element={<TeacherAvailable />} />
+              <Route path="forum/details" element={<ForumSelect />} />
+              <Route path="payments" element={<TeacherPayment />} />
+              <Route path="application/details" element={<DisplayTeacherApplication />} />
+              <Route path="education" element={<Education />} />
+              <Route path="experience" element={<Experience />} />
+              <Route path="online/profile" element={<OnlineProfile />} />
+            </Route>
           </Route>
-          </Route>
- 
+
         </Routes>
       </BrowserRouter>
     </div>
