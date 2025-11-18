@@ -38,7 +38,7 @@ const Footer = () => {
 
           {/* LOGO + ADDRESS */}
           <Col className="mb-3" md={3} sm={6}>
-            <div>
+            <div style={{marginRight:"50px"}}>
               <img
                 src={aviar}
                 width="45%"
@@ -160,7 +160,7 @@ const Footer = () => {
           <Col md={3} sm={6} className="mt-2">
             <b style={{ fontSize: "18px", color: "#25306f" }}>Stay Connected</b>
 
-            <div style={{ marginTop: "10px", }}>
+            <div style={{ marginTop: "10px", marginLeft:"75px" }}>
               <a
                 href="#facebook"
                 style={{ ...linkStyle, display: "flex", alignItems: "center" }}
