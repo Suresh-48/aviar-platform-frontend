@@ -72,3 +72,105 @@
     color: #4c3eb5;
     border-radius: 10px;
   }
+
+  /* Main Wrapper */
+.teacher-profile-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Avatar styling */
+.profile-avatar {
+    border: 3px solid #e9ecef;
+}
+
+/* Top Card */
+.teacher-profile-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.07);
+}
+
+/* Name & Email */
+.teacher-name {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+.teacher-email {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Edit Button */
+.edit-profile-btn {
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+/* Section Titles */
+.section-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Standard Cards */
+.teacher-card {
+    border-radius: 14px;
+    border: none;
+}
+
+/* Skills */
+.skills-list {
+    padding-left: 20px;
+}
+
+.teacher-about-text {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* MOBILE UI IMPROVEMENT */
+@media (max-width: 767px) {
+    .teacher-name {
+        font-size: 1.25rem;
+    }
+
+    .teacher-profile-card {
+        padding: 15px !important;
+    }
+
+    .teacher-card {
+        padding: 15px !important;
+    }
+
+    .edit-profile-btn {
+        width: 100%;
+    }
+}
+
+
+/* Avatar responsive rules */
+.responsive-avatar {
+    transition: 0.3s ease;
+}
+
+/* Mobile: reduce avatar size */
+@media (max-width: 768px) {
+    .responsive-avatar {
+        width: 110px !important;
+        height: 110px !important;
+    }
+
+    .teacher-name {
+        font-size: 1.2rem;
+    }
+}
+
+/* Desktop: keep avatar larger */
+@media (min-width: 769px) {
+    .responsive-avatar {
+        width: 150px !important;
+        height: 150px !important;
+    }
+}

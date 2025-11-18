@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Table, Button, Modal, Col, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Table,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import moment from "moment-timezone";
 import { Link } from "react-router-dom";
 import DisplayTeacherApplication from "../TeacherApplication/DisplayAplication";
@@ -14,8 +22,8 @@ function TeacherDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState("");
   const [lessTime, setLessTime] = useState("");
-  const [dateAndTime, setDateAndTime] = useState("");
-  const [zoomLink, setZoomLink] = useState("");
+  const [dateAndTime, setDateAndTime] = useState(null);
+  const [zoomLink, setZoomLink] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [show, setShow] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
@@ -27,9 +35,13 @@ function TeacherDashboard() {
   // Close alert modal
   const closeShow = () => setShowAlert(false);
 
+  // Fetch on mount: teacherId, dashboard counts and upcoming schedule
   useEffect(() => {
     const teacherIdFromStorage = localStorage.getItem("teacherId");
-    if (!teacherIdFromStorage) return;
+    if (!teacherIdFromStorage) {
+      setIsLoading(false);
+      return;
+    }
 
     setTeacherId(teacherIdFromStorage);
 
@@ -37,12 +49,11 @@ function TeacherDashboard() {
       try {
         setIsLoading(true);
 
-        // Fetch teacher status
+        // Teacher status
         const teacherRes = await Api.get(`api/v1/teacher/${teacherIdFromStorage}`);
         const teacherStatus = teacherRes?.data?.data?.getOne?.status || "Pending";
         setStatus(teacherStatus);
 
-        // Fetch dashboard & upcoming schedule data
         await Promise.all([
           getTeacherCourseCount(teacherIdFromStorage),
           TeacherUpcomingScheduleData(teacherIdFromStorage),
@@ -56,17 +67,17 @@ function TeacherDashboard() {
 
     fetchAllData();
 
-    // Set up current date/time
+    // Set current date/time in America/Chicago as you had
     const current = moment().tz("America/Chicago");
-    setCurrentDate(current.format("ll"));
-    setLessTime(current.format("HH:mm"));
+    setCurrentDate(current.format("ll")); // e.g., "Nov 15, 2025"
+    setLessTime(current.format("HH:mm")); // 24h format for comparison
   }, []);
 
   // Get Teacher Upcoming Schedule
-  const TeacherUpcomingScheduleData = async (teacherId) => {
+  const TeacherUpcomingScheduleData = async (teacherIdParam) => {
     try {
       const response = await Api.get("/api/v1/teacherUpcomingSchedule/upcoming", {
-        params: { teacherId },
+        params: { teacherId: teacherIdParam },
       });
       const dataValues = response?.data?.upcomingList || [];
       dataValues.sort((a, b) => new Date(a.lessonDate) - new Date(b.lessonDate));
@@ -78,10 +89,10 @@ function TeacherDashboard() {
   };
 
   // Get Teacher Dashboard Course Count
-  const getTeacherCourseCount = async (teacherId) => {
+  const getTeacherCourseCount = async (teacherIdParam) => {
     try {
       const response = await Api.get("/api/v1/dashboard/teacher", {
-        params: { teacherId },
+        params: { teacherId: teacherIdParam },
       });
       setData(response?.data?.data || {});
     } catch (error) {
@@ -92,10 +103,11 @@ function TeacherDashboard() {
 
   const handleModal = () => setShow(false);
 
+  // Update zoom timing (open/close)
   const zoomTiming = async (actionType) => {
     if (!courseScheduleId) return;
 
-    const teacherId = localStorage.getItem("teacherId");
+    const teacherIdLocal = localStorage.getItem("teacherId");
     const now = new Date();
     const sessionTiming = now.toLocaleTimeString();
     const date = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
@@ -109,7 +121,7 @@ function TeacherDashboard() {
         zoomStartTime: actionType === "open" ? sessionTiming : zoomStartTimeGet,
         zoomEndTime: actionType === "close" ? sessionTiming : "",
         date: date,
-        teacherId: teacherId,
+        teacherId: teacherIdLocal,
       });
 
       if (actionType === "open") {
@@ -121,25 +133,39 @@ function TeacherDashboard() {
     }
   };
 
+  // Start a delayed modal for session end (5 minutes after start)
   const showModal = () => {
     setSessionEndModal(false);
+    // Clear any previous timers by storing ID? Keep simple: set new timer
     setTimeout(() => {
       setSessionEndModal(true);
-    }, 300000); // 5 mins
+    }, 300000); // 5 minutes
   };
 
+  // Loading or application pending view
   if (isLoading) return <Loading />;
-
-  console.log(status, "status")
-
   if (status === "Pending") return <DisplayTeacherApplication />;
 
+  // Helper to decide if "Join" should be active
+  const isJoinActive = (list) => {
+    try {
+      return (
+        list.lessonDate === currentDate &&
+        list.courseScheduleId &&
+        list.courseScheduleId.zoomTime &&
+        list.courseScheduleId.zoomTime <= lessTime
+      );
+    } catch {
+      return false;
+    }
+  };
+
   return (
-    <Container className="mt-4">
+    <Container fluid className="mt-4 teacher-dashboard-container">
       {/* Dashboard Stats */}
       <Row className="gy-4 mt-2">
-        <Col md={4}>
-          <Card className="dashboard-card shadow-sm border-0 p-3">
+        <Col xs={12} sm={6} lg={4}>
+          <Card className="dashboard-card shadow-sm border-0 p-3 h-100">
             <div className="d-flex align-items-center justify-content-between">
               <div>
                 <Card.Title className="mb-1 fw-bold text-secondary">Total Courses</Card.Title>
@@ -156,8 +182,8 @@ function TeacherDashboard() {
           </Card>
         </Col>
 
-        <Col md={4}>
-          <Card className="dashboard-card shadow-sm border-0 p-3">
+        <Col xs={12} sm={6} lg={4}>
+          <Card className="dashboard-card shadow-sm border-0 p-3 h-100">
             <div className="d-flex align-items-center justify-content-between">
               <div>
                 <Card.Title className="mb-1 fw-bold text-secondary">Pending Payment</Card.Title>
@@ -174,8 +200,8 @@ function TeacherDashboard() {
           </Card>
         </Col>
 
-        <Col md={4}>
-          <Card className="dashboard-card shadow-sm border-0 p-3">
+        <Col xs={12} sm={6} lg={4}>
+          <Card className="dashboard-card shadow-sm border-0 p-3 h-100">
             <div className="d-flex align-items-center justify-content-between">
               <div>
                 <Card.Title className="mb-1 fw-bold text-secondary">Received Payment</Card.Title>
@@ -194,117 +220,121 @@ function TeacherDashboard() {
       </Row>
 
       {/* Upcoming Schedule */}
-      <Row style={{ minHeight: "227px", marginTop: 150 }}>
-        <div>
-          <h4>Upcoming Schedule</h4>
-        </div>
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr className="viewRow">
-              <th>S.No</th>
-              <th>Date</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Course Name</th>
-              <th>Lesson Name</th>
-              <th>Duration</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {upComingData.length > 0 ? (
-              upComingData.slice(0, 5).map((list, i) => (
-                <tr key={i} className="viewRow">
-                  <td>{i + 1}</td>
-                  <td>{list.lessonDate}</td>
-                  <td>{list.courseScheduleId?.startTime || "-"}</td>
-                  <td>{list.courseScheduleId?.endTime || "-"}</td>
-                  <td className="linkColor">{list.courseId?.name || "-"}</td>
-                  <td>{list.courseLessonId?.lessonName || "-"}</td>
-                  <td>{list.courseId?.duration ? `${list.courseId.duration} hour` : "-"}</td>
-                  <td>
-                    <p
-                      className={
-                        list.lessonDate === currentDate && list.courseScheduleId?.zoomTime <= lessTime
-                          ? "zoom-view-style"
-                          : "zoom-view-disable-style"
-                      }
-                      onClick={() => {
-                        setCourseScheduleId(list);
-                        if (list.lessonDate === currentDate && list.courseScheduleId?.zoomTime <= lessTime) {
-                          setShow(true);
-                          setIsTeacher(true);
-                          setZoomLink(list.courseLessonId);
-                        } else {
-                          setShowAlert(true);
-                          setDateAndTime(list);
-                        }
-                      }}
-                    >
-                      Join
-                    </p>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="text-center py-4">
-                  No Records to Display
-                </td>
-              </tr>
-            )}
+      <Row className="mt-5">
+        <Col xs={12}>
+          <h4 className="mb-3">Upcoming Schedule</h4>
+        </Col>
 
-            {upComingData.length > 5 && (
-              <tr>
-                <td colSpan="8" className="text-center">
-                  <Link to={`/upcoming/teacher/schedule/list`} className="viewAll-link">
-                    View All
-                  </Link>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+        <Col xs={12}>
+          <div className="table-responsive dashboard-table-wrapper">
+            <Table striped bordered hover responsive className="mb-0">
+              <thead>
+                <tr className="viewRow">
+                  <th>S.No</th>
+                  <th>Date</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Course Name</th>
+                  <th>Lesson Name</th>
+                  <th>Duration</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {upComingData.length > 0 ? (
+                  upComingData.slice(0, 5).map((list, i) => (
+                    <tr key={list.id || i} className="viewRow">
+                      <td>{i + 1}</td>
+                      <td>{list.lessonDate || "-"}</td>
+                      <td>{list.courseScheduleId?.startTime || "-"}</td>
+                      <td>{list.courseScheduleId?.endTime || "-"}</td>
+                      <td className="linkColor">{list.courseId?.name || "-"}</td>
+                      <td>{list.courseLessonId?.lessonName || "-"}</td>
+                      <td>{list.courseId?.duration ? `${list.courseId.duration} hour` : "-"}</td>
+                      <td>
+                        <button
+                          className={`btn btn-sm ${
+                            isJoinActive(list) ? "btn-outline-primary" : "btn-outline-secondary disabled"
+                          }`}
+                          onClick={() => {
+                            setCourseScheduleId(list);
+                            if (isJoinActive(list)) {
+                              // open join modal
+                              setShow(true);
+                              setIsTeacher(true);
+                              setZoomLink(list.courseLessonId);
+                            } else {
+                              setShowAlert(true);
+                              setDateAndTime(list);
+                            }
+                          }}
+                        >
+                          Join
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" className="text-center py-4">
+                      No Records to Display
+                    </td>
+                  </tr>
+                )}
+
+                {upComingData.length > 5 && (
+                  <tr>
+                    <td colSpan="8" className="text-center">
+                      <Link to={`/upcoming/teacher/schedule/list`} className="viewAll-link">
+                        View All
+                      </Link>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
+        </Col>
       </Row>
 
       {/* Zoom Session Modal */}
       {isTeacher && (
         <>
-          <Modal show={show} centered backdrop="static">
-            <Modal.Header className="border-bottom-0 pb-0" />
+          <Modal show={show} centered backdrop="static" onHide={() => setShow(false)}>
+            <Modal.Header closeButton className="border-bottom-0 pb-0" />
             <Modal.Body className="zoom-modal-popup pt-0">
               <div className="align-items-center zoom-content text-center">
                 <h4 className="mt-2">Are you sure to start the session?</h4>
-                <Col className="mt-4">
-                  <Button variant="outline-secondary px-4 me-2" onClick={handleModal}>
+                <div className="mt-4 d-flex flex-column flex-sm-row justify-content-center gap-2">
+                  <Button variant="outline-secondary" onClick={handleModal}>
                     NO
                   </Button>
                   <Button
                     variant="info"
-                    className="px-4"
                     onClick={() => {
                       zoomTiming("open");
                       setShow(false);
                       showModal();
+                      // Open zoom link in new tab. original format preserved.
                       window.open(`${zoomLink?.zoomId}+${zoomLink?.zoomPassword}`, "_blank");
                     }}
                   >
                     YES
                   </Button>
-                </Col>
+                </div>
               </div>
             </Modal.Body>
           </Modal>
 
-          <Modal show={sessionEndModal} centered backdrop="static" className="p-3">
-            <Modal.Header className="border-bottom-0 pb-0" />
+          <Modal show={sessionEndModal} centered backdrop="static" onHide={() => setSessionEndModal(false)}>
+            <Modal.Header closeButton className="border-bottom-0 pb-0" />
             <Modal.Body>
               <h4 className="mt-2 text-center">Session has ended!</h4>
-              <Col className="d-flex justify-content-center mt-4 mb-2">
+              <div className="d-flex flex-column flex-sm-row justify-content-center mt-4 gap-2">
                 <Button
                   variant="outline-secondary"
-                  className="me-2"
                   onClick={() => {
+                    // Restart session
                     zoomTiming("open");
                     setShow(false);
                     showModal();
@@ -322,7 +352,7 @@ function TeacherDashboard() {
                 >
                   End Session
                 </Button>
-              </Col>
+              </div>
             </Modal.Body>
           </Modal>
         </>
@@ -334,8 +364,7 @@ function TeacherDashboard() {
           <div className="text-center">
             <h5>Notification</h5>
             <p>
-              Zoom Link activates 15 minutes before (
-              {dateAndTime?.lessonDate || "unknown date"})
+              Zoom Link activates 15 minutes before ({dateAndTime?.lessonDate || "unknown date"})
             </p>
             <Button variant="light" onClick={closeShow}>
               OK
