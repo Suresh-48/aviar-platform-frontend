@@ -6,6 +6,8 @@ import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 // Component
 import Loader from "../core/Loader";
@@ -19,6 +21,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 function AdminStudentUpcomingScheduleList(props) {
+  const navigate = useNavigate();
+
   const [isLoading, setisLoading] = useState(true);
   const [studentUpcomingData, setStudentUpcomingData] = useState([]);
   const [studentCompleteData, setStudentCompleteData] = useState([]);
@@ -54,15 +58,14 @@ function AdminStudentUpcomingScheduleList(props) {
     {
       title: "Course Name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+    <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
+
       ),
     },
     {
@@ -153,16 +156,15 @@ function AdminStudentUpcomingScheduleList(props) {
                 icon={faCalendarDay}
                 color="#375474"
                 style={{ cursor: "pointer", fontSize: 30 }}
-                onClick={() => {
-                  history.push({
-                    pathname: "/calendar/view/upcoming/schedule",
-                    state: {
-                      studentId: studentId,
-                      firstName: firstName,
-                      lastName: lastName,
-                    },
-                  });
-                }}
+                  onClick={() => {
+        navigate("/admin/calendar/view/upcoming/schedule", {
+          state: {
+            studentId: studentId,
+            firstName: firstName,
+            lastName: lastName,
+          },
+        });
+      }}
               />
             </div>
             <Tabs

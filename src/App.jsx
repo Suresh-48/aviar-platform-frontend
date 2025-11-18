@@ -77,6 +77,7 @@ import Forum from "./Components/Forums/Index.jsx";
 import StudentHomeWork from "./Components/HomeWork/StudentHomework.jsx";
 import HomeWorkPreview from "./Components/HomeWorkPreview/Index.jsx";
 import HomeWorkReview from "./Components/HomeWorkReview/Index.jsx";
+import ScheduleForCalendarView from "./Components/ScheduleForCalendarView/Index.jsx";
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
@@ -182,6 +183,7 @@ const App = () => {
             <Route path="set/password" element={<TeacherResetPassword/>}/>
             <Route path="teacher/not-available" element={<CalendarView/>}/>
             <Route path="teacher/schedule/:id" element={<TeacherCourseList />} />
+            <Route path="calendar/view/upcoming/schedule" element={<ScheduleForCalendarView/>} />
           </Route>
           </Route>
 

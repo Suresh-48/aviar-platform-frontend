@@ -66,15 +66,14 @@ function CompletedCourseHistory() {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+     <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
+
       ),
     },
     {
@@ -88,13 +87,7 @@ function CompletedCourseHistory() {
     },
   ];
 
-  // Log out
-  const logout = () => {
-     setTimeout(() => {
-       localStorage.clear(history.push("/kharpi"));
-       window.location.reload();
-     }, 2000);
-  };
+
 
   const getCourseHistoryData = () => {
     const studentId = localStorage.getItem("studentId");
@@ -167,33 +160,31 @@ function CompletedCourseHistory() {
                           </Dropdown.Toggle>
                           <Dropdown.Menu right className="menu-dropdown-status py-0">
                             <Dropdown.Item className="status-list">
-                              <Link
-                                to={{
-                                  pathname: `/upcoming/schedule/list/${rowData.studentId._id}`,
-                                  state: {
-                                    studentId: rowData.studentId._id,
-                                    firstName: rowData?.studentId?.firstName,
-                                    lastName: rowData?.studentId?.lastName,
-                                  },
-                                }}
-                                className="collapse-text-style"
-                              >
-                                View Schedules
-                              </Link>
+                            <Link
+  to={`/admin/upcoming/schedule/student/list/${rowData.studentId._id}`}
+  state={{
+    studentId: rowData.studentId._id,
+    firstName: rowData.studentId?.firstName,
+    lastName: rowData.studentId?.lastName,
+  }}
+  className="collapse-text-style"
+>
+  View Schedules
+</Link>
+
                             </Dropdown.Item>
                             <hr />
                             <Dropdown.Item className="status-list">
                               <Link
-                                to={{
-                                  pathname: `/teacher/profile/view`,
-                                  state: {
-                                    teacherId: rowData.courseScheduleId.teacherId._id,
-                                  },
-                                }}
-                                className="collapse-text-style"
-                              >
-                                View Teacher Details
-                              </Link>
+  to="/admin/teacher/profile/view"
+  state={{
+    teacherId: rowData.courseScheduleId.teacherId._id
+  }}
+  className="collapse-text-style"
+>
+  View Teacher Details
+</Link>
+
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
