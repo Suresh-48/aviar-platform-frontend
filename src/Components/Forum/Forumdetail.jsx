@@ -1,19 +1,18 @@
 import { Container, Form, Col, Row, Card } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import Label from "../Core/Label";
+import Label from "../../components/core/Label";
 import Select from "react-select";
-// import { convertFromRaw } from "draft-js";
-import { convertFromRaw } from "react-quill";
-
-// import { stateToHTML } from "draft-js-export-html";
-
+import { convertFromRaw } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
+import { useNavigate } from "react-router-dom";
 import Api from "../../Api";
-import Typography from '@mui/material/Typography';
-import "../../CSS/Forum.css";
-// import Loader from "../Core/Loader";
+import { Typography } from "@material-ui/core";
+import "../../css/Forum.css";
+import Loader from "../core/Loader";
 import { toast } from "react-toastify";
 
 const ForumSelect = ({ history }) => {
+    const navigate = useNavigate();
   const [category, setCategory] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [categoryName, setCategoryName] = useState("");
@@ -21,12 +20,12 @@ const ForumSelect = ({ history }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Logout
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear();
-//       window.location.reload();
-//     }, 2000);
-//   };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      window.location.reload();
+    }, 2000);
+  };
 
   const getLatestConversation = () => {
     const userId = localStorage.getItem("userId");
@@ -117,7 +116,9 @@ const ForumSelect = ({ history }) => {
 
   return (
     <div>
-      
+      {isLoading ? (
+        <Loader />
+      ) : (
         <Container className="mb-3 mt-3">
           <Row className="d-flex justify-content-center">
             <Col xs={8} sm={8} md={7} lg={6}>
@@ -127,18 +128,18 @@ const ForumSelect = ({ history }) => {
                   placeholder="Select Category"
                   name="category"
                   value={categoryName}
-                  // options={[
-                  //   {
-                  //     options: category?.map((list) => ({
-                  //       value: list?.id,
-                  //       label: list?.name,
-                  //     })),
-                  //   },
-                  // ]}
-                  // onChange={(e) => {
-                  //   setCategoryName(e);
-                  //   courseFilter(e.value);
-                  // }}
+                  options={[
+                    {
+                      options: category?.map((list) => ({
+                        value: list?.id,
+                        label: list?.name,
+                      })),
+                    },
+                  ]}
+                  onChange={(e) => {
+                    setCategoryName(e);
+                    courseFilter(e.value);
+                  }}
                   style={{ backgroundColor: "white" }}
                 />
               </Form.Group>
@@ -150,18 +151,16 @@ const ForumSelect = ({ history }) => {
                 {courseData &&
                   courseData?.map((course, index) => (
                     <Row className="mt-3 mb-3">
-                      <div
-                        className="d-flex flex-direction-row "
-                        style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          history.push({
-                            pathname: `/forum`,
-                            state: {
-                              course: course,
-                            },
-                          })
-                        }
-                      >
+  <div
+    className="d-flex flex-direction-row"
+    style={{ cursor: "pointer" }}
+    onClick={() =>
+      navigate("/student/forum", {
+        state: { course: course }
+      })
+    }
+  >
+
                         <Col xs={3} sm={3} lg={3} md={3}>
                           <img
                             className="forum-image w-100"
@@ -194,15 +193,15 @@ const ForumSelect = ({ history }) => {
                   </div>
                   {latestData &&
                     latestData?.map((list, index) => (
-                      <div
-                        onClick={() => {
-                          history.push({
-                            pathname: "/forum/conversation",
-                            state: { commentsData: list },
-                          });
-                        }}
-                        className="recent-conver-cursor mx-2 my-2 pt-3 "
-                      >
+                   <div
+  onClick={() => {
+    navigate("/student/forum/conversation", {
+      state: { commentsData: list },
+    });
+  }}
+  className="recent-conver-cursor mx-2 my-2 pt-3"
+>
+
                         <div className="forum-column mx-3">
                           <b>{list?.courseId?.aliasName}</b>
                           <samp style={{ color: "#9e9e9e" }}>
@@ -222,7 +221,7 @@ const ForumSelect = ({ history }) => {
             </Col>
           </Row>
         </Container>
-    
+      )}
     </div>
   );
 };

@@ -51,6 +51,7 @@
     "react-big-calendar": "^1.17.1",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-timezone-picker": "^2.0.1",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-countup": "^6.5.3",
     "react-datepicker": "^7.6.0",
     "react-dom": "^18.3.1",

@@ -5,6 +5,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { Form, Row, Col } from "react-bootstrap";
 // import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +19,7 @@ import Loader from "../core/Loader";
 
 const QuestionsList = (props) => {
   // const history = useHistory();
+  const navigate = useNavigate();
   const [lessonId, setlessonId] = useState(props?.lessonId);
   const [questionsList, setquestionsList] = useState([]);
   const [isLoading, setisLoading] = useState(true);
@@ -176,9 +178,11 @@ const QuestionsList = (props) => {
                     icon={faPen}
                     color="#0071df"
                     onClick={() => {
-                      history.push("/quiz/edit", {
-                        type: list.type,
-                        quizId: list.id,
+                      navigate(`/admin/quiz/edit/${list.id}`, {
+                        state: {
+                          type: list.type,
+                          quizId: list.id,
+                        }
                       });
                     }}
                     className="me-2 edit-delete-question"

@@ -3,18 +3,20 @@ import Multiselect from "multiselect-react-dropdown";
 import { Container, Row, Col, Button, Spinner, FormControl, Form, InputGroup, Modal } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 import { Slider } from "@mui/material";
-import Label from "../../Components/Core/Label";
+import Label from "../../components/core/Label";
 import "../../css/AllCourseList.css";
 import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
-// import Loader from "../core/Loader";
-// import CourseCard from "../../components/core/CourseCard";
+import Loader from "../core/Loader";
+import CourseCard from "../../components/core/CourseCard.jsx";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AllCourseList = (props) => {
-  const [landingPageCategoryList, setLandingPageCategoryList] = useState(props?.location?.state);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [landingPageCategoryList, setLandingPageCategoryList] = useState(location?.state);
   const [courseList, setCourseList] = useState([]);
   const [data, setData] = useState([]);
   const [category, setCategory] = useState([]);
@@ -23,19 +25,19 @@ const AllCourseList = (props) => {
   const [postPerPage, setPostPerPage] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
   const [range, setRange] = useState([0, 500]);
-  // const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [courseDataList, setCourseDataList] = useState([]);
   const [pageNumbers, setPageNumbers] = useState([]);
 
   useEffect(() => {
-    // getCategory();
-    // courseFilter();
+    getCategory();
+    courseFilter();
   }, []);
 
-//   useEffect(() => {
-//     courseFilter(search);
-//   }, [search]);
+  useEffect(() => {
+    courseFilter(search);
+  }, [search]);
 
   useEffect(() => {
     const lastPage = currentPage * postPerPage;
@@ -61,6 +63,7 @@ const AllCourseList = (props) => {
     })
       .then((res) => {
         setCategory(res.data.data.data);
+        
         setIsLoading(false);
         setSpinner(false);
       })
@@ -81,14 +84,14 @@ const AllCourseList = (props) => {
       filter: filterData,
       range: range,
       search: searchData === undefined ? search : searchData,
-     
+      userId: userId,
     })
       .then((res) => {
         const data = res.data.data;
         const assending = data.sort((a, b) => a - b);
         setCourseList(assending);
-        // setIsLoading(false);
-        // setSpinner(false);
+        setIsLoading(false);
+        setSpinner(false);
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -109,7 +112,8 @@ const AllCourseList = (props) => {
 
   const logout = () => {
     setTimeout(() => {
-      localStorage.clear(props.history.push("/kharpi"));
+      localStorage.clear();
+      navigate("/kharpi");
       window.location.reload();
     }, 2000);
   };
@@ -129,7 +133,7 @@ const AllCourseList = (props) => {
 
   return (
     <div>
-      {/* {isLoading ? null : ( */}
+      {isLoading ? null : (
         <div className="ms-4 search-col mt-4">
           <h4 className="d-flex align-items-center">Courses</h4>
           <Form className="d-flex mt-2">
@@ -148,7 +152,7 @@ const AllCourseList = (props) => {
                 />
               </Form.Group>
             </div>
-            <div className=" multiselecticon mt-4">
+            <div className="mt-4 ">
               <InputGroup
                 className="mx-2 filter-ico"
                 onClick={() => {
@@ -162,21 +166,21 @@ const AllCourseList = (props) => {
             </div>
           </Form>
         </div>
-      {/* )} */}
-      {/* {isLoading ? ( */}
-        {/* <Loader /> */}
-   {/* ) : ( */}
+      )}
+      {isLoading ? (
+        <Loader />
+      ) : (
         <Container fluid style={{ marginTop: "0%" }}>
           <Row>
             <Col className="d-flex mt-1 h-100">
-              {/* {isLoading === true ? ( */}
+              {isLoading === true ? (
                 <div className="d-flex position-absolute top-50 start-50 ">
-                  {/* <Spinner animation="grow" variant="primary" /> */}
-                  {/* <span>
+                  <Spinner animation="grow" variant="primary" />
+                  <span>
                     <h4 style={{ paddingLeft: 20 }}>Loading...</h4>
-                  </span> */}
+                  </span>
                 </div>
-              {/* ) : courseDataList.length > 0 ? ( */}
+              ) : courseDataList.length > 0 ? (
                 <Row style={{ marginLeft: 10, width: "100%" }}>
                   <Row className="mt-3">
                     {courseDataList.map((course, index) => (
@@ -207,22 +211,22 @@ const AllCourseList = (props) => {
                       />
                     </div>
                   </Row>
-                  {/* {spinner && (
+                  {spinner && (
                     <div className="spanner">
                       <Spinner animation="grow" variant="light" />
                       <span>
                         <h4 style={{ paddingLeft: 20 }}>Loading...</h4>
                       </span>
                     </div>
-                  )} */}
+                  )}
                 </Row>
-              {/* ) : ( */}
+              ) : (
                 <div className="position-absolute top-50 start-50 center-alignment">No Courses Available Here</div>
-              {/* )} */}
+              )}
             </Col>
           </Row>
         </Container>
-      {/* )} */}
+      )}
       <Modal
         show={searchModalOpen}
         centered
@@ -282,8 +286,8 @@ const AllCourseList = (props) => {
                   valueLabelDisplay="auto"
                 />
                 <div className="slider-count m-0">
-                  <p>₹{range[0]}</p>
-                  <p>₹{range[1]}</p>
+                  <p>${range[0]}</p>
+                  <p>${range[1]}</p>
                 </div>
               </div>
               <div className="d-flex justify-content-between mt-3">
@@ -293,7 +297,7 @@ const AllCourseList = (props) => {
                     onClick={() => {
                       setSearch("");
                       setData([""]);
-                      setRange("");
+                      setRange([0, 500]);
                     }}
                   >
                     Clear
@@ -301,7 +305,7 @@ const AllCourseList = (props) => {
                 </div>
                 <div>
                   <Button
-                    className="aviar-cancel-btn mx-3"
+                    className="Kharpi-cancel-btn mx-3"
                     variant="light"
                     onClick={() => {
                       setSearchModalOpen(false);
@@ -312,7 +316,7 @@ const AllCourseList = (props) => {
                   </Button>
                   <Button
                     variant="primary"
-                    className="aviar-save-btn"
+                    className="Kharpi-save-btn"
                     onClick={() => {
                       courseFilter();
                       setSearchModalOpen(false);
@@ -320,7 +324,7 @@ const AllCourseList = (props) => {
                     }}
                   >
                     Apply Filter
-                   </Button>
+                  </Button>
                 </div>
               </div>
             </div>

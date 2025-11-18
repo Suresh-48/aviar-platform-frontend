@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@mui/material";
 import { Container, Row, Col, Dropdown, Form } from "react-bootstrap";
-// import { ThemeProvider } from "@material-ui/styles";
-// import { createTheme } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-// import { convertFromRaw } from "draft-js";
-// import { stateToHTML } from "draft-js-export-html";
-import "react-quill"
-import "react-quill/dist/quill.snow.css";
-import "react-quill/dist/quill.bubble.css";
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
-import MaterialTable from "material-table";
-import tableIcons  from "../Core/TableIcons";
-// import Api from "../../Api";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
+import { convertFromRaw } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
+import MaterialTable from "@material-table/core";
+import tableIcons from "../core/TableIcons";
+import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../CSS/AdminForum.css";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-// import Loader from "../core/Loader";
+import Loader from "../core/Loader";
 import { toast } from "react-toastify";
 
 function AdminForum() {
@@ -28,24 +22,27 @@ function AdminForum() {
   const [declineForum, setDeclineForum] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const userId = localStorage.getItem("userId");
-//   const history = useHistory();
+  const navigate = useNavigate();
 
   //logout
-//   const logout = () => {
-//     setTimeout(() => {
-//       localStorage.clear(history.push("/kharpi"));
-//       window.location.reload();
-//     }, 2000);
-//   };
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.clear();
+      navigate("/kharpi");
+      window.location.reload();
+    }, 2000);
+  };
 
   const tableTheme = createTheme({
-    overrides: {
+    components: {
       MuiTableRow: {
-        root: {
-          overflowY: "unset",
-          "&:hover": {
-            cursor: "pointer",
-            backgroundColor: "rgba(224, 224, 224, 1) !important",
+        styleOverrides: {
+          root: {
+            overflowY: "unset",
+            "&:hover": {
+              cursor: "pointer",
+              backgroundColor: "rgba(224, 224, 224, 1) !important",
+            },
           },
         },
       },
@@ -65,10 +62,9 @@ function AdminForum() {
     },
     {
       title: "Thread",
-
       render: (rowData) => (
         <div
-          className="  forum-paragraph"
+          className="forum-paragraph"
           dangerouslySetInnerHTML={convertFromJSONToHTML(`${rowData.question}`)}
         ></div>
       ),
@@ -90,10 +86,9 @@ function AdminForum() {
     },
     {
       title: "Thread",
-
       render: (rowData) => (
         <div
-          className="  forum-paragraph"
+          className="forum-paragraph"
           dangerouslySetInnerHTML={convertFromJSONToHTML(
             `${rowData?.question}`
           )}
@@ -121,80 +116,81 @@ function AdminForum() {
     },
   ];
 
-//   const convertFromJSONToHTML = (value) => {
-//     try {
-//       return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
-//     } catch (exp) {
-//       return { __html: "Error" };
-//     }
-//   };
+  const convertFromJSONToHTML = (value) => {
+    try {
+      return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
+    } catch (exp) {
+      return { __html: "Error" };
+    }
+  };
 
-//   const getForum = () => {
-//     Api.get("api/v1/forum/status/list", { headers: { userId: userId } })
-//       .then((response) => {
-//         const approveData = response.data.data.approveData;
-//         const pendingData = response.data.data.pendingData;
-//         const closeData = response.data.data.closeData;
-//         const declineData = response.data.data.declineData;
-//         setApproveForum(approveData);
-//         setPendingForum(pendingData);
-//         setCloseForum(closeData);
-//         setDeclineForum(declineData);
-//         setIsLoading(false);
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
-//   const activeStatus = (status, qustId) => {
-//     Api.patch("api/v1/forum/chat/status", {
-//       questionId: qustId,
-//       isActive: status,
-//       userId: userId,
-//     })
-//       .then((response) => {
-//         getForum();
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const getForum = () => {
+    Api.get("api/v1/forum/status/list", { headers: { userId: userId } })
+      .then((response) => {
+        const approveData = response.data.data.approveData;
+        const pendingData = response.data.data.pendingData;
+        const closeData = response.data.data.closeData;
+        const declineData = response.data.data.declineData;
+        setApproveForum(approveData);
+        setPendingForum(pendingData);
+        setCloseForum(closeData);
+        setDeclineForum(declineData);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
-//   const ChangeType = (status, qusId) => {
-//     Api.patch("api/v1/forum/status", {
-//       questionId: qusId,
-//       status: status,
-//       userId: userId,
-//     })
-//       .then((response) => {
-//         getForum();
-//       })
-//       .catch((error) => {
-//         const errorStatus = error?.response?.status;
-//         if (errorStatus === 401) {
-//           logout();
-//           toast.error("Session Timeout");
-//         }
-//       });
-//   };
+  const activeStatus = (status, qustId) => {
+    Api.patch("api/v1/forum/chat/status", {
+      questionId: qustId,
+      isActive: status,
+      userId: userId,
+    })
+      .then((response) => {
+        getForum();
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
+
+  const ChangeType = (status, qusId) => {
+    Api.patch("api/v1/forum/status", {
+      questionId: qusId,
+      status: status,
+      userId: userId,
+    })
+      .then((response) => {
+        getForum();
+      })
+      .catch((error) => {
+        const errorStatus = error?.response?.status;
+        if (errorStatus === 401) {
+          logout();
+          toast.error("Session Timeout");
+        }
+      });
+  };
 
   useEffect(() => {
-    // getForum();
+    getForum();
   }, []);
 
   return (
     <div>
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loader />
-      ) : ( */}
+      ) : (
         <Container className="mb-3">
           <Tabs
             value={value}
@@ -229,7 +225,6 @@ function AdminForum() {
             />
           </Tabs>
           <hr />
-          {/* {value === 0 ? ( */}
           <div>
             {value === 0 ? (
               <Row className="pt-3">
@@ -282,7 +277,7 @@ function AdminForum() {
                           <Dropdown>
                             <Dropdown.Toggle
                               className="Admin-forum"
-                              varient="link"
+                              variant="link"
                             >
                               <FontAwesomeIcon
                                 icon={faEllipsisV}
@@ -291,7 +286,7 @@ function AdminForum() {
                               />
                             </Dropdown.Toggle>
                             <Dropdown.Menu
-                              right
+                              align="end"
                               className="admin-forum-color py-0"
                             >
                               {value === 0 ? (
@@ -302,11 +297,12 @@ function AdminForum() {
                                     to="#"
                                     className="Admin-forum-text-style admin-dropdown"
                                     onClick={(e) => {
+                                      e.preventDefault();
                                       ChangeType("Approved", rowData.id);
                                     }}
                                   >
                                     Approve
-                                  </Link>{" "}
+                                  </Link>
                                 </Dropdown.Item>
                               )}
                               <hr />
@@ -317,12 +313,13 @@ function AdminForum() {
                                   <Link
                                     to="#"
                                     className="Admin-forum-text-style admin-dropdown"
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.preventDefault();
                                       ChangeType("Pending", rowData.id);
                                     }}
                                   >
                                     Pending
-                                  </Link>{" "}
+                                  </Link>
                                 </Dropdown.Item>
                               )}
                               <hr />
@@ -333,28 +330,30 @@ function AdminForum() {
                                   <Link
                                     to="#"
                                     className="Admin-forum-text-style admin-dropdown"
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.preventDefault();
                                       ChangeType("Close", rowData.id);
                                     }}
                                   >
                                     Close
-                                  </Link>{" "}
+                                  </Link>
                                 </Dropdown.Item>
                               )}
                               <hr />
-                              {value == 3 ? (
+                              {value === 3 ? (
                                 " "
                               ) : (
                                 <Dropdown.Item className="Admin-forum-list">
                                   <Link
                                     to="#"
                                     className="Admin-forum-text-style admin-dropdown"
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.preventDefault();
                                       ChangeType("Declined", rowData.id);
                                     }}
                                   >
                                     Decline
-                                  </Link>{" "}
+                                  </Link>
                                 </Dropdown.Item>
                               )}
                             </Dropdown.Menu>
@@ -373,8 +372,9 @@ function AdminForum() {
             </div>
           </div>
         </Container>
-      {/* )} */}
+      )}
     </div>
   );
 }
+
 export default AdminForum;
