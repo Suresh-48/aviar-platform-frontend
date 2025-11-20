@@ -5,6 +5,7 @@ import { createTheme } from "@mui/material";
 import { Container, Dropdown } from "react-bootstrap";
 import { Link} from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 // Roles
 import { ROLES_STUDENT } from "../../Constants/Role";
@@ -21,6 +22,7 @@ import tableIcons from "../core/TableIcons";
 import Loader from "../core/Loader";
 
 function CompletedCourseHistory() {
+  const navigate = useNavigate();
   const role = localStorage.getItem("role");
   const [isLoading, setisLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);

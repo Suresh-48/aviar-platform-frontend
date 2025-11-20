@@ -48,7 +48,7 @@ function HomeWorkListTable() {
       render: (rowData) => (
 <Link
   className="linkColor"
-  to={`/course/detail/${rowData?.courseId?.aliasName}`}
+  to={`/admin/course/detail/${rowData?.courseId?.aliasName}`}
   state={{ courseId: rowData?.id }}
 >
   {rowData?.courseId?.name}

@@ -6,7 +6,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { createTheme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 // import { useHistory } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 // Component
 import Loader from "../core/Loader";
 // import { tableIcons } from "../core/tableIcons";
@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 
 function AdminStudentUpcomingScheduleList(props) {
+  const navigate = useNavigate();
   const [isLoading, setisLoading] = useState(true);
   const [studentUpcomingData, setStudentUpcomingData] = useState([]);
   const [studentCompleteData, setStudentCompleteData] = useState([]);
@@ -51,15 +52,13 @@ function AdminStudentUpcomingScheduleList(props) {
     {
       title: "Course Name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+     <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
       ),
     },
     {

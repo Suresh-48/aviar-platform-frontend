@@ -7,7 +7,7 @@ import { createTheme } from "@mui/material";
 import { toast } from "react-toastify";
 import { Tab, Tabs } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
@@ -34,6 +34,7 @@ const tableTheme = createTheme({
 });
 
 function TeacherHomeworkReview(props) {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [value, setValue] = useState(0);
@@ -62,15 +63,13 @@ function TeacherHomeworkReview(props) {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+       <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
       ),
     },
     {

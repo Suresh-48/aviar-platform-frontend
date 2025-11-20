@@ -133,6 +133,7 @@ const App = () => {
             <Route path="allcourselist" element={<AllCourseList />} />
             <Route path="list" element={<List />} />
             <Route path="quiz" element={<Quiz />} />
+            <Route path="course/detail/:courseID" element={<CourseDetail />} />
             <Route path="homework" element={<Homework />} />
             <Route path="transcript" element={<Transcript />} />
             <Route path="activecourses" element={<ActiveCourses />} />
@@ -147,6 +148,8 @@ const App = () => {
             <Route path="homework/preview" element={<HomeWorkPreview/>}/>
             <Route path="homework/review" element={<HomeWorkReview/>}/>
             <Route path="forum" element={<Forum/>}/>
+            <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
+
           </Route>
           </Route>
 

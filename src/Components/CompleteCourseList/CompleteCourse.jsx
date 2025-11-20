@@ -4,7 +4,7 @@ import MaterialTable from "material-table";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import {  ROLES_STUDENT, ROLES_TEACHER } from "../../Constants/Role";
 
 // Component
@@ -28,6 +28,7 @@ const tableTheme = createTheme({
 });
 
 export default function CompleteCourseList() {
+  const navigate = useNavigate();
   const [isLoading, setisLoading] = useState(true);
   const [activeCourse, setactiveCourse] = useState([]);
   const [role, setrole] = useState("");
