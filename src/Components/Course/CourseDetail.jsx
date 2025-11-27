@@ -788,7 +788,7 @@ const ScheduleCard = ({ schedule, role, token, studentId, courseCheckout, curren
               className="row mx-1 mb-2 text-decoration-none hover-zoom"
               style={{ cursor: 'pointer' }}
               onClick={() =>
-                navigate("/teacher/profile/view", {
+                navigate("/shared/teacher/profile/view", {
                   state: {
                     teacherId: schedule?.teacherId?._id,
                   },
@@ -857,7 +857,7 @@ const ScheduleCard = ({ schedule, role, token, studentId, courseCheckout, curren
               ) : (
                 <Link
                   className="enroll-link btn btn-primary w-100 text-white text-decoration-none py-2"
-                  to={`/course/checkout/${aliasName}`}
+                  to={`/shared/course/checkout/${aliasName}`}
                   state={{
                     courseId: courseData?.id,
                     scheduleId: schedule?.id,

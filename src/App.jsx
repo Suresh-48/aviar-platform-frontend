@@ -84,6 +84,7 @@ import HomeWorkReview from "./Components/HomeWorkReview/Index.jsx";
 import ScheduleForCalendarView from "./Components/ScheduleForCalendarView/Index.jsx";
 import HomeWorkIntegration from "./Components/HomeWorkIntegration/index.jsx";
 import EditHomeWorkIntegration from "./Components/EditHomeWorkIntegration"
+import CourseCheckout from "./Components/CourseCheckout/Index.jsx";
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
@@ -115,6 +116,21 @@ const App = () => {
           <Route path="/password/change" element={<SubmitPassword />} />
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
+
+          {/* Shared Routes for Admin and Student */}
+<Route element={<ProtectedRoute allowedRoles={["admin", "student"]} />}>
+  <Route
+    path="/shared"
+    element={
+      <PublicLayout open={open} onClick={() => setOpen(!open)}>
+        <Outlet />
+      </PublicLayout>
+    }
+  >
+    <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
+    <Route path="course/checkout/:courseID" element={<CourseCheckout />} />
+  </Route>
+</Route>
 
           {/* Student Routes */}
            <Route element={<ProtectedRoute allowedRoles={["student"]} />}>      
