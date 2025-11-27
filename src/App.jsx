@@ -84,6 +84,7 @@ import HomeWorkReview from "./Components/HomeWorkReview/Index.jsx";
 import ScheduleForCalendarView from "./Components/ScheduleForCalendarView/Index.jsx";
 import HomeWorkIntegration from "./Components/HomeWorkIntegration/index.jsx";
 import EditHomeWorkIntegration from "./Components/EditHomeWorkIntegration"
+import CourseCheckout from "./Components/CourseCheckout/Index.jsx";
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
@@ -116,8 +117,23 @@ const App = () => {
           <Route path="/student/signup" element={<Studentsignup />} />
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
+          {/* Shared Routes for Admin and Student */}
+<Route element={<ProtectedRoute allowedRoles={["admin", "student"]} />}>
+  <Route
+    path="/shared"
+    element={
+      <PublicLayout open={open} onClick={() => setOpen(!open)}>
+        <Outlet />
+      </PublicLayout>
+    }
+  >
+    <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
+    <Route path="course/checkout/:courseID" element={<CourseCheckout />} />
+  </Route>
+</Route>
+
           {/* Student Routes */}
-           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>       
+           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>      
              <Route
             path="/student"
             element={
@@ -133,6 +149,7 @@ const App = () => {
             <Route path="allcourselist" element={<AllCourseList />} />
             <Route path="list" element={<List />} />
             <Route path="quiz" element={<Quiz />} />
+            <Route path="course/detail/:courseID" element={<CourseDetail />} />
             <Route path="homework" element={<Homework />} />
             <Route path="transcript" element={<Transcript />} />
             <Route path="activecourses" element={<ActiveCourses />} />
@@ -147,8 +164,11 @@ const App = () => {
             <Route path="homework/preview" element={<HomeWorkPreview/>}/>
             <Route path="homework/review" element={<HomeWorkReview/>}/>
             <Route path="forum" element={<Forum/>}/>
+            <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
+
           </Route>
- </Route>
+          </Route>
+
 
           {/* Admin Routes */}
             <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
@@ -229,5 +249,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;

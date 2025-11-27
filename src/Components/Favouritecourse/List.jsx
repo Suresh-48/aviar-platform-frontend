@@ -36,6 +36,7 @@ const FavouriteCourse = () => {
     })
       .then((response) => {
         const list = response.data.data.favouriteCourseList;
+        console.log("favourite course list", list);
         setFavouriteCourseList(list);
         setIsLoading(false);
         setSpinner(false);

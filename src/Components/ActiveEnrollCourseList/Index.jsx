@@ -8,7 +8,7 @@ import { createTheme } from "@mui/material";
 import { Link} from "react-router-dom";
 
 import { ROLES_STUDENT, ROLES_TEACHER } from "../../Constants/Role";
-
+import { useNavigate } from "react-router-dom";
 // Component
 // import Loader from "../core/Loader";
 import tableIcons  from "../Core/TableIcons";
@@ -30,6 +30,7 @@ const tableTheme = createTheme({
 });
 
 export default function ActiveEnrollCourseList() {
+  const navigate = useNavigate();
   const [isLoading, setisLoading] = useState(true);
   const [activeCourse, setactiveCourse] = useState([]);
   const [role, setrole] = useState("");
@@ -60,15 +61,13 @@ export default function ActiveEnrollCourseList() {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+    <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
       ),
     },
     {
@@ -112,15 +111,13 @@ export default function ActiveEnrollCourseList() {
       title: "Course Name",
       field: "courseId.name",
       render: (rowData) => (
-        <Link
-          className="linkColor"
-          to={{
-            pathname: `/course/detail/${rowData.courseId?.aliasName}`,
-            state: { courseId: rowData.id },
-          }}
-        >
-          {rowData.courseId.name}
-        </Link>
+       <Link
+  className="linkColor"
+  to={`/admin/course/detail/${rowData.courseId?.aliasName}`}
+  state={{ courseId: rowData.id }}
+>
+  {rowData.courseId.name}
+</Link>
       ),
     },
     {

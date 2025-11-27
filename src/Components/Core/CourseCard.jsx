@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 import ReactQuill from 'react-quill';
@@ -59,7 +59,7 @@ function CourseCard({ course, key, reload, onClick }) {
   const logout = () => {
     setTimeout(() => {
       localStorage.clear();
-      navigate("/kharpi");
+      // navigate("/kharpi");
       window.location.reload();
     }, 2000);
   };
@@ -90,19 +90,37 @@ function CourseCard({ course, key, reload, onClick }) {
       });
   };
 
-  const courseLink = role ? `/course/detail/${course?.aliasName}` : "/login";
+  const courseLink = role ? `/student/course/detail/${course?.aliasName}` : "/login";
   const courseState = role ? { courseId: course?.id } : null;
 
   const description = getPlainTextDescription(course?.description);
 
+  // Handle description click - stop propagation to prevent parent NavLink from triggering
+  const handleDescriptionClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (role) {
+      navigate(`/student/course/detail/${course?.aliasName}`, { state: { courseId: course?.id } });
+    } else {
+      navigate("/login");
+    }
+  };
+
+  // Handle card click (for the main NavLink area)
+  const handleCardClick = (e) => {
+    // Allow normal NavLink behavior for the main card area
+  };
+
   return (
     <div key={key} className="landing-card-fis">
       <Card className="landing-card-height">
-        <Link
-          to={courseLink}
-          state={courseState}
-          className="edit-link"
-        >
+     <NavLink
+  to={`/student/course/detail/${course?.aliasName}`}
+  state={{ courseId: course?.id }}
+  className="edit-link"
+  onClick={handleCardClick}
+>
           <div className="image-content">
             {course?.imageUrl === undefined || course?.imageUrl === null ? (
               <img
@@ -124,13 +142,26 @@ function CourseCard({ course, key, reload, onClick }) {
 
           <Card.Body className="card-body-alignments">
             <Card.Title className="truncate-text">{course?.name}</Card.Title>
-            <Card.Text>
-              <p className="ellipsis-text" title={description}>
-                {description}
-              </p>
-            </Card.Text>
           </Card.Body>
-        </Link>
+        </NavLink>
+
+        {/* Description outside of NavLink to have separate navigation */}
+        <Card.Body className="card-body-alignments" style={{ paddingTop: '0' }}>
+          <Card.Text>
+            <p 
+              className="ellipsis-text" 
+              title={description}
+              onClick={handleDescriptionClick}
+              style={{ 
+                cursor: "pointer", 
+                margin: 0,
+                padding: '8px 0'
+              }}
+            >
+              {description}
+            </p>
+          </Card.Text>
+        </Card.Body>
 
         <Card.Footer className="d-flex justify-content-center align-items-center">
           <div style={{ width: "100%" }}>
@@ -146,7 +177,7 @@ function CourseCard({ course, key, reload, onClick }) {
               className="mb-2"
               style={{ fontSize: 20, cursor: "pointer" }}
               onClick={() => {
-                onClick();
+                navigate(`/student/course/detail/${course?.aliasName}`);
                 onSubmit(course.id ? course.id : course._id);
               }}
             />
@@ -157,7 +188,7 @@ function CourseCard({ course, key, reload, onClick }) {
               className="mb-2"
               style={{ fontSize: 20, cursor: "pointer" }}
               onClick={() => {
-                onClick();
+                navigate(`/student/course/detail/${course?.aliasName}`);
                 onSubmit(course.id ? course.id : course._id);
               }}
             />

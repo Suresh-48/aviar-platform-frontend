@@ -79,7 +79,7 @@ function UpcomingTeacherScheduleList(props) {
       title: "Course Name",
       render: (rowData) => (
         <Link
-          to={`/course/detail/${rowData?.courseId?.aliasName}`}
+          to={`/admin/course/detail/${rowData?.courseId?.aliasName}`}
           state={{ courseId: rowData?.id }}
           className="linkColor"
         >
@@ -115,7 +115,7 @@ function UpcomingTeacherScheduleList(props) {
       render: (rowData) => (
         <Link
           className="linkColor"
-          to={`/course/detail/${rowData?.courseId?.aliasName}`}
+          to={`/admin/course/detail/${rowData?.courseId?.aliasName}`}
           state={{ courseId: rowData?.id }}
         >
           {rowData?.courseId?.name}

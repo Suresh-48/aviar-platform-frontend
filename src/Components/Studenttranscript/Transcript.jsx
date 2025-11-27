@@ -5,13 +5,14 @@ import { createTheme } from "@mui/material";
 import { Container } from "react-bootstrap";
 import Api from "../../Api";
 import { Link} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 // Component
 import tableIcons from "../core/TableIcons";
 import Loader from "../core/Loader";
 import { toast } from "react-toastify";
 
 function StudentTranscript(props) {
+  const navigate = useNavigate();
   const [studentId, setstudentId] = useState(props?.match?.params?.id);
   const [isLoading, setisLoading] = useState(true);
   const [data, setData] = useState([]);
