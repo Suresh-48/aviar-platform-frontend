@@ -850,25 +850,30 @@ const ScheduleCard = ({ schedule, role, token, studentId, courseCheckout, curren
                 <span className="enroll-link-disable text-success fw-bold">
                   Already Enrolled
                 </span>
-              ) : currentDate > schedule.startDate ? (
+              )
+             : moment(currentDate).isAfter(moment(schedule.startDate), 'day') ? (
+              //  : currentDate > schedule.startDate ? (
                 <span className="enroll-link-disable text-muted">
                   Enrollment Closed
                 </span>
-              ) : (
-                <Link
-                  className="enroll-link btn btn-primary w-100 text-white text-decoration-none py-2"
-                  to={`/shared/course/checkout/${aliasName}`}
-                  state={{
-                    courseId: courseData?.id,
-                    scheduleId: schedule?.id,
-                    scheduleDetail: schedule,
-                    coursePayment: courseData?.discountAmount,
-                    aliasName: aliasName,
-                  }}
-                  onClick={handleEnrollClick}
-                >
-                  Enroll Now
-                </Link>
+              )
+               : 
+              (
+             <Link
+  className="enroll-link btn btn-primary w-100 text-white text-decoration-none py-2"
+  to={`/shared/course/checkout/${aliasName}`}
+  state={{
+    courseId: courseData?.id,
+    scheduleId: schedule?.id,
+    scheduleDetail: schedule,
+    coursePayment: courseData?.discountAmount,
+    aliasName: aliasName,
+  }}
+  onClick={handleEnrollClick}
+>
+  Enroll Now
+</Link>
+
               )}
             </div>
           ) : (

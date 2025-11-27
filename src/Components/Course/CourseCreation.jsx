@@ -155,6 +155,7 @@ const quillFormats = [
               courseId: courseId,
               image: imagePreview,
               userId: userId,
+              
             }).then((res) => {
               history.goBack();
               setIsSubmit(false);
@@ -172,8 +173,10 @@ const quillFormats = [
         }
       })
       .catch((error) => {
+        
         if (error.response && error.response.status >= 400) {
           let errorMessage;
+          console.log("error.response",error.response);
           const errorRequest = error.response.request;
           if (errorRequest && errorRequest.response) {
             errorMessage = JSON.parse(errorRequest.response).message;
@@ -207,12 +210,14 @@ const quillFormats = [
       name: selectCategory,
       createdBy: userId,
       userId: userId,
+    
     })
       .then((response) => {
         const status = response.status;
         const data = response.data.data;
         const categoryImage = categoryImagePreview;
         if (status === 201) {
+       toast.success(response.data.message);
           if (categoryImage) {
             const categoryId = response.data.data.createCategory.id;
             Api.patch("api/v1/category/image/upload", {
@@ -224,7 +229,7 @@ const quillFormats = [
               setIsSubmit(false);
             });
           } else {
-            history.goBack();
+             handleModal();
             setIsSubmit(false);
           }
           setCategory({
