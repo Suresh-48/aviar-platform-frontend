@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { Slider } from "@mui/material";
 import Label from "../../components/core/Label";
 import "../../css/AllCourseList.css";
+import Select from "react-select";
 import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faFilter } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +17,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const AllCourseList = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [categoryList, setCategoryList] = useState([]);
   const [landingPageCategoryList, setLandingPageCategoryList] = useState(location?.state);
   const [courseList, setCourseList] = useState([]);
   const [data, setData] = useState([]);
@@ -53,28 +55,42 @@ const AllCourseList = (props) => {
     }
     setPageNumbers(pageNumbers);
   }, [courseList, postPerPage]);
+console.log("bjbjbjj")
 
-  const getCategory = () => {
-    const userId = localStorage.getItem("userId");
-    Api.get("api/v1/category", {
-      headers: {
-        userId: userId,
-      },
-    })
-      .then((res) => {
-        setCategory(res.data.data.data);
-        
-        setIsLoading(false);
-        setSpinner(false);
-      })
-      .catch((error) => {
-        const errorStatus = error?.response?.status;
-        if (errorStatus === 401) {
-          logout();
-          toast.error("Session Timeout");
-        }
+const getCategory = () => {
+  const userId = localStorage.getItem("userId");
+
+  Api.get("api/v1/course/publish", {
+    headers: {
+      userId: userId,
+    },
+  })
+    .then((res) => {
+      const categoryData = res.data?.data?.data[0]?.category;
+
+      // Set SELECTED category
+      setCategory({
+        value: categoryData.id,
+        label: categoryData.name,
       });
-  };
+
+      setFieldValue("category", {
+        value: categoryData.id,
+        label: categoryData.name,
+      });
+
+      setIsLoading(false);
+      setSpinner(false);
+    })
+    .catch((error) => {
+      const errorStatus = error?.response?.status;
+      if (errorStatus === 401) {
+        logout();
+        toast.error("Session Timeout");
+      }
+    });
+};
+
 
   const courseFilter = (searchData) => {
     const userId = localStorage.getItem("userId");
@@ -113,7 +129,7 @@ const AllCourseList = (props) => {
   const logout = () => {
     setTimeout(() => {
       localStorage.clear();
-      navigate("/kharpi");
+      // navigate("/kharpi");
       window.location.reload();
     }, 2000);
   };
@@ -244,7 +260,7 @@ const AllCourseList = (props) => {
           <div>
             <div className="d-block justify-content-center">
               <p className="filter-type-name mb-1">Category</p>
-              <div>
+              {/* <div>
                 <Multiselect
                   options={category}
                   onSelect={onSelected}
@@ -254,8 +270,33 @@ const AllCourseList = (props) => {
                   avoidHighlightFirstOption={true}
                   style={{ backgroundColor: "white" }}
                 />
-              </div>
+              </div> */}
+<Select
+  value={category}
+  placeholder="Select Category"
+  name="category"
+  onChange={(e) => {
+    if (e.value === "No option") {
+      handleModal();
+    } else {
+      setFieldValue("category", e);
+      setCategory(e);
+    }
+  }}
+  options={[
+    {
+      value: "No option",
+      label: "No option",
+    },
+    ...(categoryList?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    })) || []),
+  ]}
+/>
 
+
+             {console.log("categoryList", categoryList)}
               <div className="mt-4">
                 <p className="filter-type-name mb-1">Search by name</p>
                 <div className="input-group">
