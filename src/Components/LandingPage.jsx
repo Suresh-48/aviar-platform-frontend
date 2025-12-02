@@ -60,11 +60,12 @@ function LandingPage(props) {
 
   const loginClosed = props?.location?.state?.sideClose;
   const [allCourseList, setAllCourseList] = useState([]);
+  const [publish, setPublish] = useState([]);
   const [categoryDetails, setCategoryDetails] = useState([]);
   const [teacher, setTeacher] = useState([]);
   // const cards = Array.from({ length: 20 }, (_, i) => i + 1);
   const navigate = useNavigate();
-  
+  const limitedCategories = allCourseList.slice(0, 6);
   const ChangeArrow = ({ type, onClick, isEdge }) => (
     <div onClick={onClick} className="arrow-div">
       {type === consts.PREV ? (
@@ -83,7 +84,21 @@ function LandingPage(props) {
       )}
     </div>
   );
+    useEffect(() => {
   
+    getFavouriteList();
+    getPublishCourse();
+
+  }, []);
+  const chunkArray = (arr, size) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+};
+
+const slides = chunkArray(publish, 3);
   const scrollLeft = () => {
     cardRowRef.current.scrollBy({ left: -220, behavior: 'smooth' });
   };
@@ -92,29 +107,95 @@ function LandingPage(props) {
   };
   // get publish course data
   const getPublishCourse = () => {
-    Api.get("api/v1/course/publish").then((res) => {
+    console.log("Get Publish Course Call");
+    Api.get("api/v1/course/landin/publish/").then((res) => {
+
       const data = res?.data?.data?.data;
-      setAllCourseList(data);
+          console.log("Publish Course Data##########:", data);
+      setPublish(data);
     });
   };
+
   const getAllCourse = () => {
     Api.get("api/v1/course/").then((res) => {
+     
       const allCourse = res?.data?.data?.data;
-      // setAllCourseList(allCourse);
+      //  console.log("All Course Data##########:",allCourse);
+      setAllCourseList(allCourse);
     });
   };
   const getCategory = () => {
     Api.get("api/v1/category/").then((res) => {
       const categoryDetails = res?.data?.data?.data;
+      // console.log("Category Details##########:", res.data.data);
       setCategoryDetails(categoryDetails);
     });
   };
+// const getPublishCourse = async () => {
+//   try {
+//     console.log("Get Publish Course API Call initiated");
+
+//     const res = await Api.get("api/v1/course/publish/");
+//           console.log("Publish Course Data:");
+//     const data = res?.data?.data?.data || [];
+
+
+//     setPublish(data);
+//   } catch (error) {
+//     console.error("API Error:", error);
+
+//     const status = error?.response?.status;
+
+//     if (status === 401) {
+//       toast.error("Session Timeout");
+//     } else if (status === 404) {
+//       console.log("No published courses found");
+//       setPublish([]);
+//     } else {
+//       toast.error("Failed to load courses");
+//     }
+//   } finally {
+//     setIsLoading(false);
+//   }
+// };
+
   const getTeacherList = () => {
     Api.get("api/v1/teacher/publish/list").then((res) => {
       const data = res?.data?.data;
+      // console.log("Teacher List Data##########:", data);
       setTeacher(data);
     });
   };
+   const getFavouriteList = () => {
+  
+  console.log("Get Favourite Course Call");
+      Api.get("api/v1/favouriteCourse/landinpage")
+        .then((response) => {
+                    console.log("favourite course list",response);
+          const list = response.data.data.favouriteCourseList;
+          console.log("favourite course list", list);
+          // setFavouriteCourseList(list);
+          setIsLoading(false);
+          setSpinner(false);
+        })
+        // .catch((error) => {
+        //   if (error.response && error.response.status >= 400) {
+        //     let errorMessage;
+        //     const errorRequest = error.response.request;
+        //     if (errorRequest && errorRequest.response) {
+        //       errorMessage = JSON.parse(errorRequest.response).message;
+        //     }
+        //   }
+  
+        //   const errorStatus = error?.response?.status;
+        //   if (errorStatus === 401) {
+        //     logout();
+        //     toast.error("Session Timeout");
+        //   }
+  
+        //   toast.error(error?.response?.data?.message);
+        // });
+    };
   const convertFromJSONToHTML = (value) => {
     try {
       return { __html: stateToHTML(convertFromRaw(JSON.parse(value))) };
@@ -127,6 +208,7 @@ function LandingPage(props) {
     getAllCourse();
     getCategory();
     getTeacherList();
+    getFavouriteList();
     getPublishCourse();
     localStorage.clear();
   }, []);
@@ -142,37 +224,6 @@ function LandingPage(props) {
   }, [role, navigate]);
   return (
     <div className="landing-page-content-main">
-      {/* <div className="curve-shape-main-div">
-        <div className="curve-shape-main-div-sec-value ">
-          <img src={curveImg} alt="" className="curve-shape-main-image" />
-        </div>
-        <div className="aviar-img-div">
-         
-          <img src={aviar} alt="" className="aviar-logo" />
-          {role === "admin" || role === "teacher" || role === "student" ? null : (
-            <div className="login-arrow-div-arrows" onClick={() => navigate("/login")}>
-              <img src={loginArrow} className="login-arrow " />
-              <p className="login-pTag mb-0 mx-1">Login</p>
-            </div>
-          )}
-        </div>
-        <div className="aviar-img-div-two">
-          <div className="content-link">
-            <p className="links mx-4" onClick={() => navigate("/course/search")}>
-              Courses
-            </p>
-            <p className="links mx-4" onClick={() => navigate("/trainers")}>
-              Trainers
-            </p>
-            <p className="links mx-4" onClick={() => navigate("/about-us")}>
-              About Us
-            </p>
-            <p className="links mx-4" onClick={() => navigate("/help")}>
-              Help
-            </p>
-          </div>
-        </div>
-      </div> */}
       <Navbar />
       <div
         className="image-div-one"
@@ -245,74 +296,132 @@ function LandingPage(props) {
       </div>
       <div >
       <div>
-      {/* // className="upcomings-div-main" */}
+
+
+{limitedCategories.length > 0 ? (
+  <div className="profile-div-main">
+    <div className="profile-div-sub">
+      <p className="slider-trainer-upcoming">Categories</p>
+
+      <Button
+        className="btn-Upcomingcourse"
+        style={{ marginLeft: "90%" }}
+        onClick={() => navigate("/login")}
+      >
+        View All
+      </Button>
+
+      <Carousel
+        indicators={true}
+        controls={true}
+         interval={5000}
+        wrap={true}
+        touch={true}
+       variant="dark"
+        className="custom-carousel"
+      >
+        {Array.from({ length: Math.ceil(limitedCategories.length / 3) }, (_, chunkIndex) => (
+          <Carousel.Item key={chunkIndex}>
+            <div className="d-flex justify-content-center align-items-center gap-5 py-5">
+              {limitedCategories
+                .slice(chunkIndex * 3, chunkIndex * 3 + 3)
+                .map((item, itemIndex) => (
+                  <div
+                    key={item.id || itemIndex}
+                    style={{
+                      minWidth: "250px",
+                      minHeight: "280px",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    <img
+                      src={item.image || emptyGallery}
+                      alt={item.name}
+                      className="rounded-3 mb-3"
+                      style={{
+                        width: "180px",
+                        height: "180px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <h5 className="fw-bold text-dark mb-0">{item.name}</h5>
+                  </div>
+                ))}
+            </div>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+) : null}
+
       
-       <div className="profile-div-main">
-        <div className="profile-div-sub">
-          <p className="slider-trainer-upcoming">Categories</p>
-          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
-            View All
-          </Button>
-          {/* <br/> */}
-          <Carousel>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt="first slide"
-                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt=" second slide"
-                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt="first slide"
-                  style={{ width: "16%", display: "flex", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-          </Carousel>
-        </div>
-      </div>
         <br />
       </div>
-           <div className="profile-div-main">
-        <div className="profile-div-sub">
-          <p className="slider-trainer-upcoming">Recommended Courses for you</p>
-          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
-            View All
-          </Button>
-          {/* <br/> */}
-          <Carousel>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt="first slide"
-                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt=" second slide"
-                  style={{ width: "16%", display: "flex", alignContent: "center", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div>
-                <img src={emptyGallery} alt="first slide"
-                  style={{ width: "16%", display: "flex", margin: "auto" }}
-                />
-              </div>
-            </Carousel.Item>
-          </Carousel>
-        </div>
-      </div>
+{publish.length > 0 ? (
+  <div className="profile-div-main">
+    <div className="profile-div-sub">
+      <p className="slider-trainer-upcoming">Recommended Courses for you</p>
+
+      <Button
+        className="btn-Upcomingcourse"
+        style={{ marginLeft: "90%" }}
+        onClick={() => navigate("/login")}
+      >
+        View All
+      </Button>
+
+      {/* Auto-slide every 3 seconds */}
+      <Carousel controls={false} indicators={false} interval={3000} pause={false}>
+        {slides.map((group, i) => (
+          <Carousel.Item key={i}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "20px",
+                padding: "20px",
+              }}
+            >
+              {group.map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    width: "20%",
+                    background: "#fff",
+                    borderRadius: "10px",
+                    padding: "20px",
+                    textAlign: "center",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <img
+                    src={item.image || emptyGallery}
+                    alt={item.aliasName}
+                    style={{
+                      width: "70%",
+                      height: "220px",
+                      objectFit: "cover",
+                      margin: "auto",
+                      borderRadius: "8px",
+                    }}
+                  />
+
+                  {/* aliasName display */}
+                  <p style={{ marginTop: "10px", fontWeight: "600" }}>
+                    {item.aliasName}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+) : null}
+
+   
       <br />
       <div className="back-image-main">
         <img src={backImg4} alt="" className="back-image-one" />
@@ -400,76 +509,49 @@ function LandingPage(props) {
           </Carousel>
         </div>
       </div>
-      <div className="profile-div-main">
-        <div className="profile-div-sub">
-          <p className="slider-trainer-upcoming">Top Trainers</p>
-          
-          <Button className="btn-Upcomingcourse" style={{ marginLeft: "90%" }} onClick={() => navigate("/login")}>
-            View All
-          </Button>
-          <Carousel >
-            <Carousel.Item>
-              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
-                <div className="inside-carousel-div2">
-                  <div className="user-details-div" >
-                    <div className="user1img">
-                      <img src={user1} alt=""
-                        className="user1img"
-                      />
-                    </div>
-                    <div>
-                      <hr className="hr-line-user my-2" />
-                      <p className="Aviar-user-profession">Aviar User1</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
-                <div className="inside-carousel-div2">
-                  <div className="user-details-div" >
-                    <div>
-                      <hr className="hr-line-user my-2" />
-                      <p className="Aviar-user-profession">Aviar User2</p>
+
+
+{teacher?.length > 0 ? (
+  <div className="profile-div-main">
+    <div className="profile-div-sub">
+      <p className="slider-trainer-upcoming">Top Trainers</p>
+      <Carousel 
+        indicators={false}
+        interval={null}
+        wrap={false}
+        variant="dark"
+        className="custom-carousel"
+      >
+        {/* Create chunks of 3 items per slide */}
+        {Array.from({ length: Math.ceil(teacher.slice(0, 5).length / 3) }, (_, slideIndex) => (
+                      <Carousel.Item itemsToShow={3} itemsToScroll={1} renderArrow={ChangeArrow}>
+            <div className="row justify-content-center">
+              {teacher.slice(0, 5).slice(slideIndex * 3, (slideIndex + 1) * 3).map((item, i) => (
+                <div key={item.id || i} className="col-md-4">
+                  <div className="inside-carousel-div1">
+                    <div className="inside-carousel-div2">
+                      {item?.imageUrl ? 
+                        <img src={item?.imageUrl} className="trainer-img" alt={item.firstName} /> : 
+                        <img src={user1} alt="Default user" />
+                      }
+                      <div className="user-details-div">
+                        <div>
+                        <p className="kharpi-user-name mb-0">{item?.firstName + " " + item?.lastName}</p>
+                        <hr className="hr-line-user my-2" />
+                        <p className="kharpi-user-profession">Business Representative</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
-                <div className="inside-carousel-div2">
-                  <div className="user-details-div" >
-                    <div>
-                      <hr className="hr-line-user my-2" />
-                      <p className="Aviar-user-profession">Aviar User3</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              {/* {teacher?.slice(0, 5).map((item, i) => ( */}
-              <div className="inside-carousel-div1" style={{ margin: "auto" }}>
-                <div className="inside-carousel-div2">
-                  <div className="user-details-div" >
-                    <div>
-                      <hr className="hr-line-user my-2" />
-                      <p className="Aviar-user-profession"> Aviar User4</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Carousel.Item>
-          </Carousel>
-          <div className="carousel-wrapper">
-          </div>
-        </div>
-      </div>
+              ))}
+            </div>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </div>
+  </div>
+) : null}
       {/* <Row>
                 <Col md={2}> */}
       <div className="Col-6">

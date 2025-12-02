@@ -201,7 +201,7 @@ const App = () => {
             <Route path="course/list" element={<CourseList />} />
             <Route path="teacher/list" element={<TeacherList />} />
             <Route path="forum" element={<AdminForum />} />
-           <Route path="course/detail/:courseID" element={<CourseDetail />} />
+            <Route path="course/detail/:courseID" element={<CourseDetail />} />
             <Route path="payment/list" element={<AdminPaymentList />} />
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>

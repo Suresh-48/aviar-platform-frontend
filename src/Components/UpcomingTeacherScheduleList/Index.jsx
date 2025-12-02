@@ -1,14 +1,17 @@
 import MaterialTable from "@material-table/core";
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Modal, Row, Col, Form, Button } from "react-bootstrap";
+// Use MUI v5+ imports (you have @mui/material v6.4.7)
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Avatar } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
+
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Select from "react-select";
-import { Avatar } from "@mui/material";
-import { Tab, Tabs } from "@mui/material";
 
 // Component
 import Loader from "../core/Loader";
@@ -306,6 +309,7 @@ function UpcomingTeacherScheduleList(props) {
     });
   };
 
+  // FIX: Use a simple theme without alpha function dependency
   const tableTheme = createTheme({
     components: {
       MuiTableRow: {
@@ -313,7 +317,7 @@ function UpcomingTeacherScheduleList(props) {
           root: {
             "&:hover": {
               cursor: "pointer",
-              backgroundColor: "rgba(224, 224, 224, 1) !important",
+              backgroundColor: "#e0e0e0", // Use hex color instead of rgba
             },
           },
         },
@@ -375,7 +379,7 @@ function UpcomingTeacherScheduleList(props) {
                       <h5>Upcoming Schedule</h5>
                     </div>
                     <div className="material-table-responsive">
-                      <ThemeProvider theme={tableTheme}>
+                      {/* <ThemeProvider theme={tableTheme}> */}
                         <MaterialTable
                           style={{ marginBottom: "10px" }}
                           icons={tableIcons}
@@ -428,7 +432,7 @@ function UpcomingTeacherScheduleList(props) {
                             },
                           }}
                         />
-                      </ThemeProvider>
+                      {/* </ThemeProvider> */}
                     </div>
                     <div>
                       <Modal show={show} centered backdrop="static">
@@ -509,7 +513,7 @@ function UpcomingTeacherScheduleList(props) {
                       <h5>Completed Schedule List</h5>
                     </div>
                     <div className="material-table-responsive">
-                      <ThemeProvider theme={tableTheme}>
+                      {/* <ThemeProvider theme={tableTheme}> */}
                         <MaterialTable
                           icons={tableIcons}
                           columns={teacherColumns}
@@ -531,7 +535,7 @@ function UpcomingTeacherScheduleList(props) {
                             },
                           }}
                         />
-                      </ThemeProvider>
+                      {/* </ThemeProvider> */}
                     </div>
                   </div>
                 )}
@@ -542,7 +546,7 @@ function UpcomingTeacherScheduleList(props) {
                   <h5>Teachers Upcoming Lessons</h5>
                 </div>
                 <div className="material-table-responsive">
-                  <ThemeProvider theme={tableTheme}>
+                  {/* <ThemeProvider theme={tableTheme}> */}
                     <MaterialTable
                       icons={tableIcons}
                       columns={adminColumns}
@@ -576,7 +580,7 @@ function UpcomingTeacherScheduleList(props) {
                         },
                       }}
                     />
-                  </ThemeProvider>
+                  {/* </ThemeProvider> */}
                 </div>
                 <Modal show={show} centered onHide={() => handleModal()}>
                   <Modal.Body id="contained-modal-title-vcenter">
