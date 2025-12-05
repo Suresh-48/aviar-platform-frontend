@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 
 // SCSS
 import "../../css/LandingPage.css";
+import "../../css/CourseCard.css";
 
 // Icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

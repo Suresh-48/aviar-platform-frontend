@@ -78,3 +78,48 @@
 .file-upload-answer{
   word-break: break-all;
 }
+
+/* Mobile View - Simple */
+@media (max-width: 767px) {
+  /* Tabs */
+  .MuiTab-root {
+    min-width: 80px !important;
+    padding: 8px 4px !important;
+  }
+  
+  .tab-title {
+    font-size: 12px !important;
+  }
+  
+  .tab-count {
+    font-size: 14px !important;
+  }
+  
+  /* Table */
+  .material-table-responsive {
+    overflow-x: auto !important;
+    width: 100% !important;
+  }
+  
+  .MuiTable-root {
+    min-width: 600px !important;
+  }
+  
+  .MuiTableCell-head,
+  .MuiTableCell-body {
+    font-size: 12px !important;
+    padding: 8px 4px !important;
+  }
+  
+  /* Headers */
+  h5 {
+    font-size: 16px !important;
+  }
+  
+  /* Buttons */
+  .zoom-view-style,
+  .zoom-view-disable-style {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
+}

@@ -247,6 +247,7 @@ const getCategory = () => {
         show={searchModalOpen}
         centered
         backdrop="static"
+        className="filter-model"
         onHide={() => {
           setSearchModalOpen(false);
           setSearch("");
