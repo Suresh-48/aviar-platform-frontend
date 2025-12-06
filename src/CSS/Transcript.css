@@ -1,0 +1,216 @@
+/* Material Table Responsive Styles */
+
+/* Base responsive wrapper */
+.material-table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -15px;
+  padding: 0 15px;
+  width: calc(100% + 30px);
+}
+
+/* Ensure table doesn't break container on small screens */
+.material-table-responsive .MuiTableContainer-root {
+  overflow-x: auto !important;
+  min-height: 300px;
+}
+
+/* Tablet screens (768px and below) */
+@media screen and (max-width: 768px) {
+  .material-table-responsive {
+    margin: 0 -10px;
+    padding: 0 10px;
+    width: calc(100% + 20px);
+  }
+  
+  /* Reduce table cell padding */
+  .MuiTableCell-root {
+    padding: 10px 6px !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Header adjustments */
+  .MuiTableCell-head {
+    font-size: 0.875rem !important;
+    padding: 12px 6px !important;
+  }
+  
+  /* Reduce title size */
+  h4.py-3 {
+    font-size: 1.25rem;
+    padding: 1rem 0 !important;
+  }
+  
+  /* Link adjustments inside table */
+  .linkColor {
+    font-size: 0.875rem !important;
+  }
+  
+  /* Toolbar responsive */
+  .MuiToolbar-root {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  
+  /* Search field */
+  .MuiInputBase-root {
+    width: 150px !important;
+  }
+  
+  /* Pagination adjustments */
+  .MuiTablePagination-toolbar {
+    min-height: 52px !important;
+  }
+}
+
+/* Mobile screens (576px and below) */
+@media screen and (max-width: 576px) {
+  .material-table-responsive {
+    margin: 0 -5px;
+    padding: 0 5px;
+    width: calc(100% + 10px);
+  }
+  
+  /* Further reduce padding */
+  .MuiTableCell-root {
+    padding: 8px 4px !important;
+    font-size: 0.8125rem !important;
+  }
+  
+  .MuiTableCell-head {
+    font-size: 0.8125rem !important;
+    padding: 10px 4px !important;
+  }
+  
+  /* Compact toolbar */
+  .MuiToolbar-root {
+    padding: 8px 4px !important;
+    min-height: 56px;
+  }
+  
+  /* Search field smaller */
+  .MuiInputBase-root {
+    width: 120px !important;
+    font-size: 0.8125rem !important;
+  }
+  
+  /* Smaller page title */
+  h4.py-3 {
+    font-size: 1.125rem;
+    padding: 0.75rem 0 !important;
+  }
+  
+  .linkColor {
+    font-size: 0.8125rem !important;
+  }
+  
+  /* Compact pagination */
+  .MuiTablePagination-toolbar {
+    min-height: 48px !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+  
+  .MuiTablePagination-select,
+  .MuiTablePagination-displayedRows {
+    font-size: 0.8125rem !important;
+  }
+  
+  /* Smaller buttons */
+  .MuiIconButton-root {
+    padding: 6px !important;
+  }
+  
+  .MuiIconButton-sizeSmall {
+    padding: 3px !important;
+  }
+}
+
+/* Small mobile screens (375px and below) */
+@media screen and (max-width: 375px) {
+  /* Very compact table */
+  .MuiTableCell-root {
+    padding: 6px 3px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .MuiTableCell-head {
+    font-size: 0.75rem !important;
+    padding: 8px 3px !important;
+  }
+  
+  /* Minimal toolbar */
+  .MuiToolbar-root {
+    padding: 6px 2px !important;
+    min-height: 52px;
+  }
+  
+  /* Minimal search */
+  .MuiInputBase-root {
+    width: 100px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Very small title */
+  h4.py-3 {
+    font-size: 1rem;
+    padding: 0.5rem 0 !important;
+  }
+  
+  .linkColor {
+    font-size: 0.75rem !important;
+  }
+  
+  /* Minimal pagination */
+  .MuiTablePagination-toolbar {
+    min-height: 44px !important;
+  }
+  
+  .MuiTablePagination-select,
+  .MuiTablePagination-displayedRows {
+    font-size: 0.75rem !important;
+  }
+  
+  /* Tiny buttons */
+  .MuiIconButton-root {
+    padding: 4px !important;
+  }
+  
+  .MuiSvgIcon-root {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Optional: Visual scroll indicator for mobile */
+@media screen and (max-width: 768px) {
+  .material-table-responsive::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .material-table-responsive::-webkit-scrollbar-thumb {
+    background-color: rgba(29, 20, 100, 0.3);
+    border-radius: 3px;
+  }
+  
+  .material-table-responsive::-webkit-scrollbar-track {
+    background-color: rgba(29, 20, 100, 0.1);
+  }
+}
+
+/* Fix for table width - ensures horizontal scrolling when needed */
+.MuiTable-root {
+  min-width: 800px; /* Minimum width for table content */
+}
+
+/* Ensure links don't overflow */
+.material-table-responsive a {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Hover effect optimization for mobile */
+@media (hover: none) {
+  .MuiTableRow-root:hover {
+    background-color: transparent !important;
+  }
+}
