@@ -6,6 +6,7 @@ import moment from "moment";
 import { Tab, Tabs } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/TeacherList.css";
+import "../../css/Quiz.css";
 // Api
 import Api from "../../Api";
 

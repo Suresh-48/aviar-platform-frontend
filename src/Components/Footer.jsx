@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import aviar from "./Images/aviar.png";
+import '../css/Footer.css'
 import {
   faFacebook,
   faTwitter,
@@ -25,38 +26,21 @@ const Footer = () => {
   };
 
   return (
-    <div
-      style={{
-        background: "#9eadffff",
-        paddingTop: "45px",
-        paddingBottom: "25px",
-        borderTop: "1px solid #e2e4f4",
-      }}
-    >
+    <div className="footer-container">
       <Container className="p-4">
         <Row>
-
           {/* LOGO + ADDRESS */}
-          <Col className="mb-3" md={3} sm={6}>
-            <div style={{marginRight:"50px"}}>
+          <Col className="mb-3 footer-col" md={3} sm={6}>
+            <div className="logo-section">
               <img
                 src={aviar}
-                width="45%"
-                style={{
-                  marginBottom: "15px",
-                  filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.2))",
-                }}
-                alt="logo"
+                className="footer-logo"
+                alt="Aviar Technology Services logo"
               />
             </div>
 
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-                marginBottom: "12px",
-              }}
+              className="location-item"
               onClick={() =>
                 window.open(
                   "https://www.google.com/maps/place/AVIAR+Technology+Services/",
@@ -66,25 +50,21 @@ const Footer = () => {
             >
               <FontAwesomeIcon
                 icon={faLocationDot}
-                style={{ marginRight: "8px", color: "#3f51b5" }}
+                className="location-icon"
               />
-              <span style={{ fontSize: "15px", color: "#333" }}>
+              <span className="location-text">
                 Tiruvannamalai, Tamilnadu
               </span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="email-item">
               <FontAwesomeIcon
                 icon={faEnvelope}
-                style={{ marginRight: "8px", color: "#3f51b5" }}
+                className="email-icon"
               />
               <a
                 href="mailto:aviartechservices.com"
-                style={{
-                  textDecoration: "none",
-                  color: "#3f51b5",
-                  fontSize: "15px",
-                }}
+                className="email-link"
               >
                 aviartechservices.com
               </a>
@@ -92,124 +72,110 @@ const Footer = () => {
           </Col>
 
           {/* EXPLORE */}
-          <Col md={3} sm={6} className="mt-2">
-            <b style={{ fontSize: "18px", color: "#25306f" }}>Explore</b>
-            <br />
-
-            <a
-              href="/login"
-              style={linkStyle}
-              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
-              onMouseOut={(e) => hoverColor(e, "#444")}
-            >
-              Courses
-            </a><br />
-
-            <a
-              href="/trainers"
-              style={linkStyle}
-              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
-              onMouseOut={(e) => hoverColor(e, "#444")}
-            >
-              Trainers
-            </a><br />
-
-            <a
-              href="/about-us"
-              style={linkStyle}
-              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
-              onMouseOut={(e) => hoverColor(e, "#444")}
-            >
-              About Us
-            </a><br />
-
-            <a
-              href="/terms-of-use"
-              style={linkStyle}
-              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
-              onMouseOut={(e) => hoverColor(e, "#444")}
-            >
-              Terms of Use
-            </a><br />
-
-            <a
-              href="/privacy-policy"
-              style={linkStyle}
-              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
-              onMouseOut={(e) => hoverColor(e, "#444")}
-            >
-              Privacy Policy
-            </a>
-          </Col>
-
-          {/* ACCOUNT */}
-          <Col md={3} sm={6} className="mt-2">
-            <b style={{ fontSize: "18px", color: "#25306f" }}>Account</b>
-            <br />
-            <a
-              href="/login"
-              style={linkStyle}
-              onMouseOver={(e) => hoverColor(e, "#3f51b5")}
-              onMouseOut={(e) => hoverColor(e, "#444")}
-            >
-              Login
-            </a>
-          </Col>
-
-          {/* SOCIAL */}
-          <Col md={3} sm={6} className="mt-2">
-            <b style={{ fontSize: "18px", color: "#25306f" }}>Stay Connected</b>
-
-            <div style={{ marginTop: "10px", marginLeft:"75px" }}>
+          <Col md={3} sm={6} className="mt-2 footer-col">
+            <b className="footer-section-title">Explore</b>
+            <div className="footer-links">
               <a
-                href="#facebook"
-                style={{ ...linkStyle, display: "flex", alignItems: "center" }}
+                href="/courses"
+                style={linkStyle}
                 onMouseOver={(e) => hoverColor(e, "#3f51b5")}
                 onMouseOut={(e) => hoverColor(e, "#444")}
               >
-                <FontAwesomeIcon icon={faFacebook} style={{ marginRight: "8px" }} />
+                Courses
+              </a>
+              <a
+                href="/trainers"
+                style={linkStyle}
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                Trainers
+              </a>
+              <a
+                href="/about-us"
+                style={linkStyle}
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                About Us
+              </a>
+              <a
+                href="/terms-of-use"
+                style={linkStyle}
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                Terms of Use
+              </a>
+              <a
+                href="/privacy-policy"
+                style={linkStyle}
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                Privacy Policy
+              </a>
+            </div>
+          </Col>
+
+          {/* ACCOUNT */}
+          <Col md={3} sm={6} className="mt-2 footer-col">
+            <b className="footer-section-title">Account</b>
+            <div className="footer-links">
+              <a
+                href="/login"
+                style={linkStyle}
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                Login
+              </a>
+            </div>
+          </Col>
+
+          {/* SOCIAL */}
+          <Col md={3} sm={6} className="mt-2 footer-col">
+            <b className="footer-section-title">Stay Connected</b>
+            <div className="social-links">
+              <a
+                href="#facebook"
+                className="social-link facebook-link"
+                onMouseOver={(e) => hoverColor(e, "#3f51b5")}
+                onMouseOut={(e) => hoverColor(e, "#444")}
+              >
+                <FontAwesomeIcon icon={faFacebook} className="social-icon" />
                 Facebook
               </a>
 
               <a
                 href="#instagram"
-                style={{ ...linkStyle, display: "flex", alignItems: "center" }}
+                className="social-link instagram-link"
                 onMouseOver={(e) => hoverColor(e, "#E4405F")}
                 onMouseOut={(e) => hoverColor(e, "#444")}
               >
-                <FontAwesomeIcon icon={faInstagram} style={{ marginRight: "8px" }} />
+                <FontAwesomeIcon icon={faInstagram} className="social-icon" />
                 Instagram
               </a>
 
               <a
                 href="#twitter"
-                style={{ ...linkStyle, display: "flex", alignItems: "center" }}
+                className="social-link twitter-link"
                 onMouseOver={(e) => hoverColor(e, "#1DA1F2")}
                 onMouseOut={(e) => hoverColor(e, "#444")}
               >
-                <FontAwesomeIcon icon={faTwitter} style={{ marginRight: "8px" }} />
+                <FontAwesomeIcon icon={faTwitter} className="social-icon" />
                 Twitter
               </a>
             </div>
           </Col>
         </Row>
 
-        <hr style={{ marginTop: "25px", marginBottom: "15px" }} />
+        <hr className="footer-divider" />
 
-        <div
-          style={{
-            textAlign: "center",
-            color: "#555",
-            fontSize: "14px",
-          }}
-        >
+        <div className="copyright-section">
           © {new Date().getFullYear()} Kharphi Team | Designed by{" "}
           <span
-            style={{
-              color: "#3f51b5",
-              cursor: "pointer",
-              textDecoration: "none",
-            }}
+            className="company-link"
             onClick={() => window.open("https://aviartechservices.com/")}
           >
             Aviar Technology Services

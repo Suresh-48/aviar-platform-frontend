@@ -14,6 +14,7 @@ import Api from "../../Api";
 import tableIcons from "../core/TableIcons";
 import Loader from "../../components/core/Loader";
 import { toast } from "react-toastify";
+import "../../css/Homework.css";
 
 function HomeWorkListTable() {
     const navigate = useNavigate();

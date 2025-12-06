@@ -127,7 +127,47 @@
     display: flex;
     justify-content: center;
   }
+
+
   .range-clr{
     color: #375474 !important;
   }
   
+.filter-head-cls{
+    font-weight: bold;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  } 
+  @media (max-width: 575.98px) {
+    .filter-head-cls{
+      justify-content: center;
+      font-size: 14px;
+      
+    }
+    
+  }
+
+    @media (max-width: 575.98px) {
+    .filter-model{
+      justify-content: center;
+      font-size: 14px;
+      width: 200px;
+      padding: 60px;
+      
+    }
+    
+  }
+
+     @media (max-width: 575.98px) {
+    .Kharpi-save-btn{
+      justify-content: center;
+      font-size: 14px;
+      width: 150px;
+      padding: 50px;
+      margin-top: 10px;
+      
+    }
+    
+  }
