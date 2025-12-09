@@ -184,7 +184,7 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="course/category" element={<CourseCategory />} />
             <Route path="course/search" element={<AllCourseList />} />
-            <Route path ="homework/create/:id" element={<HomeWorkIntegration/>}/>
+            <Route path="homework/create/:id" element={<HomeWorkIntegration/>}/>
             <Route path="homework/edit/:id" element={<EditHomeWorkIntegration/>}/>
             <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
             <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
@@ -231,7 +231,7 @@ const App = () => {
               <Route path="dashboard" element={<TeacherDashboard />} />
               <Route path="schedule/:id" element={<TeacherCourseList />} />
               <Route path="profile/:id" element={<TeacherProfile />} />
-              <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+              <Route path="upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList />} />
               <Route path="review/quiz" element={<TeacherQuizReview />} />
               <Route path="homework/review" element={<TeacherHomeworkReview />} />
               <Route path="not-available/time" element={<TeacherAvailable />} />

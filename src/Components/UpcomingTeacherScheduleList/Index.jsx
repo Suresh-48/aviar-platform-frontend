@@ -1,4 +1,4 @@
-import MaterialTable from "@material-table/core";
+import MaterialTable from "material-table";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Modal, Row, Col, Form, Button } from "react-bootstrap";
@@ -79,9 +79,10 @@ function UpcomingTeacherScheduleList(props) {
       title: "Course Name",
       render: (rowData) => (
         <Link
-          to={`/admin/course/detail/${rowData?.courseId?.aliasName}`}
-          state={{ courseId: rowData?.id }}
+          to={`/admin/course/detail/${rowData?.courseId?._id}`}
+          // state={{ courseId: rowData?._id }}
           className="linkColor"
+          onClick={(e) => e.stopPropagation()}
         >
           {rowData?.courseId?.name}
         </Link>
@@ -202,7 +203,7 @@ function UpcomingTeacherScheduleList(props) {
       });
       setTeacherUpcomingData(teacherUpcomingData);
       const orginalTime = response?.data?.upcomingList;
-      orginalTime.forEach(function(list) {
+      orginalTime.forEach(function (list) {
         const time = moment(list?.courseScheduleId?.startTime, "LT")
           .subtract(15, "minutes")
           .format("HH:mm");
@@ -228,7 +229,7 @@ function UpcomingTeacherScheduleList(props) {
       });
       setTeacherCompletedData(teacherCompletedData);
       const orginalTime = response?.data?.completedList;
-      orginalTime.forEach(function(list) {
+      orginalTime.forEach(function (list) {
         const time = moment(list?.courseScheduleId?.startTime, "LT")
           .subtract(15, "minutes")
           .format("HH:mm");
@@ -396,11 +397,10 @@ function UpcomingTeacherScheduleList(props) {
                             (rowData) => ({
                               icon: () => (
                                 <p
-                                  className={`${
-                                    rowData?.lessonDate === CurrentDate && rowData?.courseScheduleId?.zoomTime <= lessTime
+                                  className={`${rowData?.lessonDate === CurrentDate && rowData?.courseScheduleId?.zoomTime <= lessTime
                                       ? "zoom-view-style"
                                       : "zoom-view-disable-style"
-                                  }`}
+                                    }`}
                                 >
                                   Join
                                 </p>

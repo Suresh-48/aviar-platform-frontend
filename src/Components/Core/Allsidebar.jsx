@@ -112,7 +112,7 @@ const Allsidebar = ({ open, setOpen }) => {
             <SidebarLink to="/teacher/dashboard" icon={faChalkboardUser} open={open} label="Dashboard" />
             <SidebarLink to={`/teacher/profile/${teacherId}`} icon={faIdCard} open={open} label="My Profile" />
             <SidebarLink to={`/teacher/schedule/${teacherId}`} icon={faClipboardCheck} open={open} label="Schedule List" />
-            <SidebarLink to="/teacher/upcoming/schedule/list" icon={faCalendarCheck} open={open} label="Upcoming Schedule" />
+            <SidebarLink to={`/teacher/upcoming/schedule/list/${teacherId}`} icon={faCalendarCheck} open={open} label="Upcoming Schedule" />
             <SidebarLink to="/teacher/review/quiz" icon={faLightbulb} open={open} label="Quiz Review" />
             <SidebarLink to="/teacher/homework/review" icon={faHouseCircleCheck} open={open} label="Homework Review" />
             <SidebarLink to="/teacher/not-available/time" icon={faUserPlus} open={open} label="Availability" />

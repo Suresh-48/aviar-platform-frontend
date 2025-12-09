@@ -12,7 +12,7 @@ import Loader from "../core/Loader";
 import { toast } from "react-toastify";
 
 const ForumSelect = ({ history }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [category, setCategory] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [categoryName, setCategoryName] = useState("");
@@ -128,14 +128,10 @@ const ForumSelect = ({ history }) => {
                   placeholder="Select Category"
                   name="category"
                   value={categoryName}
-                  options={[
-                    {
-                      options: category?.map((list) => ({
-                        value: list?.id,
-                        label: list?.name,
-                      })),
-                    },
-                  ]}
+                  options={category?.map((list) => ({
+                    value: list.id,
+                    label: list.name,
+                  })) || []}
                   onChange={(e) => {
                     setCategoryName(e);
                     courseFilter(e.value);
@@ -151,15 +147,15 @@ const ForumSelect = ({ history }) => {
                 {courseData &&
                   courseData?.map((course, index) => (
                     <Row className="mt-3 mb-3">
-  <div
-    className="d-flex flex-direction-row"
-    style={{ cursor: "pointer" }}
-    onClick={() =>
-      navigate("/student/forum", {
-        state: { course: course }
-      })
-    }
-  >
+                      <div
+                        className="d-flex flex-direction-row"
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          navigate("/student/forum", {
+                            state: { course: course }
+                          })
+                        }
+                      >
 
                         <Col xs={3} sm={3} lg={3} md={3}>
                           <img
@@ -193,14 +189,14 @@ const ForumSelect = ({ history }) => {
                   </div>
                   {latestData &&
                     latestData?.map((list, index) => (
-                   <div
-  onClick={() => {
-    navigate("/student/forum/conversation", {
-      state: { commentsData: list },
-    });
-  }}
-  className="recent-conver-cursor mx-2 my-2 pt-3"
->
+                      <div
+                        onClick={() => {
+                          navigate("/student/forum/conversation", {
+                            state: { commentsData: list },
+                          });
+                        }}
+                        className="recent-conver-cursor mx-2 my-2 pt-3"
+                      >
 
                         <div className="forum-column mx-3">
                           <b>{list?.courseId?.aliasName}</b>
