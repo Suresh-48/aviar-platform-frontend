@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import tableIcons from "../core/TableIcons";
 import Loader from "../core/Loader";
 import { toast } from "react-toastify";
-
+import "../../css/Transcript.css";
 function StudentTranscript(props) {
   const navigate = useNavigate();
   const [studentId, setstudentId] = useState(props?.match?.params?.id);

@@ -1,0 +1,156 @@
+/* Homework.css */
+@media (max-width: 768px) {
+  .tab-title {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .tab-count {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .tab-count-style {
+    padding-left: 0;
+  }
+  
+  .material-table-responsive {
+    overflow-x: auto;
+  }
+  
+  .MuiTab-root {
+    min-width: auto !important;
+    padding: 6px 8px !important;
+  }
+  
+  .MuiTabs-flexContainer {
+    justify-content: space-between;
+  }
+  
+  h5 {
+    font-size: 16px;
+  }
+  
+  .zoom-view-style, 
+  .zoom-view-disable-style {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 576px) {
+  .tab-title {
+    font-size: 10px;
+  }
+  
+  .tab-count {
+    font-size: 10px;
+  }
+  
+  .MuiTab-root {
+    padding: 4px 6px !important;
+  }
+  
+  .mx-3 {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+  
+  .py-3 {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  
+  .MuiTableCell-root {
+    padding: 8px !important;
+    font-size: 12px;
+  }
+  
+  .MuiTableRow-root {
+    height: 50px;
+  }
+  
+  .linkColor {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .MuiTab-root {
+    padding: 2px 4px !important;
+  }
+  
+  .tab-title, .tab-count {
+    font-size: 9px;
+  }
+  
+  h5 {
+    font-size: 14px;
+  }
+  
+  .MuiTableCell-root {
+    padding: 6px !important;
+    font-size: 11px;
+  }
+  
+  .zoom-view-style, 
+  .zoom-view-disable-style {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .material-table-responsive {
+    max-width: 100%;
+  }
+  
+  .container-tabs {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* For table responsiveness */
+.material-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix for Material-Table on mobile */
+@media (max-width: 768px) {
+  .MuiTable-root {
+    min-width: 600px;
+  }
+  
+  .MuiTableCell-head {
+    white-space: nowrap;
+  }
+}
+
+/* Tabs styling */
+.MuiTabs-root {
+  background-color: #f5f5f5;
+  border-radius: 8px 8px 0 0;
+}
+
+.MuiTab-root {
+  transition: all 0.3s ease;
+}
+
+.MuiTab-root.Mui-selected {
+  background-color: white;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .MuiTabs-root {
+    min-height: 40px;
+  }
+  
+  .MuiTab-root {
+    min-height: 40px;
+  }
+}

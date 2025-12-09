@@ -1,0 +1,31 @@
+@media (max-width: 480px) {
+  /* Even more compact for small phones */
+  .landing-card-height {
+    min-height: 300px !important;
+  }
+  
+  .image-content {
+    height: 130px !important;
+  }
+  
+  .card-title {
+    font-size: 15px !important;
+  }
+  
+  .ellipsis-text {
+    font-size: 13px !important;
+    height: 52px !important;
+  }
+  
+  .card-footer {
+    padding: 6px 8px !important;
+  }
+  
+  .aviar-logo {
+    width: 120px !important;
+  }
+  
+  .slider-category-one {
+    font-size: 20px !important;
+  }
+}
