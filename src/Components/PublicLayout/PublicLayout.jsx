@@ -24,7 +24,9 @@ const PublicLayout = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#f8f9fa" }}>
+    <div style={{ 
+          minHeight: "100vh", 
+          background: "#f8f9fa" }}>
 
       <div
         style={{
