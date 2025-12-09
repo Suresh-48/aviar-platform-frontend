@@ -156,16 +156,7 @@ const navigate = useNavigate();
                       </p>
                       // <FontAwesomeIcon icon={faEye} size="sm" color="#375474" />
                     ),
-                    // onClick: (event, rowData) => {
-                    //   console.log("rowData",rowData?.firstName);
-                    //   navigate({
-                    //     pathname: `/admin/upcoming/schedule/student/list/${rowData.id}`,
-                    //     state: {
-                    //       firstName: rowData.firstName,
-                    //       lastName: rowData.lastName,
-                    //     },
-                    //   });
-                    // },
+                
                     onClick: (event, rowData) => {
   console.log("rowData", rowData?.firstName);
   navigate(`/admin/upcoming/schedule/student/list/${rowData.id}`, {

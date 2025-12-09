@@ -36,7 +36,7 @@ const PublicLayout = () => {
           top: 0,
           left: 0,
           height: "100vh",
-          background: "#fff",
+          // background: "#fff",
           zIndex: 9999,         // HIGHER THAN EVERYTHING
           boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
         }}

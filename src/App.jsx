@@ -206,7 +206,7 @@ const App = () => {
             <Route path="course/add" element={<CoursesCreation/>}/>
             <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>
             <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
-            <Route path="application/details" element={<DisplayTeacherApplication />} />
+            <Route path="application/details/:id" element={<DisplayTeacherApplication />} />
             <Route path="upcoming/schedule/student/list/:id" element={<AdminUpcomingScheduleList/>} />
             <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
             <Route path="set/password" element={<TeacherResetPassword/>}/>
