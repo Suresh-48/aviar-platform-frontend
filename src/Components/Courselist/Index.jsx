@@ -210,6 +210,7 @@ const CourseList = () => {
     const userId = localStorage.getItem("userId");
     Api.get("api/v1/course/publish", { headers: { userId: userId } })
       .then((res) => {
+        console.log("publish course res", res);
         const data = res?.data?.data?.data;
         setPublish(data || []);
         setIsLoading(false);

@@ -53,7 +53,8 @@ function AdminForum() {
     {
       title: "S.No",
       width: "1%",
-      render: (rowData) => `${rowData?.tableData?.id + 1}`,
+        field: "index",
+      // render: (rowData) => `${rowData?.tableData?.id + 1}`,
     },
     {
       title: "Name",
@@ -77,7 +78,8 @@ function AdminForum() {
     {
       title: "S.No",
       width: "1%",
-      render: (rowData) => `${rowData?.tableData?.id + 1}`,
+        field: "index",
+      // render: (rowData) => `${rowData?.tableData?.id + 1}`,
     },
     {
       title: "Name",
@@ -131,11 +133,16 @@ function AdminForum() {
         const pendingData = response.data.data.pendingData;
         const closeData = response.data.data.closeData;
         const declineData = response.data.data.declineData;
-        setApproveForum(approveData);
-        setPendingForum(pendingData);
-        setCloseForum(closeData);
-        setDeclineForum(declineData);
+        // setApproveForum(approveData);
+        // setPendingForum(pendingData);
+        // setCloseForum(closeData);
+        // setDeclineForum(declineData);
+           setApproveForum(approveData.map((item, index) => ({ ...item, index: index + 1 })));
+      setPendingForum(pendingData.map((item, index) => ({ ...item, index: index + 1 })));
+      setCloseForum(closeData.map((item, index) => ({ ...item, index: index + 1 })));
+      setDeclineForum(declineData.map((item, index) => ({ ...item, index: index + 1 })));
         setIsLoading(false);
+        
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -244,7 +251,7 @@ function AdminForum() {
               </Row>
             ) : null}
             <div className="material-table-responsive">
-              <ThemeProvider theme={tableTheme}>
+              {/* <ThemeProvider theme={tableTheme}> */}
                 <MaterialTable
                   style={{ overflowY: "unset" }}
                   icons={tableIcons}
@@ -303,9 +310,10 @@ function AdminForum() {
                                   >
                                     Approve
                                   </Link>
+                                      <hr />
                                 </Dropdown.Item>
                               )}
-                              <hr />
+                          
                               {value === 1 ? (
                                 " "
                               ) : (
@@ -320,9 +328,10 @@ function AdminForum() {
                                   >
                                     Pending
                                   </Link>
+                                      <hr />
                                 </Dropdown.Item>
                               )}
-                              <hr />
+                              
                               {value === 2 ? (
                                 " "
                               ) : (
@@ -337,9 +346,10 @@ function AdminForum() {
                                   >
                                     Close
                                   </Link>
+                                     <hr />
                                 </Dropdown.Item>
                               )}
-                              <hr />
+                           
                               {value === 3 ? (
                                 " "
                               ) : (
@@ -356,6 +366,7 @@ function AdminForum() {
                                   </Link>
                                 </Dropdown.Item>
                               )}
+                              
                             </Dropdown.Menu>
                           </Dropdown>
                         ),
@@ -368,7 +379,7 @@ function AdminForum() {
                     },
                   }}
                 />
-              </ThemeProvider>
+              {/* </ThemeProvider> */}
             </div>
           </div>
         </Container>

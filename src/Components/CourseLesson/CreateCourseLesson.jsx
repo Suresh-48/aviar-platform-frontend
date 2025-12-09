@@ -45,9 +45,7 @@ const CreateCourseLessons = () => {
   const [courseId, setCourseId] = useState(location.state?.courseID);
   const [description, setDescription] = useState("");
   
-  console.log("Location state##########:", location.state.courseID);
-  console.log("Course ID@@@@@@@@@@@@:", courseId);
-  console.log("Course Name:", courseName);
+
 
   // Validations
   const createLessonSchema = Yup.object().shape({

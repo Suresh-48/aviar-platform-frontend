@@ -3,13 +3,99 @@
       width: fit-content;ca
     }
   } */
+   /* Custom carousel styles */
+.custom-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+  width: 50px;
+  height: 50px;
+  background-color: #ff6b6b; /* Red color */
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+}
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
+.carousel-indicators {
+  bottom: -50px;
+}
+
+.carousel-indicators button {
+  background-color: #6c757d !important;
+}
+
+.carousel-indicators button.active {
+  background-color: #007bff !important;
+}
+.custom-carousel .carousel-control-prev {
+  left: -25px;
+}
+
+.custom-carousel .carousel-control-next {
+  right: -25px;
+}
+
+.custom-carousel .carousel-control-prev-icon,
+.custom-carousel .carousel-control-next-icon {
+  background-size: 20px 20px;
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1); /* Make icons white */
+}
+
+.custom-carousel .carousel-control-prev:hover,
+.custom-carousel .carousel-control-next:hover {
+  background-color: #ff5252; /* Darker red on hover */
+}
   .curve-shape-main-div {
     position: relative;
     display: flex;
   
   }
   
-  
+  .horizontal-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.horizontal-scroll-wrapper {
+  display: flex;
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.trainer-card {
+  min-width: 250px;
+  flex-shrink: 0;
+}
+
+.trainer-content {
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.horizontal-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.horizontal-scroll-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
     filter: invert(18%) sepia(32%) saturate(379%) hue-rotate(192deg)
