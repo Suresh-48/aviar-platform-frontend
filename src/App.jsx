@@ -43,7 +43,7 @@ import Forumdetail from "./Components/Forum/Forumdetail";
 import CompleteCourse from "./Components/CompleteCourseList/CompleteCourse";
 import CourseHistory from "./Components/CourseHistory/CourseHistory";
 import StudentDashboard from './Components/Dashboard/Studentdashboard.jsx';
-import TeacherDashboard from "./Components/Dashboard/Teacherdashboard.jsx";
+import TeacherDashboard from "./Components/Dashboard/TeacherDashboard.jsx";
 import TeacherCourseList from "./Components/TeacherCourseList/Index.jsx";
 import TeacherProfile from "./Components/TeacherProfile/Index.jsx";
 import TeacherQuizReview from "./Components/TeacherQuizeReview/Index.jsx";
