@@ -39,7 +39,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import ReactQuill from "react-quill";
 import axios from "axios";
-import { responsiveProperty } from "@mui/material/styles/cssUtils";
+// import { responsiveProperty } from "@mui/material/styles/cssUtils";
 import { AuthContext } from "../context/AuthContext";
 // import { customStyles } from "../core/Selector";
 

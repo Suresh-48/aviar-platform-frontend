@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import tableIcons from "../core/TableIcons";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { Container, Dropdown } from "react-bootstrap";
 import { ThemeProvider, createTheme } from "@mui/material";

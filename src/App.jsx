@@ -118,102 +118,102 @@ const App = () => {
           <Route path="/teacher/signup" element={<Teachersignup />} />
 
           {/* Shared Routes for Admin and Student */}
-<Route element={<ProtectedRoute allowedRoles={["admin", "student"]} />}>
-  <Route
-    path="/shared"
-    element={
-      <PublicLayout open={open} onClick={() => setOpen(!open)}>
-        <Outlet />
-      </PublicLayout>
-    }
-  >
-    <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
-    <Route path="course/checkout/:courseID" element={<CourseCheckout />} />
-  </Route>
-</Route>
+          <Route element={<ProtectedRoute allowedRoles={["admin", "student"]} />}>
+            <Route
+              path="/shared"
+              element={
+                <PublicLayout open={open} onClick={() => setOpen(!open)}>
+                  <Outlet />
+                </PublicLayout>
+              }
+            >
+              <Route path="teacher/profile/view" element={<TeacherPublicProfile />} />
+              <Route path="course/checkout/:courseID" element={<CourseCheckout />} />
+            </Route>
+          </Route>
 
           {/* Student Routes */}
-           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>      
-             <Route
-            path="/student"
-            element={
-              <PublicLayout open={open} onClick={() => setOpen(!open)}>
-                <Outlet />
-              </PublicLayout>
-            }
-          >
-            <Route index element={<Navigate to="/student/dashboard" />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="update/detail" element={<Updatestudentdetail />} /> 
-            <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
-            <Route path="allcourselist" element={<AllCourseList />} />
-            <Route path="list" element={<List />} />
-            <Route path="quiz" element={<Quiz />} />
-            <Route path="course/detail/:courseID" element={<CourseDetail />} />
-            <Route path="homework" element={<Homework />} />
-            <Route path="transcript" element={<Transcript />} />
-            <Route path="activecourses" element={<ActiveCourses />} />
-            <Route path="forum/detail" element={<Forumdetail />} />
-            <Route path="completecourse" element={<CompleteCourse />} />
-            <Route path="course/history" element={<CourseHistory />} />
-            <Route path="forum/conversation" element={<ForumsComments />} />
-            <Route path="calendar/view/upcoming/schedule" element={<CalenderViewUpcomingSchedule/>}/>
-            <Route path="quiz/preview" element={<QuizPreview/>}/>
-            <Route path="quiz" element={<Quizs/>}/>
-            <Route path="student/homework" element={<StudentHomeWork/>}/>
-            <Route path="homework/preview" element={<HomeWorkPreview/>}/>
-            <Route path="homework/review" element={<HomeWorkReview/>}/>
-            <Route path="forum" element={<Forum/>}/>
-            <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
+          <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+            <Route
+              path="/student"
+              element={
+                <PublicLayout open={open} onClick={() => setOpen(!open)}>
+                  <Outlet />
+                </PublicLayout>
+              }
+            >
+              <Route index element={<Navigate to="/student/dashboard" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="update/detail" element={<Updatestudentdetail />} />
+              <Route path="upcoming/schedule1" element={<UpcomingSchedule1 />} />
+              <Route path="allcourselist" element={<AllCourseList />} />
+              <Route path="list" element={<List />} />
+              <Route path="quiz" element={<Quiz />} />
+              <Route path="course/detail/:courseID" element={<CourseDetail />} />
+              <Route path="homework" element={<Homework />} />
+              <Route path="transcript" element={<Transcript />} />
+              <Route path="activecourses" element={<ActiveCourses />} />
+              <Route path="forum/detail" element={<Forumdetail />} />
+              <Route path="completecourse" element={<CompleteCourse />} />
+              <Route path="course/history" element={<CourseHistory />} />
+              <Route path="forum/conversation" element={<ForumsComments />} />
+              <Route path="calendar/view/upcoming/schedule" element={<CalenderViewUpcomingSchedule />} />
+              <Route path="quiz/preview" element={<QuizPreview />} />
+              <Route path="quiz" element={<Quizs />} />
+              <Route path="student/homework" element={<StudentHomeWork />} />
+              <Route path="homework/preview" element={<HomeWorkPreview />} />
+              <Route path="homework/review" element={<HomeWorkReview />} />
+              <Route path="forum" element={<Forum />} />
+              <Route path="teacher/profile/view" element={<TeacherPublicProfile />} />
 
-          </Route>
+            </Route>
           </Route>
 
 
           {/* Admin Routes */}
-            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-          <Route
-            path="/admin"
-            element={
-              <PublicLayout open={open} onClick={() => setOpen(!open)}>
-                <Outlet />
-              </PublicLayout>
-            }
-          >
-            <Route index element={<Navigate to="/admin/dashboard" />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="course/category" element={<CourseCategory />} />
-            <Route path="course/search" element={<AllCourseList />} />
-            <Route path="homework/create/:id" element={<HomeWorkIntegration/>}/>
-            <Route path="homework/edit/:id" element={<EditHomeWorkIntegration/>}/>
-            <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
-            <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
-            <Route path="upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList/>}/>
-            <Route path="course/edit/:courseID" element={<EditCourses/>}/>
-            <Route path="quiz/create/:id" element={<QuizIntegration/>}/> 
-            <Route path ="quiz/edit/:id" element={<EditQuizIntegration/>}/>
-            <Route path="course/lesson/:courseID" element={<CourseLesson/>}/>
-            <Route path="course/schedule/:courseID" element={<CourseSchedule/>}/>
-            <Route path="course/schedule/add" element={<CreateCourseSchedule/>}/>
-            <Route path="course/schedule/update" element={<EditCourseSchedule/>}/>
-            <Route path="course/lesson/add" element={<CreateCourseLesson/>}/>
-            <Route path="students/list" element={<StudentList />} /> 
-            <Route path="course/list" element={<CourseList />} />
-            <Route path="teacher/list" element={<TeacherList />} />
-            <Route path="forum" element={<AdminForum />} />
-            <Route path="course/detail/:courseID" element={<CourseDetail />} />
-            <Route path="payment/list" element={<AdminPaymentList />} />
-            <Route path="course/add" element={<CoursesCreation/>}/>
-            <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList/>}/>
-            <Route path="teacher/profile/view" element={<TeacherPublicProfile/>}/>
-            <Route path="application/details/:id" element={<DisplayTeacherApplication />} />
-            <Route path="upcoming/schedule/student/list/:id" element={<AdminUpcomingScheduleList/>} />
-            <Route path="teacher/edit/:id" element={<EditTeacher/>}/>
-            <Route path="set/password" element={<TeacherResetPassword/>}/>
-            <Route path="teacher/not-available" element={<CalendarView/>}/>
-            <Route path="teacher/schedule/:id" element={<TeacherCourseList />} />
-            <Route path="calendar/view/upcoming/schedule" element={<ScheduleForCalendarView/>} />
-          </Route>
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            <Route
+              path="/admin"
+              element={
+                <PublicLayout open={open} onClick={() => setOpen(!open)}>
+                  <Outlet />
+                </PublicLayout>
+              }
+            >
+              <Route index element={<Navigate to="/admin/dashboard" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="course/category" element={<CourseCategory />} />
+              <Route path="course/search" element={<AllCourseList />} />
+              <Route path="homework/create/:id" element={<HomeWorkIntegration />} />
+              <Route path="homework/edit/:id" element={<EditHomeWorkIntegration />} />
+              <Route path="course/lesson/edit/:id" element={<EditCourseLesson />} />
+              <Route path="upcoming/schedule/list" element={<UpcomingTeacherScheduleList />} />
+              <Route path="upcoming/schedule/list/:id" element={<UpcomingTeacherScheduleList />} />
+              <Route path="course/edit/:courseID" element={<EditCourses />} />
+              <Route path="quiz/create/:id" element={<QuizIntegration />} />
+              <Route path="quiz/edit/:id" element={<EditQuizIntegration />} />
+              <Route path="course/lesson/:courseID" element={<CourseLesson />} />
+              <Route path="course/schedule/:courseID" element={<CourseSchedule />} />
+              <Route path="course/schedule/add" element={<CreateCourseSchedule />} />
+              <Route path="course/schedule/update" element={<EditCourseSchedule />} />
+              <Route path="course/lesson/add" element={<CreateCourseLesson />} />
+              <Route path="students/list" element={<StudentList />} />
+              <Route path="course/list" element={<CourseList />} />
+              <Route path="teacher/list" element={<TeacherList />} />
+              <Route path="forum" element={<AdminForum />} />
+              <Route path="course/detail/:courseID" element={<CourseDetail />} />
+              <Route path="payment/list" element={<AdminPaymentList />} />
+              <Route path="course/add" element={<CoursesCreation />} />
+              <Route path="admin/upcomeing/schedule/list" element={<AdminStudentsList />} />
+              <Route path="teacher/profile/view" element={<TeacherPublicProfile />} />
+              <Route path="application/details/:id" element={<DisplayTeacherApplication />} />
+              <Route path="upcoming/schedule/student/list/:id" element={<AdminUpcomingScheduleList />} />
+              <Route path="teacher/edit/:id" element={<EditTeacher />} />
+              <Route path="set/password" element={<TeacherResetPassword />} />
+              <Route path="teacher/not-available" element={<CalendarView />} />
+              <Route path="teacher/schedule/:id" element={<TeacherCourseList />} />
+              <Route path="calendar/view/upcoming/schedule" element={<ScheduleForCalendarView />} />
+            </Route>
           </Route>
 
           {/* Teacher Routes */}

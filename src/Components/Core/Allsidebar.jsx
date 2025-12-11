@@ -122,7 +122,7 @@ const Allsidebar = ({ open, setOpen }) => {
           </>
           :
           <>
-            { userRole === "teacher" && userStatus === "Pending" && <SidebarLink to="/teacher/dashboard" icon={faChalkboardUser} open={open} label="Dashboard" />}
+            {userRole === "teacher" && userStatus === "Pending" && <SidebarLink to="/teacher/dashboard" icon={faChalkboardUser} open={open} label="Dashboard" />}
           </>
         }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 // import { ThemeProvider } from "@material-ui/styles";
 // import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material";

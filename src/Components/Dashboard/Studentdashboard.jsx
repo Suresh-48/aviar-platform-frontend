@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Table, Button, Modal, Col } from "react-bootstrap";
+import { Container, Row, Table, Button, Modal, Col, Card } from "react-bootstrap";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ import Api from "../../Api";
 import "../../css/StudentDashboard.css";
 
 function StudentDashboard() {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [upcomingData, setUpcomingData] = useState([]);
   const [completedList, setCompletedList] = useState([]);
@@ -70,7 +70,7 @@ function StudentDashboard() {
       });
       setUpcomingData(dataValues);
       const orginalTime = response.data.upcomingList;
-      orginalTime.forEach(function(list) {
+      orginalTime.forEach(function (list) {
         const time = moment(list.courseScheduleId.startTime, "LT")
           .subtract(15, "minutes")
           .format("HH:mm");
@@ -164,53 +164,56 @@ function StudentDashboard() {
         <Loader />
       ) : (
         <Container>
-<Row className="main-card pb-3">
-    {/* <DashboardTiles label="Active Enrolled Courses" count={data.activeCourse} url="/student/activecourses" />
-    <DashboardTiles label="Completed Courses" count={data.completeCourse} url="/student/completecourse" /> */}
- {/* DELETE THESE LINES - THEY ARE DUPLICATES */}
-<Col md={6} className="mb-3">
-  <div className="dashboard-tile p-3 border rounded">
-    <h5>Active Enrolled Courses</h5>
-    <p className="count">{data.activeCourse|| 0}</p>
-    <Button 
-      variant="primary"
-      onClick={() => navigate("/student/activecourses")}
-    >
-      View Details
-    </Button>
-  </div>
-</Col>
+          <Row className="gy-4 mt-2">
+            <Col xs={12} sm={6} lg={4}>
+              <Card className="dashboard-card shadow-sm border-0 p-3 h-100">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <Card.Title className="mb-1 fw-bold text-secondary">Active Enrolled Courses</Card.Title>
+                    <h3 className="fw-bold text-dark">{data.activeCourse || 0}</h3>
+                    <Link to={`/student/activecourses`} className="small-link">
+                      View Details →
+                    </Link>
+                  </div>
 
-{/* DELETE THESE LINES - THEY ARE DUPLICATES */}
-<Col md={6} className="mb-3">
-  <div className="dashboard-tile p-3 border rounded">
-    <h5>Completed Courses</h5>
-    <p className="count">{data.completeCourse || 0}</p>
-    <Button 
-      variant="primary"
-      onClick={() => navigate("/student/completecourse")}
-    >
-      View Details
-    </Button>
-  </div>
-</Col>
-</Row>
+                  <div className="dashboard-icon bg-primary text-white">
+                    <i className="bi bi-journal-bookmark"></i>
+                  </div>
+                </div>
+              </Card>
+            </Col>
 
-          <div className="mt-3">
-            <div className="d-flex justify-content-between">
-              <div className="ms-1 mt-2">
-                <h4>Upcoming Schedule</h4>
-              </div>
-              <div>
-                   <Button
-                  variant="primary"
-                  className="Kharpi-save-btn me-2 px-3"
-                  onClick={() =>{navigate("/student/allcourselist")}}
-                  // onClick={() => navigate('/teacher/not-available/time')} 
-                >
-                  Enroll
-                </Button>
-              </div>
+            <Col xs={12} sm={6} lg={4}>
+              <Card className="dashboard-card shadow-sm border-0 p-3 h-100">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <Card.Title className="mb-1 fw-bold text-secondary">Completed Courses</Card.Title>
+                    <h3 className="fw-bold text-warning">{data.completeCourse || 0}</h3>
+                    <Link to="/student/completecourse" className="small-link">
+                      View Details →
+                    </Link>
+                  </div>
+
+                  <div className="dashboard-icon bg-warning text-white">
+                    <i className="bi bi-clock-history"></i>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+
+
+          <div className="mt-3 ">
+            <div className="mb-2 d-flex flex-md-row justify-content-between align-items-start align-items-md-center">
+              <h5 className="mb-2 mb-md-0">Upcoming Schedule</h5>
+              <Button
+                variant="primary"
+                size="sm"
+                className="px-3"
+                onClick={() => navigate("/student/allcourselist")}
+              >
+                Enroll
+              </Button>
             </div>
             <Row className="mt-0" style={{ minHeight: "227px" }}>
               <Table striped bordered hover className="student-table" responsive>
@@ -239,17 +242,16 @@ function StudentDashboard() {
                         <td>{list?.courseId?.duration + " hour"}</td>
                         <td>
                           <p
-                            className={`${
-                              list?.lessonDate === CurrentDate && list.courseScheduleId.zoomTime <= lessTime
-                                ? "zoom-view-style"
-                                : "zoom-view-disable-style"
-                            }`}
+                            className={`${list?.lessonDate === CurrentDate && list.courseScheduleId.zoomTime <= lessTime
+                              ? "zoom-view-style"
+                              : "zoom-view-disable-style"
+                              }`}
                             onClick={() => {
                               setStudentCourseScheduleId(list.id);
                               if (list?.lessonDate === CurrentDate && list.courseScheduleId.zoomTime <= lessTime) {
-                              setshow(true);
-                              setIsStudent(true);
-                              setZoomLink(list?.courseLessonId);
+                                setshow(true);
+                                setIsStudent(true);
+                                setZoomLink(list?.courseLessonId);
                               } else {
                                 setshowAlert(true);
                                 setDateAndTime(list);

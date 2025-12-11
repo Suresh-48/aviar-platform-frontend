@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
 // Component
 import { useNavigate } from "react-router-dom";

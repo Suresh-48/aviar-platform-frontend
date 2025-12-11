@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { useHistory } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { toast } from "react-toastify";

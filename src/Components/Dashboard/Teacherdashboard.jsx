@@ -253,9 +253,8 @@ function TeacherDashboard() {
                       <td>{list.courseId?.duration ? `${list.courseId.duration} hour` : "-"}</td>
                       <td>
                         <button
-                          className={`btn btn-sm ${
-                            isJoinActive(list) ? "btn-outline-primary" : "btn-outline-secondary disabled"
-                          }`}
+                          className={`btn btn-sm ${isJoinActive(list) ? "btn-outline-primary" : "btn-outline-secondary disabled"
+                            }`}
                           onClick={() => {
                             setCourseScheduleId(list);
                             if (isJoinActive(list)) {

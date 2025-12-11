@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import { Container, Row, Col } from "react-bootstrap";
 import { Tab, Tabs } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";

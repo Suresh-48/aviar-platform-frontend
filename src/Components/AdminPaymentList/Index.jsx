@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import React, { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import { ThemeProvider } from "@mui/material";

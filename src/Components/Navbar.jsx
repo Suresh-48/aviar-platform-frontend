@@ -42,16 +42,16 @@ const Navbar = () => {
       </div>
       <div className="aviar-img-div-two">
           <div className="content-link">
-            <p className="links mx-4" onClick={() => navigate("/course/search")}>
+            <p className="links mx-2" onClick={() => navigate("/course/search")}>
               Courses
             </p>
-            <p className="links mx-4" onClick={() => navigate("/trainers")}>
+            <p className="links mx-2" onClick={() => navigate("/trainers")}>
               Trainers
             </p>
-            <p className="links mx-4" onClick={() => navigate("/about-us")}>
+            <p className="links mx-2" onClick={() => navigate("/about-us")}>
               About Us
             </p>
-            <p className="links mx-4" onClick={() => navigate("/help")}>
+            <p className="links mx-2" onClick={() => navigate("/help")}>
               Help
             </p>
           </div>

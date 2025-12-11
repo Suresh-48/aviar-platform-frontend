@@ -227,44 +227,210 @@ function LandingPage(props) {
       <Navbar />
 
       <div
-        // className="image-div-one"
         style={{
           backgroundImage: `url(${studentsImg})`,
           backgroundSize: "cover",
-          height: "73vh",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "calc(100vh - 60px)",
+          minHeight: "500px",
+          maxHeight: "800px",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center"
         }}
       >
-        <div className="card-main">
-          <Card className="card-align mx-5 ">
-            <Card.Header className="card-header">
-              <p className="card-header-pTag ">Choose From a Range of Online Courses</p>
-            </Card.Header>
-            <Card.Body>
-              <p className="card-body-pTag">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s,
-              </p>
+        {/* Dark Overlay for better text readability */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.3)"
+          }}
+        ></div>
 
-            </Card.Body>
-          </Card>
+        {/* Card Content */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            padding: "20px"
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "1200px",
+              margin: "0 auto"
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                maxWidth: "600px"
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.95)",
+                  backdropFilter: "blur(5px)",
+                  borderRadius: "20px",
+                  padding: "0",
+                  boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+                  margin: "0 20px"
+                }}
+              >
+                {/* Card Header */}
+                <div
+                  style={{
+                    padding: "24px 30px",
+                    borderBottom: "2px solid #dee2e6"
+                  }}
+                >
+                  <h1
+                    style={{
+                      margin: 0,
+                      fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+                      fontWeight: 700,
+                      color: "#2c3e50",
+                      lineHeight: 1.2,
+                      textAlign: "center"
+                    }}
+                  >
+                    Choose From a Range of Online Courses
+                  </h1>
+                </div>
 
-        </div>
-        <div className="one-line-comment">
-          <div>
-            <div className=" d-flex">
-              <p className="one-line-comment-pTag1 mb-0 ">Where</p>
-              <p className="one-line-comment-pTag2 mb-0 mx-3 ">EveryOne</p>
-            </div>
-            <div className=" d-flex mx-5">
-              <p className="one-line-comment-pTag3 mb-0 mx-4">Love</p>
-              <p className="one-line-comment-pTag1 mb-0 ">Learning...</p>
+                {/* Card Body */}
+                <div
+                  style={{
+                    padding: "30px 30px"
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "clamp(1rem, 2vw, 1.25rem)",
+                      color: "#495057",
+                      lineHeight: 1.6,
+                      textAlign: "center"
+                    }}
+                  >
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
+        {/* Bottom Text */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            padding: "20px 0",
+            background: "linear-gradient(transparent, rgba(0, 0, 0, 0.7))",
+            zIndex: 1
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "1200px",
+              margin: "0 auto",
+              padding: "0 20px"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center"
+              }}
+            >
+              {/* First Line */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginBottom: "8px"
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    fontWeight: 700,
+                    color: "white",
+                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                    lineHeight: 1
+                  }}
+                >
+                  Where
+                </span>
+                <span
+                  style={{
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    fontWeight: 700,
+                    color: "#ffc107",
+                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                    lineHeight: 1
+                  }}
+                >
+                  EveryOne
+                </span>
+              </div>
+
+              {/* Second Line */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "12px"
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    fontWeight: 700,
+                    color: "#0dcaf0",
+                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                    lineHeight: 1
+                  }}
+                >
+                  Love
+                </span>
+                <span
+                  style={{
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    fontWeight: 700,
+                    color: "white",
+                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                    lineHeight: 1
+                  }}
+                >
+                  Learning...
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="extra-content-div my-4">
+      {/* <div className="extra-content-div my-4">
         <div className="extra-content-list">
           <img src={layer2} alt="" className="extra-content" />
           <p className="extra-content-pTag-one ">
@@ -293,7 +459,7 @@ function LandingPage(props) {
             <p className="extra-content-pTag-two">Easy Communication</p>
           </p>
         </div>
-      </div>
+      </div> */}
 
 
       <div >

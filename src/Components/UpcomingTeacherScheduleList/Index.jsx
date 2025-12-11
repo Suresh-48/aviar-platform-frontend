@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Modal, Row, Col, Form, Button } from "react-bootstrap";
@@ -341,9 +341,11 @@ function UpcomingTeacherScheduleList(props) {
           <div>
             {isTeacher ? (
               <div>
+
                 <Tabs
                   value={value}
                   indicatorColor="primary"
+                  variant="fullWidth"
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
@@ -359,7 +361,6 @@ function UpcomingTeacherScheduleList(props) {
                     style={{ minWidth: "50%" }}
                     value={0}
                   />
-
                   <Tab
                     label={
                       <Row>
@@ -380,57 +381,57 @@ function UpcomingTeacherScheduleList(props) {
                     </div>
                     <div className="material-table-responsive">
                       {/* <ThemeProvider theme={tableTheme}> */}
-                        <MaterialTable
-                          style={{ marginBottom: "10px" }}
-                          icons={tableIcons}
-                          columns={teacherColumns}
-                          data={teacherUpcomingData}
-                          options={{
-                            actionsColumnIndex: -1,
-                            addRowPosition: "last",
-                            headerStyle: {
-                              fontWeight: "bold",
-                              backgroundColor: "#1d1464",
-                              color: "white",
-                              zIndex: 0,
+                      <MaterialTable
+                        style={{ marginBottom: "10px" }}
+                        icons={tableIcons}
+                        columns={teacherColumns}
+                        data={teacherUpcomingData}
+                        options={{
+                          actionsColumnIndex: -1,
+                          addRowPosition: "last",
+                          headerStyle: {
+                            fontWeight: "bold",
+                            backgroundColor: "#1d1464",
+                            color: "white",
+                            zIndex: 0,
+                          },
+                          showTitle: false,
+                        }}
+                        actions={[
+                          (rowData) => ({
+                            icon: () => (
+                              <p
+                                className={`${rowData?.lessonDate === CurrentDate && rowData?.courseScheduleId?.zoomTime <= lessTime
+                                  ? "zoom-view-style"
+                                  : "zoom-view-disable-style"
+                                  }`}
+                              >
+                                Join
+                              </p>
+                            ),
+                            tooltip: "Zoom Link",
+                            onClick: (event, rowData) => {
+                              setTeacherCourseScheduleId(rowData.id);
+                              setCourseScheduleId(rowData);
+                              if (
+                                rowData?.lessonDate === CurrentDate &&
+                                rowData?.courseScheduleId?.zoomTime <= lessTime
+                              ) {
+                                setshow(true);
+                                setZoomLink(rowData?.courseLessonId);
+                              } else {
+                                setshowAlert(true);
+                                setDateAndTime(rowData);
+                              }
                             },
-                            showTitle: false,
-                          }}
-                          actions={[
-                            (rowData) => ({
-                              icon: () => (
-                                <p
-                                  className={`${rowData?.lessonDate === CurrentDate && rowData?.courseScheduleId?.zoomTime <= lessTime
-                                      ? "zoom-view-style"
-                                      : "zoom-view-disable-style"
-                                    }`}
-                                >
-                                  Join
-                                </p>
-                              ),
-                              tooltip: "Zoom Link",
-                              onClick: (event, rowData) => {
-                                setTeacherCourseScheduleId(rowData.id);
-                                setCourseScheduleId(rowData);
-                                if (
-                                  rowData?.lessonDate === CurrentDate &&
-                                  rowData?.courseScheduleId?.zoomTime <= lessTime
-                                ) {
-                                  setshow(true);
-                                  setZoomLink(rowData?.courseLessonId);
-                                } else {
-                                  setshowAlert(true);
-                                  setDateAndTime(rowData);
-                                }
-                              },
-                            }),
-                          ]}
-                          localization={{
-                            body: {
-                              emptyDataSourceMessage: "No Upcoming Schedule",
-                            },
-                          }}
-                        />
+                          }),
+                        ]}
+                        localization={{
+                          body: {
+                            emptyDataSourceMessage: "No Upcoming Schedule",
+                          },
+                        }}
+                      />
                       {/* </ThemeProvider> */}
                     </div>
                     <div>
@@ -513,27 +514,27 @@ function UpcomingTeacherScheduleList(props) {
                     </div>
                     <div className="material-table-responsive">
                       {/* <ThemeProvider theme={tableTheme}> */}
-                        <MaterialTable
-                          icons={tableIcons}
-                          columns={teacherColumns}
-                          data={teacherCompletedData}
-                          options={{
-                            actionsColumnIndex: -1,
-                            addRowPosition: "last",
-                            headerStyle: {
-                              fontWeight: "bold",
-                              backgroundColor: "#1d1464",
-                              color: "white",
-                              zIndex: 0,
-                            },
-                            showTitle: false,
-                          }}
-                          localization={{
-                            body: {
-                              emptyDataSourceMessage: "No Completed Schedule ",
-                            },
-                          }}
-                        />
+                      <MaterialTable
+                        icons={tableIcons}
+                        columns={teacherColumns}
+                        data={teacherCompletedData}
+                        options={{
+                          actionsColumnIndex: -1,
+                          addRowPosition: "last",
+                          headerStyle: {
+                            fontWeight: "bold",
+                            backgroundColor: "#1d1464",
+                            color: "white",
+                            zIndex: 0,
+                          },
+                          showTitle: false,
+                        }}
+                        localization={{
+                          body: {
+                            emptyDataSourceMessage: "No Completed Schedule ",
+                          },
+                        }}
+                      />
                       {/* </ThemeProvider> */}
                     </div>
                   </div>
@@ -546,39 +547,39 @@ function UpcomingTeacherScheduleList(props) {
                 </div>
                 <div className="material-table-responsive">
                   {/* <ThemeProvider theme={tableTheme}> */}
-                    <MaterialTable
-                      icons={tableIcons}
-                      columns={adminColumns}
-                      data={data}
-                      style={{ marginBottom: "10px" }}
-                      options={{
-                        actionsColumnIndex: -1,
-                        addRowPosition: "last",
-                        headerStyle: {
-                          fontWeight: "bold",
-                          backgroundColor: "#1d1464",
-                          color: "white",
-                          zIndex: 0,
+                  <MaterialTable
+                    icons={tableIcons}
+                    columns={adminColumns}
+                    data={data}
+                    style={{ marginBottom: "10px" }}
+                    options={{
+                      actionsColumnIndex: -1,
+                      addRowPosition: "last",
+                      headerStyle: {
+                        fontWeight: "bold",
+                        backgroundColor: "#1d1464",
+                        color: "white",
+                        zIndex: 0,
+                      },
+                      showTitle: false,
+                    }}
+                    actions={[
+                      (rowData) => ({
+                        icon: () => <p className={"zoom-view-style"}>Change Teacher</p>,
+                        tooltip: "Click",
+                        onClick: (event, rowData) => {
+                          setModelValue(rowData);
+                          setshow(true);
+                          setisSubmit(true);
                         },
-                        showTitle: false,
-                      }}
-                      actions={[
-                        (rowData) => ({
-                          icon: () => <p className={"zoom-view-style"}>Change Teacher</p>,
-                          tooltip: "Click",
-                          onClick: (event, rowData) => {
-                            setModelValue(rowData);
-                            setshow(true);
-                            setisSubmit(true);
-                          },
-                        }),
-                      ]}
-                      localization={{
-                        body: {
-                          emptyDataSourceMessage: "No Teacher Upcoming Lesson List",
-                        },
-                      }}
-                    />
+                      }),
+                    ]}
+                    localization={{
+                      body: {
+                        emptyDataSourceMessage: "No Teacher Upcoming Lesson List",
+                      },
+                    }}
+                  />
                   {/* </ThemeProvider> */}
                 </div>
                 <Modal show={show} centered onHide={() => handleModal()}>

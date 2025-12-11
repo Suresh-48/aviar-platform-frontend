@@ -72,8 +72,17 @@ function TeacherProfile() {
                     <Col
                         xs={12}
                         md={9}
-                        className="order-2 order-md-1 mt-3 mt-md-0"
+                        className="order-2 order-md-1 mt-3 mt-md-0 position-relative"
                     >
+                        {/* Mobile Top-Right Edit Icon */}
+                        <Button
+                            variant="outline-primary"
+                            className="edit-icon-btn d-md-none position-absolute"
+                            style={{ top: -135, right: 5, fontSize:'10px' }}
+                        >
+                            <BsFillPersonPlusFill size={10} /> Edit
+                        </Button>
+
                         <Row className="align-items-center">
                             <Col>
                                 <h4 className="teacher-name m-0">
@@ -83,7 +92,7 @@ function TeacherProfile() {
                             </Col>
 
                             {/* Desktop edit button */}
-                            <Col className="text-end d-none d-md-block">
+                            <Col className="text-end  d-none d-md-block">
                                 <Button variant="primary" className="edit-profile-btn">
                                     <BsFillPersonPlusFill size={18} /> Edit Profile
                                 </Button>
@@ -95,14 +104,8 @@ function TeacherProfile() {
                         <p className="teacher-about-text mb-0">
                             {aboutUs || "No biography available."}
                         </p>
-
-                        {/* Mobile edit button */}
-                        <div className="text-center d-md-none mt-3">
-                            <Button variant="primary" className="edit-profile-btn w-100">
-                                <BsFillPersonPlusFill size={18} /> Edit Profile
-                            </Button>
-                        </div>
                     </Col>
+
 
                     {/* AVATAR SECTION - RIGHT ON DESKTOP | TOP ON MOBILE */}
                     <Col

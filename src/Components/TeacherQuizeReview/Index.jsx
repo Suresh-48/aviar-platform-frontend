@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
 // import { useHistory } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";

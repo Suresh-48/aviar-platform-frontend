@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Modal, Col, FormControl, Form, Row, } from "react-bootstrap";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import Button from '@mui/material/Button';
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";

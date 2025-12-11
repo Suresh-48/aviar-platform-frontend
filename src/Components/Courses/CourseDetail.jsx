@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { createTheme } from "@material-ui/core/styles";
 import Carousel from "react-elastic-carousel";

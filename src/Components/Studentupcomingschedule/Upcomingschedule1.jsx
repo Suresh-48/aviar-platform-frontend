@@ -260,6 +260,7 @@ function UpcomingSchedule(props) {
             <Tabs
               value={value}
               indicatorColor="primary"
+              variant="fullWidth"
               onChange={(event, newValue) => {
                 setValue(newValue);
               }}
@@ -268,7 +269,7 @@ function UpcomingSchedule(props) {
                 label={
                   <Row>
                     <Col>
-                      <p className="tab-titles">Upcoming Schedule</p>
+                      <p className="tab-titles">Upcoming Schedule </p>
                     </Col>
                   </Row>
                 }
@@ -313,12 +314,11 @@ function UpcomingSchedule(props) {
                         (rowData) => ({
                           icon: () => (
                             <p
-                              className={`${
-                                rowData.lessonDate === CurrentDate &&
-                                rowData.courseScheduleId.zoomTime <= lessTime
+                              className={`${rowData.lessonDate === CurrentDate &&
+                                  rowData.courseScheduleId.zoomTime <= lessTime
                                   ? "zoom-view-style"
                                   : "zoom-view-disable-style"
-                              }`}
+                                }`}
                             >
                               Join
                             </p>
@@ -399,15 +399,14 @@ function UpcomingSchedule(props) {
                         <div className="mb-2">
                           <h5 className="d-flex justify-content-center align-items-center">Notification</h5>
                           <p className="d-flex justify-content-center">
-                            {`${
-                              "Zoom Link Activate Before 15 Minutes" +
+                            {`${"Zoom Link Activate Before 15 Minutes" +
                               " " +
                               "(" +
                               " " +
                               DateAndTime.lessonDate +
                               " " +
                               ")"
-                            }`}
+                              }`}
                           </p>
                         </div>
                         <Row>

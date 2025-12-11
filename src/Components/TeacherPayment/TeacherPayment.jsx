@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import tableIcons from "../core/TableIcons";
 import Button from "@mui/material/Button";
 import Api from "../../Api";
