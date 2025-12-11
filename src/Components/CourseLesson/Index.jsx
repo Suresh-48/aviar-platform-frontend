@@ -7,10 +7,10 @@ import Api from "../../Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen, faX } from "@fortawesome/free-solid-svg-icons";
 import AddBox from "@mui/icons-material/AddBox";
-import Label from "../Core/Label";
+import Label from "../core/Label";
 import Loader from "../core/Loader";
 import CourseSideMenu from "../CourseSideMenu";
-import tableIcons from "../Core/TableIcons";
+import tableIcons from "../core/TableIcons";
 
 function CourseLesson() {
   const { courseID } = useParams();
