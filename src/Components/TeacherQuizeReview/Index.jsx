@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 // Component
 // import Loader from "../core/Loader";
-import  tableIcons  from "../Core/TableIcons";
+import  tableIcons  from "../core/TableIcons";
 
 // Api
 // import Api from "../../Api";

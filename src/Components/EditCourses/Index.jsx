@@ -21,7 +21,7 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 // Components - you'll need to create these or adjust the paths
 import Loader from "../core/Loader";
 import CourseSideMenu from "../CourseSideMenu";
-import Label from "../../components/core/Label";
+import Label from "../core/Label";
 import { customStyles } from "../core/Selector";
 
 // Validation
