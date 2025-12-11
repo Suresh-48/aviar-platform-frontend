@@ -6,9 +6,9 @@ import Button from "@material-ui/core/Button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import Label from "../../Core/Label.jsx";
-import countries from "../../../components/Core/Countries.jsx";
-import { customStyles } from "../../Core/Selector.js";
+import Label from "../../core/Label.jsx";
+import countries from "../../../components/core/Countries.jsx";
+import { customStyles } from "../../core/Selector.js";
 import Api from "../../../Api";
 
 const Experience = () => {

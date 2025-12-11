@@ -2,8 +2,8 @@ import MaterialTable from "@material-table/core";
 import React, { useState, useEffect } from "react";
 // Component
 import { useNavigate } from "react-router-dom";
-// import tableIcons  from "../Core/TableIcons";
-import tableIcons  from "../Core/TableIcons";
+// import tableIcons  from "../core/TableIcons";
+import tableIcons  from "../core/TableIcons";
 // Use the appropriate props from the imported components
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
@@ -16,7 +16,7 @@ import "../../CSS/AdminStudentsList.css";
 // Api
 import Api from "../../Api";
 // Loader
-// import Loader from "../../Components/Core/Loader";
+// import Loader from "../../Components/core/Loader";
 import StudentPublicProfile from "../../StudentPublicProfile";
 import { toast } from "react-toastify";
 function AdminStudentsList(props) {

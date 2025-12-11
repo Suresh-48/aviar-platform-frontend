@@ -4,13 +4,13 @@ import MaterialTable from "@material-table/core";
 import Button from '@mui/material/Button';
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
-// import Loader from "../Core/Loader";
+// import Loader from "../core/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen, faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Api from "../../Api";
-import tableIcons from "../Core/TableIcons";// Ensure this path is correct
-import Label from "../Core/Label";
+import tableIcons from "../core/TableIcons";// Ensure this path is correct
+import Label from "../core/Label";
 
 
 const tableTheme = createTheme({

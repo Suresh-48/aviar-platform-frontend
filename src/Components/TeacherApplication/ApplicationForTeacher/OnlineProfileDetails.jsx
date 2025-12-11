@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FormContext } from "./FormContext";
 import { Col, Container, Row, Form, FormControl } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
-import Label from "../../Core/Label.jsx"
+import Label from "../../core/Label.jsx"
 
 const OnlineProfileDetails = () => {
   const [value, setValue] = React.useContext(FormContext);

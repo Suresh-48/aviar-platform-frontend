@@ -9,7 +9,7 @@ import moment from "moment";
 // import Api from "../../Api";
 
 // Component
-import  tableIcons  from "../Core/TableIcons";
+import  tableIcons  from "../core/TableIcons";
 // import Loader from "../../components/core/Loader";
 import { toast } from "react-toastify";
 

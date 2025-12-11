@@ -33,7 +33,7 @@ import { toast } from "react-toastify";
 
 // Loader
 // import Loader from "../../components/core/Loader";
-import  tableIcons  from "../Core/TableIcons";
+import  tableIcons  from "../core/TableIcons";
 
 // Icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

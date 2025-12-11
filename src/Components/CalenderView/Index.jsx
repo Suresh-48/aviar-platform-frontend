@@ -8,7 +8,7 @@ import moment from "moment-timezone";
 // import { useHistory } from "react-router-dom";
 
 // Component
-// import Loader from "../Core/Loader";
+// import Loader from "../core/Loader";
 
 // Api
 import Api from "../../Api";

@@ -6,10 +6,10 @@ import Select from "react-select";
 import "../../CSS/TeacherApplication.css";
 
 //Components
-import Label from "../Core/Label";
-import states from "../Core/States";
-import years from "../Core/Years";
-import countries from "../Core/Countries";
+import Label from "../core/Label";
+import states from "../core/States";
+import years from "../core/Years";
+import countries from "../core/Countries";
 
 const Education = () => {
   const [value, setValue] = useState(FormContent);

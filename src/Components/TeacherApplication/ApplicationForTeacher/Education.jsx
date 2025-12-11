@@ -6,11 +6,11 @@ import Select from "react-select";
 import "../../css/TeacherApplicationForm.css";
 
 //Components
-import Label from "../../Core/Label.jsx";
-import states from "../../../components/Core/States.jsx";
-import years from "../../../components/Core/Years.jsx";
-import countries from "../../../components/Core/Countries.jsx";
-import { customStyles } from "../../Core/Selector.js";
+import Label from "../../core/Label.jsx";
+import states from "../../../components/core/States.jsx";
+import years from "../../../components/core/Years.jsx";
+import countries from "../../../components/core/Countries.jsx";
+import { customStyles } from "../../core/Selector.js";
 
 const Education = () => {
   const [value, setValue] = React.useContext(FormContext);

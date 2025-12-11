@@ -27,7 +27,7 @@ import AllCourseList from "./Components/CourseList/AllCourseList.jsx";
 import UpcomingTeacherScheduleList from "./Components/UpcomingTeacherScheduleList/Index.jsx";
 import StudentList from "./Components/AdminStudentList/Index.jsx";
 import CourseList from "./Components/Courselist/Index.jsx";
-import Allsidebar from './Components/Core/Allsidebar.jsx';
+import Allsidebar from './Components/core/Allsidebar.jsx';
 import EditCourseLesson from './Components/CourseLesson/EditCourseLesson.jsx'
 import TeacherList from "./Components/TeacherList/Index.jsx";
 import AdminForum from "./Components/Forum/AdminForum.jsx";
@@ -43,7 +43,7 @@ import Forumdetail from "./Components/Forum/Forumdetail";
 import CompleteCourse from "./Components/CompleteCourseList/CompleteCourse";
 import CourseHistory from "./Components/CourseHistory/CourseHistory";
 import StudentDashboard from './Components/Dashboard/Studentdashboard.jsx';
-import TeacherDashboard from "./Components/Dashboard/TeacherDashboard.jsx";
+import TeacherDashboard from "./Components/Dashboard/Teacherdashboard.jsx";
 import TeacherCourseList from "./Components/TeacherCourseList/Index.jsx";
 import TeacherProfile from "./Components/TeacherProfile/Index.jsx";
 import TeacherQuizReview from "./Components/TeacherQuizeReview/Index.jsx";

@@ -5,7 +5,7 @@ import Avatar from "react-avatar";
 
 // Component
 // import Loader from "../core/Loader";
-// import Loader from "../../Components/Core/Loader";
+// import Loader from "../../Components/core/Loader";
 // Api
 import Api from "../Api";
 

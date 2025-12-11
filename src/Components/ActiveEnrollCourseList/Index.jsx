@@ -11,7 +11,7 @@ import { ROLES_STUDENT, ROLES_TEACHER } from "../../Constants/Role";
 import { useNavigate } from "react-router-dom";
 // Component
 // import Loader from "../core/Loader";
-import tableIcons  from "../Core/TableIcons";
+import tableIcons  from "../core/TableIcons";
 // import Api from "../../Api";
 import { toast } from "react-toastify";
 

@@ -1,6 +1,6 @@
 import { Container, Form, Col, Row, Card } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import Label from "../../Components/Core/Label";
+import Label from "../../Components/core/Label";
 import Select from "react-select";
 // import { convertFromRaw } from "draft-js";
 // import { stateToHTML } from "draft-js-export-html";

@@ -1,6 +1,6 @@
 // import React from "react";
 // import PublicFooter from "./PublicFooter";
-// import Adminsidebar from "../Core/Adminsidebar";
+// import Adminsidebar from "../core/Adminsidebar";
 // import "../../CSS/Global.css"
 // import StudentDashboard from "../Dashboard/Studentdashboard";
 // import TeacherCourseList from "../TeacherCourseList/Index";

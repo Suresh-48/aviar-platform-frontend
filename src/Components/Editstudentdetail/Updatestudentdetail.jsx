@@ -40,7 +40,7 @@ import {
 // Component
 // import Label from "../../components/core/Label";
 // import Loader from "../../components/core/Loader";
-import states from "../Core/States";
+import states from "../core/States";
 import profile from "../Images/NoProfile.png";
 import axios from "axios";
 // import { customStyles } from "../core/Selector";

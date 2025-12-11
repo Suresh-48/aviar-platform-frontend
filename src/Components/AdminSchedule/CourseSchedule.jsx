@@ -17,7 +17,7 @@
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import TextField from '@mui/material/TextField';
 // import DateFnsUtils from "@date-io/date-fns";
-// import Label from "../../Components/Core/Label";
+// import Label from "../../Components/core/Label";
 // // Styles
 // import "../../CSS/CreateCourseSchedule.css";
 
@@ -25,7 +25,7 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCalendar, faClock } from "@fortawesome/free-solid-svg-icons";
 // import { Avatar } from "@material-ui/core";
-// import { customStyles } from "../Core/Selector.js";
+// import { customStyles } from "../core/Selector.js";
 
 // // Validation
 // const courseScheduleSchema = Yup.object().shape({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import Allsidebar from "../Core/Allsidebar";
-import HeaderNavbar from "../Core/HeaderNavbar";
+import Allsidebar from "../core/Allsidebar";
+import HeaderNavbar from "../core/HeaderNavbar";
 import PublicFooter from "../PublicLayout/PublicFooter";
 import Footer from "../Footer";
 const PublicLayout = () => {

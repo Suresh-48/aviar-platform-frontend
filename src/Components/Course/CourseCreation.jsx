@@ -39,12 +39,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Component
-import Label from "../Core/Label";
-// import Loader from "../Core/Loader";
+import Label from "../core/Label";
+// import Loader from "../core/Loader";
 import ReactQuill from "react-quill";
 
 //selector custom style
-import { customStyles } from "../Core/Selector";
+import { customStyles } from "../core/Selector";
 // import { useHistory } from "react-router-dom"
 
 const SignInSchema = Yup.object().shape({

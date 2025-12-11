@@ -17,7 +17,7 @@ import { faClipboardList } from "@fortawesome/free-solid-svg-icons";
 
 //component
 import Loader from "../core/Loader";
-import  tableIcons  from "../Core/TableIcons";
+import  tableIcons  from "../core/TableIcons";
 import Api from "../../Api";
 
 const tableTheme = createTheme({

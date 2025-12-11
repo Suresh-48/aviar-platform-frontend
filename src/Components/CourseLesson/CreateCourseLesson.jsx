@@ -12,7 +12,7 @@ import "../../CSS/CreateCourseLesson.css";
 import Api from "../../Api";
 // Component
 import { toast } from "react-toastify";
-import Label from "../../Components/Core/Label";
+import Label from "../../Components/core/Label";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 

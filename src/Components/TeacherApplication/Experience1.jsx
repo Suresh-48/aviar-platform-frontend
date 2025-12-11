@@ -20,8 +20,8 @@ import Select from "react-select";
 
 //Components
 import Label from "../core/Label";
-import states from "../Core/States";
-import countries from "../Core/Countries";
+import states from "../core/States";
+import countries from "../core/Countries";
 
 // Api
 // import Api from "../../Api";
@@ -29,7 +29,7 @@ import countries from "../Core/Countries";
 //Icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
-import { customStyles } from "../Core/Selector";
+import { customStyles } from "../core/Selector";
 import { toast } from "react-toastify";
 // import { useHistory } from "react-router-dom";
 
