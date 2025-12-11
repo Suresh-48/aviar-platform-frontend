@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import DisplayTeacherApplication from "../TeacherApplication/DisplayAplication";
 import Api from "../../Api";
 import Loading from "../../Loading";
-import "./CSS/TeacherDashboard.css";
+import "./css/TeacherDashboard.css";
 
 function TeacherDashboard() {
   const [data, setData] = useState({});
